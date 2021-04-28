@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import logo from "../media/image/triportlogo.png";
-import "./Header.css";
 
 const Header = () => {
   return (
