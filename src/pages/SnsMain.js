@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
-import Carousel from "react-material-ui-carousel";
-import like_true from "../media/image/like_on.png";
-import like_false from "../media/image/like_off.png";
-import comment from "../media/image/comment.png";
-import bookmark from "../media/image/bookmark.png";
+import { ReactComponent as like_true } from "../media/svg/좋아요_blue.svg";
+import { ReactComponent as like_false } from "../media/svg/좋아요.svg";
+import { ReactComponent as comment } from "../media/svg/댓글.svg";
+import { ReactComponent as bookmark } from "../media/svg/저장.svg";
+import Slider from "components/Slider";
 
 const Snsmain = () => {
   return (
@@ -17,18 +17,31 @@ const Snsmain = () => {
               <ProfileId>Triport</ProfileId>
             </Profile>
             <MainImg>
-              <Carousel
-                autoPlay={false}
-                animation={"slide"}
-                indicators={true}
-                timeout={500}
-                navButtonsAlwaysVisible={false}
-                navButtonsAlwaysInvisible={false}
-              >
-                <Tt />
-                <Tt />
-                <Tt />
-              </Carousel>
+              {/* <Slider /> */}
+            </MainImg>
+            <Postbottom>
+              <Likecomment>
+                <Islike>
+                  <LikeImg like={like_true} />
+                </Islike>
+                <Comment>
+                  <CommentImg comment={comment} />
+                </Comment>
+              </Likecomment>
+              <Bookmark>
+                <BookmarkImg />
+              </Bookmark>
+            </Postbottom>
+          </Mainwhole>
+        </Post>
+        <Post>
+          <Mainwhole>
+            <Profile>
+              <ProfileImg />
+              <ProfileId>Triport</ProfileId>
+            </Profile>
+            <MainImg>
+              <Slider />
             </MainImg>
             <Postbottom>
               <Likecomment>
@@ -46,7 +59,6 @@ const Snsmain = () => {
           </Mainwhole>
         </Post>
         <Post></Post>
-        <Post></Post>
       </Postcv>
     </Fragment>
   );
@@ -54,6 +66,9 @@ const Snsmain = () => {
 
 const MainImg = styled.div`
   display: flex;
+  height: 100%;
+  margin-top: 10px;
+  margin-bottom: 15px;
 `;
 
 const Main = styled.div`
