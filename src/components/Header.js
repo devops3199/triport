@@ -1,27 +1,25 @@
 import React from "react";
 import styled from "styled-components";
 
-import logo from "../shared/triportlogo.png";
+import logo from "../media/image/triportlogo.png";
 import "./Header.css";
 
 const Header = () => {
   return (
     <React.Fragment>
-      <div className="Category">
-        <Wrap>
-          <Logo />
-          <LeftWrap>
-            <Sns>SNS</Sns>
-            <Board>게시판</Board>
-          </LeftWrap>
-          <div style={{ width: "1%" }}></div>
-          <RightWrap>
-            <Nickname>닉네임</Nickname>
-            <My>마이페이지</My>
-            <Logout>로그아웃</Logout>
-          </RightWrap>
-        </Wrap>
-      </div>
+      <Wrap>
+        <Logo />
+        <LeftWrap>
+          <Sns>SNS</Sns>
+          <Board>게시판</Board>
+        </LeftWrap>
+        <div style={{ width: "30rem" }}></div>
+        <RightWrap>
+          <Nickname>닉네임</Nickname>
+          <My>마이페이지</My>
+          <Logout>로그아웃</Logout>
+        </RightWrap>
+      </Wrap>
       <Line />
     </React.Fragment>
   );
@@ -43,7 +41,7 @@ const Wrap = styled.div`
 const LeftWrap = styled.div`
   display: flex;
   flex-direction: row;
-  margin-left: -10rem;
+  /* margin-left: -10rem; */
 `;
 
 const RightWrap = styled.div`
