@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SliderContent from "./SliderContent";
 import { ReactComponent as LeftArrow } from "../media/svg/이전이미지.svg";
 import { ReactComponent as RightArrow } from "../media/svg/다음이미지.svg";
-import Dots from "./Dots"
+import Dots from "./Dots";
 
 const images = [
   "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80",
@@ -39,8 +39,7 @@ const Slider = (props) => {
     });
   };
 
-
-  console.log(activeIndex)
+  console.log(activeIndex);
   const prevSlide = () => {
     if (activeIndex === 0) {
       return setState({
@@ -57,7 +56,7 @@ const Slider = (props) => {
     });
   };
 
-  console.log()
+  console.log();
 
   return (
     <SliderCSS>
@@ -66,7 +65,7 @@ const Slider = (props) => {
         transition={transition}
         width={getWidth() * images.length}
       >
-        {images.map((slide,i) => (
+        {images.map((slide, i) => (
           <Slide content={slide} />
         ))}
       </SliderContent>
@@ -76,7 +75,7 @@ const Slider = (props) => {
       <Arrow direction="right" onClick={nextSlide}>
         <RightArrow />
       </Arrow>
-      <Dots slides={images} activeIndex={activeIndex}/>
+      <Dots slides={images} activeIndex={activeIndex} />
     </SliderCSS>
   );
 };
@@ -92,7 +91,7 @@ const Arrow = styled.div`
   border-radius: 50%;
   cursor: pointer;
   align-items: center;
-  transform:scale(1.5);
+  transform: scale(1.5);
   transition: transform ease-in 0.1s;
   &:hover {
     transform: scale(2);

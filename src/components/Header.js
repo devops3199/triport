@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { history } from "../redux/configureStore";
 
-import logo from "../media/image/triportlogo.png";
+import logo from "media/svg/triport_logo.svg";
 
 const Header = (props) => {
   if (props.ok === true) {
