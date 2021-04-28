@@ -1,4 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+@font-face {
+    font-family: 'TTTogether';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/TTTogetherA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AppleSDGothicNeoT';
+    src: url('font/AppleSDGothicNeoT.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'AppleSDGothicNeoUL';
+    src: url('font/AppleSDGothicNeoUL.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'AppleSDGothicNeoL';
+    src: url('font/AppleSDGothicNeoL.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'AppleSDGothicNeoR';
+    src: url('font/AppleSDGothicNeoR.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'AppleSDGothicNeoM';
+    src: url('font/AppleSDGothicNeoM.ttf') format('truetype');
+}
 
 * {
     margin: 0; 
@@ -7,6 +37,6 @@
 }
 
 body {
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'AppleSDGothicNeoR', sans-serif;
     font-size: 16px;
 }
