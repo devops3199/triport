@@ -7,19 +7,21 @@ import "./Header.css";
 const Header = () => {
   return (
     <React.Fragment>
-      <Wrap>
-        <Logo />
-        <LeftWrap>
-          <Sns>SNS</Sns>
-          <Board>게시판</Board>
-        </LeftWrap>
-        <div style={{ width: "1%" }}></div>
-        <RightWrap>
-          <Nickname>닉네임</Nickname>
-          <My>마이페이지</My>
-          <Logout>로그아웃</Logout>
-        </RightWrap>
-      </Wrap>
+      <div className="Category">
+        <Wrap>
+          <Logo />
+          <LeftWrap>
+            <Sns>SNS</Sns>
+            <Board>게시판</Board>
+          </LeftWrap>
+          <div style={{ width: "1%" }}></div>
+          <RightWrap>
+            <Nickname>닉네임</Nickname>
+            <My>마이페이지</My>
+            <Logout>로그아웃</Logout>
+          </RightWrap>
+        </Wrap>
+      </div>
       <Line />
     </React.Fragment>
   );
