@@ -9,6 +9,8 @@ import { history } from "redux/configureStore";
 import { Main, NotFound } from "pages/pages";
 import Snsmain from "pages/SnsMain";
 import Header from "components/Header";
+import Login from "pages/Login";
+import SignUp from "pages/SignUp";
 
 const App = (props) => {
   return (
@@ -19,6 +21,8 @@ const App = (props) => {
           <Switch>
             <Route path="/" exact component={Main} />
             <Route path="/post" exact component={Snsmain} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/signup" exact component={SignUp} />
             <Route component={NotFound} />
           </Switch>
         </ConnectedRouter>
