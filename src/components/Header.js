@@ -116,6 +116,7 @@ const Line = styled.div`
   height: 5px;
   background: #2b61e1 0% 0% no-repeat padding-box;
   opacity: 0.1;
+  margin-bottom: 5rem;
 `;
 
 const Logo = styled.div`
