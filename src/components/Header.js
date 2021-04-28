@@ -17,7 +17,13 @@ const Header = (props) => {
               }}
             />
             <LeftWrap>
-              <Sns href="/post">SNS</Sns>
+              <Sns
+                onClick={() => {
+                  history.push("/post");
+                }}
+              >
+                SNS
+              </Sns>
               <Board>게시판</Board>
             </LeftWrap>
             <div style={{ width: "30rem" }}></div>
@@ -41,7 +47,13 @@ const Header = (props) => {
             }}
           />
           <LeftWrap>
-            <Sns href="/post">SNS</Sns>
+            <Sns
+              onClick={() => {
+                history.push("/post");
+              }}
+            >
+              SNS
+            </Sns>
             <Board>게시판</Board>
           </LeftWrap>
           <div style={{ width: "30rem" }}></div>
@@ -71,6 +83,7 @@ const Header = (props) => {
 Header.defaultProps = {
   ok: false,
   nickname: "닉네임예시",
+  click: true,
 };
 
 export default Header;
@@ -114,6 +127,7 @@ const Logo = styled.div`
 `;
 
 const Sns = styled.a`
+  cursor: pointer;
   color: #2b61e1;
   margin-right: 4rem;
   opacity: 0.7;
@@ -124,6 +138,8 @@ const Sns = styled.a`
 `;
 
 const Board = styled.a`
+  cursor: pointer;
+
   color: #2b61e1;
   opacity: 0.7;
 `;
