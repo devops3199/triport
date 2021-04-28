@@ -8,11 +8,12 @@ import { history } from "redux/configureStore";
 
 import { Main, NotFound } from "pages/pages";
 import Snsmain from "pages/SnsMain";
+import Header from "components/Header";
 
 const App = (props) => {
   return (
     <>
-      <HeaderContainer>해더</HeaderContainer>
+      <Header />
       <MainContainer>
         <ConnectedRouter history={history}>
           <Switch>
@@ -26,8 +27,6 @@ const App = (props) => {
     </>
   );
 };
-
-const HeaderContainer = styled.header``;
 
 const MainContainer = styled.main``;
 
