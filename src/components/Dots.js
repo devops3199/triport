@@ -1,13 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-const Dots = ({ slides, activeIndex }) => (
-  <DotDiv>
-    {slides.map((slide, i) => (
-      <Dot key={slide} active={activeIndex === i} />
-    ))}
-  </DotDiv>
-);
+const Dots = ({ slides, activeIndex }) => {
+  return (
+    <DotDiv>
+      {slides.map((slide, i) => (
+        <Dot key={slide} active={activeIndex === i} />
+      ))}
+    </DotDiv>
+  );
+};
 
 const DotDiv = styled.div`
   position: absolute;
