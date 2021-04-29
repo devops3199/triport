@@ -132,10 +132,6 @@ const Sns = styled.a`
   color: #2b61e1;
   margin-right: 4rem;
   opacity: 0.7;
-
-  :active {
-    opacity: 1;
-  }
 `;
 
 const Board = styled.a`
