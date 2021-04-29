@@ -92,7 +92,8 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  width: 100%;
+  width: 1280px;
+  margin: 0px auto;
   height: 5rem;
   background-color: #ffffff;
   background-size: cover;
@@ -133,7 +134,7 @@ const Sns = styled.a`
   margin-right: 4rem;
   opacity: 0.7;
 
-  :active {
+  :hover {
     opacity: 1;
   }
 `;
@@ -143,6 +144,10 @@ const Board = styled.a`
 
   color: #2b61e1;
   opacity: 0.7;
+
+  :hover {
+    opacity: 1;
+  }
 `;
 
 const MyOrLogin = styled.button`
