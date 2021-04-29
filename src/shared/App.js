@@ -11,6 +11,8 @@ import Snsmain from "pages/SnsMain";
 import Header from "components/Header";
 import Login from "pages/Login";
 import SignUp from "pages/SignUp";
+import Footer from "components/Footer";
+import Profile from "pages/Profile";
 
 const App = (props) => {
   return (
@@ -24,17 +26,19 @@ const App = (props) => {
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={SignUp} />
             <Route path="/board" exact component={BoardMain} />
+            <Route path="/profile" exact component={Profile} />
             <Route component={NotFound} />
           </Switch>
         </ConnectedRouter>
       </MainContainer>
-      <FooterContainer>풋터</FooterContainer>
+      <Footer/>
     </>
   );
 };
 
 const MainContainer = styled.main``;
 
-const FooterContainer = styled.footer``;
+const FooterContainer = styled.footer`
+`;
 
 export default App;
