@@ -6,7 +6,7 @@ import { ConnectedRouter } from "connected-react-router";
 import { Route, Switch } from "react-router-dom";
 import { history } from "redux/configureStore";
 
-import { Main, NotFound, BoardMain } from "pages/pages";
+import { Main, NotFound, BoardMain, BoardWrite, BoardDetail } from "pages/pages";
 import Snsmain from "pages/SnsMain";
 import Header from "components/Header";
 import Login from "pages/Login";
@@ -26,6 +26,8 @@ const App = (props) => {
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={SignUp} />
             <Route path="/board" exact component={BoardMain} />
+            <Route path="/board/write" exact component={BoardWrite} />
+            <Route path="/board/:id" exact component={BoardDetail} />
             <Route path="/profile" exact component={Profile} />
             <Route component={NotFound} />
           </Switch>

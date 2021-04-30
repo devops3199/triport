@@ -54,7 +54,11 @@ const Header = (props) => {
             >
               SNS
             </Sns>
-            <Board>게시판</Board>
+            <Board
+              onClick={() => {
+                history.push("/board");
+              }}
+            >게시판</Board>
           </LeftWrap>
           <div style={{ width: "30rem" }}></div>
           <RightWrap>
