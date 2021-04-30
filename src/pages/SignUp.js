@@ -22,7 +22,7 @@ const SignUp = () => {
           <Input placeholder="Nickname"></Input>
           <Input placeholder="PASSWORD" type="password"></Input>
           <Input placeholder="PASSWORD" type="password"></Input>
-          <Role />
+
           <Text>가입 후 변경할 수 있어요!</Text>
           <Button1>SIGN UP</Button1>
           <Button2>
