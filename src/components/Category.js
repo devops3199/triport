@@ -1,4 +1,5 @@
 import React from "react";
+import Board from "redux/modules/Board";
 import styled from "styled-components";
 
 import { history } from "../redux/configureStore";
@@ -32,19 +33,22 @@ const Category = () => {
 
   return (
     <React.Fragment>
-      <Sns id="post" onClick={GetClick}>
-        SNS
-      </Sns>
-      <Board id="board" onClick={GetClick}>
-        게시판
-      </Board>
+      <Category1 id="post" onClick={GetClick}>
+        Trils
+      </Category1>
+      <Category1 id="board" onClick={GetClick}>
+        Trilog
+      </Category1>
+      <Category2 id="about" onClick={GetClick}>
+        About
+      </Category2>
     </React.Fragment>
   );
 };
 
 export default Category;
 
-const Sns = styled.a`
+const Category1 = styled.a`
   cursor: pointer;
   color: #2b61e1;
   margin-right: 4rem;
@@ -55,9 +59,8 @@ const Sns = styled.a`
   }
 `;
 
-const Board = styled.a`
+const Category2 = styled.a`
   cursor: pointer;
-
   color: #2b61e1;
   opacity: 0.7;
 
