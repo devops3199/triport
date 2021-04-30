@@ -5,6 +5,8 @@ import logo from "media/svg/triport_logo.svg";
 import signuplogo from "media/image/triport_airplane.png";
 import kakaoicon from "media/svg/kakao_symbol.svg";
 
+import Role from "components/role";
+
 const SignUp = () => {
   return (
     <React.Fragment>
@@ -18,8 +20,9 @@ const SignUp = () => {
           <Signup>SIGN UP</Signup>
           <Input placeholder="E-mail"></Input>
           <Input placeholder="Nickname"></Input>
-          <Input placeholder="PASSWORD"></Input>
-          <Input placeholder="PASSWORD"></Input>
+          <Input placeholder="PASSWORD" type="password"></Input>
+          <Input placeholder="PASSWORD" type="password"></Input>
+          <Role />
           <Text>가입 후 변경할 수 있어요!</Text>
           <Button1>SIGN UP</Button1>
           <Button2>
@@ -78,6 +81,8 @@ const Signup = styled.div`
 `;
 
 const Input = styled.input`
+  font-family: "TTTogether";
+  outline: none;
   width: 21.4rem;
   height: 3rem;
   margin-bottom: 2rem;
