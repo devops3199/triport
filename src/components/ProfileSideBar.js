@@ -43,11 +43,11 @@ const ProfileSideBar = () => {
             <Setting>프로필 설정</Setting>
           </ProfileSetting>
           <ProfileMyPost onClick={clickwrite} toggle={write}>
-            <MyPostIcon />
+            <MyPostIcon toggle={write} />
             <Setting style={{ marginLeft: "-1.4rem" }}>내가 쓴 글</Setting>
           </ProfileMyPost>
           <ProfileLike onClick={clicklike} toggle={like}>
-            <MyLike />
+            <MyLikeIcon toggle={like} />
             <Setting>좋아요</Setting>
           </ProfileLike>
         </SideCover>
@@ -148,7 +148,7 @@ const MyPostIcon = styled.div`
       : `background-image:url('${Bmypost}')`}
 `;
 
-const MyLike = styled.div`
+const MyLikeIcon = styled.div`
   width: 1.2rem;
   height: 1rem;
   background-size: 1.2rem 1rem;
