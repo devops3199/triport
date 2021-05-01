@@ -39,13 +39,15 @@ const ProfileSideBar = () => {
       <Sidebar>
         <SideCover>
           <ProfileSetting onClick={clicksetting} toggle={setting}>
-            {/* <profileIcon1></profileIcon1> */}
-            <Setting>프로필설정</Setting>
+            <ProfileIcon toggle={setting}></ProfileIcon>
+            <Setting>프로필 설정</Setting>
           </ProfileSetting>
           <ProfileMyPost onClick={clickwrite} toggle={write}>
-            <Setting>내가쓴글</Setting>
+            <MyPostIcon />
+            <Setting style={{ marginLeft: "-1.4rem" }}>내가 쓴 글</Setting>
           </ProfileMyPost>
           <ProfileLike onClick={clicklike} toggle={like}>
+            <MyLike />
             <Setting>좋아요</Setting>
           </ProfileLike>
         </SideCover>
@@ -82,7 +84,8 @@ const ProfileSetting = styled.div`
   display: flex;
   width: 8.5rem;
   height: 2.25rem;
-  ${(props) => (props.toggle ? `background: #2b61e1; color:white;` : "")};
+  ${(props) =>
+    props.toggle ? `background: #2b61e1; color:#FFFFFF;` : "color:#89ACFF"};
   cursor: pointer;
   border-radius: 5px;
   opacity: 1;
@@ -99,7 +102,8 @@ const ProfileMyPost = styled.div`
   display: flex;
   width: 8.5rem;
   height: 2.25rem;
-  ${(props) => (props.toggle ? `background: #2b61e1; color:white;` : "")};
+  ${(props) =>
+    props.toggle ? `background: #2b61e1; color:#FFFFFF;` : "color:#89ACFF"};
   cursor: pointer;
   border-radius: 5px;
   opacity: 1;
@@ -111,7 +115,8 @@ const ProfileLike = styled.div`
   display: flex;
   width: 8.5rem;
   height: 2.25rem;
-  ${(props) => (props.toggle ? `background: #2b61e1; color:white;` : "")};
+  ${(props) =>
+    props.toggle ? `background: #2b61e1; color:#FFFFFF;` : "color:#89ACFF"};
   cursor: pointer;
   border-radius: 5px;
   opacity: 1;
@@ -119,11 +124,41 @@ const ProfileLike = styled.div`
   align-items: center;
 `;
 
-// const profileIcon1 = styled.div`
-//   width: 0.9rem;
-//   height: 0.5rem;
-//   background-image: url("${Bmypage}");
-//   background-size: 0.9rem 0.5rem;
-// `;
+const ProfileIcon = styled.div`
+  width: 1.2rem;
+  height: 1rem;
+  background-size: 1.2rem 1rem;
+  margin-right: 1rem;
+  ${(props) =>
+    props.toggle
+      ? `background-image:url('${Wmypage}')`
+      : `background-image:url('${Bmypage}')`}
+`;
+
+const MyPostIcon = styled.div`
+  width: 1.5rem;
+  height: 1.3rem;
+  background-size: 1.5rem 1.3rem;
+  margin-left: -0.7rem;
+  margin-right: 2.2rem;
+
+  ${(props) =>
+    props.toggle
+      ? `background-image:url('${Wmypost}')`
+      : `background-image:url('${Bmypost}')`}
+`;
+
+const MyLike = styled.div`
+  width: 1.2rem;
+  height: 1rem;
+  background-size: 1.2rem 1rem;
+  margin-right: 1rem;
+  margin-left: -2rem;
+
+  ${(props) =>
+    props.toggle
+      ? `background-image:url('${Wlike}')`
+      : `background-image:url('${Blike}')`}
+`;
 
 export default ProfileSideBar;

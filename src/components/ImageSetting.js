@@ -88,9 +88,7 @@ const ImageSetting = () => {
         >
           Choose
         </Button>
-        <Button variant="contained" color="secondary" onClick={test}>
-          Download
-        </Button>
+
         <Button variant="contained" color="secondary">
           Upload
         </Button>
