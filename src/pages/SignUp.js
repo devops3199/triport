@@ -5,8 +5,6 @@ import logo from "media/svg/triport_logo.svg";
 import signuplogo from "media/image/triport_airplane.png";
 import kakaoicon from "media/svg/kakao_symbol.svg";
 
-import Role from "components/role";
-
 const SignUp = () => {
   return (
     <React.Fragment>

@@ -10,11 +10,17 @@ const sidebarSlice = createSlice({
   reducers: {
     CLICK_SETTING: (state, action) => {
       state.setting = true;
+      state.write = false;
+      state.like = false;
     },
     CLICK_WRITE: (state, action) => {
+      state.setting = false;
       state.write = true;
+      state.like = false;
     },
     CLICK_LIKE: (state, action) => {
+      state.setting = false;
+      state.write = false;
       state.like = true;
     },
   },
