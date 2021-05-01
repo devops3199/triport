@@ -10,7 +10,7 @@ const Wrap = styled.footer`
   left: 0px;
   bottom: 0px;
   height: 50px;
-  width: 1280px;
+  width: 100%;
   margin: 0 auto;
   background: #89ACFF;
   color: white;

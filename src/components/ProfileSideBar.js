@@ -1,24 +1,44 @@
-import React, { Fragment, useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import SettingOn from "../media/svg/마이페이지w.svg";
+import {
+  CLICK_SETTING,
+  CLICK_WRITE,
+  CLICK_LIKE,
+} from "../redux/modules/sidebar";
 
 const ProfileSideBar = () => {
-  const [setting, Setsetting] = useState(true)
-  const [write, setWrite] = useState(false)
-  const [like, setLike] = useState(false)
+  const setting = useSelector((state) => state.sidebar.setting);
+  const write = useSelector((state) => state.sidebar.write);
+  const like = useSelector((state) => state.sidebar.like);
+  const dispatch = useDispatch();
+  console.log(setting, write, like);
+
+  const clicksetting = () => {
+    dispatch(CLICK_SETTING());
+  };
+
+  const clickwrite = () => {
+    dispatch(CLICK_WRITE());
+  };
+
+  const clicklike = () => {
+    dispatch(CLICK_LIKE());
+  };
 
   return (
     <Profile>
       <Sidebar>
         <SideCover>
-          <ProfileSetting>
-            <Setting toggle={setting}>프로필설정</Setting>
+          <ProfileSetting onClick={clicksetting} toggle={setting}>
+            <Setting>프로필설정</Setting>
           </ProfileSetting>
-          <ProfileMyPost>
-            <Setting toggle={write}>내가쓴글</Setting>
+          <ProfileMyPost onClick={clickwrite} toggle={write}>
+            <Setting>내가쓴글</Setting>
           </ProfileMyPost>
-          <ProfileLike>
-            <Setting toggle={like}>좋아요</Setting>
+          <ProfileLike onClick={clicklike} toggle={like}>
+            <Setting>좋아요</Setting>
           </ProfileLike>
         </SideCover>
       </Sidebar>
@@ -35,8 +55,7 @@ const Settingsvg = styled.div`
 
 const Profile = styled.div`
   display: flex;
-  width: 80rem;
-  margin: 0px auto;
+  margin-right: 10px;
 `;
 
 const Sidebar = styled.div`
@@ -62,9 +81,12 @@ const ProfileSetting = styled.div`
   display: flex;
   width: 8.5rem;
   height: 2.25rem;
-  background: #2b61e1;
+  ${(props) => (props.toggle ? `background: #2b61e1; color:white;` : "")};
+  cursor: pointer;
   border-radius: 5px;
   opacity: 1;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Setting = styled.div`
@@ -76,18 +98,24 @@ const ProfileMyPost = styled.div`
   display: flex;
   width: 8.5rem;
   height: 2.25rem;
-  background: #2b61e1;
+  ${(props) => (props.toggle ? `background: #2b61e1; color:white;` : "")};
+  cursor: pointer;
   border-radius: 5px;
   opacity: 1;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ProfileLike = styled.div`
   display: flex;
   width: 8.5rem;
   height: 2.25rem;
-  background: #2b61e1;
+  ${(props) => (props.toggle ? `background: #2b61e1; color:white;` : "")};
+  cursor: pointer;
   border-radius: 5px;
   opacity: 1;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default ProfileSideBar;

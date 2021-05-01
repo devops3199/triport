@@ -31,14 +31,13 @@ const App = (props) => {
           </Switch>
         </ConnectedRouter>
       </MainContainer>
-      <Footer/>
+      {/* <Footer/> */}
     </>
   );
 };
 
 const MainContainer = styled.main``;
 
-const FooterContainer = styled.footer`
-`;
+const FooterContainer = styled.footer``;
 
 export default App;

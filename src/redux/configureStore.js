@@ -5,11 +5,13 @@ import logger from "redux-logger";
 import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
 import Board from "redux/modules/Board";
+import Sidebar from "redux/modules/sidebar";
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
     board : Board,
+    sidebar : Sidebar,
     router: connectRouter(history),
 });
 
