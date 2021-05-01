@@ -1,7 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import SettingOn from "../media/svg/마이페이지w.svg";
+
+import Bmypage from "media/svg/마이페이지 B.svg";
+import Wmypage from "media/svg/마이페이지w.svg";
+import Bmypost from "media/svg/내가 쓴 글 B.svg";
+import Wmypost from "media/svg/내가 쓴 글 w.svg";
+import Blike from "media/svg/좋아요B.svg";
+import Wlike from "media/svg/좋아요w.svg";
+
 import {
   CLICK_SETTING,
   CLICK_WRITE,
@@ -32,6 +39,7 @@ const ProfileSideBar = () => {
       <Sidebar>
         <SideCover>
           <ProfileSetting onClick={clicksetting} toggle={setting}>
+            {/* <profileIcon1></profileIcon1> */}
             <Setting>프로필설정</Setting>
           </ProfileSetting>
           <ProfileMyPost onClick={clickwrite} toggle={write}>
@@ -45,13 +53,6 @@ const ProfileSideBar = () => {
     </Profile>
   );
 };
-
-const Settingsvg = styled.div`
-  background-image: url("${SettingOn}");
-  background-size: 11px;
-  width: 11px;
-  height: 11px;
-`;
 
 const Profile = styled.div`
   display: flex;
@@ -117,5 +118,12 @@ const ProfileLike = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+// const profileIcon1 = styled.div`
+//   width: 0.9rem;
+//   height: 0.5rem;
+//   background-image: url("${Bmypage}");
+//   background-size: 0.9rem 0.5rem;
+// `;
 
 export default ProfileSideBar;
