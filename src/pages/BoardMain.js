@@ -107,15 +107,16 @@ const FilterContainer = styled.div`
 `;
 
 const Background = styled.div`
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    left: 0;
-    background: #2B61E1 0% 0% no-repeat padding-box;
-    border-radius: 5px;
-    transition: left .5s;
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  left: 0;
+  background: #2b61e1 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  transition: left 0.5s;
 `;
 
+<<<<<<< HEAD
 const LikeFilter = styled.div`
     width: 50%;
     height: 100%;
@@ -158,12 +159,67 @@ const Filter = styled.div`
     box-shadow: 0px 3px 6px #00000029;
     border-radius: 5px;
     display: flex;
+=======
+const TravelEditor = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  & span {
+    font-family: "TTTogether";
+    font-size: 14px;
+    letter-spacing: 0px;
+    color: #fff;
+    z-index: 9999;
+    transition: color 0.3s;
+  }
+`;
+
+const Traveler = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  & span {
+    font-family: "TTTogether";
+    font-size: 14px;
+    letter-spacing: 0px;
+    color: #89acff;
+    z-index: 9999;
+    transition: color 0.3s;
+  }
+`;
+
+const Filter = styled.div`
+  position: relative;
+  width: 5rem;
+  display: flex;
+  align-items: center;
+`;
+
+const FilterSelect = styled.select`
+  width: 5rem;
+  height: 2.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-family: "AppleSDGothicNeoR", sans-serif;
+  font-size: 14px;
+  color: #5a5a5a;
+>>>>>>> minkyung
 `;
 
 const CardContainer = styled.div`
-    width: 100%;
+  width: 100%;
 `;
 
+<<<<<<< HEAD
 const FloatingButton = styled.div`
     position: fixed;
     bottom: 5%;
@@ -181,3 +237,6 @@ const FloatingButton = styled.div`
 `;
 
 export default BoardMain;
+=======
+export default BoardMain;
+>>>>>>> minkyung

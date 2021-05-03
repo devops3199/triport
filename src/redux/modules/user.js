@@ -16,8 +16,8 @@ const userSlice = createSlice({
   },
 });
 
+// 로그인 여부 체크
 const loginCheckDB = () => {
-  // 로그인 여부 체크
   return function (dispatch, getState, { history }) {
     const one_user = {
       email: "",
@@ -27,14 +27,13 @@ const loginCheckDB = () => {
   };
 };
 
+// 회원가입
 const signupDB = (email, pw, pwCheck, nickName, role) => {
   return function (dispatch, getState, { history }) {
     const API = "";
     fetch(API, {
       method: "POST",
-      headers: {
-        // ?
-      },
+      headers: {},
       body: JSON.stringify({
         email: email,
         password: pw,

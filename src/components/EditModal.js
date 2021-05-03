@@ -1,16 +1,18 @@
 import React, { Fragment, useRef } from "react";
-import Button from "@material-ui/core/Button";
 import Cropper from "react-easy-crop";
 import Slider from "@material-ui/core/Slider";
 import styled from "styled-components";
-// import { generateDownload } from "./Test";
 
-const ImageSetting = () => {
+const EditModal = (props) => {
+  const { modal, onClose } = props;
+  console.log(modal);
   const inputRef = useRef();
 
   const selectimage = () => {
     inputRef.current.click();
   };
+
+  const innerwid = window.innerWidth;
 
   const [image, setImage] = React.useState(null);
   const [croppedArea, setCroppedArea] = React.useState(null);
@@ -31,12 +33,8 @@ const ImageSetting = () => {
     }
   };
 
-  const test = () => {
-    // generateDownload(image, croppedArea);
-  };
-
   return (
-    <Container>
+    <Container modal={modal} innerwid={innerwid}>
       <ContainerCropper>
         {image ? (
           <>
@@ -73,39 +71,42 @@ const ImageSetting = () => {
           onChange={onSelectFile}
           style={{ display: "none" }}
         />
-        <Button
-          variant="contained"
-          color="primary"
+        <Button1
           onClick={() => setImage(null)}
+          style={{ marginRight: "0.5rem" }}
         >
-          Clear
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={selectimage}
-          style={{ marginRight: "10px" }}
-        >
-          Choose
-        </Button>
-        <Button variant="contained" color="secondary" onClick={test}>
-          Download
-        </Button>
-        <Button variant="contained" color="secondary">
-          Upload
-        </Button>
+          파일 삭제
+        </Button1>
+        <Button1 onClick={selectimage} style={{ marginRight: "0.5rem" }}>
+          파일 선택
+        </Button1>
+        <Button1 style={{ backgroundColor: "#ff607c" }} onClick={onClose}>
+          업로드
+        </Button1>
       </ContainerButtons>
     </Container>
   );
 };
 
 const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
+  display: ${(props) => (props.modal ? "flex" : "none")};
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 32rem;
+  height: 32rem;
+  position: fixed;
+  top: 20%;
+  left: 35%;
+  bottom: 0;
+  right: 0;
+  background-color: #f4f4ff;
+  border: 1px solid #739cff;
+  border-radius: 10px;
+  z-index: 999;
 `;
 
 const ContainerCropper = styled.div`
-  height: 90%;
+  height: 70%;
   padding: 10px;
 `;
 
@@ -123,11 +124,24 @@ const SliderDiv = styled.div`
 `;
 
 const ContainerButtons = styled.div`
+  width: 30rem;
   border: 1px solid #f5f5f5;
-  height: 10%;
+  height: 3rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: space-between;
 `;
 
-export default ImageSetting;
+const Button1 = styled.button`
+  font-size: 1rem;
+  font-family: "TTTogether";
+  width: 22.2rem;
+  height: 3rem;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  background-color: #739cff;
+  color: #ffffff;
+`;
+
+export default EditModal;
