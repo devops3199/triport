@@ -1,11 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import logo from "media/svg/triport_logo.svg";
 import signuplogo from "media/image/triport_airplane.png";
 import kakaoicon from "media/svg/kakao_symbol.svg";
 
+import { emailCheck, pwdCheck } from "../shared/common";
+
 const SignUp = () => {
+  // const dispatch = useDispatch();
+
+  const [email, setEmail] = React.useState("");
+  const [pwd, setPwd] = React.useState("");
+  const [pwdcheck, setPwdcheck] = React.useState("");
+  const [line1, setLine1] = useState("1px solid #707070");
+  const [line2, setLine2] = useState("1px solid #707070");
+  const [line3, setLine3] = useState("1px solid #707070");
+
+  useEffect(() => {
+    if (!email) {
+      setLine1("1px solid #707070");
+      return;
+    }
+    if (emailCheck(email)) {
+      setLine1("1px solid #2B61E1");
+    } else {
+      setLine1("1px solid #FF8080");
+    }
+  }, [email]);
+
+  useEffect(() => {
+    if (!pwd) {
+      setLine2("1px solid #707070");
+      return;
+    }
+    if (pwdCheck(pwd)) {
+      setLine2("1px solid #2B61E1");
+    } else {
+      setLine2("1px solid #FF8080");
+    }
+  }, [pwd]);
+
+  useEffect(() => {
+    if (!pwdcheck) {
+      setLine3("1px solid #707070");
+      return;
+    }
+    if (pwdCheck(pwdcheck)) {
+      setLine3("1px solid #2B61E1");
+    } else {
+      setLine3("1px solid #FF8080");
+    }
+  }, [pwdcheck]);
+
+  // console.log(line1);
+
   return (
     <React.Fragment>
       <Wrap>
@@ -16,10 +65,32 @@ const SignUp = () => {
 
         <SmallWrap style={{ marginLeft: "10rem" }}>
           <Signup>SIGN UP</Signup>
-          <Input placeholder="E-mail"></Input>
+
+          <EmailInput
+            line={line1}
+            placeholder="E-mail"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          ></EmailInput>
+
           <Input placeholder="Nickname"></Input>
-          <Input placeholder="PASSWORD" type="password"></Input>
-          <Input placeholder="PASSWORD" type="password"></Input>
+          <PwdInput
+            line={line2}
+            placeholder="PASSWORD"
+            type="password"
+            onChange={(e) => {
+              setPwd(e.target.value);
+            }}
+          ></PwdInput>
+          <PwdCheckInput
+            line={line3}
+            placeholder="PASSWORD"
+            type="password"
+            onChange={(e) => {
+              setPwdcheck(e.target.value);
+            }}
+          ></PwdCheckInput>
 
           <Text>가입 후 변경할 수 있어요!</Text>
           <Button1>SIGN UP</Button1>
@@ -78,19 +149,82 @@ const Signup = styled.div`
   margin-bottom: 3rem;
 `;
 
+const EmailInput = styled.input`
+  font-family: "TTTogether";
+  outline: none;
+  width: 21.4rem;
+  height: 3rem;
+  margin-bottom: 2rem;
+  border: ${(props) => props.line};
+  border-radius: 5px;
+  box-shadow: 0px 3px 6px #00000029;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+
+  ::placeholder {
+    font-family: "TTTogether";
+    font-size: 1rem;
+    color: #535353;
+    opacity: 50%;
+  }
+`;
+
+const PwdInput = styled.input`
+  font-family: "TTTogether";
+  outline: none;
+  width: 21.4rem;
+  height: 3rem;
+  margin-bottom: 2rem;
+  border: ${(props) => props.line};
+  border-radius: 5px;
+  box-shadow: 0px 3px 6px #00000029;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+
+  ::placeholder {
+    font-family: "TTTogether";
+    font-size: 1rem;
+    color: #535353;
+    opacity: 50%;
+  }
+`;
+
+const PwdCheckInput = styled.input`
+  font-family: "TTTogether";
+  outline: none;
+  width: 21.4rem;
+  height: 3rem;
+  margin-bottom: 2rem;
+  border: ${(props) => props.line};
+  border-radius: 5px;
+  box-shadow: 0px 3px 6px #00000029;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+
+  ::placeholder {
+    font-family: "TTTogether";
+    font-size: 1rem;
+    color: #535353;
+    opacity: 50%;
+  }
+`;
+
 const Input = styled.input`
   font-family: "TTTogether";
   outline: none;
   width: 21.4rem;
   height: 3rem;
   margin-bottom: 2rem;
+
   border: 1px solid #707070;
   border-radius: 5px;
   box-shadow: 0px 3px 6px #00000029;
   padding-left: 1.5rem;
+  padding-right: 1.5rem;
 
   ::placeholder {
     font-family: "TTTogether";
+    font-size: 1rem;
     color: #535353;
     opacity: 50%;
   }
@@ -98,7 +232,7 @@ const Input = styled.input`
 
 const Button1 = styled.button`
   font-family: "TTTogether";
-  width: 23rem;
+  width: 24.5rem;
   height: 3rem;
   box-shadow: 0px 3px 6px #00000029;
   border-radius: 5px;
@@ -109,7 +243,7 @@ const Button1 = styled.button`
 
 const Button2 = styled.button`
   font-family: "TTTogether";
-  width: 23rem;
+  width: 24.5rem;
   height: 3rem;
   display: flex;
   flex-direction: row;
@@ -141,4 +275,5 @@ const Text = styled.a`
   display: flex;
   justify-content: center;
   margin-bottom: 1.5rem;
+  width: 24.5rem;
 `;

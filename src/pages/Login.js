@@ -62,9 +62,11 @@ const Input = styled.input`
   border-radius: 5px;
   box-shadow: 0px 3px 6px #00000029;
   padding-left: 1.5rem;
+  padding-right: 1.5rem;
 
   ::placeholder {
     font-family: "TTTogether";
+    font-size: 1rem;
     color: #535353;
     opacity: 50%;
   }
@@ -72,7 +74,7 @@ const Input = styled.input`
 
 const Button1 = styled.button`
   font-family: "TTTogether";
-  width: 23rem;
+  width: 24.5rem;
   height: 3rem;
   box-shadow: 0px 3px 6px #00000029;
   border-radius: 5px;
@@ -83,7 +85,7 @@ const Button1 = styled.button`
 
 const Button2 = styled.button`
   font-family: "TTTogether";
-  width: 23rem;
+  width: 24.5rem;
   height: 3rem;
   display: flex;
   flex-direction: row;
@@ -108,6 +110,7 @@ const Kakao = styled.div`
 `;
 
 const Text = styled.a`
+  width: 24.5rem;
   text-decoration: none;
   font-family: "AppleSDGothicNeoR";
   color: #5a5a5a;

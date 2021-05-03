@@ -1,13 +1,13 @@
 // 이메일 형식
 export const emailCheck = (email) => {
-  let _reg = /^[0-9a-zA-Z]([-_.0-9a-zA-Z])*@[0-9a-zA-Z]([-_.0-9a-zA-z])*.([a-zA-Z])*/;
+  var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
-  return _reg.test(email);
+  return regExp.test(email);
 };
 
 // 비밀번호 체크(8자-16자)
 export const pwdCheck = (pwd) => {
-  let _reg = /^[!@#-_.*a-zA-z0-9].{7,16}$/;
+  var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/; //  8 ~ 10자 영문, 숫자 조합
 
-  return _reg.test(pwd);
+  return regExp.test(pwd);
 };

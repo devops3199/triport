@@ -117,10 +117,10 @@ const Line = styled.div`
 
 const Logo = styled.div`
   cursor: pointer;
-  width: 15rem;
+  width: 20rem;
   height: 2.5rem;
   background-image: url("${logo}");
-  background-size: 15rem 2.5rem;
+  background-size: 20rem 2.5rem;
 `;
 
 const MyOrLogin = styled.button`
@@ -146,6 +146,7 @@ const LogoutOrSignUp = styled.button`
 `;
 
 const Nickname = styled.div`
+  width: 5rem;
   margin-right: 2rem;
   margin-top: 0.15rem;
 `;
