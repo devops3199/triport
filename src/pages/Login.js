@@ -1,17 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import loginlogo from "media/image/login_logo.png";
 import kakaoicon from "media/svg/kakao_symbol.svg";
 
+import { emailCheck, pwdCheck } from "../shared/common";
+
 const Login = () => {
+  const [email, setEmail] = React.useState("");
+  const [pwd, setPwd] = React.useState("");
+  const [line1, setLine1] = useState("1px solid #707070");
+  const [line2, setLine2] = useState("1px solid #707070");
+
+  useEffect(() => {
+    if (!email) {
+      setLine1("1px solid #707070");
+      return;
+    }
+    if (emailCheck(email)) {
+      setLine1("1px solid #2B61E1");
+    } else {
+      setLine1("1px solid #FF8080");
+    }
+  }, [email]);
+
+  useEffect(() => {
+    if (!pwd) {
+      setLine2("1px solid #707070");
+      return;
+    }
+    if (pwdCheck(pwd)) {
+      setLine2("1px solid #2B61E1");
+    } else {
+      setLine2("1px solid #FF8080");
+    }
+  }, [pwd]);
+
   return (
     <React.Fragment>
       <Wrap>
         <Image />
         <LoginDiv>LOGIN</LoginDiv>
-        <Input placeholder="E-mail"></Input>
-        <Input placeholder="PASSWORD" type="password"></Input>
+        <EmailInput
+          line={line1}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          placeholder="E-mail"
+        ></EmailInput>
+        <PwdInput
+          line={line2}
+          placeholder="PASSWORD"
+          type="password"
+          onChange={(e) => {
+            setPwd(e.target.value);
+          }}
+        ></PwdInput>
         <Button1>LOGIN</Button1>
         <Button2>
           <Kakao />
@@ -52,13 +96,33 @@ const LoginDiv = styled.div`
   justify-content: center;
 `;
 
-const Input = styled.input`
+const EmailInput = styled.input`
   font-family: "TTTogether";
   outline: none;
   width: 21.4rem;
   height: 3rem;
   margin-bottom: 2rem;
-  border: 1px solid #707070;
+  border: ${(props) => props.line};
+  border-radius: 5px;
+  box-shadow: 0px 3px 6px #00000029;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+
+  ::placeholder {
+    font-family: "TTTogether";
+    font-size: 1rem;
+    color: #535353;
+    opacity: 50%;
+  }
+`;
+
+const PwdInput = styled.input`
+  font-family: "TTTogether";
+  outline: none;
+  width: 21.4rem;
+  height: 3rem;
+  margin-bottom: 2rem;
+  border: ${(props) => props.line};
   border-radius: 5px;
   box-shadow: 0px 3px 6px #00000029;
   padding-left: 1.5rem;
