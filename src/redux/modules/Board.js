@@ -9,10 +9,15 @@ const boardSlice = createSlice({
             board_list : [],
             is_last : false,
         },
+        detail : "",
     },
     reducers: {
         SET_BOARD : (state, action) => produce(state, (draft) => {
             draft.list = action.payload;
+        }),
+
+        SET_DETAIL : (state, action) => produce(state, (draft) => {
+            draft.detail = action.payload;
         }),
     },
 });
@@ -28,10 +33,17 @@ const getBoardList = (page) => {
     };
 };
 
-const actionCreators = {
-    getBoardList,
+const setDetail = (detail) => {
+    return function (dispatch, getState, { history }) {
+        dispatch(SET_DETAIL(detail));
+    };
 };
 
-export const { SET_BOARD } = boardSlice.actions;
+const actionCreators = {
+    getBoardList,
+    setDetail,
+};
+
+export const { SET_BOARD, SET_DETAIL } = boardSlice.actions;
 export default boardSlice.reducer;
 export { actionCreators };

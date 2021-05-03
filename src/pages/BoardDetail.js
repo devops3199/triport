@@ -1,9 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import ViewTest from "components/ViewTest";
 
 const BoardDetail = (props) => {
     return(
         <DetailContainer>
+            <div>
+                <ViewTest />
+            </div>
             <LikeCommentContainer>
                 <div>
                     <span>좋아요</span>
