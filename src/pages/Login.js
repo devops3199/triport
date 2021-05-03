@@ -11,7 +11,7 @@ const Login = () => {
         <Image />
         <LoginDiv>LOGIN</LoginDiv>
         <Input placeholder="E-mail"></Input>
-        <Input placeholder="PASSWORD"></Input>
+        <Input placeholder="PASSWORD" type="password"></Input>
         <Button1>LOGIN</Button1>
         <Button2>
           <Kakao />
@@ -53,6 +53,8 @@ const LoginDiv = styled.div`
 `;
 
 const Input = styled.input`
+  font-family: "TTTogether";
+  outline: none;
   width: 21.4rem;
   height: 3rem;
   margin-bottom: 2rem;

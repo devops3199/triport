@@ -5,6 +5,8 @@ import { history } from "../redux/configureStore";
 
 import logo from "media/svg/triport_logo.svg";
 
+import Category from "components/Category";
+
 const Header = (props) => {
   if (props.ok === true) {
     return (
@@ -17,19 +19,18 @@ const Header = (props) => {
               }}
             />
             <LeftWrap>
-              <Sns
-                onClick={() => {
-                  history.push("/post");
-                }}
-              >
-                SNS
-              </Sns>
-              <Board>게시판</Board>
+              <Category />
             </LeftWrap>
             <div style={{ width: "30rem" }}></div>
             <RightWrap>
               <Nickname>{props.nickname}</Nickname>
-              <MyOrLogin>마이페이지</MyOrLogin>
+              <MyOrLogin
+                onClick={() => {
+                  history.push("/profile");
+                }}
+              >
+                마이페이지
+              </MyOrLogin>
               <LogoutOrSignUp>로그아웃</LogoutOrSignUp>
             </RightWrap>
           </Wrap>
@@ -59,6 +60,7 @@ const Header = (props) => {
                 history.push("/board");
               }}
             >게시판</Board>
+            <Category />
           </LeftWrap>
           <div style={{ width: "30rem" }}></div>
           <RightWrap>
@@ -87,7 +89,6 @@ const Header = (props) => {
 Header.defaultProps = {
   ok: false,
   nickname: "닉네임예시",
-  click: true,
 };
 
 export default Header;
@@ -108,6 +109,8 @@ const LeftWrap = styled.div`
   display: flex;
   flex-direction: row;
   font-family: "TTTogether";
+  margin: 0px auto;
+  margin-left: 5rem;
 `;
 
 const RightWrap = styled.div`
@@ -130,28 +133,6 @@ const Logo = styled.div`
   height: 2.5rem;
   background-image: url("${logo}");
   background-size: 15rem 2.5rem;
-`;
-
-const Sns = styled.a`
-  cursor: pointer;
-  color: #2b61e1;
-  margin-right: 4rem;
-  opacity: 0.7;
-
-  :hover {
-    opacity: 1;
-  }
-`;
-
-const Board = styled.a`
-  cursor: pointer;
-
-  color: #2b61e1;
-  opacity: 0.7;
-
-  :hover {
-    opacity: 1;
-  }
 `;
 
 const MyOrLogin = styled.button`
