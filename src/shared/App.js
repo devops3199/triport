@@ -13,6 +13,7 @@ import Login from "pages/Login";
 import SignUp from "pages/SignUp";
 import Footer from "components/Footer";
 import Profile from "pages/Profile";
+import ReelsTest from "pages/ReelsTest";
 
 const App = (props) => {
   return (
@@ -27,6 +28,7 @@ const App = (props) => {
             <Route path="/signup" exact component={SignUp} />
             <Route path="/board" exact component={BoardMain} />
             <Route path="/profile" exact component={Profile} />
+            <Route path="/test" exact component={ReelsTest} />
             <Route component={NotFound} />
           </Switch>
         </ConnectedRouter>

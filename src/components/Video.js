@@ -20,7 +20,6 @@ const Video = ({ url }) => {
 
   useEffect(() => {
     const scroll = document.getElementById("video-container");
-
     if (scroll) {
       scroll.addEventListener("scroll", () => {
         vidRef.current.pause();
@@ -39,11 +38,10 @@ const Video = ({ url }) => {
         loop
       />
       <Slider
-        min={1}
-        max={3}
+        min={0}
+        max={vidRef.current.duration}
         step={0.1}
-        value={volume}
-        onChange={(e, volume) => setVolume(volume)}
+        value={vidRef.current.currentTime}
       />
     </VideoCards>
   );
