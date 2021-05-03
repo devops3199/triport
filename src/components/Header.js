@@ -48,18 +48,6 @@ const Header = (props) => {
             }}
           />
           <LeftWrap>
-            <Sns
-              onClick={() => {
-                history.push("/post");
-              }}
-            >
-              SNS
-            </Sns>
-            <Board
-              onClick={() => {
-                history.push("/board");
-              }}
-            >게시판</Board>
             <Category />
           </LeftWrap>
           <div style={{ width: "30rem" }}></div>
