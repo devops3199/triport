@@ -47,8 +47,8 @@ const InstaLogo = styled.div`
 const ImgLogo = styled.div``;
 
 const VideoContainer = styled.div`
-  height: 30vh;
-  width: 35vw;
+  height: 15vh;
+  width: 20vw;
   max-width: 500px;
   border-radius: 20px;
   background-color: white;
