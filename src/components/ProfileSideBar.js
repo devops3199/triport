@@ -65,6 +65,7 @@ const Sidebar = styled.div`
   display: flex;
   width: 9.7rem;
   height: 9.3rem;
+  margin: 0px auto;
   background: #f4f4f4;
   box-shadow: 0px 3px 6px #00000029;
   border-radius: 5px;

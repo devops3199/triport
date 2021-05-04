@@ -2,8 +2,6 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import image from "../media/image/login_logo.png";
 
-import EditModal from "./EditModal";
-
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
@@ -12,19 +10,39 @@ import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { SET_PREVIEW } from "../redux/modules/profileimg";
 import Dmypage from "media/svg/마이페이지 D.svg";
 import edit from "media/svg/프로필수정.svg";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProfileSetting = () => {
+  const fileInput = useRef();
   const [modal, setModal] = React.useState(false);
-
+  const preview = useSelector((state) => state.profileimg.user_img);
+  const dispatch = useDispatch();
   const openModal = () => {
     setModal(true);
   };
 
   const closeModal = () => {
     setModal(false);
+  };
+
+  const upload = (e) => {
+    const reader = new FileReader();
+    const file = fileInput.current.files[0];
+    if (!file) {
+      // 파일 선택 안했을 때
+      return;
+    }
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      dispatch(SET_PREVIEW(reader.result));
+    };
+  };
+
+  const triggerImg = () => {
+    fileInput.current.click(); // 인풋 클릭한 효과
   };
 
   return (
@@ -34,8 +52,15 @@ const ProfileSetting = () => {
         <Title>프로필 설정</Title>
         <SmallWrap>
           <ImageWrap>
-            <Image src={image} />
-            <Edit onClick={openModal}></Edit>
+            <Image src={preview} />
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInput}
+              onChange={upload}
+              style={{ display: "none" }}
+            />
+            <Edit onClick={triggerImg}></Edit>
             <Lank>당신의 등급은 ?</Lank>
           </ImageWrap>
 
@@ -91,7 +116,7 @@ const Icon = styled.div`
   height: 1.3rem;
   background-image: url("${Dmypage}");
   background-size: 2rem 1.3rem;
-  margin-left: 10rem;
+  margin-left: 5rem;
 `;
 
 const Title = styled.div`

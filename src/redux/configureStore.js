@@ -6,12 +6,14 @@ import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
 import Board from "redux/modules/Board";
 import Sidebar from "redux/modules/sidebar";
+import ProfileImg from "redux/modules/profileimg";
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
   board: Board,
   sidebar: Sidebar,
+  profileimg: ProfileImg,
   router: connectRouter(history),
 });
 

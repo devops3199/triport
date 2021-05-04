@@ -41,7 +41,7 @@ const Profile = () => {
 const Cover = styled.div`
   display: flex;
   flex-direction: row;
-  width: 1228px;
+  width: 1280px;
   margin: 0 auto;
 `;
 

@@ -192,8 +192,8 @@ const PostCov = styled.div`
   // background-position: center;
   // background-repeat: no-repeat;
   display: flex;
-  width: 400px;
-  height: 400px;
+  width: 25rem;
+  height: 25rem;
   background: #ededed;
   /* border: 1px solid;
   border-radius: 15px; */
