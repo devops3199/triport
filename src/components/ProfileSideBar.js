@@ -58,7 +58,9 @@ const ProfileSideBar = () => {
 
 const Profile = styled.div`
   display: flex;
-  margin-right: 10px;
+  /* margin-right: 10px; */
+  margin: 0px;
+  width: 9.7rem;
 `;
 
 const Sidebar = styled.div`

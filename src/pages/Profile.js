@@ -6,12 +6,14 @@ import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-const Profile = () => {
+const Profile = (props) => {
   const setting = useSelector((state) => state.sidebar.setting);
   const write = useSelector((state) => state.sidebar.write);
   const like = useSelector((state) => state.sidebar.like);
+
+  console.log(setting);
   return (
-    <Cover>
+    <Cover setting={setting}>
       <ProfileSideBar />
       {setting ? (
         <>
@@ -41,8 +43,11 @@ const Profile = () => {
 const Cover = styled.div`
   display: flex;
   flex-direction: row;
-  width: 1280px;
-  margin: 0 auto;
+  justify-content: space-between;
+  width: ${(props) => (props.setting ? "70rem" : "100rem")};
+  margin: 0px auto;
+
+  /* margin-left: */
 `;
 
 export default Profile;

@@ -85,6 +85,8 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: row;
   font-family: "TTTogether";
+  margin: 0px auto;
+  margin-left: 2rem;
 `;
 
 const SmallWrap = styled.div`
