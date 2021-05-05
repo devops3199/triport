@@ -6,7 +6,13 @@ import { ConnectedRouter } from "connected-react-router";
 import { Route, Switch } from "react-router-dom";
 import { history } from "redux/configureStore";
 
-import { Main, NotFound, BoardMain, BoardWrite, BoardDetail } from "pages/pages";
+import {
+  Main,
+  NotFound,
+  BoardMain,
+  BoardWrite,
+  BoardDetail,
+} from "pages/pages";
 import Snsmain from "pages/SnsMain";
 import Header from "components/Header";
 import Login from "pages/Login";
@@ -35,7 +41,7 @@ const App = (props) => {
           </Switch>
         </ConnectedRouter>
       </MainContainer>
-      {/* <Footer/> */}
+      <Footer />
     </>
   );
 };
