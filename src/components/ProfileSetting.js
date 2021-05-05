@@ -16,17 +16,11 @@ import edit from "media/svg/프로필수정.svg";
 import { useDispatch, useSelector } from "react-redux";
 
 const ProfileSetting = () => {
-  const fileInput = useRef();
-  const [modal, setModal] = React.useState(false);
+  const fileInput = useRef(); // DOM 객체 가져오기 (인풋)
+
   const preview = useSelector((state) => state.profileimg.user_img);
   const dispatch = useDispatch();
-  const openModal = () => {
-    setModal(true);
-  };
 
-  const closeModal = () => {
-    setModal(false);
-  };
 
   const upload = (e) => {
     const reader = new FileReader();
@@ -35,7 +29,8 @@ const ProfileSetting = () => {
       // 파일 선택 안했을 때
       return;
     }
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file); // 이미지파일 url로 변경
+
     reader.onloadend = () => {
       dispatch(SET_PREVIEW(reader.result));
     };
@@ -53,7 +48,7 @@ const ProfileSetting = () => {
         <SmallWrap>
           <ImageWrap>
             <Image src={preview} />
-            <input
+            <input // input을 가려놓고 EDIT 버튼을 클릭했을 때 인풋이 실행되도록 만듬.
               type="file"
               accept="image/*"
               ref={fileInput}
@@ -73,8 +68,6 @@ const ProfileSetting = () => {
           <Text>새 비밀번호 확인</Text>
           <Input placeholder="NEW PASSWORD" />
           <Button1>저장하기</Button1>
-
-          {/* <EditModal modal={modal} onClose={closeModal} /> */}
         </SmallWrap>
       </Wrap>
     </React.Fragment>

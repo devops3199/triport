@@ -47,7 +47,6 @@ const Cover = styled.div`
   width: ${(props) => (props.setting ? "70rem" : "100rem")};
   margin: 0px auto;
 
-  /* margin-left: */
 `;
 
 export default Profile;
