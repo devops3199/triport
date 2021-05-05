@@ -9,13 +9,13 @@ const Video = ({ url }) => {
   const vidRef = useRef();
 
   const onVideoClick = () => {
-    vidRef.current.play();
-    setisVideoPlaying(true);
-  };
-
-  const ovVideoOut = () => {
-    vidRef.current.pause();
-    setisVideoPlaying(false);
+    if (isVideoPlaying) {
+      vidRef.current.pause();
+      setisVideoPlaying(false);
+    } else {
+      vidRef.current.play();
+      setisVideoPlaying(true);
+    }
   };
 
   useEffect(() => {
@@ -30,30 +30,32 @@ const Video = ({ url }) => {
   return (
     <VideoCards>
       <VideoPlay
-        onMouseLeave={ovVideoOut}
-        onMouseOver={onVideoClick}
+        onClick={onVideoClick}
         ref={vidRef}
         src={url}
-        muted={true}
+        // muted={true}
         loop
       />
-      <Slider
+      {/* <Slider
         min={0}
         max={vidRef.current.duration}
         step={0.1}
         value={vidRef.current.currentTime}
-      />
+      /> */}
     </VideoCards>
   );
 };
 
 const VideoCards = styled.div`
   position: relative;
+  display: flex;
 `;
 
 const VideoPlay = styled.video`
-  height: 100%;
-  width: 100%;
+  display: flex;
+  height: 32rem;
+  width: 18rem;
+  border-radius: 20px;
 `;
 
 export default Video;
