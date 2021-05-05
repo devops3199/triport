@@ -1,7 +1,7 @@
 import Video from "components/Video";
 import React from "react";
 import styled from "styled-components";
-import Video1 from "../media/test.mp4";
+// import Video1 from "../media/test.mp4";
 
 const ReelsTest = () => {
   return (
@@ -12,7 +12,7 @@ const ReelsTest = () => {
             key="1"
             channel="ccc"
             song="song-3"
-            url={Video1}
+            // url={Video1}
             likes="89"
             comment="23"
             shares="29"
@@ -23,7 +23,7 @@ const ReelsTest = () => {
             key="1"
             channel="ccc"
             song="song-3"
-            url={Video1}
+            // url={Video1}
             likes="89"
             comment="23"
             shares="29"
