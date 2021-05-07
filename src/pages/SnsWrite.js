@@ -42,6 +42,7 @@ const VideoView = styled.div`
   justify-content: center;
   align-items: center;
   color: #2b61e1;
+  margin-top: 5rem;
 `;
 
 const Text = styled.div`
