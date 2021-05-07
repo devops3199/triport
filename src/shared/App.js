@@ -26,9 +26,9 @@ const App = (props) => {
             <Route path="/post" exact component={Snsmain} />
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={SignUp} />
-            <Route path="/board" exact component={BoardMain} />
-            <Route path="/board/write" exact component={BoardWrite} />
-            <Route path="/board/:id" exact component={BoardDetail} />
+            <Route path="/trilog" exact component={BoardMain} />
+            <Route path="/trilog/write" exact component={BoardWrite} />
+            <Route path="/trilog/:id" exact component={BoardDetail} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/test" exact component={ReelsTest} />
             <Route component={NotFound} />

@@ -36,7 +36,7 @@ const Category = () => {
       <Category1 id="post" onClick={GetClick}>
         Trils
       </Category1>
-      <Category1 id="board" onClick={GetClick}>
+      <Category1 id="trilog" onClick={GetClick}>
         Trilog
       </Category1>
       <Category2 id="about" onClick={GetClick}>

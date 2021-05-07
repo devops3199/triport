@@ -38,9 +38,9 @@ const LikeFill = () => {
 
 const LikeEmpty = () => {
     return(
-        <svg id="레이어_1" data-name="레이어 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52.33 49.08" style={{"fill" : "none", "stroke" : "#2B61E1", "stroke-linecap" : "round"}}>
+        <svg id="레이어_1" data-name="레이어 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52.33 49.08" style={{"fill" : "none", "stroke" : "#2B61E1", "strokeLinecap" : "round"}}>
             <g id="Icon">
-                <path id="패스_1" data-name="패스 1" class="cls-1" d="M14.09,23l11.7,13.11a.48.48,0,0,0,.68.06l.06-.06L38.23,23l-.47.56a6.33,6.33,0,0,0,1.54-4.18,6.65,6.65,0,0,0-13-1.81H26a6.65,6.65,0,0,0-13,1.81,6.38,6.38,0,0,0,1.54,4.18"/>
+                <path id="패스_1" data-name="패스 1" className="cls-1" d="M14.09,23l11.7,13.11a.48.48,0,0,0,.68.06l.06-.06L38.23,23l-.47.56a6.33,6.33,0,0,0,1.54-4.18,6.65,6.65,0,0,0-13-1.81H26a6.65,6.65,0,0,0-13,1.81,6.38,6.38,0,0,0,1.54,4.18"/>
             </g>
         </svg>
     );
