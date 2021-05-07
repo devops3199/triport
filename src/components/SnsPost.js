@@ -6,6 +6,9 @@ import comment from "../media/svg/댓글.svg";
 import bookmark from "../media/svg/저장.svg";
 import Slider from "components/Slider";
 
+import { history } from "redux/configureStore";
+import { Plus } from "media/svg/Svg";
+
 const SnsPost = (props) => {
   const { margin } = props;
   const styles = {
@@ -16,6 +19,13 @@ const SnsPost = (props) => {
 
   return (
     <Post {...styles}>
+      <FloatingButton
+        onClick={() => {
+          history.push("/trils/write");
+        }}
+      >
+        <Plus />
+      </FloatingButton>
       <PostCov>
         <PostTop>
           <Profile>
@@ -197,6 +207,22 @@ const PostCov = styled.div`
   background: #ededed;
   /* border: 1px solid;
   border-radius: 15px; */
+`;
+
+const FloatingButton = styled.div`
+  position: fixed;
+  bottom: 5%;
+  right: 3%;
+  width: 3.125rem;
+  height: 3.125rem;
+  cursor: pointer;
+  z-index: 9999;
+
+  & svg {
+    width: 100%;
+    height: 100%;
+    fill: #2b61e1;
+  }
 `;
 
 export default SnsPost;

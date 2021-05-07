@@ -21,7 +21,6 @@ const ProfileSetting = () => {
   const preview = useSelector((state) => state.profileimg.user_img);
   const dispatch = useDispatch();
 
-
   const upload = (e) => {
     const reader = new FileReader();
     const file = fileInput.current.files[0];
@@ -173,6 +172,7 @@ const Button1 = styled.button`
   width: 22.2rem;
   height: 3rem;
   box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #2b61e1;
   border-radius: 5px;
   margin-top: 1rem;
   margin-bottom: 1rem;
