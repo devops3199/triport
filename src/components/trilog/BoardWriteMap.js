@@ -2,14 +2,17 @@
 import React from "react";
 import styled from "styled-components";
 
-const MapContent = (props) => {
+const BoardWriteMap = (props) => {
 
-    const { address } = props;
+    const { keyword, setAddress ,drag } = props;
 
     React.useEffect(() => {
-        console.log(address);
         mapscript();
-    }, [address]);
+    }, [keyword]);
+
+    const setLocation = (location) => {
+        setAddress(location);
+    };
 
     const mapscript = () => {
         const infowindow = new kakao.maps.InfoWindow({zIndex:1});
@@ -18,7 +21,8 @@ const MapContent = (props) => {
 
         const options = {
           center: new kakao.maps.LatLng(37.624915253753194, 127.15122688059974),
-          level: 3,
+          draggable : drag,
+          level: 5,
         };
 
         //map
@@ -28,7 +32,8 @@ const MapContent = (props) => {
         const ps = new kakao.maps.services.Places(); 
 
         // 키워드로 장소를 검색합니다
-        ps.keywordSearch(address, placesSearchCB);
+        if(keyword !== "")
+            ps.keywordSearch(keyword, placesSearchCB);
 
         // 키워드 검색 완료 시 호출되는 콜백함수 입니다
         function placesSearchCB (data, status, pagination) {
@@ -50,7 +55,6 @@ const MapContent = (props) => {
 
         // 지도에 마커를 표시하는 함수입니다
         function displayMarker(place) {
-            
             // 마커를 생성하고 지도에 표시합니다
             let marker = new kakao.maps.Marker({
                 map: map,
@@ -60,8 +64,10 @@ const MapContent = (props) => {
             // 마커에 클릭이벤트를 등록합니다
             kakao.maps.event.addListener(marker, 'click', function() {
                 // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-                infowindow.setContent('<div style="padding:5px;font-size:17px;">' + place.place_name + '</div>');
+                infowindow.setContent('<div style="display:flex; justify-content:center; width:200px;"><a href="' + place.place_url +'" target="_blank" style="padding:5px;font-size:14px;">'+ place.place_name + '</a></div>');
+                setLocation(place.address_name);
                 infowindow.open(map, marker);
+                alert('위치 설정 완료');
             });
         }
     };
@@ -73,7 +79,7 @@ const MapContent = (props) => {
 
 const MapBlock = styled.div`
     width: 100%;
-    height: 500px;
+    height: 400px;
 `;
 
-export default MapContent;
+export default BoardWriteMap;

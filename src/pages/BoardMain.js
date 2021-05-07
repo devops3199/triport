@@ -25,7 +25,7 @@ const BoardMain = (props) => {
     <BoardMainContainer>
       <FloatingButton
         onClick={() => {
-          history.push("/board/write");
+          history.push("/trilog/write");
         }}
       >
         <Plus />
