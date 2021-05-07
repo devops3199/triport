@@ -46,7 +46,10 @@ const App = (props) => {
   );
 };
 
-const MainContainer = styled.main``;
+const MainContainer = styled.main`
+  position: relative;
+  bottom: 50px;
+`;
 
 const FooterContainer = styled.footer``;
 
