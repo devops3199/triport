@@ -13,6 +13,7 @@ import {
   BoardWrite,
   BoardDetail,
 } from "pages/pages";
+
 import Snsmain from "pages/SnsMain";
 import Header from "components/Header";
 import Login from "pages/Login";
@@ -20,6 +21,7 @@ import SignUp from "pages/SignUp";
 import Footer from "components/Footer";
 import Profile from "pages/Profile";
 import Trils from "pages/Trils";
+import SnsWrite from "pages/SnsWrite";
 
 const App = (props) => {
   return (
@@ -30,6 +32,7 @@ const App = (props) => {
           <Switch>
             <Route path="/" exact component={Main} />
             <Route path="/post" exact component={Snsmain} />
+            <Route path="/trils/write" exact component={SnsWrite} />
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={SignUp} />
             <Route path="/trilog" exact component={BoardMain} />
