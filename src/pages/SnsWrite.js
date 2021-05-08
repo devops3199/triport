@@ -4,7 +4,10 @@ import ClearIcon from "@material-ui/icons/Clear";
 
 const SnsWrite = () => {
   const tagInput = useRef(null);
+  const fileInput = useRef();
+  const player = useRef(null);
   const [tags, setTags] = useState([]);
+  const [preview, setPreview] = useState(null);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -15,7 +18,7 @@ const SnsWrite = () => {
 
   const InputKeyDown = (e) => {
     const val = e.target.value;
-    if (e.key === "Enter" && val) {
+    if ((e.key === "Enter" || e.key === "," || e.key ===" ") && val) {
       if (tags.length === 3) {
         alert("태그는 최대 3개까지 가능합니다.");
         return;
@@ -24,19 +27,88 @@ const SnsWrite = () => {
         return;
       }
       setTags([...tags, val]);
-      console.log(tags);
       tagInput.current.value = null;
     } else if (e.key === "Backspace" && !val) {
       removeTag(tags.length - 1);
     }
   };
 
+  const upload = (e) => {
+    const reader = new FileReader();
+    const file = fileInput.current.files[0];
+    if (!file) {
+      return;
+    }
+    if (file.size * 9.5367e-7 > 300) {
+      alert("용량이 너무 큽니다.(300mb 이하)");
+      return;
+    }
+    reader.onloadstart = (e) => {
+      setPreview(null);
+    };
+    reader.readAsDataURL(file);
+    reader.onloadend = (e) => {
+      const videoElement = document.createElement("video");
+      videoElement.src = e.target.result;
+      const timer = setInterval(() => {
+        if (videoElement.readyState === 4) {
+          if (videoElement.duration > 100) {
+            alert("영상 길이를 확인해주세요.(100초 이하)");
+            clearInterval(timer);
+            return;
+          }
+          // else if (videoElement.duration > 30) {
+          //   alert("영상 길이를 확인해주세요.(10초 이상)");
+          //   clearInterval(timer);
+          //   return;
+          // }
+          else {
+            setPreview(e.target.result);
+            clearInterval(timer);
+          }
+        }
+      }, 100);
+    };
+  };
+
+  const triggerVideo = () => {
+    fileInput.current.click(); // 인풋 클릭한 효과
+  };
+
+  const videoplay = () => {
+    player.current.play();
+  };
+
+  const videopause = () => {
+    player.current.pause();
+  };
+
   return (
     <React.Fragment>
       <Wrap>
-        <VideoView>
-          <p style={{ fontSize: "25px" }}>영상을 올려주세요.</p>
-          <p style={{ fontSize: "15px" }}>10MB 제한</p>
+        <VideoView onClick={triggerVideo}>
+          {!(preview === null) ? (
+            <Player
+              ref={player}
+              onMouseOver={videoplay}
+              onMouseLeave={videopause}
+              src={preview}
+              muted
+              type="video/mp4"
+            />
+          ) : (
+            <>
+              <p style={{ fontSize: "25px" }}>영상을 올려주세요.</p>
+              <p style={{ fontSize: "15px" }}>10MB 제한</p>
+            </>
+          )}
+          <input
+            type="file"
+            accept="video/mp4"
+            ref={fileInput}
+            onChange={upload}
+            style={{ display: "none" }}
+          />
         </VideoView>
         <Text>#강릉 #여행 #맛집</Text>
         <Tag>태그 (최대 3개)</Tag>
@@ -73,6 +145,12 @@ const SnsWrite = () => {
 };
 
 export default SnsWrite;
+
+const Player = styled.video`
+  width: 37rem;
+  height: 28rem;
+  background: black;
+`;
 
 const IconCover = styled.div`
   display: flex;
@@ -137,6 +215,8 @@ const Wrap = styled.div`
 `;
 
 const VideoView = styled.div`
+  cursor: pointer;
+  z-index: 5;
   width: 37rem;
   height: 28rem;
   margin: 0px auto;
