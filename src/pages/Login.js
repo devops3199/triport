@@ -141,6 +141,7 @@ const Button1 = styled.button`
   width: 24.5rem;
   height: 3rem;
   box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #2b61e1;
   border-radius: 5px;
   margin-bottom: 2rem;
   background-color: #2b61e1;
@@ -156,6 +157,7 @@ const Button2 = styled.button`
   align-items: center;
   justify-content: center;
   box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #ffe600;
   border-radius: 5px;
   margin-bottom: 2rem;
   background-color: #ffe600;
@@ -178,7 +180,7 @@ const Text = styled.a`
   text-decoration: none;
   font-family: "AppleSDGothicNeoR";
   color: #5a5a5a;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   display: flex;
   justify-content: center;
   margin-bottom: 1rem;

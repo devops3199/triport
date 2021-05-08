@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import Dmypost from "media/svg/내가 쓴 글 D.svg";
+
 import { BoardCard } from "components/components";
 import SnsPost from "components/SnsPost";
+import MyPostDerail from "./MyPostDetail";
 
 const ProfileMyPost = () => {
+  const [modal, setModal] = useState(false);
+
+  console.log(modal);
+
+  const openModal = () => {
+    console.log("1");
+    setModal(true);
+  };
+
+  const closeModal = () => {
+    setModal(false);
+  };
   return (
     <React.Fragment>
+      {modal ? <MyPostDerail close={closeModal} /> : null}
       <ColumnWrap>
         <Wrap>
           <Icon></Icon>
@@ -17,16 +32,20 @@ const ProfileMyPost = () => {
               <Title style={{ marginLeft: "-1.5rem" }}>Trils</Title>
               <Button>더보기</Button>
             </Div>
+
             <Wrap
               style={{
                 width: "78rem",
                 marginLeft: "-4rem",
               }}
             >
-              <SnsPost />
+              <div onClick={openModal}>
+                <SnsPost />
+              </div>
               <SnsPost />
               <SnsPost />
             </Wrap>
+
             <div
               style={{
                 width: "79rem",

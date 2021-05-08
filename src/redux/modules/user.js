@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { produce } from "immer";
 
+// http://13.209.8.146
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -28,20 +30,29 @@ const loginCheckDB = () => {
 };
 
 // 회원가입
-const signupDB = (email, pw, pwCheck, nickName, role) => {
+const signupDB = (email, pwd, pwdcheck, nickname) => {
   return function (dispatch, getState, { history }) {
-    const API = "";
+    const API = "http://13.209.8.146/auth/signup";
     fetch(API, {
       method: "POST",
-      headers: {},
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
       body: JSON.stringify({
         email: email,
-        password: pw,
-        passwordCheck: pwCheck,
-        nickname: nickName,
-        role: role,
+        password: pwd,
+        passwordCheck: pwdcheck,
+        nickname: nickname,
+        memberGrade: "TRAVELER",
       }),
-    });
+    })
+      .then(() => {
+        console.log("회원가입 성공");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 

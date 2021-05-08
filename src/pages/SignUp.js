@@ -5,17 +5,23 @@ import logo from "media/svg/triport_logo.svg";
 import signuplogo from "media/image/triport_airplane.png";
 import kakaoicon from "media/svg/kakao_symbol.svg";
 
+import { useDispatch } from "react-redux";
+
 import { emailCheck, pwdCheck } from "../shared/common";
+import { actionCreators as userAcitons } from "../redux/modules/user";
 
 const SignUp = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = React.useState("");
   const [pwd, setPwd] = React.useState("");
   const [pwdcheck, setPwdcheck] = React.useState("");
+  const [nickname, setNickname] = React.useState("");
   const [line1, setLine1] = useState("1px solid #707070");
   const [line2, setLine2] = useState("1px solid #707070");
   const [line3, setLine3] = useState("1px solid #707070");
+
+  // const signup = dispatch(userAcitons.signupDB(email, pwd, pwdcheck, nickname));
 
   useEffect(() => {
     if (!email) {
@@ -54,7 +60,11 @@ const SignUp = () => {
   }, [pwdcheck]);
 
   // console.log(line1);
+  // console.log(email);
 
+  const signup = () => {
+    dispatch(userAcitons.signupDB(email, pwd, pwdcheck, nickname));
+  };
   return (
     <React.Fragment>
       <Wrap>
@@ -74,7 +84,13 @@ const SignUp = () => {
             }}
           ></EmailInput>
 
-          <Input placeholder="Nickname"></Input>
+          <Input
+            placeholder="Nickname"
+            onChange={(e) => {
+              setNickname(e.target.value);
+            }}
+          ></Input>
+
           <PwdInput
             line={line2}
             placeholder="PASSWORD"
@@ -93,7 +109,7 @@ const SignUp = () => {
           ></PwdCheckInput>
 
           <Text>가입 후 변경할 수 있어요!</Text>
-          <Button1>SIGN UP</Button1>
+          <Button1 onClick={signup}>SIGN UP</Button1>
           <Button2>
             <Kakao />
             카카오톡으로 가입하기
@@ -235,6 +251,7 @@ const Button1 = styled.button`
   width: 24.5rem;
   height: 3rem;
   box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #2b61e1;
   border-radius: 5px;
   margin-bottom: 1rem;
   background-color: #2b61e1;
@@ -250,6 +267,7 @@ const Button2 = styled.button`
   align-items: center;
   justify-content: center;
   box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #ffe600;
   border-radius: 5px;
   margin-bottom: 1.5rem;
   background-color: #ffe600;
@@ -271,7 +289,7 @@ const Text = styled.a`
   text-decoration: none;
   font-family: "AppleSDGothicNeoR";
   color: #5a5a5a;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   display: flex;
   justify-content: center;
   margin-bottom: 1.5rem;
