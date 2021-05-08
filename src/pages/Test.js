@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import "./test.css";
+// import "./test.css";
 import ClearIcon from "@material-ui/icons/Clear";
 
 const Test = () => {
@@ -13,12 +13,6 @@ const Test = () => {
     console.log(newTags);
     setTags([...newTags]);
   };
-
-  // removeTag = (i) => {
-  //   const newTags = [...this.state.tags];
-  //   newTags.splice(i, 1);
-  //   this.setState({ tags: newTags });
-  // };
 
   const InputKeyDown = (e) => {
     const val = e.target.value;
@@ -34,26 +28,11 @@ const Test = () => {
     }
   };
 
-  // inputKeyDown = (e) => {
-  //   const val = e.target.value;
-  //   if (e.key === "Enter" && val) {
-  //     if (
-  //       this.state.tags.find((tag) => tag.toLowerCase() === val.toLowerCase())
-  //     ) {
-  //       return;
-  //     }
-  //     this.setState({ tags: [...this.state.tags, val] });
-  //     this.tagInput.value = null;
-  //   } else if (e.key === "Backspace" && !val) {
-  //     this.removeTag(this.state.tags.length - 1);
-  //   }
-  // };
-
   return (
     <InputTag className="input-tag">
-      <ul className="input-tag__tags">
+      <InputTagTags className="input-tag__tags">
         {tags.map((tag, i) => (
-          <li key={tag}>
+          <Li key={tag}>
             {tag}
             <Libutton
               type="button"
@@ -61,17 +40,28 @@ const Test = () => {
                 removeTag(i);
               }}
             >
-              <ClearIcon />
+              <IconCover>
+                <ClearIcon />
+              </IconCover>
             </Libutton>
-          </li>
+          </Li>
         ))}
-        <li className="input-tag__tags__input">
-          <input type="text" onKeyDown={InputKeyDown} ref={tagInput} />
-        </li>
-      </ul>
+        <InputLi className="input-tag__tags__input">
+          <Input type="text" onKeyDown={InputKeyDown} ref={tagInput} />
+        </InputLi>
+      </InputTagTags>
     </InputTag>
   );
 };
+
+const IconCover = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & svg {
+    width: 1rem;
+  }
+`;
 
 const InputTag = styled.div`
   background: white;
@@ -82,31 +72,42 @@ const InputTag = styled.div`
   padding: 5px 5px 0;
 `;
 
-// const Input = styled.input`
-//   border: none;
-//   width: 100%;
-// `;
+const Input = styled.input`
+  border: none;
+  width: 100%;
+`;
 
-// const InputTagTags = styled.ul`
-//   display: inline-flex;
-//   flex-wrap: wrap;
-//   margin: 0;
-//   padding: 0;
-//   width: 100%;
-// `;
+const InputTagTags = styled.ul`
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+`;
 
-// const Li = styled.li`
-//   align-items: center;
-//   background: #85a3bf;
-//   border-radius: 2px;
-//   color: white;
-//   display: flex;
-//   font-weight: 300;
-//   list-style: none;
-//   margin-bottom: 5px;
-//   margin-right: 5px;
-//   padding: 5px 10px;
-// `;
+const Li = styled.li`
+  align-items: center;
+  background: #40C7C3;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  font-weight: 300;
+  list-style: none;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 5px 10px;
+`;
+
+const InputLi = styled.li`
+  align-items: center;
+  color: white;
+  display: flex;
+  font-weight: 300;
+  list-style: none;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  border: 0px;
+`;
 
 const Libutton = styled.div`
   display: inline-flex;
@@ -124,6 +125,7 @@ const Libutton = styled.div`
   margin-left: 8px;
   padding: 0;
   width: 15px;
+  outline: 0;
 `;
 
 const Liinput = styled.input`

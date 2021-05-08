@@ -17,7 +17,7 @@ const Video = () => {
   const [completed, setCompleted] = useState(0);
 
   const params = {
-    src: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+    src: "http://d2vii12zy6qnjo.cloudfront.net/test/test.m3u8",
   };
 
   useEffect(() => {
