@@ -33,7 +33,7 @@ const Category = () => {
 
   return (
     <React.Fragment>
-      <Category1 id="post" onClick={GetClick}>
+      <Category1 id="trils" onClick={GetClick}>
         Trils
       </Category1>
       <Category1 id="trilog" onClick={GetClick}>

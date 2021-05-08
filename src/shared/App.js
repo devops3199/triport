@@ -19,7 +19,7 @@ import Login from "pages/Login";
 import SignUp from "pages/SignUp";
 import Footer from "components/Footer";
 import Profile from "pages/Profile";
-import ReelsTest from "pages/ReelsTest";
+import Trils from "pages/Trils";
 
 const App = (props) => {
   return (
@@ -36,7 +36,7 @@ const App = (props) => {
             <Route path="/trilog/write" exact component={BoardWrite} />
             <Route path="/trilog/:id" exact component={BoardDetail} />
             <Route path="/profile" exact component={Profile} />
-            <Route path="/test" exact component={ReelsTest} />
+            <Route path="/trils" exact component={Trils} />
             <Route component={NotFound} />
           </Switch>
         </ConnectedRouter>

@@ -21,6 +21,7 @@ const Wrap = styled.footer`
   width: 100%;
   background: #89acff;
   color: white;
+  z-index:99;
 `;
 
 const Logo = styled.div`
