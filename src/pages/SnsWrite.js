@@ -66,6 +66,7 @@ const Tag = styled.div`
 `;
 
 const Input = styled.input`
+  outline: none;
   width: 35rem;
   height: 2.5rem;
   border: 1px solid #2b61e1;
@@ -82,6 +83,7 @@ const ButtonWrap = styled.div`
   width: 50rem;
   margin: 0px auto;
   margin-top: 5rem;
+  margin-bottom: 5rem;
   display: flex;
   justify-content: space-between;
 `;
