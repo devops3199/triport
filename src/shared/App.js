@@ -22,6 +22,7 @@ import Footer from "components/Footer";
 import Profile from "pages/Profile";
 import Trils from "pages/Trils";
 import SnsWrite from "pages/SnsWrite";
+import Test from "pages/Test"
 
 const App = (props) => {
   return (
@@ -40,6 +41,7 @@ const App = (props) => {
             <Route path="/trilog/:id" exact component={BoardDetail} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/trils" exact component={Trils} />
+            <Route path="/test" exact component={Test} />
             <Route component={NotFound} />
           </Switch>
         </ConnectedRouter>

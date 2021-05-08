@@ -2,7 +2,13 @@ import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
-import { LikeFill } from "media/svg/Svg";
+import {
+  HeartEmpty,
+  HeartFill,
+  BookmarkEmpty,
+  BookmarkFill,
+  Cmt,
+} from "media/svg/Svg";
 
 const Video = () => {
   const hls = new Hls();
@@ -11,7 +17,7 @@ const Video = () => {
   const [completed, setCompleted] = useState(0);
 
   const params = {
-    src: "http://d2vii12zy6qnjo.cloudfront.net/test/test.m3u8",
+    src: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
   };
 
   useEffect(() => {
@@ -20,7 +26,7 @@ const Video = () => {
     }
     if (Hls.isSupported()) {
       hls.attachMedia(player.current);
-      hls.config.debug = true;
+      hls.config.debug = false;
 
       hls.on(Hls.Events.MEDIA_ATTACHED, (event, data) => {
         hls.loadSource(params.src);
@@ -61,7 +67,7 @@ const Video = () => {
   };
 
   return (
-    <VideoCards onMouseOver={videoplay} onMouseLeave={videopause} >
+    <VideoCards onMouseOver={videoplay} onMouseLeave={videopause}>
       <Profile>
         <ProfileImg />
         <ProfileId>Triport</ProfileId>
@@ -76,8 +82,21 @@ const Video = () => {
           );
         }}
       />
-      <VideoBg/>
+      <VideoBg />
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
+      <BottomCov>
+        <LikeComment>
+          <LikeCov>
+            <HeartFill />
+          </LikeCov>
+          <CommentCov>
+            <Cmt />
+          </CommentCov>
+        </LikeComment>
+        <BookmarkCov>
+          <BookmarkEmpty />
+        </BookmarkCov>
+      </BottomCov>
     </VideoCards>
   );
 };
@@ -102,6 +121,7 @@ const VideoBg = styled.div`
   border-radius: 20px;
   background: beige;
   margin-top: -25rem;
+  z-index: -99;
 `;
 
 const Profile = styled.div`
@@ -133,14 +153,48 @@ const ProfileId = styled.div`
   width: 100px;
 `;
 
-const Likes = styled.div`
+const LikeCov = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 10;
   & svg {
-    width: 3rem;
+    width: 1.5rem;
   }
+`;
+
+const CommentCov = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  margin-left: 0.5rem;
+  & svg {
+    width: 1.5rem;
+  }
+`;
+
+const LikeComment = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const BookmarkCov = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  margin-left: 0.5rem;
+  & svg {
+    width: 1rem;
+  }
+`;
+
+const BottomCov = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: -2.5rem 1rem auto 1rem;
 `;
 
 export default Video;
