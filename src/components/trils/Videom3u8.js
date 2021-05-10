@@ -10,10 +10,11 @@ import {
   Cmt,
 } from "media/svg/Svg";
 
-const Videom3u8 = () => {
+const Videom3u8 = (props) => {
+  const { mr } = props;
   const hls = new Hls();
   const player = useRef(null);
-  const [ismuted, setMute] = useState(false);
+  const [ismuted, setMute] = useState(true);
   const [completed, setCompleted] = useState(0);
 
   const params = {
@@ -76,6 +77,7 @@ const Videom3u8 = () => {
 
   return (
     <VideoCards
+      margin={mr}
       onMouseOver={videoplay}
       onMouseLeave={videopause}
       onClick={mute}
@@ -108,6 +110,8 @@ const Videom3u8 = () => {
 const VideoCards = styled.div`
   display: flex;
   flex-direction: column;
+  ${(props) => (props.margin ? "margin-right:2.5rem" : "")};
+  margin-bottom: 3rem;
 `;
 
 const VideoPlay = styled.video`

@@ -9,17 +9,17 @@ import {
   Cmt,
 } from "media/svg/Svg";
 
-const Videom3u8 = () => {
+const Videom3u8 = (props) => {
+  const { mr } = props;
   const player = useRef(null);
-  const [ismuted, setMute] = useState(false);
+  const [ismuted, setMute] = useState(true);
   const [completed, setCompleted] = useState(0);
 
   const params = {
     src: "http://d2vii12zy6qnjo.cloudfront.net/testmp4/testmp4.mp4",
   };
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   const videoplay = () => {
     player.current.play();
@@ -29,8 +29,21 @@ const Videom3u8 = () => {
     player.current.pause();
   };
 
+  const mute = () => {
+    if (ismuted) {
+      setMute(false);
+    } else {
+      setMute(true);
+    }
+  };
+
   return (
-    <VideoCards onMouseOver={videoplay} onMouseLeave={videopause}>
+    <VideoCards
+      margin={mr}
+      onMouseOver={videoplay}
+      onMouseLeave={videopause}
+      onClick={mute}
+    >
       <Profile>
         <ProfileImg />
         <ProfileId>Triport</ProfileId>
@@ -38,7 +51,7 @@ const Videom3u8 = () => {
       <VideoPlay
         ref={player}
         src={params.src}
-        muted
+        muted={ismuted}
         loop
         onTimeUpdate={() => {
           setCompleted(
@@ -49,9 +62,9 @@ const Videom3u8 = () => {
       <VideoBg />
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
       <BottomCov>
-          <LikeCov>
-            <HeartFill />
-          </LikeCov>
+        <LikeCov>
+          <HeartFill />
+        </LikeCov>
       </BottomCov>
     </VideoCards>
   );
@@ -60,6 +73,8 @@ const Videom3u8 = () => {
 const VideoCards = styled.div`
   display: flex;
   flex-direction: column;
+  ${(props) => (props.margin ? "margin-right:2.5rem" : "")};
+  margin-bottom: 3rem;
 `;
 
 const VideoPlay = styled.video`

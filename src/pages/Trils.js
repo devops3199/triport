@@ -7,7 +7,8 @@ import styled from "styled-components";
 import { all_list } from "../redux/Mock/trils_all_list";
 
 const ReelsTest = () => {
-  console.log(all_list);
+  const post_list = all_list.results;
+
   return (
     <CenterDiv>
       <FloatingButton
@@ -17,9 +18,39 @@ const ReelsTest = () => {
       >
         <Plus />
       </FloatingButton>
-      <Videom3u8 />
-      <Videomp4 />
-      <Videom3u8 />
+      <PostLine>
+        {post_list.map((p, idx) => {
+          if ((idx + 1) % 3 !== 0) {
+            if (p.information.videoType === "m3u8") {
+              return (
+                <>
+                  <Videom3u8 {...p} mr />
+                </>
+              );
+            } else {
+              return (
+                <>
+                  <Videomp4 {...p} mr />
+                </>
+              );
+            }
+          } else {
+            if (p.information.videoType === "m3u8") {
+              return (
+                <>
+                  <Videom3u8 {...p} />
+                </>
+              );
+            } else {
+              return (
+                <>
+                  <Videomp4 {...p} />
+                </>
+              );
+            }
+          }
+        })}
+      </PostLine>
     </CenterDiv>
   );
 };
@@ -40,12 +71,19 @@ const FloatingButton = styled.div`
   height: 3.125rem;
   cursor: pointer;
   z-index: 9999;
-
   & svg {
     width: 100%;
     height: 100%;
     fill: #2b61e1;
   }
+`;
+
+const PostLine = styled.div`
+  display: flex;
+  width: 1280px;
+  margin: 0px auto;
+  margin-bottom: 4.3rem;
+  flex-wrap: wrap;
 `;
 
 export default ReelsTest;
