@@ -1,16 +1,34 @@
 import Videom3u8 from "components/trils/Videom3u8";
 import Videomp4 from "components/trils/Videomp4";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { history } from "redux/configureStore";
 import { Plus } from "media/svg/Svg";
 import styled from "styled-components";
+import TrilsDetail from "../components/trils/TrilsDetail";
 import { all_list } from "../redux/Mock/trils_all_list";
+import { TrilsActions } from "redux/modules/trils";
+import { useDispatch, useSelector } from "react-redux";
 
 const ReelsTest = () => {
-  const post_list = all_list.results;
+  const dispatch = useDispatch();
+  const post_list = useSelector((state) => state.trils.data);
+  const [modal, setModal] = useState(false);
+
+  const openModal = () => {
+    setModal(true);
+  };
+
+  const closeModal = () => {
+    setModal(false);
+  };
+
+  useEffect(() => {
+    dispatch(TrilsActions.getPost());
+  },[]);
 
   return (
     <CenterDiv>
+      {modal ? <TrilsDetail close={closeModal} /> : null}
       <FloatingButton
         onClick={() => {
           history.push("/trils/write");
@@ -65,7 +83,7 @@ const CenterDiv = styled.div`
 
 const FloatingButton = styled.div`
   position: fixed;
-  bottom: 5%;
+  bottom: 8%;
   right: 3%;
   width: 3.125rem;
   height: 3.125rem;

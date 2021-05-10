@@ -18,7 +18,7 @@ const Videom3u8 = (props) => {
   const [completed, setCompleted] = useState(0);
 
   const params = {
-    src: "http://d2vii12zy6qnjo.cloudfront.net/test/test.m3u8",
+    src: props.information.videoUrl,
   };
 
   useEffect(() => {
@@ -83,8 +83,8 @@ const Videom3u8 = (props) => {
       onClick={mute}
     >
       <Profile>
-        <ProfileImg />
-        <ProfileId>Triport</ProfileId>
+        <ProfileImg src={props.author.profileImgUrl} />
+        <ProfileId>{props.author.nickname}</ProfileId>
       </Profile>
       <VideoPlay
         ref={player}
@@ -103,9 +103,44 @@ const Videom3u8 = (props) => {
           <HeartFill />
         </LikeCov>
       </BottomCov>
+      <PostBottom>
+          <PostLikeCnt>좋아요 +{props.information.likeNum}</PostLikeCnt>
+        <PostUser>
+          <PostUserID>{props.author.nickname}</PostUserID>
+          <PostUserComment>{props.information.hashtag}</PostUserComment>
+        </PostUser>
+      </PostBottom>
     </VideoCards>
   );
 };
+
+const PostBottom = styled.div`
+  margin-top: 1.5rem;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const PostLikeCnt = styled.div`
+  font-family: "AppleSDGothicNeoR";
+  display: flex;
+`;
+
+const PostUser = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const PostUserID = styled.div`
+  font-family: "AppleSDGothicNeoB";
+  display: flex;
+`;
+
+const PostUserComment = styled.div`
+  font-family: "AppleSDGothicNeoR";
+  display: flex;
+  margin-left: 18px;
+`;
 
 const VideoCards = styled.div`
   display: flex;
@@ -144,7 +179,7 @@ const ProfileImg = styled.div`
   height: var(--size);
   border-radius: var(--size);
   background-position: center;
-  background-image: url("https://cdn.discordapp.com/attachments/578800402036949002/812000337707663401/0Yt.png");
+  background-image: url(${(props) => props.src});
   background-size: cover;
   margin-left: 16px;
   display: flex;

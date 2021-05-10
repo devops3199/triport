@@ -8,9 +8,12 @@ import {
   BookmarkFill,
   Cmt,
 } from "media/svg/Svg";
+import { useDispatch } from "react-redux";
 
 const Videom3u8 = (props) => {
+  console.log(props)
   const { mr } = props;
+  const dispatch = useDispatch();
   const player = useRef(null);
   const [ismuted, setMute] = useState(true);
   const [completed, setCompleted] = useState(0);
@@ -37,12 +40,16 @@ const Videom3u8 = (props) => {
     }
   };
 
+  const openModal = () => {
+    dispatch()
+  }
+
   return (
     <VideoCards
       margin={mr}
       onMouseOver={videoplay}
       onMouseLeave={videopause}
-      onClick={mute}
+      onClick={openModal}
     >
       <Profile>
         <ProfileImg />

@@ -1,47 +1,70 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const access_token = localStorage.getItem("access_token");
 const refresh_token = localStorage.getItem("refresh_token");
 
 const trilseSlice = createSlice({
   name: "trils",
   initialState: {
     data: [],
+    modal: false,
   },
   reducers: {
-    TRILS: (state, action) => {
+    GET_POST: (state, action) => {
+      console.log(action.payload);
       state.data = action.payload;
     },
   },
 });
 
-const trils = () => {
+const writepost = (video, tags) => {
   return function (dispatch, getState, { history }) {
-    console.log(access_token);
-    const URL =
-      "http://13.209.8.146/api/all/posts?page=${pageNum}&filter={filterName}&keyword={keyword}";
+    const access_token = localStorage.getItem("access_token");
+    let formData = new FormData();
+    formData.append("file", video);
+    tags.map((p, idx) => formData.append("hashtag", p));
+    const URL = "http://13.209.8.146/api/posts";
     const API = {
-      method: "GET",
+      method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Token": `${access_token}`,
+        Authorization: `${access_token}`,
       },
-      // body: JSON.stringify({
-      //   email: email,
-      //   password: pwd,
-      //   passwordCheck: pwdcheck,
-      //   nickname: nickname,
-      // }),
+      body: formData,
     };
-    fetch(URL, API).then().catch();
+    fetch(URL, API)
+      .then((result) => {
+        return result.json();
+      })
+      .then((result) => console.log(result))
+      .catch((err) => console.log(err));
   };
 };
 
-export const { TRILS } = trilseSlice.actions;
+const getPost = (token) => {
+  return function (dispatch, getState, { history }) {
+    const URL = `http://13.209.8.146/api/all/posts?page=1&filter=modifiedAt&keyword=`;
+    const API = {
+      method: "GET",
+      // headers: {
+      //   Authorization: `${access_token}`,
+      // },
+    };
+    fetch(URL, API)
+      .then((result) => {
+        return result.json();
+      })
+      .then((result) => {
+        console.log(result);
+        dispatch(GET_POST(result.results));
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+export const { GET_POST } = trilseSlice.actions;
 
 export const TrilsActions = {
-  trils,
+  writepost,
+  getPost,
 };
 
 export default trilseSlice.reducer;

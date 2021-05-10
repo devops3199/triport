@@ -7,6 +7,7 @@ import { connectRouter } from "connected-react-router";
 import Board from "redux/modules/Board";
 import Sidebar from "redux/modules/sidebar";
 import ProfileImg from "redux/modules/profileimg";
+import Thrils from "redux/modules/trils";
 
 export const history = createBrowserHistory();
 
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   board: Board,
   sidebar: Sidebar,
   profileimg: ProfileImg,
+  trils: Thrils,
   router: connectRouter(history),
 });
 
