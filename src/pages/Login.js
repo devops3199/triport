@@ -5,12 +5,21 @@ import loginlogo from "media/image/login_logo.png";
 import kakaoicon from "media/svg/kakao_symbol.svg";
 
 import { emailCheck, pwdCheck } from "../shared/common";
+import { useDispatch } from "react-redux";
+
+import { actionCreators as userAcitons } from "../redux/modules/user";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = React.useState("");
   const [pwd, setPwd] = React.useState("");
+
   const [line1, setLine1] = useState("1px solid #707070");
   const [line2, setLine2] = useState("1px solid #707070");
+
+  const login = () => {
+    dispatch(userAcitons.loginDB(email, pwd));
+  };
 
   useEffect(() => {
     if (!email) {
@@ -56,7 +65,7 @@ const Login = () => {
             setPwd(e.target.value);
           }}
         ></PwdInput>
-        <Button1>LOGIN</Button1>
+        <Button1 onClick={login}>LOGIN</Button1>
         <Button2>
           <Kakao />
           카카오톡으로 로그인
@@ -141,6 +150,7 @@ const Button1 = styled.button`
   width: 24.5rem;
   height: 3rem;
   box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #2b61e1;
   border-radius: 5px;
   margin-bottom: 2rem;
   background-color: #2b61e1;
@@ -156,6 +166,7 @@ const Button2 = styled.button`
   align-items: center;
   justify-content: center;
   box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #ffe600;
   border-radius: 5px;
   margin-bottom: 2rem;
   background-color: #ffe600;
@@ -178,7 +189,7 @@ const Text = styled.a`
   text-decoration: none;
   font-family: "AppleSDGothicNeoR";
   color: #5a5a5a;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   display: flex;
   justify-content: center;
   margin-bottom: 1rem;

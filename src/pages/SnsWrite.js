@@ -18,7 +18,7 @@ const SnsWrite = () => {
 
   const InputKeyDown = (e) => {
     const val = e.target.value;
-    if ((e.key === "Enter" || e.key === "," || e.key ===" ") && val) {
+    if ((e.key === "Enter" || e.key === "," || e.key === " ") && val) {
       if (tags.length === 3) {
         alert("태그는 최대 3개까지 가능합니다.");
         return;
