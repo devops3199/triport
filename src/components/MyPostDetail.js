@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Blike from "media/svg/좋아요B.svg";
 
-const MyPostDerail = (props) => {
+const MyPostDetail = (props) => {
   return (
     <React.Fragment>
       <Component onClick={props.close} />
@@ -24,7 +24,7 @@ const MyPostDerail = (props) => {
   );
 };
 
-export default MyPostDerail;
+export default MyPostDetail;
 
 const Component = styled.div`
   position: fixed;
@@ -47,8 +47,6 @@ const Wrap = styled.div`
   height: 37rem;
   display: flex;
   flex-direction: column;
-  /* justify-content: center;
-  align-items: center; */
   margin: 0px auto;
   box-shadow: 0px 3px 6px #00000029;
   border: 1px solid #2b61e1;

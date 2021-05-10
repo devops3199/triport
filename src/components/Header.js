@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { history } from "../redux/configureStore";
@@ -6,9 +6,25 @@ import { history } from "../redux/configureStore";
 import logo from "media/svg/triport_logo.svg";
 
 import Category from "components/Category";
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as userActions } from "redux/modules/user";
 
 const Header = (props) => {
-  if (props.ok === true) {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  console.log(user);
+
+  React.useEffect(() => {
+    dispatch(userActions.loginCheckDB());
+  }, []);
+
+  const is_logout = () => {
+    dispatch(userActions.logout());
+    window.alert("로그아웃 되었습니다!");
+    history.replace("/");
+  };
+
+  if (user.is_login === true) {
     return (
       <React.Fragment>
         <div style={{ position: "sticky", top: "0", zIndex: "99" }}>
@@ -23,7 +39,7 @@ const Header = (props) => {
             </LeftWrap>
             <div style={{ width: "30rem" }}></div>
             <RightWrap>
-              <Nickname>{props.nickname}</Nickname>
+              <Nickname>{user.nickname}</Nickname>
               <MyOrLogin
                 onClick={() => {
                   history.push("/profile");
@@ -31,7 +47,7 @@ const Header = (props) => {
               >
                 마이페이지
               </MyOrLogin>
-              <LogoutOrSignUp>로그아웃</LogoutOrSignUp>
+              <LogoutOrSignUp onClick={is_logout}>로그아웃</LogoutOrSignUp>
             </RightWrap>
           </Wrap>
           <Line />

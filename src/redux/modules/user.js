@@ -3,30 +3,23 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    email: "",
-    password: "",
+    id: null,
+    nickname: null,
     is_login: false,
   },
   reducers: {
     setUser: (state, action) => {
-      console.log("123");
-      state.email = action.payload.uid;
-      console.log(action.payload);
+      state.id = action.payload.id;
+      state.nickname = action.payload.nickname;
       state.is_login = true;
+    },
+    logOut: (state, action) => {
+      state.id = null;
+      state.nickname = null;
+      state.is_login = false;
     },
   },
 });
-
-// 로그인 여부 체크
-const loginCheckDB = () => {
-  return function (dispatch, getState, { history }) {
-    const one_user = {
-      email: "",
-      password: "",
-    };
-    dispatch(setUser(one_user));
-  };
-};
 
 // 회원가입
 const signupDB = (email, pwd, pwdcheck, nickname) => {
@@ -47,6 +40,7 @@ const signupDB = (email, pwd, pwdcheck, nickname) => {
     })
       .then(() => {
         console.log("회원가입 성공");
+        window.alert("회원가입에 성공하였습니다!");
         history.push("/login");
       })
       .catch((err) => {
@@ -58,6 +52,7 @@ const signupDB = (email, pwd, pwdcheck, nickname) => {
   };
 };
 
+// 로그인
 const loginDB = (email, pwd) => {
   return function (dispatch, getState, { history }) {
     const API = "http://13.209.8.146/auth/login";
@@ -81,7 +76,7 @@ const loginDB = (email, pwd) => {
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("refresh_token", refresh_token);
 
-        return result.json();
+        return result.json(); // fetch에서는 서버가 주는 json데이터를 사용하기 위해서
       })
       .then((result) => {
         console.log(result);
@@ -92,7 +87,7 @@ const loginDB = (email, pwd) => {
           localStorage.setItem("userInfo", JSON.stringify(result)); // JSON.stringfy 가 body에 담아오는 값
           dispatch(
             setUser({
-              email: result.id,
+              id: result.id,
               nickname: result.nickname,
             })
           );
@@ -106,13 +101,41 @@ const loginDB = (email, pwd) => {
   };
 };
 
-const actionCreators = {
+// 로그인 여부 체크
+const loginCheckDB = () => {
+  return function (dispatch, getState, { history }) {
+    const access_token = localStorage.getItem("access_token");
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    console.log(userInfo);
+    if (!access_token || !userInfo) {
+      // 로컬스토리지에 토큰 또는 유저정보가 없으면
+      return false;
+    }
+    dispatch(
+      setUser({
+        id: userInfo.id,
+        nickname: userInfo.nickname,
+      })
+    );
+  };
+};
+
+// 로그아웃
+const logout = () => {
+  return function (dispatch, getState, { history }) {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("userInfo");
+    dispatch(logOut());
+    history.replace("/");
+  };
+};
+
+export const actionCreators = {
   loginCheckDB,
   signupDB,
   loginDB,
+  logout,
 };
 
-export const { setUser } = userSlice.actions;
+export const { setUser, logOut } = userSlice.actions;
 export default userSlice.reducer;
-
-export { actionCreators };
