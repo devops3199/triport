@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { history } from "redux/configureStore";
 import { Plus } from "media/svg/Svg";
 import { BoardCard } from "components/components";
+import InfinityScroll from "shared/InfinityScroll";
 
 const BoardMain = (props) => {
   const tabToggle = () => {
@@ -19,7 +20,17 @@ const BoardMain = (props) => {
       like.style.color = "#fff";
       newest.style.color = "#89ACFF";
     }
+
+    console.log('apply filter');
   };
+
+  const scroll = () => {
+    console.log('fetch api scroll');
+  };
+
+  React.useEffect(() => {
+    console.log('fetch api');
+  }, []);
 
   return (
     <BoardMainContainer>
@@ -45,35 +56,40 @@ const BoardMain = (props) => {
         </Filter>
       </FilterContainer>
       <CardContainer>
-        <BoardCard margin="0 40px 0 0" />
-        <BoardCard margin="0 40px 0 0" />
-        <BoardCard margin="0 40px 0 0" />
-        <BoardCard margin="0 40px 0 0" />
-        <BoardCard />
+        <InfinityScroll
+          callNext={scroll}
+          is_next={false}
+        >
+          <BoardCard margin="0 40px 0 0" />
+          <BoardCard margin="0 40px 0 0" />
+          <BoardCard margin="0 40px 0 0" />
+          <BoardCard margin="0 40px 0 0" />
+          <BoardCard />
 
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard />
 
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard />
 
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard />
 
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard margin="50px 40px 0 0" />
-        <BoardCard />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard margin="50px 40px 0 0" />
+          <BoardCard />
+        </InfinityScroll>
       </CardContainer>
     </BoardMainContainer>
   );
@@ -88,11 +104,12 @@ const BoardMainContainer = styled.div`
 const SearchContainer = styled.div`
   width: 100%;
   display: flex;
+  justify-content: center;
   margin-bottom: 50px;
 `;
 
 const Search = styled.input`
-  width: 100%;
+  width: 40.625rem;
   border: 1px solid rgb(43, 97, 225, 0.6);
   border-radius: 5px;
   outline: none;
@@ -163,6 +180,7 @@ const Filter = styled.div`
 
 const CardContainer = styled.div`
   width: 100%;
+  margin: 0 0 4.2rem 0;
 `;
 
 const FloatingButton = styled.div`

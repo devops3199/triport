@@ -4,6 +4,11 @@ import { BoardView, BoardComment, BoardDetailMap } from "components/components";
 import { LikeFill, LikeEmpty } from "media/svg/Svg";
 
 const BoardDetail = (props) => {
+
+    React.useEffect(() => {
+        console.log("detail api");
+    }, []);
+
     return(
         <DetailContainer>
             <UserContainer>
@@ -20,23 +25,18 @@ const BoardDetail = (props) => {
             <Separator/>
             <LikeCommentContainer>
                 <Infomation>
-                    <LikeEmpty/>
+                    <LikeFill/>
                     <div>
-                        <span>좋아요</span>
-                        <span>0</span>
+                        <span>좋아요+</span>
+                        <LikeCount>0</LikeCount>
                     </div>
                     <div>
-                        <span>댓글</span>
-                        <span>0</span>
+                        <span>댓글+</span>
+                        <CommentCount>0</CommentCount>
                     </div>
                 </Infomation>
                 <CommentInput>
-                    <UserContainer>
-                        <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-and-shapes-3/177800/130-512.png" />
-                        <span>홍길동</span>
-                    </UserContainer>
                     <input type="text" placeholder="댓글을 입력하세요." />
-                    <button>작성</button>
                 </CommentInput>
                 <Separator />
                 <BoardComment />
@@ -46,8 +46,8 @@ const BoardDetail = (props) => {
 };
 
 const Separator = styled.hr`
-    color: #2b61e1;
-    opacity: .1;
+    color: #89ACFF;
+    opacity: .5;
     margin: .75rem 0;
 `;
 
@@ -61,12 +61,21 @@ const UserContainer = styled.div`
     display: flex;
     align-items: center;
     width: 10%;
+    font-family: AppleSDGothicNeoB;
 
     & img {
-        width: 1.643rem;
+        width: 2.375rem;
         border-radius: 50%;
         margin-right: .5rem;
     }
+`;
+
+const LikeCount = styled.span`
+    margin-right: .5rem;
+`;
+
+const CommentCount = styled.span`
+
 `;
 
 const ToastViewContainer = styled.div`
@@ -84,10 +93,11 @@ const LikeCommentContainer = styled.div`
 const Infomation = styled.div`
     display: flex;
     align-items: center;
+    font-family: AppleSDGothicNeoR;
 
     & svg {
         cursor: pointer;
-        width: 1.643rem;
+        width: 3.2rem;
     }
 `;
 
@@ -100,16 +110,12 @@ const CommentInput = styled.div`
     & input {
         outline: none;
         border: 0;
-        border-bottom: 1px solid #ededed;
-        padding: .25rem .5rem;
         box-sizing: border-box;
-        width: 80%;
-    }
-
-    & button {
-        border: 0;
-        padding: .25rem .5rem;
-        width: 10%;
+        width: 100%;
+        height: 40px;
+        border: 1px solid #707070;
+        border-radius: 5px;
+        padding: 0 1rem;
     }
 `;
 

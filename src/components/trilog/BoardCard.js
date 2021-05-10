@@ -67,15 +67,15 @@ const Profile = styled.div`
     display: flex;
     align-items: center;
     & div {
-        width: 1.563rem;
-        height: 1.563rem;
+        width: 2.375rem;
+        height: 2.375rem;
         background: url('https://microbiology.ucr.edu/sites/g/files/rcwecm2866/files/styles/form_preview/public/blank-profile-pic.png?itok=xMM7pLfb') no-repeat center;
         background-size: cover;
         border-radius: 50%;
     }
     & span {
         margin-left: 5px;
-        font-size: 12px;
+        font-size: 14px;
         color: #5A5A5A;
         font-weight: 600;
     }
@@ -87,7 +87,7 @@ const Likes = styled.div`
     cursor: pointer;
     z-index: 9999;
     & svg {
-        width: 1.643rem;
+        width: 2.375rem;
     }
 `;
 

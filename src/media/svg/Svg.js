@@ -64,5 +64,16 @@ const Plus = () => {
         </svg>
     );
 };
+
+const CommentLike = () => {
+    return(
+        <svg id="레이어_1" data-name="레이어 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.9 26.32">
+            <g id="그룹_152" data-name="그룹 152">
+                <path id="패스_43" data-name="패스 43" className="cls-1" style={{"fill":"#2b61e1"}} d="M30.74,11.89A5,5,0,0,0,26,8.29H19.4V4.09A4.08,4.08,0,0,0,15.34,0H13.57a1.1,1.1,0,0,0-1.12,1.08v4a8.32,8.32,0,0,1-2,5.24l-.6.6v-.82A1.09,1.09,0,0,0,8.77,9H1.12A1.1,1.1,0,0,0,0,10.08V25.2a1.1,1.1,0,0,0,1.08,1.12H8.74a1.1,1.1,0,0,0,1.11-1.09v-.36H25c2.34,0,3.86-1.12,4.16-3l1.6-8A3.86,3.86,0,0,0,30.74,11.89ZM7.62,24.09H2.23V11.23H7.62Zm21-10.63-1.6,8c0,.3-.19,1.15-2,1.15H9.85V14.09L12,11.86l.08-.08a10.34,10.34,0,0,0,2.56-6.69V2.23h.63a1.84,1.84,0,0,1,1.86,1.82V9.41a1.1,1.1,0,0,0,1.09,1.11H26a2.7,2.7,0,0,1,2.6,2,1.55,1.55,0,0,1,0,.93Z"/>
+                <rect id="사각형_167" data-name="사각형 167" className="cls-1" style={{"fill":"#2b61e1"}} x="1.5" y="10" width="7" height="15"/>
+            </g>
+        </svg>
+    );
+};
  
-export { Logo, LogoWhite, LikeFill, LikeEmpty, Comment, Plus };
+export { Logo, LogoWhite, LikeFill, LikeEmpty, Comment, Plus, CommentLike };

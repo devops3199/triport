@@ -9,6 +9,7 @@ import { actionCreators as boardActions } from 'redux/modules/Board';
 import { useDispatch } from 'react-redux';
 import { history } from "redux/configureStore";
 import _ from "lodash";
+import { v4 as uuidv4 } from 'uuid';
 
 
 const BoardWrite = (props) => {
@@ -29,42 +30,70 @@ const BoardWrite = (props) => {
             alert('제목을 입력하세요.');
             return;
         }
-        console.log(address);
-        console.log(data.current.getInstance().getMarkdown());
-        // setResult(data.current.getInstance().getMarkdown());
+        
+        const content = data.current.getInstance().getMarkdown();
+
+        if(content === "") {
+            alert('내용을 입력하세요.');
+            return;
+        }
+
         // dispatch(boardActions.setDetail(data.current.getInstance().getMarkdown()));
         // history.push("/trilog/1");
+        const obj = {
+            title : title.current.value,
+            address : address,
+            description : data.current.getInstance().getMarkdown(),
+            imageUrlList : [],
+            tempId : "",
+        };
     };
 
-    const uploadImage = (blob) => {
-        let formData = new FormData();
-        formData.append('image', blob);
-        console.log(formData.get('image'));
-        // mehtod : POST
-        // data : formData
-        // headers : {'Content-type':'multipart/form-data'}
+    const uploadImage = async (blob) => {
+        const access_token = localStorage.getItem("token");
+        const uuid = uuidv4();
+
+        const id = 12;
+        const edit_api = `http://13.209.8.146/api/boards/image/${id}`;
+
+        const formData = new FormData();
+        formData.append('imageFile', blob);
+        formData.append('tempId', uuid); // 수정일때는 필요없음
+
+        const api = "http://13.209.8.146/api/boards/image";
+        const url = await fetch(api, {
+            method : 'POST',
+            headers : {
+                'Access-Token': `${access_token}`,
+            },
+            body : formData
+        });
+
+        console.log(url.result.imageFilePath);
+
+        return url.result.imageFilePath;
     };
 
     return(
         <WriteContainer>
-            <Title>
-                <h3>제목</h3>
+            <Title margin="0 0 1.25rem 0">
+                <span>제목</span>
             </Title>
             <InputContainer>
                 <TitleInput type="text" placeholder="제목을 입력해주세요" ref={title} />
             </InputContainer>
-            <Title>
-                <h3>위치</h3>
+            <Title margin="1.25rem 0 1.25rem 0">
+                <span>위치</span>
             </Title>
-            <InputContainer>
-                <span>{address}</span>
+            <InputContainer margin="0 0 1.5rem 0">
+                <span>여행주소 : </span><Address>{address}</Address>
             </InputContainer>
             <MapContainer>
                 <MapInput type="text" placeholder="예) 장소/가게 이름 - 남산, 서울역 or 주소 - 서울시 관악구 관악로 145" onChange={(e) => { handleMap(e.target.value) }} />
                 <BoardWriteMap keyword={keyword} setAddress={setAddress} drag={true} />
             </MapContainer>
-            <Title>
-                <h3>내용</h3>
+            <Title margin="1.25rem 0 1.25rem 0">
+                <span>내용</span>
             </Title>
             <InputContainer>
                 <Editor
@@ -72,10 +101,8 @@ const BoardWrite = (props) => {
                     height="600px"
                     initialEditType="markdown"
                     hooks={{
-                        addImageBlobHook: async (blob, callback) => {
-                            console.log(blob);
-                            uploadImage(blob);
-                            const upload = "https://miro.medium.com/max/2400/1*I1L27Pep2spzSjbYr4w5nQ.png";
+                        addImageBlobHook: (blob, callback) => {
+                            const upload = uploadImage(blob);
                             callback(upload, "alt text");
                             return false;
                         }
@@ -84,8 +111,10 @@ const BoardWrite = (props) => {
                 />
             </InputContainer>
             <ButtonContainer>
-                <input type="button" value="작성완료" onClick={sendData} />
-                <input type="button" value="취소" />
+                <ButtonComplete type="button" value="작성완료" onClick={sendData} />
+                <ButtonCancel type="button" value="취소" onClick={() => {
+                    history.goBack();
+                }} />
             </ButtonContainer>
         </WriteContainer>
     );
@@ -99,10 +128,18 @@ const WriteContainer = styled.div`
 
 const Title = styled.div`
     width: 100%;
+    font-family: TTTogether;
+    font-size: 15px;
+    ${(props) => (props.margin ? `margin: ${props.margin};` : '')};
 `;
 
 const InputContainer = styled.div`
-    width: 100%;   
+    width: 100%;
+    ${(props) => (props.margin ? `margin: ${props.margin};` : '')};
+`;
+
+const Address = styled.span`
+    font-family: AppleSDGothicNeoB;
 `;
 
 const MapContainer = styled.div`
@@ -115,7 +152,7 @@ const MapInput = styled.input`
     z-index: 2;
     top: 10px;
     left: 10px;
-    width: 500px;
+    width: 30.938rem;
     border: 1px solid rgb(43, 97, 225, .6);
     border-radius: 5px;
     outline: none;
@@ -124,7 +161,7 @@ const MapInput = styled.input`
 `;
 
 const TitleInput = styled.input`
-    width: 100%;
+    width: 31.563rem;
     border: 1px solid rgb(43, 97, 225, .6);
     border-radius: 5px;
     outline: none;
@@ -136,19 +173,36 @@ const ButtonContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 1.25rem;
+    margin: 3.563rem 0 4.2rem 0;
+`;
 
-    & input {
-        cursor: pointer;
-        background-color: rgb(43, 97, 225);
-        border: 1px solid rgb(43, 97, 225);
-        border-radius: 5px;
-        box-sizing: border-box;
-        outline: none;
-        color: #fff;
-        padding: .75rem 2.25rem;
-        margin: 0 1rem;
-    }
+const ButtonComplete = styled.input`
+    cursor: pointer;
+    background: #2B61E1 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border: 1px solid #2B61E1;
+    border-radius: 5px;
+    width: 20.625rem;
+    height: 3.063rem;
+    color: #fff;
+    outline: none;
+    margin-right: 6.875rem;
+    font-family: TTTogether;
+    font-size: 15px;
+`;
+
+const ButtonCancel = styled.input`
+    cursor: pointer;
+    background: #707070 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border: 1px solid #707070;
+    border-radius: 5px;
+    width: 20.625rem;
+    height: 3.063rem;
+    color: #fff;
+    outline: none;
+    font-family: TTTogether;
+    font-size: 15px;
 `;
 
 export default BoardWrite;
