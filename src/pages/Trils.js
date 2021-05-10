@@ -1,4 +1,5 @@
-import Video from "components/trils/Video";
+import Videom3u8 from "components/trils/Videom3u8";
+import Videomp4 from "components/trils/Videomp4";
 import React from "react";
 import { history } from "redux/configureStore";
 import { Plus } from "media/svg/Svg";
@@ -14,9 +15,9 @@ const ReelsTest = () => {
       >
         <Plus />
       </FloatingButton>
-      <Video />
-      <Video />
-      <Video />
+      <Videom3u8 />
+      <Videomp4 />
+      <Videom3u8 />
     </CenterDiv>
   );
 };
