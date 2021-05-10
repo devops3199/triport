@@ -85,17 +85,9 @@ const Video = () => {
       <VideoBg />
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
       <BottomCov>
-        <LikeComment>
           <LikeCov>
             <HeartFill />
           </LikeCov>
-          <CommentCov>
-            <Cmt />
-          </CommentCov>
-        </LikeComment>
-        <BookmarkCov>
-          <BookmarkEmpty />
-        </BookmarkCov>
       </BottomCov>
     </VideoCards>
   );
