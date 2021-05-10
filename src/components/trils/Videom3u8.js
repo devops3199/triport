@@ -67,20 +67,11 @@ const Videom3u8 = (props) => {
     player.current.pause();
   };
 
-  const mute = () => {
-    if (ismuted) {
-      setMute(false);
-    } else {
-      setMute(true);
-    }
-  };
-
   return (
     <VideoCards
       margin={mr}
       onMouseOver={videoplay}
       onMouseLeave={videopause}
-      onClick={mute}
     >
       <Profile>
         <ProfileImg src={props.author.profileImgUrl} />
