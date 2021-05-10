@@ -4,8 +4,10 @@ import React from "react";
 import { history } from "redux/configureStore";
 import { Plus } from "media/svg/Svg";
 import styled from "styled-components";
+import { all_list } from "../redux/Mock/trils_all_list";
 
 const ReelsTest = () => {
+  console.log(all_list);
   return (
     <CenterDiv>
       <FloatingButton
