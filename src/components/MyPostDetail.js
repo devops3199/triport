@@ -54,6 +54,7 @@ const Wrap = styled.div`
   border: 1px solid #2b61e1;
   border-radius: 5px;
   padding: 3rem;
+  z-index: 98;
 `;
 
 const LowWrap = styled.div`

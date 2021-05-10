@@ -4,8 +4,9 @@ import styled from "styled-components";
 import Dmypost from "media/svg/내가 쓴 글 D.svg";
 
 import { BoardCard } from "components/components";
-import SnsPost from "components/SnsPost";
 import MyPostDerail from "./MyPostDetail";
+
+import Video from "../components/trils/Video";
 
 const ProfileMyPost = () => {
   const [modal, setModal] = useState(false);
@@ -37,13 +38,16 @@ const ProfileMyPost = () => {
               style={{
                 width: "78rem",
                 marginLeft: "-4rem",
+                display: "flex",
+                justifyContent: "space-between",
+                margin: "0px auto",
               }}
             >
               <div onClick={openModal}>
-                <SnsPost />
+                <Video />
               </div>
-              <SnsPost />
-              <SnsPost />
+              <Video />
+              <Video />
             </Wrap>
 
             <div

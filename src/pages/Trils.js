@@ -1,9 +1,8 @@
-import Video from "components/trills/Video";
+import Video from "components/trils/Video";
 import React from "react";
 import styled from "styled-components";
 
 const ReelsTest = () => {
-
   return (
     <CenterDiv>
       <Video />

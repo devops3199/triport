@@ -59,9 +59,6 @@ const SignUp = () => {
     }
   }, [pwdcheck]);
 
-  // console.log(line1);
-  // console.log(email);
-
   const signup = () => {
     dispatch(userAcitons.signupDB(email, pwd, pwdcheck, nickname));
   };
@@ -256,6 +253,7 @@ const Button1 = styled.button`
   margin-bottom: 1rem;
   background-color: #2b61e1;
   color: #ffffff;
+  cursor: pointer;
 `;
 
 const Button2 = styled.button`

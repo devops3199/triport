@@ -5,12 +5,21 @@ import loginlogo from "media/image/login_logo.png";
 import kakaoicon from "media/svg/kakao_symbol.svg";
 
 import { emailCheck, pwdCheck } from "../shared/common";
+import { useDispatch } from "react-redux";
+
+import { actionCreators as userAcitons } from "../redux/modules/user";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = React.useState("");
   const [pwd, setPwd] = React.useState("");
+
   const [line1, setLine1] = useState("1px solid #707070");
   const [line2, setLine2] = useState("1px solid #707070");
+
+  const login = () => {
+    dispatch(userAcitons.loginDB(email, pwd));
+  };
 
   useEffect(() => {
     if (!email) {
@@ -56,7 +65,7 @@ const Login = () => {
             setPwd(e.target.value);
           }}
         ></PwdInput>
-        <Button1>LOGIN</Button1>
+        <Button1 onClick={login}>LOGIN</Button1>
         <Button2>
           <Kakao />
           카카오톡으로 로그인

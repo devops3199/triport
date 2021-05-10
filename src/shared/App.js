@@ -22,7 +22,6 @@ import Footer from "components/Footer";
 import Profile from "pages/Profile";
 import Trils from "pages/Trils";
 import SnsWrite from "pages/SnsWrite";
-import MyPostDerail from "components/MyPostDetail";
 
 const App = (props) => {
   return (
@@ -31,7 +30,6 @@ const App = (props) => {
       <MainContainer>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path="/test" exact component={MyPostDerail} />
             <Route path="/" exact component={Main} />
             <Route path="/post" exact component={Snsmain} />
             <Route path="/trils/write" exact component={SnsWrite} />
