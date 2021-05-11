@@ -29,7 +29,11 @@ const Header = (props) => {
       <React.Fragment>
         <div style={{ position: "sticky", top: "0", zIndex: "99" }}>
           <Wrap>
-            <LogoWrapper onClick={() => { history.push('/') }}>
+            <LogoWrapper
+              onClick={() => {
+                history.push("/");
+              }}
+            >
               <Logo />
             </LogoWrapper>
             <LeftWrap>
@@ -56,7 +60,11 @@ const Header = (props) => {
     return (
       <React.Fragment>
         <Wrap>
-          <LogoWrapper onClick={() => { history.push('/') }}>
+          <LogoWrapper
+            onClick={() => {
+              history.push("/");
+            }}
+          >
             <Logo />
           </LogoWrapper>
           <LeftWrap>
