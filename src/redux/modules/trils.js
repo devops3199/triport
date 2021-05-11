@@ -118,6 +118,7 @@ const getPost = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
         return result.json();
       })
       .then((result) => {
+        console.log(result)
         const results = {
           result: result.results,
           page: page + 1,

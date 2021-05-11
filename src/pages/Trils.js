@@ -9,8 +9,10 @@ import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "../components/Spinner";
+import Swal from "sweetalert2";
 
 const ReelsTest = () => {
+  const access_token = localStorage.getItem("access_token");
   const dispatch = useDispatch();
   const page = useSelector((state) => state.trils.page);
   const post_list = useSelector((state) => state.trils.data);
@@ -42,10 +44,10 @@ const ReelsTest = () => {
 
     if (filter) {
       // 좋아요순
-      dispatch(TrilsActions.getPost("", "modifiedAt", 1));
+      dispatch(TrilsActions.getPost(keyword.current.value, "modifiedAt", 1));
     } else {
       // 최신순
-      dispatch(TrilsActions.getPost("", "likeNum", 1));
+      dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", 1));
     }
     setFilter(!filter);
   };
@@ -57,7 +59,7 @@ const ReelsTest = () => {
   const next = () => {
     dispatch(TrilsActions.getPost("", "modifiedAt", page));
   };
-  console.log(post_list)
+  console.log(access_token);
 
   return (
     <Container>
@@ -90,7 +92,24 @@ const ReelsTest = () => {
         {modal ? <TrilsDetail /> : null}
         <FloatingButton
           onClick={() => {
-            history.push("/trils/write");
+            if (access_token === null) {
+              Swal.fire({
+                title: "로그인을 해주세요.",
+                text: "로그인 후 글작성이 가능합니다.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "로그인하기",
+                cancelButtonText: "닫기",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  history.push("/login");
+                }
+              });
+            } else {
+              history.push("/trils/write");
+            }
           }}
         >
           <Plus />
