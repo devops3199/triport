@@ -23,6 +23,7 @@ import Profile from "pages/Profile";
 import Trils from "pages/Trils";
 import SnsWrite from "pages/SnsWrite";
 import Test from "pages/Test";
+import FindPassword from "pages/FindPassword";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "redux/modules/user";
@@ -43,6 +44,7 @@ const App = () => {
             <Route path="/" exact component={Trils} />
             <Route path="/post" exact component={Snsmain} />
             <Route path="/trils/write" exact component={SnsWrite} />
+            <Route path="/find" exact component={FindPassword} />
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={SignUp} />
             <Route path="/trilog" exact component={BoardMain} />

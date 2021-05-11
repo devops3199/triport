@@ -92,7 +92,7 @@ const loginDB = (email, pwd) => {
             })
           );
           window.alert("로그인 성공");
-          history.push("/trils");
+          history.push("/");
         }
       })
       .catch((error) => {
@@ -124,9 +124,33 @@ const loginCheckDB = () => {
 const logout = () => {
   return function (dispatch, getState, { history }) {
     localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
     localStorage.removeItem("userInfo");
     dispatch(logOut());
     history.replace("/");
+  };
+};
+
+// 비밀번호 찾기
+const FindPwdDB = (email) => {
+  return function (dispatch, getState, { history }) {
+    const API = "http://13.209.8.146/mail/reset/password";
+    fetch(API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 
@@ -135,6 +159,7 @@ export const actionCreators = {
   signupDB,
   loginDB,
   logout,
+  FindPwdDB,
 };
 
 export const { setUser, logOut } = userSlice.actions;

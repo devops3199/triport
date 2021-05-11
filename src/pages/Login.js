@@ -71,7 +71,7 @@ const Login = () => {
           카카오톡으로 로그인
         </Button2>
         <Text href="/signup">회원가입</Text>
-        <Text>비밀번호 찾기</Text>
+        <Text href="/find">비밀번호 찾기</Text>
       </Wrap>
     </React.Fragment>
   );
