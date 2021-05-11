@@ -47,6 +47,7 @@ const App = () => {
             <Route path="/signup" exact component={SignUp} />
             <Route path="/trilog" exact component={BoardMain} />
             <Route path="/trilog/write" exact component={BoardWrite} />
+            <Route path="/trilog/write/:id" exact component={BoardWrite} />
             <Route path="/trilog/:id" exact component={BoardDetail} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/trils" exact component={Trils} />

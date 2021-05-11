@@ -4,10 +4,20 @@ import { BoardView, BoardComment, BoardDetailMap } from "components/components";
 import { LikeFill, LikeEmpty } from "media/svg/Svg";
 
 const BoardDetail = (props) => {
+    const comment = React.useRef('');
 
     React.useEffect(() => {
         console.log("detail api");
+        console.log("CommentParent api");
     }, []);
+
+    const postParentComment = () => {
+        console.log(comment.current.value, '댓글달기');
+    };
+
+    const hitLike = () => {
+        console.log('좋아요 후 LikeEmpty로 바꾸기');
+    };
 
     return(
         <DetailContainer>
@@ -25,7 +35,9 @@ const BoardDetail = (props) => {
             <Separator/>
             <LikeCommentContainer>
                 <Infomation>
-                    <LikeFill/>
+                    <span onClick={hitLike}>
+                        <LikeFill/>
+                    </span>
                     <div>
                         <span>좋아요+</span>
                         <LikeCount>0</LikeCount>
@@ -36,7 +48,11 @@ const BoardDetail = (props) => {
                     </div>
                 </Infomation>
                 <CommentInput>
-                    <input type="text" placeholder="댓글을 입력하세요." />
+                    <input type="text" placeholder="댓글을 입력하세요." ref={comment} onKeyPress={(e) => {
+                        if(window.event.keyCode === 13) {
+                            postParentComment();
+                        } 
+                    }}/>
                 </CommentInput>
                 <Separator />
                 <BoardComment />
