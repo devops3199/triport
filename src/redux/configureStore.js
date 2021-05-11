@@ -4,16 +4,18 @@ import thunk from "redux-thunk";
 import logger from "redux-logger";
 import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
-import Board from "redux/modules/Board";
+import board from "redux/modules/board";
 import Sidebar from "redux/modules/sidebar";
 import ProfileImg from "redux/modules/profileimg";
+import user from "redux/modules/user";
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
-  board: Board,
+  board: board,
   sidebar: Sidebar,
   profileimg: ProfileImg,
+  user: user,
   router: connectRouter(history),
 });
 

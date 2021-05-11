@@ -6,7 +6,9 @@ import logo from "media/svg/triport_logo_white.svg";
 const Footer = () => {
   return (
     <Wrap>
-      <Logo />
+      <LogoContainer>
+        <Logo />
+      </LogoContainer>
     </Wrap>
   );
 };
@@ -14,6 +16,7 @@ const Footer = () => {
 const Wrap = styled.footer`
   display: flex;
   align-items: center;
+  justify-content: center;
   position: fixed;
   left: 0px;
   bottom: 0px;
@@ -29,7 +32,10 @@ const Logo = styled.div`
   height: 2.5rem;
   background-image: url("${logo}");
   background-size: 7.5rem 2.5rem;
-  margin-left: 22rem;
+`;
+
+const LogoContainer = styled.div`
+  width: 1280px;
 `;
 
 export default Footer;

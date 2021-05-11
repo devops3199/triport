@@ -1,31 +1,28 @@
 import React from "react";
-import styled, { ThemeConsumer } from "styled-components";
+import styled from "styled-components";
 import { BoardWriteMap } from "components/components";
 import { Editor } from '@toast-ui/react-editor';
 import "codemirror/lib/codemirror.css"; // Editor's Dependency Style
 import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
-
-import { actionCreators as boardActions } from 'redux/modules/Board';
-import { useDispatch } from 'react-redux';
 import { history } from "redux/configureStore";
 import _ from "lodash";
-import { v4 as uuidv4 } from 'uuid';
-
 
 const BoardWrite = (props) => {
-    const dispatch = useDispatch();
+    const id = props.match.params.id;
+    const is_edit = id ? true: false;
+
     const data = React.useRef();
     const title = React.useRef();
 
     const [address, setAddress] = React.useState('지도 마커를 클릭하시면 주소가 여기 표시됩니다.');
     const [keyword, setKeyword] = React.useState('관악구청');
-    const [result, setResult] = React.useState(null);
+    const [imageUrls, setImageUrls] = React.useState([]);
 
     const handleMap = _.debounce((val) => {
         setKeyword(val);
     }, 500);
 
-    const sendData = () => {
+    const sendData = async () => {
         if(title.current.value === "") {
             alert('제목을 입력하세요.');
             return;
@@ -38,41 +35,78 @@ const BoardWrite = (props) => {
             return;
         }
 
-        // dispatch(boardActions.setDetail(data.current.getInstance().getMarkdown()));
-        // history.push("/trilog/1");
-        const obj = {
-            title : title.current.value,
-            address : address,
-            description : data.current.getInstance().getMarkdown(),
-            imageUrlList : [],
-            tempId : "",
-        };
+        let api = '';
+        let method = '';
+        if(is_edit) {
+            api = `http://13.209.8.146/api/boards/${id}`;
+            method = 'PUT';
+        } else {
+            api = 'http://13.209.8.146/api/boards';
+            method = 'POST'
+        }
+
+        const access_token = localStorage.getItem("access_token");
+
+        const result = await fetch(api, {
+            method: method,
+            headers : {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Access-Token': `${access_token}`,
+            },
+            body: JSON.stringify({
+                title : title.current.value,
+                address : address,
+                description : data.current.getInstance().getMarkdown(),
+                imageUrlList : imageUrls,
+            })
+        })
+        .then(res => res.json())
+        .then(err => console.log(err, 'Trilog Edit / Add'));
+
+        alert(result.msg);
+        history.replace('/trilog');
     };
 
     const uploadImage = async (blob) => {
-        const access_token = localStorage.getItem("token");
-        const uuid = uuidv4();
+        let api = '';
 
-        const id = 12;
-        const edit_api = `http://13.209.8.146/api/boards/image/${id}`;
+        if(is_edit) {
+            api = `http://13.209.8.146/api/boards/image/${id}`;
+        } else {
+            api = 'http://13.209.8.146/api/boards/image';
+        }
+
+        const access_token = localStorage.getItem("access_token");
 
         const formData = new FormData();
         formData.append('imageFile', blob);
-        formData.append('tempId', uuid); // 수정일때는 필요없음
 
-        const api = "http://13.209.8.146/api/boards/image";
         const url = await fetch(api, {
             method : 'POST',
             headers : {
                 'Access-Token': `${access_token}`,
             },
             body : formData
-        });
+        })
+        .then(res => res.json())
+        .catch((error) => console.log(error, 'uploadImage'));
 
-        console.log(url.result.imageFilePath);
+        setImageUrls(prevState => ([...prevState, url.results.imageFilePath]))
 
-        return url.result.imageFilePath;
+        return url.results.imageFilePath;
     };
+
+
+    React.useEffect(() => {
+        if(is_edit) {
+            const getDetail = async () => {
+                const api = `http://13.209.8.146/api/all/boards/detail/${id}`;
+                const result  = await fetch(api).then(res => res.json).catch(err => console.log(err, 'Edit Detail'));
+            }
+            getDetail();
+        }
+    }, []);
 
     return(
         <WriteContainer>
@@ -101,8 +135,8 @@ const BoardWrite = (props) => {
                     height="600px"
                     initialEditType="markdown"
                     hooks={{
-                        addImageBlobHook: (blob, callback) => {
-                            const upload = uploadImage(blob);
+                        addImageBlobHook: async (blob, callback) => {
+                            const upload = await uploadImage(blob);
                             callback(upload, "alt text");
                             return false;
                         }
@@ -111,7 +145,7 @@ const BoardWrite = (props) => {
                 />
             </InputContainer>
             <ButtonContainer>
-                <ButtonComplete type="button" value="작성완료" onClick={sendData} />
+                <ButtonComplete type="button" value={is_edit ? "수정완료" : "작성완료"} onClick={sendData} />
                 <ButtonCancel type="button" value="취소" onClick={() => {
                     history.goBack();
                 }} />

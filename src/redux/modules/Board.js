@@ -9,7 +9,8 @@ const boardSlice = createSlice({
             board_list : [],
             is_last : false,
         },
-        detail : "",
+        detail : '',
+        image_urls : [],
     },
     reducers: {
         SET_BOARD : (state, action) => produce(state, (draft) => {
@@ -18,6 +19,10 @@ const boardSlice = createSlice({
 
         SET_DETAIL : (state, action) => produce(state, (draft) => {
             draft.detail = action.payload;
+        }),
+
+        SET_IMG_URL : (state, action) => produce(state, (draft) => {
+            draft.image_urls.push(action.payload);
         }),
     },
 });
@@ -39,11 +44,18 @@ const setDetail = (detail) => {
     };
 };
 
+const setImgUrl= (url) => {
+    return function (dispatch, getState, { history }) {
+        dispatch(SET_IMG_URL(url));
+    };
+};
+
 const actionCreators = {
     getBoardList,
     setDetail,
+    setImgUrl,
 };
 
-export const { SET_BOARD, SET_DETAIL } = boardSlice.actions;
+export const { SET_BOARD, SET_DETAIL, SET_IMG_URL } = boardSlice.actions;
 export default boardSlice.reducer;
 export { actionCreators };

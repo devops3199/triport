@@ -5,7 +5,19 @@ import { Plus } from "media/svg/Svg";
 import { BoardCard } from "components/components";
 import InfinityScroll from "shared/InfinityScroll";
 
+/* 데이터는 해당 컴포넌트에서만 사용하기 때문에 Redux를 사용안합니다. */
 const BoardMain = (props) => {
+  const [trilog, setTrilog] = React.useState([]);
+  const [filter, _setFilter] = React.useState(false);
+  const filterRef = React.useRef(filter);
+  const keyword = React.useRef();
+
+  const setFilter = (data) => {
+    filterRef.current = data;
+    _setFilter(data);
+  };
+
+  /* 필터 기능 - 좋아요순 최신순 */
   const tabToggle = () => {
     const tab = document.getElementById("FilterTab");
     const like = document.getElementById("LikeText");
@@ -21,15 +33,52 @@ const BoardMain = (props) => {
       newest.style.color = "#89ACFF";
     }
 
-    console.log('apply filter');
+    if(filter) {
+      // 좋아요순
+      const api = "http://13.209.8.146/api/all/boards?page=1&filter=likeNum&keyword="
+      fetch(api)
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err, "좋아요순 error"));
+    } else {
+      // 최신순
+      const api = "http://13.209.8.146/api/all/boards?page=1&filter=modifiedAt&keyword="
+      fetch(api)
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err, "날짜순 error"));
+    }
+
+    setFilter(!filter);
   };
 
   const scroll = () => {
-    console.log('fetch api scroll');
+    const filter_scroll = filterRef.current;
+    const keyword_scroll = keyword.current.value;
+    
+    if(!filter_scroll) {
+      // 좋아요순
+      const api = `http://13.209.8.146/api/all/boards?page=1&filter=likeNum&keyword=${keyword_scroll}`
+      fetch(api)
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err, "좋아요순 무한 스크롤 error"));
+    } else {
+      // 최신순
+      const api = `http://13.209.8.146/api/all/boards?page=1&filter=modifiedAt&keyword=${keyword_scroll}`
+      fetch(api)
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err, "날짜순 무한 스크롤 error"));
+    }
+
+    const temp_arr = new Array(5).fill(0);
+    setTrilog(prevState => ([...prevState, ...temp_arr]));
   };
 
   React.useEffect(() => {
-    console.log('fetch api');
+    const temp_arr = new Array(15).fill(0);
+    setTrilog([...trilog, ...temp_arr]);
   }, []);
 
   return (
@@ -42,7 +91,11 @@ const BoardMain = (props) => {
         <Plus />
       </FloatingButton>
       <SearchContainer>
-        <Search type="text" placeholder="검색어를 입력하세요." />
+        <Search type="text" placeholder="검색어를 입력하세요." ref={keyword} onKeyPress={(e) => {
+            if(window.event.keyCode === 13) {
+                console.log('검색')
+            } 
+        }} />
       </SearchContainer>
       <FilterContainer>
         <Filter>
@@ -60,35 +113,15 @@ const BoardMain = (props) => {
           callNext={scroll}
           is_next={false}
         >
-          <BoardCard margin="0 40px 0 0" />
-          <BoardCard margin="0 40px 0 0" />
-          <BoardCard margin="0 40px 0 0" />
-          <BoardCard margin="0 40px 0 0" />
-          <BoardCard />
+          { trilog.map((val, idx) => {
+              const index = idx + 1;
 
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard />
+              if(index % 5 === 0) {
+                return <BoardCard key={index} />;
+              }
 
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard />
-
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard />
-
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard margin="50px 40px 0 0" />
-          <BoardCard />
+              return <BoardCard key={index} margin="50px 40px 0 0" />
+            }) }
         </InfinityScroll>
       </CardContainer>
     </BoardMainContainer>
@@ -121,7 +154,6 @@ const FilterContainer = styled.div`
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  margin-bottom: 50px;
 `;
 
 const Background = styled.div`
@@ -141,6 +173,7 @@ const LikeFilter = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
   & span {
     font-family: "TTTogether";
     font-size: 14px;
@@ -158,6 +191,7 @@ const NewestFilter = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
   & span {
     font-family: "TTTogether";
     font-size: 14px;
@@ -190,7 +224,7 @@ const FloatingButton = styled.div`
   width: 3.125rem;
   height: 3.125rem;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 99;
 
   & svg {
     width: 100%;

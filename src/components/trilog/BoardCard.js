@@ -1,19 +1,40 @@
 import React from "react";
 import styled from "styled-components";
+import BgImg from 'media/image/trilog_default.jpg';
+import ProfileImg from 'media/image/triport_airplane.png';
 import { LikeFill, LikeEmpty } from "media/svg/Svg";
+import { history } from "redux/configureStore";
 
 const BoardCard = (props) => {
-    const { margin } = props;
+    const { margin, id } = props;
+
+    const hitLike = (e) => {
+        e.stopPropagation(); // 이벤트 버블링
+        
+        const access_token = localStorage.getItem("access_token");
+        
+        const api = `http://13.209.8.146/api/boards/like/${id}`;
+        fetch(api, {
+            method : 'POST',
+            headers : {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Access-Token': `${access_token}`,
+            }
+        })
+        .then(res => res.json())
+        .catch(err => console.log(err, 'Like'));
+    }
 
     return(
         <BoardCardContainer margin={ margin } >
-            <ImageContainer>
+            <ImageContainer onClick={() => {history.push('/trilog/1')}}>
                 <UserContainer>
                     <Profile>
                         <div></div>
                         <span>Triport</span>
                     </Profile>
-                    <Likes>
+                    <Likes onClick={hitLike}>
                         <LikeFill />
                     </Likes>
                 </UserContainer>
@@ -23,7 +44,7 @@ const BoardCard = (props) => {
                     <span>2021년 04월 29일</span>
                     <span>13:00:45</span>
                 </Detail>
-                <Title>
+                <Title onClick={() => {history.push('/trilog/1')}}>
                     <span>에디터가 추천하는 관악 여행</span>
                 </Title>
                 <Description>
@@ -46,7 +67,7 @@ const ImageContainer = styled.div`
     position: relative;
     width: 100%;
     height: 14rem;
-    background: url('http://www.rvsfinance.nl/wp-content/uploads/2016/06/ef3-placeholder-image.jpg') no-repeat center;
+    background: url(${BgImg}) no-repeat center;
     background-size: cover;
     cursor: pointer;
 `;
@@ -66,10 +87,11 @@ const UserContainer = styled.div`
 const Profile = styled.div`
     display: flex;
     align-items: center;
+
     & div {
         width: 2.375rem;
         height: 2.375rem;
-        background: url('https://microbiology.ucr.edu/sites/g/files/rcwecm2866/files/styles/form_preview/public/blank-profile-pic.png?itok=xMM7pLfb') no-repeat center;
+        background: url(${ProfileImg}) no-repeat center;
         background-size: cover;
         border-radius: 50%;
     }
@@ -85,7 +107,7 @@ const Likes = styled.div`
     display: flex;
     align-items: center;
     cursor: pointer;
-    z-index: 9999;
+    z-index: 2;
     & svg {
         width: 2.375rem;
     }

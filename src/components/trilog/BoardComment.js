@@ -1,15 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import { CommentLike } from "media/svg/Svg";
+import { BoardChildComment } from "components/components";
 
 const BoardComment = (props) => {
-
+    const comment = React.useRef('');
     const [showReply, setShowReply] = React.useState(false);
     const [showReplyInput, setShowReplyInput] = React.useState(false);
 
     const showReplyComment = () => {
         setShowReply(!showReply);
         console.log('대댓글 요청');
+    };
+
+    const postChildComment = () => {
+        console.log(comment.current.value, '대댓글 작성');
+    }
+
+    const hitLike = () => {
+        console.log('댓글 좋아요');
     };
 
     return(
@@ -26,53 +35,26 @@ const BoardComment = (props) => {
                 </ParentComment>
                 <Likes>
                     <LikeSpan>
-                        <CommentLike />
+                        <div onClick={hitLike}>
+                           <CommentLike /> 
+                        </div>
                         <span>+3</span>
                     </LikeSpan>
                     <span onClick={() => setShowReplyInput(!showReplyInput)}>답글 작성</span>
                 </Likes>
                 <ReplyComment showReplyInput={showReplyInput}>
-                    <input type="text" placeholder="답글 추가..." />
+                    <input type="text" placeholder="답글 추가..." ref={comment} onKeyPress={(e) => {
+                        if(window.event.keyCode === 13) {
+                            postChildComment();
+                        } 
+                    }} />
                 </ReplyComment>
             </CommentContainer>
             <ShowComment>
                 {showReply ? (<span onClick={showReplyComment}>댓글 감추기 ▲</span>) : (<span onClick={showReplyComment}>댓글 보기(2) ▼</span>)}
             </ShowComment>
             <ReplyContainer showReply={showReply}>
-                <div>
-                    <ChildComment>
-                        <UserContainer>
-                            <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-and-shapes-3/177800/130-512.png" />
-                            <span>홍길동</span>
-                        </UserContainer>
-                        <Content>
-                            대댓글이에요
-                        </Content>
-                    </ChildComment>
-                    <Likes>
-                        <LikeSpan>
-                            <CommentLike />
-                            <span>+3</span>
-                        </LikeSpan>
-                    </Likes>
-                </div>
-                <div>
-                    <ChildComment>
-                        <UserContainer>
-                            <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-and-shapes-3/177800/130-512.png" />
-                            <span>홍길동</span>
-                        </UserContainer>
-                        <Content>
-                            대댓글이에요
-                        </Content>
-                    </ChildComment>
-                    <Likes>
-                        <LikeSpan>
-                            <CommentLike />
-                            <span>+3</span>
-                        </LikeSpan>
-                    </Likes>
-                </div>
+                <BoardChildComment />
             </ReplyContainer>
         </>
     );

@@ -1,5 +1,4 @@
 import React from "react";
-import Board from "redux/modules/Board";
 import styled from "styled-components";
 
 import { history } from "../redux/configureStore";
