@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { produce } from 'immer'; // 불변성 유지
 
 /* 게시판 */
-const boardSlice = createSlice({
-    name : "board",
+const trilogSlice = createSlice({
+    name : "trilog",
     initialState : {
         list : {
             board_list : [],
@@ -56,6 +56,6 @@ const actionCreators = {
     setImgUrl,
 };
 
-export const { SET_BOARD, SET_DETAIL, SET_IMG_URL } = boardSlice.actions;
-export default boardSlice.reducer;
+export const { SET_BOARD, SET_DETAIL, SET_IMG_URL } = trilogSlice.actions;
+export default trilogSlice.reducer;
 export { actionCreators };

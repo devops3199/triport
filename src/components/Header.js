@@ -132,7 +132,7 @@ const Line = styled.div`
 const LogoWrapper = styled.div`
   cursor: pointer;
   & svg {
-    width: 12rem;
+    width: 200px;
   }
 `;
 

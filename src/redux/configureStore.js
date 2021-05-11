@@ -4,7 +4,7 @@ import thunk from "redux-thunk";
 import logger from "redux-logger";
 import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
-import board from "redux/modules/board";
+import trilog from "redux/modules/trilog";
 import Sidebar from "redux/modules/sidebar";
 import ProfileImg from "redux/modules/profileimg";
 import User from "redux/modules/user";
@@ -13,7 +13,7 @@ import Thrils from "redux/modules/trils";
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
-  board: board,
+  trilog: trilog,
   sidebar: Sidebar,
   profileimg: ProfileImg,
   user: User,
