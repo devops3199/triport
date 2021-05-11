@@ -14,7 +14,6 @@ const trilseSlice = createSlice({
       state.page = action.payload.page;
     },
     SHIFT_POST: (state, action) => {
-      console.log(action.payload.result)
       state.data.push(...action.payload.result);
       state.page = action.payload.page;
     },
@@ -31,6 +30,14 @@ const trilseSlice = createSlice({
       );
       state.data[idx] = action.payload;
       state.detail = action.payload;
+    },
+    DELETE_POST: (state, action) => {
+      const idx = state.data.findIndex(
+        (p) => p.information.id === action.payload
+      );
+      if (idx !== -1) {
+        state.data.splice(idx, 1);
+      }
     },
   },
 });
@@ -64,7 +71,7 @@ const writepost = (video, tags) => {
   };
 };
 
-const getPost_date = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
+const getPost = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
@@ -133,7 +140,6 @@ const send_like = (postId, like) => {
       })
       .then((result) => {
         if (result.ok) {
-          console.log(result)
           dispatch(LIKE_OK(result.results));
         }
       })
@@ -141,12 +147,18 @@ const send_like = (postId, like) => {
   };
 };
 
-export const { GET_POST, SHIFT_POST, GET_POST_DETAIL, CLOSE_MODAL, LIKE_OK } =
-  trilseSlice.actions;
+export const {
+  GET_POST,
+  SHIFT_POST,
+  GET_POST_DETAIL,
+  CLOSE_MODAL,
+  LIKE_OK,
+  DELETE_POST,
+} = trilseSlice.actions;
 
 export const TrilsActions = {
   writepost,
-  getPost_date,
+  getPost,
   getPostDetail,
   send_like,
 };

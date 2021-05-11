@@ -5,7 +5,8 @@ import { CLOSE_MODAL } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
 import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
-import { TrilsActions, LIKE_OK } from "redux/modules/trils";
+import { TrilsActions, DELETE_POST } from "redux/modules/trils";
+import Swal from "sweetalert2";
 
 const TrilsDetail = () => {
   const hls = new Hls();
@@ -72,6 +73,51 @@ const TrilsDetail = () => {
     dispatch(TrilsActions.send_like(info.information.id, info.member.isLike));
   };
 
+  const del = () => {
+    Swal.fire({
+      title: "게시글을 삭제하시겠습니까?",
+      text: "게시글 삭제 시 다시 복구할 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const access_token = localStorage.getItem("access_token");
+        const url = `http://13.209.8.146/api/posts/${info.information.id}`;
+        const data = {
+          method: "DELETE",
+          headers: {
+            Authorization: `${access_token}`,
+          },
+        };
+        fetch(url, data)
+          .then((result) => {
+            return result.json();
+          })
+          .then((result) => {
+            if (result.ok) {
+              dispatch(DELETE_POST(info.information.id));
+              Swal.fire(
+                "삭제 완료!",
+                "게시글이 삭제되었습니다.",
+                "success"
+              ).then(() => {
+                closeModal();
+              });
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    });
+  };
+
+  // const hash = (e) => {
+  //   console.log(e.target.__reactProps$bxon8aywedl.value);
+  // };
+
   return (
     <React.Fragment>
       <Component onClick={closeModal} />
@@ -98,24 +144,89 @@ const TrilsDetail = () => {
         </Progress>
         <LowWrap>
           <LikeCov onClick={like}>
-            {info.member.isLike?<HeartFill />:<HeartEmpty />}
+            {info.member.isLike ? <HeartFill /> : <HeartEmpty />}
           </LikeCov>
-          <p style={{ color: "#8B8888" }}>좋아요 +{info.information.likeNum}</p>
+          <p style={{ color: "#8B8888", width: "5rem" }}>
+            좋아요 +{info.information.likeNum}
+          </p>
           <Tag>
             {info.information.hashtag.map((p, idx) => {
               return (
                 <>
-                  <Hash>#{p}</Hash>
+                  <Hash
+                    // onClick={hash}
+                    value={p}
+                  >
+                    #{p}
+                  </Hash>
                 </>
               );
             })}
           </Tag>
         </LowWrap>
-        <Button>삭제하기</Button>
+        <Bottom>
+          {info.member.isMembers ? (
+            <>
+              <Edit>수정하기</Edit>
+              <Delete onClick={del}>삭제하기</Delete>
+            </>
+          ) : (
+            <></>
+          )}
+          <Close onClick={closeModal}>닫기</Close>
+        </Bottom>
       </Wrap>
     </React.Fragment>
   );
 };
+
+const Bottom = styled.div`
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`;
+
+const Edit = styled.button`
+  cursor: pointer;
+  font-family: "TTTogether";
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #2b61e1;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #2b61e1;
+  border-radius: 5px;
+  width: 8rem;
+  height: 3rem;
+`;
+
+const Delete = styled.button`
+  cursor: pointer;
+  font-family: "TTTogether";
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #2b61e1;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #2b61e1;
+  border-radius: 5px;
+  width: 8rem;
+  height: 3rem;
+  margin-left: 1rem;
+`;
+
+const Close = styled.button`
+  cursor: pointer;
+  font-family: "TTTogether";
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #2b61e1;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #2b61e1;
+  border-radius: 5px;
+  width: 8rem;
+  height: 3rem;
+  margin-left: 1rem;
+`;
 
 const Progress = styled.div`
   margin: 0 auto;
@@ -243,20 +354,6 @@ const Tag = styled.p`
   margin-left: 1rem;
   display: flex;
   flex-direction: row;
-`;
-
-const Button = styled.button`
-  font-family: "TTTogether";
-  font-size: 1rem;
-  color: #ffffff;
-  background-color: #2b61e1;
-  box-shadow: 0px 3px 6px #00000029;
-  border: 1px solid #2b61e1;
-  border-radius: 5px;
-  width: 20rem;
-  height: 3rem;
-  margin: 0px auto;
-  margin-top: 5rem;
 `;
 
 export default TrilsDetail;

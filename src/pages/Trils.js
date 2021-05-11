@@ -8,6 +8,7 @@ import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Spinner from "../components/Spinner";
 
 const ReelsTest = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,6 @@ const ReelsTest = () => {
   const [filter, _setFilter] = useState(false);
   const filterRef = useRef(filter);
   const keyword = useRef("");
-  console.log(post_list);
 
   /* 필터 기능 - 좋아요순 최신순 */
   const tabToggle = () => {
@@ -42,20 +42,20 @@ const ReelsTest = () => {
 
     if (filter) {
       // 좋아요순
-      dispatch(TrilsActions.getPost_date("", "modifiedAt", 1));
+      dispatch(TrilsActions.getPost("", "modifiedAt", 1));
     } else {
       // 최신순
-      dispatch(TrilsActions.getPost_date("", "likeNum", 1));
+      dispatch(TrilsActions.getPost("", "likeNum", 1));
     }
     setFilter(!filter);
   };
 
   useEffect(() => {
-    dispatch(TrilsActions.getPost_date());
+    dispatch(TrilsActions.getPost());
   }, []);
 
   const next = () => {
-    dispatch(TrilsActions.getPost_date("", "modifiedAt", page));
+    dispatch(TrilsActions.getPost("", "modifiedAt", page));
   };
 
   return (
@@ -93,29 +93,37 @@ const ReelsTest = () => {
           <Plus />
         </FloatingButton>
         <PostLine>
-          <InfiniteScroll
-            dataLength={post_list.length}
-            next={next}
-            hasMore={true}
-            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-            loader={<h4>로딩 중</h4>}
-          >
-            {post_list.map((p, idx) => {
-              if ((idx + 1) % 3 !== 0) {
-                return (
-                  <>
-                    <Videom3u8 {...p} mr />
-                  </>
-                );
-              } else {
-                return (
-                  <>
-                    <Videom3u8 {...p} />
-                  </>
-                );
-              }
-            })}
-          </InfiniteScroll>
+          {post_list.length === 0 ? (
+            <></>
+          ) : (
+            <InfiniteScroll
+              dataLength={post_list.length}
+              next={next}
+              hasMore={true}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "wrap",
+              }}
+              loader={<Spinner />}
+            >
+              {post_list.map((p, idx) => {
+                if ((idx + 1) % 3 !== 0) {
+                  return (
+                    <>
+                      <Videom3u8 {...p} mr />
+                    </>
+                  );
+                } else {
+                  return (
+                    <>
+                      <Videom3u8 {...p} />
+                    </>
+                  );
+                }
+              })}
+            </InfiniteScroll>
+          )}
         </PostLine>
       </CenterDiv>
     </Container>

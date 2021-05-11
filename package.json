@@ -20,6 +20,7 @@
     "react-dom": "^17.0.2",
     "react-easy-crop": "^3.3.3",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-loader-spinner": "^4.0.0",
     "react-material-ui-carousel": "^2.2.4",
     "react-redux": "^7.2.4",
     "react-responsive-carousel": "^3.2.18",
@@ -30,6 +31,7 @@
     "redux-thunk": "^2.3.0",
     "sass-loader": "^11.0.1",
     "styled-components": "^5.2.3",
+    "sweetalert2": "^10.16.7",
     "uuid": "^8.3.2",
     "video.js": "^7.11.8",
     "web-vitals": "^1.0.1"
