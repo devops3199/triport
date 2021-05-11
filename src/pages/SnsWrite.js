@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import ClearIcon from "@material-ui/icons/Clear";
+import { useDispatch } from "react-redux";
+import { TrilsActions } from "redux/modules/trils";
 
 const SnsWrite = () => {
   const tagInput = useRef(null);
@@ -8,6 +10,8 @@ const SnsWrite = () => {
   const player = useRef(null);
   const [tags, setTags] = useState([]);
   const [preview, setPreview] = useState(null);
+  const dispatch = useDispatch();
+  const [vid, setVid] = useState();
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -31,6 +35,10 @@ const SnsWrite = () => {
     } else if (e.key === "Backspace" && !val) {
       removeTag(tags.length - 1);
     }
+  };
+
+  const post = () => {
+    dispatch(TrilsActions.writepost(vid, tags));
   };
 
   const upload = (e) => {
@@ -63,6 +71,7 @@ const SnsWrite = () => {
           //   return;
           // }
           else {
+            setVid(file);
             setPreview(e.target.result);
             clearInterval(timer);
           }
@@ -110,9 +119,7 @@ const SnsWrite = () => {
             style={{ display: "none" }}
           />
         </VideoView>
-        <Text>#강릉 #여행 #맛집</Text>
-        <Tag>태그 (최대 3개)</Tag>
-        <InputTag>
+        <Text>
           {tags.map((tag, i) => (
             <Li key={tag}>
               {tag}
@@ -128,6 +135,9 @@ const SnsWrite = () => {
               </Libutton>
             </Li>
           ))}
+        </Text>
+        <Tag>태그 (최대 3개)</Tag>
+        <InputTag>
           <Input
             type="text"
             onKeyDown={InputKeyDown}
@@ -137,7 +147,7 @@ const SnsWrite = () => {
         </InputTag>
       </Wrap>
       <ButtonWrap>
-        <Button ok>작성완료</Button>
+        <Button onClick={post}>작성완료</Button>
         <Button>취소</Button>
       </ButtonWrap>
     </React.Fragment>

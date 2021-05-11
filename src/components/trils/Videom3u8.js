@@ -9,15 +9,22 @@ import {
   BookmarkFill,
   Cmt,
 } from "media/svg/Svg";
+import { useDispatch } from "react-redux";
 
-const Video = () => {
+const Videom3u8 = (props) => {
+  const { mr } = props;
   const hls = new Hls();
   const player = useRef(null);
-  const [ismuted, setMute] = useState(false);
+  const [ismuted, setMute] = useState(true);
   const [completed, setCompleted] = useState(0);
+  const dispatch = useDispatch();
 
   const params = {
-    src: "http://d2vii12zy6qnjo.cloudfront.net/test/test.m3u8",
+    src: props.information.videoUrl,
+  };
+
+  const heart = () => {
+    dispatch();
   };
 
   useEffect(() => {
@@ -67,14 +74,14 @@ const Video = () => {
   };
 
   return (
-    <VideoCards onMouseOver={videoplay} onMouseLeave={videopause}>
+    <VideoCards margin={mr} onMouseOver={videoplay} onMouseLeave={videopause}>
       <Profile>
-        <ProfileImg />
-        <ProfileId>Triport</ProfileId>
+        <ProfileImg src={props.author.profileImgUrl} />
+        <ProfileId>{props.author.nickname}</ProfileId>
       </Profile>
       <VideoPlay
         ref={player}
-        muted
+        muted={ismuted}
         loop
         onTimeUpdate={() => {
           setCompleted(
@@ -85,17 +92,52 @@ const Video = () => {
       <VideoBg />
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
       <BottomCov>
-          <LikeCov>
-            <HeartFill />
-          </LikeCov>
+        <LikeCov>{props.member.like ? <HeartFill /> : <HeartEmpty />}</LikeCov>
       </BottomCov>
+      <PostBottom>
+        <PostLikeCnt>좋아요 +{props.information.likeNum}</PostLikeCnt>
+        <PostUser>
+          <PostUserID>{props.author.nickname}</PostUserID>
+          <PostUserComment>{props.information.hashtag}</PostUserComment>
+        </PostUser>
+      </PostBottom>
     </VideoCards>
   );
 };
 
+const PostBottom = styled.div`
+  margin-top: 1.5rem;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const PostLikeCnt = styled.div`
+  font-family: "AppleSDGothicNeoR";
+  display: flex;
+`;
+
+const PostUser = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const PostUserID = styled.div`
+  font-family: "AppleSDGothicNeoB";
+  display: flex;
+`;
+
+const PostUserComment = styled.div`
+  font-family: "AppleSDGothicNeoR";
+  display: flex;
+  margin-left: 18px;
+`;
+
 const VideoCards = styled.div`
   display: flex;
   flex-direction: column;
+  ${(props) => (props.margin ? "margin-right:2.5rem" : "")};
+  margin-bottom: 3rem;
 `;
 
 const VideoPlay = styled.video`
@@ -128,7 +170,7 @@ const ProfileImg = styled.div`
   height: var(--size);
   border-radius: var(--size);
   background-position: center;
-  background-image: url("https://cdn.discordapp.com/attachments/578800402036949002/812000337707663401/0Yt.png");
+  background-image: url(${(props) => props.src});
   background-size: cover;
   margin-left: 16px;
   display: flex;
@@ -186,7 +228,7 @@ const BottomCov = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: -2.5rem 1rem auto 1rem;
+  margin: -2.5rem 1rem auto 2rem;
 `;
 
-export default Video;
+export default Videom3u8;

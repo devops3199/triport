@@ -8,6 +8,7 @@ import Board from "redux/modules/Board";
 import Sidebar from "redux/modules/sidebar";
 import ProfileImg from "redux/modules/profileimg";
 import User from "redux/modules/user";
+import Thrils from "redux/modules/trils";
 
 export const history = createBrowserHistory();
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   sidebar: Sidebar,
   profileimg: ProfileImg,
   user: User,
+  trils: Thrils,
   router: connectRouter(history),
 });
 
