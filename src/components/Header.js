@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { history } from "../redux/configureStore";
 
-import logo from "media/svg/triport_logo.svg";
+import { Logo } from "media/svg/Svg";
 
 import Category from "components/Category";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,11 +29,9 @@ const Header = (props) => {
       <React.Fragment>
         <div style={{ position: "sticky", top: "0", zIndex: "99" }}>
           <Wrap>
-            <Logo
-              onClick={() => {
-                history.push("/");
-              }}
-            />
+            <LogoWrapper onClick={() => { history.push('/') }}>
+              <Logo />
+            </LogoWrapper>
             <LeftWrap>
               <Category />
             </LeftWrap>
@@ -131,12 +129,11 @@ const Line = styled.div`
   margin-bottom: 5rem;
 `;
 
-const Logo = styled.div`
+const LogoWrapper = styled.div`
   cursor: pointer;
-  width: 30rem;
-  height: 2.5rem;
-  background-image: url("${logo}");
-  background-size: 20rem 2.5rem;
+  & svg {
+    width: 12rem;
+  }
 `;
 
 const MyOrLogin = styled.button`

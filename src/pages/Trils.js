@@ -83,12 +83,13 @@ const CenterDiv = styled.div`
 
 const FloatingButton = styled.div`
   position: fixed;
-  bottom: 8%;
+  bottom: 5%;
   right: 3%;
   width: 3.125rem;
   height: 3.125rem;
   cursor: pointer;
   z-index: 9999;
+  
   & svg {
     width: 100%;
     height: 100%;
