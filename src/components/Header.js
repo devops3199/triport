@@ -133,7 +133,7 @@ const Line = styled.div`
 
 const Logo = styled.div`
   cursor: pointer;
-  width: 20rem;
+  width: 30rem;
   height: 2.5rem;
   background-image: url("${logo}");
   background-size: 20rem 2.5rem;
