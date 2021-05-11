@@ -61,7 +61,7 @@ const Videom3u8 = (props) => {
         player.current.play();
       });
     }
-  }, []);
+  }, [params.src]);
 
   const videoplay = () => {
     player.current.play();

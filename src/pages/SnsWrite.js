@@ -22,7 +22,7 @@ const SnsWrite = () => {
 
   const InputKeyDown = (e) => {
     const val = e.target.value;
-    if ((e.key === "Enter") && val) {
+    if (e.key === "Enter" && val) {
       if (tags.length === 3) {
         alert("태그는 최대 3개까지 가능합니다.");
         return;
@@ -163,8 +163,6 @@ const SnsWrite = () => {
     </React.Fragment>
   );
 };
-
-export default SnsWrite;
 
 const Player = styled.video`
   width: 37rem;
@@ -307,3 +305,5 @@ const Button = styled.button`
   border-color: ${(props) => (props.ok ? "#2b61e1" : "#707070")};
   border-radius: 5px;
 `;
+
+export default SnsWrite;

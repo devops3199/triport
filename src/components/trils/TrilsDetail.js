@@ -7,6 +7,7 @@ import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
 import { TrilsActions, DELETE_POST } from "redux/modules/trils";
 import Swal from "sweetalert2";
+import ClearIcon from "@material-ui/icons/Clear";
 
 const TrilsDetail = () => {
   const hls = new Hls();
@@ -15,6 +16,34 @@ const TrilsDetail = () => {
   const dispatch = useDispatch();
   const [completed, setCompleted] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [editOn, setEditOn] = useState(false);
+  const [tags, setTags] = useState(info.information.hashtag);
+  const tagInput = useRef(null);
+
+  const removeTag = (i) => {
+    const newTags = [...tags];
+    newTags.splice(i, 1);
+    console.log(newTags);
+    setTags([...newTags]);
+  };
+
+  const InputKeyDown = (e) => {
+    const val = e.target.value;
+    if (e.key === "Enter" && val) {
+      if (tags.length === 3) {
+        alert("태그는 최대 3개까지 가능합니다.");
+        return;
+      }
+      if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
+        return;
+      }
+      setTags([...tags, val]);
+      tagInput.current.value = null;
+    } else if (e.key === "Backspace" && !val) {
+      removeTag(tags.length - 1);
+    }
+  };
+
   const closeModal = () => {
     dispatch(CLOSE_MODAL());
   };
@@ -114,9 +143,42 @@ const TrilsDetail = () => {
     });
   };
 
-  // const hash = (e) => {
-  //   console.log(e.target.__reactProps$bxon8aywedl.value);
-  // };
+  const hash = (e) => {
+    dispatch(TrilsActions.getPost(e.target.id, "modifiedAt", 1))
+    closeModal()
+  };
+
+  const edit = () => {
+    setEditOn(true);
+  };
+
+  const cancelEdit = () => {
+    setEditOn(false);
+  };
+
+  const doEdit = () => {
+    const access_token = localStorage.getItem("access_token");
+    const url = `http://13.209.8.146/api/posts/${info.information.id}`;
+    const data = {
+      method: "PUT",
+      headers: {
+        Authorization: `${access_token}`,
+      },
+      body: {
+        hashtag: tags,
+      },
+    };
+    fetch(url, data)
+      .then((result) => {
+        return result.json();
+      })
+      .then((result) => {
+        if (result.ok) {
+          console.log(result);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <React.Fragment>
@@ -150,28 +212,68 @@ const TrilsDetail = () => {
             좋아요 +{info.information.likeNum}
           </p>
           <Tag>
-            {info.information.hashtag.map((p, idx) => {
-              return (
-                <>
-                  <Hash
-                    // onClick={hash}
-                    value={p}
-                  >
-                    #{p}
-                  </Hash>
-                </>
-              );
-            })}
+            {editOn ? (
+              <>
+                {tags.map((tag, i) => (
+                  <Li key={tag}>
+                    #{tag}
+                    <Libutton
+                      type="button"
+                      onClick={() => {
+                        removeTag(i);
+                      }}
+                    >
+                      <IconCover>
+                        <ClearIcon />
+                      </IconCover>
+                    </Libutton>
+                  </Li>
+                ))}
+              </>
+            ) : (
+              <>
+                {info.information.hashtag.map((p, idx) => {
+                  return (
+                    <>
+                      <Hash id={p} onClick={hash}>
+                        #{p}
+                      </Hash>
+                    </>
+                  );
+                })}
+              </>
+            )}
           </Tag>
         </LowWrap>
+        {editOn ? (
+          <InputTag>
+            <Input
+              type="text"
+              onKeyDown={InputKeyDown}
+              ref={tagInput}
+              placeholder="# 자유롭게 적고 엔터를 눌러주세요."
+            ></Input>
+          </InputTag>
+        ) : (
+          <></>
+        )}
         <Bottom>
-          {info.member.isMembers ? (
+          {editOn ? (
             <>
-              <Edit>수정하기</Edit>
-              <Delete onClick={del}>삭제하기</Delete>
+              <Edit onClick={doEdit}>수정완료</Edit>
+              <Delete onClick={cancelEdit}>수정취소</Delete>
             </>
           ) : (
-            <></>
+            <>
+              {info.member.isMembers ? (
+                <>
+                  <Edit onClick={edit}>수정하기</Edit>
+                  <Delete onClick={del}>삭제하기</Delete>
+                </>
+              ) : (
+                <></>
+              )}
+            </>
           )}
           <Close onClick={closeModal}>닫기</Close>
         </Bottom>
@@ -180,8 +282,73 @@ const TrilsDetail = () => {
   );
 };
 
+const Input = styled.input`
+  outline: none;
+  width: 100%;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: flex-start;
+  /* margin: 0px auto; */
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font-size: 1rem;
+`;
+
+const InputTag = styled.div`
+  min-width: 30rem;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #2b61e1;
+  border-radius: 5px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 0px auto;
+  padding: 5px;
+  margin-bottom: 1rem;
+`;
+
+const IconCover = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & svg {
+    width: 1rem;
+  }
+`;
+
+const Libutton = styled.div`
+  display: inline-flex;
+  align-items: center;
+  appearance: none;
+  background: #333333;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  height: 15px;
+  justify-content: center;
+  line-height: 0;
+  margin-left: 8px;
+  padding: 0;
+  width: 15px;
+  outline: 0;
+`;
+
+const Li = styled.p`
+  cursor: pointer;
+  margin-left: 0.5rem;
+  margin-right: 1rem;
+  font-family: "AppleSDGothicNeoR";
+  color: blue;
+  display: flex;
+  align-items: center;
+`;
+
 const Bottom = styled.div`
-  margin-top: 5rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -236,8 +403,8 @@ const Progress = styled.div`
 const VideoPlay = styled.video`
   display: flex;
   margin: 0 auto;
-  max-height: 100%;
-  max-width: 100%;
+  max-width: 50rem;
+  max-height: 21.5rem;
   /* object-fit: cover; */
 `;
 
@@ -279,8 +446,8 @@ const Wrap = styled.div`
   transform: translate(-50%, -50%);
   z-index: 20;
   background-color: white;
-  width: 57rem;
-  height: 37rem;
+  max-width: 57rem;
+  max-height: 37rem;
   display: flex;
   flex-direction: column;
   /* justify-content: center;
@@ -296,15 +463,15 @@ const Wrap = styled.div`
 const LowWrap = styled.div`
   display: flex;
   flex-direction: row;
-  margin-left: 4rem;
+  margin-left: 1rem;
   margin-top: 1rem;
+  margin-bottom: 2rem;
 `;
 
 const Profile = styled.div`
   display: flex;
   height: 3rem;
   align-items: center;
-  margin-left: 2.5rem;
   margin-bottom: 1rem;
 `;
 
@@ -329,8 +496,10 @@ const ProfileId = styled.div`
 `;
 
 const View = styled.div`
-  width: 50rem;
-  height: 21.5rem;
+  max-width: 50rem;
+  max-height: 21.5rem;
+  width: auto;
+  height: auto;
   background-color: #ededed;
   /* background-color: #ededed; */
   display: flex;

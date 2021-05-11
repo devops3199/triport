@@ -57,6 +57,7 @@ const ReelsTest = () => {
   const next = () => {
     dispatch(TrilsActions.getPost("", "modifiedAt", page));
   };
+  console.log(post_list)
 
   return (
     <Container>
@@ -67,7 +68,9 @@ const ReelsTest = () => {
           ref={keyword}
           onKeyPress={(e) => {
             if (window.event.keyCode === 13) {
-              console.log("검색");
+              dispatch(
+                TrilsActions.searchPost(keyword.current.value, "modifiedAt", 1)
+              );
             }
           }}
         />

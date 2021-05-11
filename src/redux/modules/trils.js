@@ -39,6 +39,11 @@ const trilseSlice = createSlice({
         state.data.splice(idx, 1);
       }
     },
+    SEARCH_POST: (state, action) => {
+      console.log(action.payload)
+      state.data = action.payload.result;
+      state.page = action.payload.page;
+    },
   },
 });
 
@@ -66,6 +71,32 @@ const writepost = (video, tags) => {
           alert("정상적으로 작성되었습니다.");
           history.replace("/");
         }
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+const searchPost = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
+  return function (dispatch, getState, { history }) {
+    const refresh_token = localStorage.getItem("refresh_token");
+    const access_token = localStorage.getItem("access_token");
+    const url = `http://13.209.8.146/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
+    const data = {
+      method: "GET",
+      headers: {
+        Authorization: `${access_token}`,
+      },
+    };
+    fetch(url, data)
+      .then((result) => {
+        return result.json();
+      })
+      .then((result) => {
+        const results = {
+          result: result.results,
+          page: page + 1,
+        };
+        dispatch(SEARCH_POST(results));
       })
       .catch((err) => console.log(err));
   };
@@ -154,6 +185,7 @@ export const {
   CLOSE_MODAL,
   LIKE_OK,
   DELETE_POST,
+  SEARCH_POST,
 } = trilseSlice.actions;
 
 export const TrilsActions = {
@@ -161,6 +193,7 @@ export const TrilsActions = {
   getPost,
   getPostDetail,
   send_like,
+  searchPost,
 };
 
 export default trilseSlice.reducer;
