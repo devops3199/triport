@@ -9,6 +9,7 @@ import {
   BookmarkFill,
   Cmt,
 } from "media/svg/Svg";
+import { useDispatch } from "react-redux";
 
 const Videom3u8 = (props) => {
   const { mr } = props;
@@ -16,9 +17,14 @@ const Videom3u8 = (props) => {
   const player = useRef(null);
   const [ismuted, setMute] = useState(true);
   const [completed, setCompleted] = useState(0);
+  const dispatch = useDispatch();
 
   const params = {
     src: props.information.videoUrl,
+  };
+
+  const heart = () => {
+    dispatch();
   };
 
   useEffect(() => {
@@ -68,11 +74,7 @@ const Videom3u8 = (props) => {
   };
 
   return (
-    <VideoCards
-      margin={mr}
-      onMouseOver={videoplay}
-      onMouseLeave={videopause}
-    >
+    <VideoCards margin={mr} onMouseOver={videoplay} onMouseLeave={videopause}>
       <Profile>
         <ProfileImg src={props.author.profileImgUrl} />
         <ProfileId>{props.author.nickname}</ProfileId>
@@ -90,12 +92,10 @@ const Videom3u8 = (props) => {
       <VideoBg />
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
       <BottomCov>
-        <LikeCov>
-          <HeartFill />
-        </LikeCov>
+        <LikeCov>{props.member.like ? <HeartFill /> : <HeartEmpty />}</LikeCov>
       </BottomCov>
       <PostBottom>
-          <PostLikeCnt>좋아요 +{props.information.likeNum}</PostLikeCnt>
+        <PostLikeCnt>좋아요 +{props.information.likeNum}</PostLikeCnt>
         <PostUser>
           <PostUserID>{props.author.nickname}</PostUserID>
           <PostUserComment>{props.information.hashtag}</PostUserComment>
