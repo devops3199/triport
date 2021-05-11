@@ -56,11 +56,9 @@ const Header = (props) => {
     return (
       <React.Fragment>
         <Wrap>
-          <Logo
-            onClick={() => {
-              history.push("/");
-            }}
-          />
+          <LogoWrapper onClick={() => { history.push('/') }}>
+            <Logo />
+          </LogoWrapper>
           <LeftWrap>
             <Category />
           </LeftWrap>
@@ -132,7 +130,7 @@ const Line = styled.div`
 const LogoWrapper = styled.div`
   cursor: pointer;
   & svg {
-    width: 200px;
+    width: 12rem;
   }
 `;
 
