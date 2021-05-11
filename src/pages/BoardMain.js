@@ -33,20 +33,22 @@ const BoardMain = (props) => {
       newest.style.color = "#89ACFF";
     }
 
-    if(filter) {
+    if (filter) {
       // 좋아요순
-      const api = "http://13.209.8.146/api/all/boards?page=1&filter=likeNum&keyword="
+      const api =
+        "http://13.209.8.146/api/all/boards?page=1&filter=likeNum&keyword=";
       fetch(api)
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err, "좋아요순 error"));
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err, "좋아요순 error"));
     } else {
       // 최신순
-      const api = "http://13.209.8.146/api/all/boards?page=1&filter=modifiedAt&keyword="
+      const api =
+        "http://13.209.8.146/api/all/boards?page=1&filter=modifiedAt&keyword=";
       fetch(api)
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err, "날짜순 error"));
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err, "날짜순 error"));
     }
 
     setFilter(!filter);
@@ -55,25 +57,25 @@ const BoardMain = (props) => {
   const scroll = () => {
     const filter_scroll = filterRef.current;
     const keyword_scroll = keyword.current.value;
-    
-    if(!filter_scroll) {
+
+    if (!filter_scroll) {
       // 좋아요순
-      const api = `http://13.209.8.146/api/all/boards?page=1&filter=likeNum&keyword=${keyword_scroll}`
+      const api = `http://13.209.8.146/api/all/boards?page=1&filter=likeNum&keyword=${keyword_scroll}`;
       fetch(api)
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err, "좋아요순 무한 스크롤 error"));
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err, "좋아요순 무한 스크롤 error"));
     } else {
       // 최신순
-      const api = `http://13.209.8.146/api/all/boards?page=1&filter=modifiedAt&keyword=${keyword_scroll}`
+      const api = `http://13.209.8.146/api/all/boards?page=1&filter=modifiedAt&keyword=${keyword_scroll}`;
       fetch(api)
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err, "날짜순 무한 스크롤 error"));
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err, "날짜순 무한 스크롤 error"));
     }
 
     const temp_arr = new Array(5).fill(0);
-    setTrilog(prevState => ([...prevState, ...temp_arr]));
+    setTrilog((prevState) => [...prevState, ...temp_arr]);
   };
 
   React.useEffect(() => {
@@ -91,11 +93,16 @@ const BoardMain = (props) => {
         <Plus />
       </FloatingButton>
       <SearchContainer>
-        <Search type="text" placeholder="검색어를 입력하세요." ref={keyword} onKeyPress={(e) => {
-            if(window.event.keyCode === 13) {
-                console.log('검색')
-            } 
-        }} />
+        <Search
+          type="text"
+          placeholder="검색어를 입력하세요."
+          ref={keyword}
+          onKeyPress={(e) => {
+            if (window.event.keyCode === 13) {
+              console.log("검색");
+            }
+          }}
+        />
       </SearchContainer>
       <FilterContainer>
         <Filter>
@@ -109,19 +116,16 @@ const BoardMain = (props) => {
         </Filter>
       </FilterContainer>
       <CardContainer>
-        <InfinityScroll
-          callNext={scroll}
-          is_next={false}
-        >
-          { trilog.map((val, idx) => {
-              const index = idx + 1;
+        <InfinityScroll callNext={scroll} is_next={false}>
+          {trilog.map((val, idx) => {
+            const index = idx + 1;
 
-              if(index % 5 === 0) {
-                return <BoardCard key={index} />;
-              }
+            if (index % 5 === 0) {
+              return <BoardCard key={index} />;
+            }
 
-              return <BoardCard key={index} margin="50px 40px 0 0" />
-            }) }
+            return <BoardCard key={index} margin="50px 40px 0 0" />;
+          })}
         </InfinityScroll>
       </CardContainer>
     </BoardMainContainer>
@@ -175,7 +179,7 @@ const LikeFilter = styled.div`
   cursor: pointer;
 
   & span {
-    font-family: "TTTogether";
+    font-family: "paybooc-Bold";
     font-size: 14px;
     letter-spacing: 0px;
     color: #fff;
@@ -193,7 +197,7 @@ const NewestFilter = styled.div`
   cursor: pointer;
 
   & span {
-    font-family: "TTTogether";
+    font-family: "paybooc-Bold";
     font-size: 14px;
     letter-spacing: 0px;
     color: #89acff;

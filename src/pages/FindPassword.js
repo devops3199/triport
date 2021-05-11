@@ -3,31 +3,34 @@ import styled from "styled-components";
 
 import tripper from "media/image/login_logo.png";
 import { useDispatch } from "react-redux";
+import { history } from "redux/configureStore";
 
 import { actionCreators as userAcitons } from "redux/modules/user";
 
 const FindPassword = () => {
   const dispatch = useDispatch();
-  const [email, setEmail] = React.useState("");
 
-  console.log(email);
+  const findRef = React.useRef();
 
   const Find = () => {
-    dispatch(userAcitons.FindPwdDB(email));
+    console.log(findRef.current.value);
+    dispatch(userAcitons.FindPwdDB(findRef.current.value));
   };
   return (
     <React.Fragment>
       <Wrap>
         <Text>비밀번호 찾기</Text>
         <Text2>이메일</Text2>
-        <EmailInput
-          placeholder="E-mail"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
+        <EmailInput placeholder="E-mail" ref={findRef} />
         <Button onClick={Find}>비밀번호 찾기</Button>
-        <Text login>로그인하러 가기</Text>
+        <Text
+          login
+          onClick={() => {
+            history.push("/login");
+          }}
+        >
+          로그인하러 가기
+        </Text>
         <Tripper />
       </Wrap>
     </React.Fragment>
@@ -45,9 +48,10 @@ const Wrap = styled.div`
 `;
 
 const Text = styled.div`
+  cursor: pointer;
   display: flex;
   justify-content: center;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   font-size: ${(props) => (props.login ? "1rem" : "1.62rem")};
   width: 23rem;
   margin: 0px auto;
@@ -66,7 +70,7 @@ const Text2 = styled.div`
 `;
 
 const EmailInput = styled.input`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   outline: none;
   width: 20rem;
   height: 3rem;
@@ -78,7 +82,7 @@ const EmailInput = styled.input`
   padding-right: 1.5rem;
 
   ::placeholder {
-    font-family: "TTTogether";
+    font-family: "paybooc-Bold";
     font-size: 1rem;
     color: #535353;
     opacity: 50%;
@@ -86,7 +90,8 @@ const EmailInput = styled.input`
 `;
 
 const Button = styled.button`
-  font-family: "TTTogether";
+  cursor: pointer;
+  font-family: "paybooc-Bold";
   font-size: 1rem;
   width: 23.5rem;
   height: 3rem;

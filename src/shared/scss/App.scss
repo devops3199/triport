@@ -1,62 +1,63 @@
 @font-face {
-    font-family: 'TTTogether';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/TTTogetherA.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "paybooc-Bold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/paybooc-Bold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'AppleSDGothicNeoT';
-    src: url('font/AppleSDGothicNeoT.ttf') format('truetype');
+  font-family: "AppleSDGothicNeoT";
+  src: url("font/AppleSDGothicNeoT.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: 'AppleSDGothicNeoUL';
-    src: url('font/AppleSDGothicNeoUL.ttf') format('truetype');
+  font-family: "AppleSDGothicNeoUL";
+  src: url("font/AppleSDGothicNeoUL.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: 'AppleSDGothicNeoL';
-    src: url('font/AppleSDGothicNeoL.ttf') format('truetype');
+  font-family: "AppleSDGothicNeoL";
+  src: url("font/AppleSDGothicNeoL.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: 'AppleSDGothicNeoR';
-    src: url('font/AppleSDGothicNeoR.ttf') format('truetype');
+  font-family: "AppleSDGothicNeoR";
+  src: url("font/AppleSDGothicNeoR.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: 'AppleSDGothicNeoM';
-    src: url('font/AppleSDGothicNeoM.ttf') format('truetype');
+  font-family: "AppleSDGothicNeoM";
+  src: url("font/AppleSDGothicNeoM.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: 'AppleSDGothicNeoB';
-    src: url('font/AppleSDGothicNeoB.ttf') format('truetype');
+  font-family: "AppleSDGothicNeoB";
+  src: url("font/AppleSDGothicNeoB.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: 'AppleSDGothicNeoEB';
-    src: url('font/AppleSDGothicNeoEB.ttf') format('truetype');
+  font-family: "AppleSDGothicNeoEB";
+  src: url("font/AppleSDGothicNeoEB.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: 'AppleSDGothicNeoH';
-    src: url('font/AppleSDGothicNeoH.ttf') format('truetype');
+  font-family: "AppleSDGothicNeoH";
+  src: url("font/AppleSDGothicNeoH.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: 'AppleSDGothicNeoSB';
-    src: url('font/AppleSDGothicNeoSB.ttf') format('truetype');
+  font-family: "AppleSDGothicNeoSB";
+  src: url("font/AppleSDGothicNeoSB.ttf") format("truetype");
 }
 
 * {
-    margin: 0; 
-    padding: 0; 
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: 'AppleSDGothicNeoR', sans-serif;
-    font-size: 16px;
-    color: #5A5A5A;
+  font-family: "AppleSDGothicNeoR", sans-serif;
+  font-size: 16px;
+  color: #5a5a5a;
 }

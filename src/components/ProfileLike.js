@@ -77,7 +77,7 @@ export default ProfileLike;
 const Wrap = styled.div`
   display: flex;
   flex-direction: row;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   width: auto;
 `;
 

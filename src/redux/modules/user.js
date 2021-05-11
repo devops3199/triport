@@ -80,6 +80,7 @@ const loginDB = (email, pwd) => {
       })
       .then((result) => {
         console.log(result);
+
         //성공시 state.user 저장
         if (result.status === 401) {
           window.alert("로그인에 실패했습니다.");
@@ -145,8 +146,9 @@ const FindPwdDB = (email) => {
         email: email,
       }),
     })
-      .then((res) => {
-        console.log(res);
+      .then((res) => res.json()) // json 형태로 변환해주고,
+      .then((data) => {
+        alert(data.message);
       })
       .catch((err) => {
         console.log(err);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { history } from "../redux/configureStore";
@@ -12,17 +12,17 @@ import { actionCreators as userActions } from "redux/modules/user";
 const Header = (props) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  console.log(user);
 
-  React.useEffect(() => {
-    dispatch(userActions.loginCheckDB());
-  }, []);
+  const pathname = history.location.pathname;
 
   const is_logout = () => {
     dispatch(userActions.logout());
     window.alert("로그아웃 되었습니다!");
     history.replace("/");
   };
+  React.useEffect(() => {
+    console.log(pathname);
+  }, []);
 
   if (user.is_login === true) {
     return (
@@ -31,7 +31,11 @@ const Header = (props) => {
           <Wrap>
             <LogoWrapper
               onClick={() => {
-                history.push("/");
+                if (pathname === "/") {
+                  history.replace("/");
+                } else {
+                  history.push("/");
+                }
               }}
             >
               <Logo />
@@ -62,7 +66,11 @@ const Header = (props) => {
         <Wrap>
           <LogoWrapper
             onClick={() => {
-              history.push("/");
+              if (pathname === "/") {
+                history.replace("/");
+              } else {
+                history.push("/");
+              }
             }}
           >
             <Logo />
@@ -116,7 +124,7 @@ const Wrap = styled.div`
 const LeftWrap = styled.div`
   display: flex;
   flex-direction: row;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   margin: 0px auto;
   margin-left: 5rem;
 `;

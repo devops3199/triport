@@ -7,7 +7,7 @@ import kakaoicon from "media/svg/kakao_symbol.svg";
 import { emailCheck, pwdCheck } from "../shared/common";
 import { useDispatch } from "react-redux";
 
-import { actionCreators as userAcitons } from "../redux/modules/user";
+import { actionCreators as userAcitons } from "redux/modules/user";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -18,6 +18,10 @@ const Login = () => {
   const [line2, setLine2] = useState("1px solid #707070");
 
   const login = () => {
+    if (email === "" || pwd === "") {
+      window.alert("로그인 정보를 모두 입력해주세요.");
+      return;
+    }
     dispatch(userAcitons.loginDB(email, pwd));
   };
 
@@ -85,7 +89,7 @@ const Wrap = styled.div`
   flex-direction: column;
   justify-content: center;
   margin: 0px auto;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
 `;
 
 const Image = styled.div`
@@ -106,7 +110,7 @@ const LoginDiv = styled.div`
 `;
 
 const EmailInput = styled.input`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   outline: none;
   width: 21.4rem;
   height: 3rem;
@@ -118,7 +122,7 @@ const EmailInput = styled.input`
   padding-right: 1.5rem;
 
   ::placeholder {
-    font-family: "TTTogether";
+    font-family: "paybooc-Bold";
     font-size: 1rem;
     color: #535353;
     opacity: 50%;
@@ -126,7 +130,7 @@ const EmailInput = styled.input`
 `;
 
 const PwdInput = styled.input`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   outline: none;
   width: 21.4rem;
   height: 3rem;
@@ -138,7 +142,7 @@ const PwdInput = styled.input`
   padding-right: 1.5rem;
 
   ::placeholder {
-    font-family: "TTTogether";
+    font-family: "paybooc-Bold";
     font-size: 1rem;
     color: #535353;
     opacity: 50%;
@@ -146,7 +150,7 @@ const PwdInput = styled.input`
 `;
 
 const Button1 = styled.button`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   width: 24.5rem;
   height: 3rem;
   box-shadow: 0px 3px 6px #00000029;
@@ -158,7 +162,7 @@ const Button1 = styled.button`
 `;
 
 const Button2 = styled.button`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   width: 24.5rem;
   height: 3rem;
   display: flex;

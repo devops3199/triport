@@ -3,16 +3,10 @@ import styled from "styled-components";
 import "shared/scss/App.scss";
 
 import { ConnectedRouter } from "connected-react-router";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { history } from "redux/configureStore";
 
-import {
-  Main,
-  NotFound,
-  BoardMain,
-  BoardWrite,
-  BoardDetail,
-} from "pages/pages";
+import { NotFound, BoardMain, BoardWrite, BoardDetail } from "pages/pages";
 
 import Snsmain from "pages/SnsMain";
 import Header from "components/Header";

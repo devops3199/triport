@@ -2,14 +2,6 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import image from "../media/image/login_logo.png";
 
-import Button from "@material-ui/core/Button";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import { makeStyles } from "@material-ui/core/styles";
 import { SET_PREVIEW } from "../redux/modules/profileimg";
 import Dmypage from "media/svg/마이페이지 D.svg";
 import edit from "media/svg/프로필수정.svg";
@@ -76,7 +68,7 @@ const ProfileSetting = () => {
 const Wrap = styled.div`
   display: flex;
   flex-direction: row;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   margin: 0px auto;
   margin-left: 2rem;
 `;
@@ -122,7 +114,7 @@ const Title = styled.div`
 
 const Input = styled.input`
   font-size: 1rem;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   outline: none;
   width: 19rem;
   height: 3rem;
@@ -134,7 +126,7 @@ const Input = styled.input`
   padding-right: 1.5rem;
 
   ::placeholder {
-    font-family: "TTTogether";
+    font-family: "paybooc-Bold";
     color: #535353;
     opacity: 50%;
     font-size: 1rem;
@@ -168,7 +160,7 @@ const Text = styled.div`
 
 const Button1 = styled.button`
   font-size: 1rem;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   width: 22.2rem;
   height: 3rem;
   box-shadow: 0px 3px 6px #00000029;
