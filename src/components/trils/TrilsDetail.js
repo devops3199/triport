@@ -11,7 +11,6 @@ const TrilsDetail = () => {
   const hls = new Hls();
   const player = useRef(null);
   const info = useSelector((state) => state.trils.detail);
-  console.log(info)
   const dispatch = useDispatch();
   const [completed, setCompleted] = useState(0);
   const [progress, setProgress] = useState(0);

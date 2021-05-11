@@ -6,11 +6,17 @@ const trilseSlice = createSlice({
     data: [],
     modal: false,
     detail: [],
+    page: 1,
   },
   reducers: {
     GET_POST: (state, action) => {
-      console.log(action.payload);
-      state.data = action.payload;
+      state.data = action.payload.result;
+      state.page = action.payload.page;
+    },
+    SHIFT_POST: (state, action) => {
+      console.log(action.payload.result)
+      state.data.push(...action.payload.result);
+      state.page = action.payload.page;
     },
     GET_POST_DETAIL: (state, action) => {
       state.modal = true;
@@ -23,7 +29,7 @@ const trilseSlice = createSlice({
       const idx = state.data.findIndex(
         (p) => p.information.id === action.payload.information.id
       );
-      state.data[idx] = action.payload
+      state.data[idx] = action.payload;
       state.detail = action.payload;
     },
   },
@@ -36,15 +42,15 @@ const writepost = (video, tags) => {
     let formData = new FormData();
     formData.append("file", video);
     tags.map((p, idx) => formData.append("hashtag", p));
-    const URL = "http://13.209.8.146/api/posts";
-    const API = {
+    const url = "http://13.209.8.146/api/posts";
+    const data = {
       method: "POST",
       headers: {
         Authorization: `${access_token}`,
       },
       body: formData,
     };
-    fetch(URL, API)
+    fetch(url, data)
       .then((result) => {
         return result.json();
       })
@@ -58,24 +64,31 @@ const writepost = (video, tags) => {
   };
 };
 
-const getPost = (token) => {
+const getPost_date = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
-    const URL = `http://13.209.8.146/api/all/posts?page=1&filter=modifiedAt&keyword=`;
-    const API = {
+    const url = `http://13.209.8.146/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
+    const data = {
       method: "GET",
       headers: {
         Authorization: `${access_token}`,
       },
     };
-    fetch(URL, API)
+    fetch(url, data)
       .then((result) => {
         return result.json();
       })
       .then((result) => {
-        console.log(result);
-        dispatch(GET_POST(result.results));
+        const results = {
+          result: result.results,
+          page: page + 1,
+        };
+        if (page === 1) {
+          dispatch(GET_POST(results));
+        } else {
+          dispatch(SHIFT_POST(results));
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -85,14 +98,14 @@ const getPostDetail = (postId) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
-    const URL = `http://13.209.8.146/api/all/posts/detail/${postId}`;
-    const API = {
+    const url = `http://13.209.8.146/api/all/posts/detail/${postId}`;
+    const data = {
       method: "GET",
       headers: {
         Authorization: `${access_token}`,
       },
     };
-    fetch(URL, API)
+    fetch(url, data)
       .then((result) => {
         return result.json();
       })
@@ -107,32 +120,33 @@ const send_like = (postId, like) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
-    const URL = `http://13.209.8.146/api/posts/like/${postId}`;
-    const API = {
+    const url = `http://13.209.8.146/api/posts/like/${postId}`;
+    const data = {
       method: "POST",
       headers: {
         Authorization: `${access_token}`,
       },
     };
-    fetch(URL, API)
+    fetch(url, data)
       .then((result) => {
         return result.json();
       })
       .then((result) => {
         if (result.ok) {
-          dispatch(LIKE_OK(result.results))
+          console.log(result)
+          dispatch(LIKE_OK(result.results));
         }
       })
       .catch((err) => console.log(err));
   };
 };
 
-export const { GET_POST, GET_POST_DETAIL, CLOSE_MODAL, LIKE_OK } =
+export const { GET_POST, SHIFT_POST, GET_POST_DETAIL, CLOSE_MODAL, LIKE_OK } =
   trilseSlice.actions;
 
 export const TrilsActions = {
   writepost,
-  getPost,
+  getPost_date,
   getPostDetail,
   send_like,
 };

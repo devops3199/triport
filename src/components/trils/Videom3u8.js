@@ -160,7 +160,8 @@ const VideoCards = styled.div`
   display: flex;
   flex-direction: column;
   ${(props) => (props.margin ? "margin-right:2.5rem" : "")};
-  margin-bottom: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 `;
 
 const VideoPlay = styled.video`
@@ -184,7 +185,7 @@ const VideoBg = styled.div`
 const Profile = styled.div`
   margin-bottom: -3rem;
   display: flex;
-  z-index: 50;
+  z-index: 5;
 `;
 
 const ProfileImg = styled.div`
