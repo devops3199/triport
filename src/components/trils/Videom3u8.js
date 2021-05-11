@@ -5,11 +5,9 @@ import ProgressBar from "./ProgressBar";
 import {
   HeartEmpty,
   HeartFill,
-  BookmarkEmpty,
-  BookmarkFill,
-  Cmt,
 } from "media/svg/Svg";
 import { useDispatch } from "react-redux";
+import { TrilsActions } from "redux/modules/trils";
 
 const Videom3u8 = (props) => {
   const { mr } = props;
@@ -73,8 +71,17 @@ const Videom3u8 = (props) => {
     player.current.pause();
   };
 
+  const openModal = () => {
+    dispatch(TrilsActions.getPostDetail(props.information.id))
+  }
+
   return (
-    <VideoCards margin={mr} onMouseOver={videoplay} onMouseLeave={videopause}>
+    <VideoCards
+      margin={mr}
+      onClick={openModal}
+      onMouseOver={videoplay}
+      onMouseLeave={videopause}
+    >
       <Profile>
         <ProfileImg src={props.author.profileImgUrl} />
         <ProfileId>{props.author.nickname}</ProfileId>
@@ -92,18 +99,33 @@ const Videom3u8 = (props) => {
       <VideoBg />
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
       <BottomCov>
-        <LikeCov>{props.member.like ? <HeartFill /> : <HeartEmpty />}</LikeCov>
+        <LikeCov>{props.member.isLike ? <HeartFill /> : <HeartEmpty />}</LikeCov>
       </BottomCov>
       <PostBottom>
         <PostLikeCnt>좋아요 +{props.information.likeNum}</PostLikeCnt>
         <PostUser>
           <PostUserID>{props.author.nickname}</PostUserID>
-          <PostUserComment>{props.information.hashtag}</PostUserComment>
+          {/* <PostUserComment>{props.information.hashtag}</PostUserComment> */}
+          <PostUserComment>
+            {props.information.hashtag.map((p, idx) => {
+              return (
+                <>
+                  <Hash>#{p}</Hash>
+                </>
+              );
+            })}
+          </PostUserComment>
         </PostUser>
       </PostBottom>
     </VideoCards>
   );
 };
+
+const Hash = styled.div`
+  margin-left: 0.5rem;
+  font-family: "AppleSDGothicNeoR";
+  color: blue;
+`;
 
 const PostBottom = styled.div`
   margin-top: 1.5rem;
@@ -131,6 +153,7 @@ const PostUserComment = styled.div`
   font-family: "AppleSDGothicNeoR";
   display: flex;
   margin-left: 18px;
+  cursor: pointer;
 `;
 
 const VideoCards = styled.div`

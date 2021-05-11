@@ -22,7 +22,6 @@ import Footer from "components/Footer";
 import Profile from "pages/Profile";
 import Trils from "pages/Trils";
 import SnsWrite from "pages/SnsWrite";
-import Test from "pages/Test";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "redux/modules/user";
@@ -50,7 +49,6 @@ const App = () => {
             <Route path="/trilog/write/:id" exact component={BoardWrite} />
             <Route path="/trilog/:id" exact component={BoardDetail} />
             <Route path="/profile" exact component={Profile} />
-            <Route path="/test" exact component={Test} />
             <Route component={NotFound} />
           </Switch>
         </ConnectedRouter>

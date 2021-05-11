@@ -12,23 +12,25 @@ import { useDispatch, useSelector } from "react-redux";
 const ReelsTest = () => {
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.trils.data);
-  const [modal, setModal] = useState(false);
+  // const [modal, setModal] = useState(false);
+  const modal = useSelector((state) => state.trils.modal);
+  console.log(post_list)
 
-  const openModal = () => {
-    setModal(true);
-  };
+  // const openModal = () => {
+  //   setModal(true);
+  // };
 
-  const closeModal = () => {
-    setModal(false);
-  };
+  // const closeModal = () => {
+  //   setModal(false);
+  // };
 
   useEffect(() => {
     dispatch(TrilsActions.getPost());
-  },[]);
+  }, []);
 
   return (
     <CenterDiv>
-      {modal ? <TrilsDetail close={closeModal} /> : null}
+      {modal ? <TrilsDetail /> : null}
       <FloatingButton
         onClick={() => {
           history.push("/trils/write");
@@ -39,39 +41,25 @@ const ReelsTest = () => {
       <PostLine>
         {post_list.map((p, idx) => {
           if ((idx + 1) % 3 !== 0) {
-            if (p.information.videoType === "m3u8") {
-              return (
-                <>
-                  <Videom3u8 {...p} mr />
-                </>
-              );
-            } else {
-              return (
-                <>
-                  <Videomp4 {...p} mr />
-                </>
-              );
-            }
+            return (
+              <>
+                <Videom3u8 {...p} mr />
+              </>
+            );
           } else {
-            if (p.information.videoType === "m3u8") {
-              return (
-                <>
-                  <Videom3u8 {...p} />
-                </>
-              );
-            } else {
-              return (
-                <>
-                  <Videomp4 {...p} />
-                </>
-              );
-            }
+            return (
+              <>
+                <Videom3u8 {...p} />
+              </>
+            );
           }
         })}
       </PostLine>
     </CenterDiv>
   );
 };
+
+const PostCover = styled.div``;
 
 const CenterDiv = styled.div`
   display: flex;
@@ -89,7 +77,7 @@ const FloatingButton = styled.div`
   height: 3.125rem;
   cursor: pointer;
   z-index: 9999;
-  
+
   & svg {
     width: 100%;
     height: 100%;

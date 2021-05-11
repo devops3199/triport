@@ -1,23 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const refresh_token = localStorage.getItem("refresh_token");
-
 const trilseSlice = createSlice({
   name: "trils",
   initialState: {
     data: [],
     modal: false,
+    detail: [],
   },
   reducers: {
     GET_POST: (state, action) => {
       console.log(action.payload);
       state.data = action.payload;
     },
+    GET_POST_DETAIL: (state, action) => {
+      state.modal = true;
+      state.detail = action.payload;
+    },
+    CLOSE_MODAL: (state, action) => {
+      state.modal = false;
+    },
+    LIKE_OK: (state, action) => {
+      const idx = state.data.findIndex(
+        (p) => p.information.id === action.payload.information.id
+      );
+      state.data[idx] = action.payload
+      state.detail = action.payload;
+    },
   },
 });
 
 const writepost = (video, tags) => {
   return function (dispatch, getState, { history }) {
+    const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
     let formData = new FormData();
     formData.append("file", video);
@@ -34,19 +48,26 @@ const writepost = (video, tags) => {
       .then((result) => {
         return result.json();
       })
-      .then((result) => console.log(result))
+      .then((result) => {
+        if (result.msg === "포스팅 완료!") {
+          alert("정상적으로 작성되었습니다.");
+          history.replace("/");
+        }
+      })
       .catch((err) => console.log(err));
   };
 };
 
 const getPost = (token) => {
   return function (dispatch, getState, { history }) {
+    const refresh_token = localStorage.getItem("refresh_token");
+    const access_token = localStorage.getItem("access_token");
     const URL = `http://13.209.8.146/api/all/posts?page=1&filter=modifiedAt&keyword=`;
     const API = {
       method: "GET",
-      // headers: {
-      //   Authorization: `${access_token}`,
-      // },
+      headers: {
+        Authorization: `${access_token}`,
+      },
     };
     fetch(URL, API)
       .then((result) => {
@@ -60,11 +81,60 @@ const getPost = (token) => {
   };
 };
 
-export const { GET_POST } = trilseSlice.actions;
+const getPostDetail = (postId) => {
+  return function (dispatch, getState, { history }) {
+    const refresh_token = localStorage.getItem("refresh_token");
+    const access_token = localStorage.getItem("access_token");
+    const URL = `http://13.209.8.146/api/all/posts/detail/${postId}`;
+    const API = {
+      method: "GET",
+      headers: {
+        Authorization: `${access_token}`,
+      },
+    };
+    fetch(URL, API)
+      .then((result) => {
+        return result.json();
+      })
+      .then((result) => {
+        dispatch(GET_POST_DETAIL(result.results));
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+const send_like = (postId, like) => {
+  return function (dispatch, getState, { history }) {
+    const refresh_token = localStorage.getItem("refresh_token");
+    const access_token = localStorage.getItem("access_token");
+    const URL = `http://13.209.8.146/api/posts/like/${postId}`;
+    const API = {
+      method: "POST",
+      headers: {
+        Authorization: `${access_token}`,
+      },
+    };
+    fetch(URL, API)
+      .then((result) => {
+        return result.json();
+      })
+      .then((result) => {
+        if (result.ok) {
+          dispatch(LIKE_OK(result.results))
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+export const { GET_POST, GET_POST_DETAIL, CLOSE_MODAL, LIKE_OK } =
+  trilseSlice.actions;
 
 export const TrilsActions = {
   writepost,
   getPost,
+  getPostDetail,
+  send_like,
 };
 
 export default trilseSlice.reducer;

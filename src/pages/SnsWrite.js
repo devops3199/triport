@@ -22,7 +22,7 @@ const SnsWrite = () => {
 
   const InputKeyDown = (e) => {
     const val = e.target.value;
-    if ((e.key === "Enter" || e.key === "," || e.key === " ") && val) {
+    if ((e.key === "Enter") && val) {
       if (tags.length === 3) {
         alert("태그는 최대 3개까지 가능합니다.");
         return;
@@ -38,6 +38,14 @@ const SnsWrite = () => {
   };
 
   const post = () => {
+    if (vid === undefined || vid == null) {
+      alert("영상을 업로드해주세요");
+      return;
+    }
+    if (tags.length === 0) {
+      alert("태그를 1개 이상 작성해주세요");
+      return;
+    }
     dispatch(TrilsActions.writepost(vid, tags));
   };
 
@@ -107,8 +115,10 @@ const SnsWrite = () => {
             />
           ) : (
             <>
-              <p style={{ fontSize: "25px" }}>영상을 올려주세요.</p>
-              <p style={{ fontSize: "15px" }}>10MB 제한</p>
+              <p style={{ fontSize: "25px" }}>영상을 업로드해주세요.(클릭)</p>
+              <p style={{ fontSize: "15px" }}>
+                영상 길이 10초 이하, 크기 300MB 이하
+              </p>
             </>
           )}
           <input
@@ -285,6 +295,7 @@ const ButtonWrap = styled.div`
 `;
 
 const Button = styled.button`
+  cursor: pointer;
   font-family: "TTTogether";
   color: #ffffff;
   font-size: 1rem;
