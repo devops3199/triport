@@ -3,25 +3,6 @@ import styled from "styled-components";
 import { CommentLike } from "media/svg/Svg";
 
 const BoardChildComment = (props) => {
-<<<<<<< HEAD
-  return (
-    <div>
-      <ChildComment>
-        <UserContainer>
-          <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-and-shapes-3/177800/130-512.png" />
-          <span>홍길동</span>
-        </UserContainer>
-        <Content>대댓글이에요</Content>
-      </ChildComment>
-      <Likes>
-        <LikeSpan>
-          <CommentLike />
-          <span>+3</span>
-        </LikeSpan>
-      </Likes>
-    </div>
-  );
-=======
     const { id, comment } = props; // parent comment id
     
     const hitLike = () => {
@@ -59,7 +40,6 @@ const BoardChildComment = (props) => {
             </Likes>
         </div>
     );
->>>>>>> chanyeop
 };
 
 export default BoardChildComment;

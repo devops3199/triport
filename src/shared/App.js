@@ -16,7 +16,6 @@ import Footer from "components/Footer";
 import Profile from "pages/Profile";
 import Trils from "pages/Trils";
 import SnsWrite from "pages/SnsWrite";
-import Test from "pages/Test";
 import FindPassword from "pages/FindPassword";
 
 import { useDispatch, useSelector } from "react-redux";

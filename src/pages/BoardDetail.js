@@ -8,68 +8,6 @@ import InfinityScroll from "shared/InfinityScroll";
 import { ContactSupportOutlined } from "../../node_modules/@material-ui/icons/index";
 
 const BoardDetail = (props) => {
-<<<<<<< HEAD
-  const comment = React.useRef("");
-
-  React.useEffect(() => {
-    console.log("detail api");
-    console.log("CommentParent api");
-  }, []);
-
-  const postParentComment = () => {
-    console.log(comment.current.value, "댓글달기");
-  };
-
-  const hitLike = () => {
-    console.log("좋아요 후 LikeEmpty로 바꾸기");
-  };
-
-  return (
-    <DetailContainer>
-      <UserContainer>
-        <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-and-shapes-3/177800/130-512.png" />
-        <span>홍길동</span>
-      </UserContainer>
-      <Separator />
-      <ToastViewContainer>
-        <BoardView />
-      </ToastViewContainer>
-      <MapConatiner>
-        <BoardDetailMap address="서울 관악구 봉천동 1572-15" />
-      </MapConatiner>
-      <Separator />
-      <LikeCommentContainer>
-        <Infomation>
-          <span onClick={hitLike}>
-            <LikeFill />
-          </span>
-          <div>
-            <span>좋아요+</span>
-            <LikeCount>0</LikeCount>
-          </div>
-          <div>
-            <span>댓글+</span>
-            <CommentCount>0</CommentCount>
-          </div>
-        </Infomation>
-        <CommentInput>
-          <input
-            type="text"
-            placeholder="댓글을 입력하세요."
-            ref={comment}
-            onKeyPress={(e) => {
-              if (window.event.keyCode === 13) {
-                postParentComment();
-              }
-            }}
-          />
-        </CommentInput>
-        <Separator />
-        <BoardComment />
-      </LikeCommentContainer>
-    </DetailContainer>
-  );
-=======
     const id = props.match.params.id;
     const dispatch = useDispatch();
     const detail = useSelector((state) => state.trilog.detail);
@@ -150,7 +88,6 @@ const BoardDetail = (props) => {
             </LikeCommentContainer>
         </DetailContainer>
     );
->>>>>>> chanyeop
 };
 
 const Separator = styled.hr`

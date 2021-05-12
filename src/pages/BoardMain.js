@@ -38,27 +38,10 @@ const BoardMain = (props) => {
 
     if (filter) {
       // 좋아요순
-<<<<<<< HEAD
-      const api =
-        "http://13.209.8.146/api/all/boards?page=1&filter=likeNum&keyword=";
-      fetch(api)
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err, "좋아요순 error"));
-    } else {
-      // 최신순
-      const api =
-        "http://13.209.8.146/api/all/boards?page=1&filter=modifiedAt&keyword=";
-      fetch(api)
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err, "날짜순 error"));
-=======
       dispatch(TrilogActions.getTrilogMainFilter('likeNum', keyword.current.value));
     } else {
       // 최신순
       dispatch(TrilogActions.getTrilogMainFilter('modifiedAt', keyword.current.value));
->>>>>>> chanyeop
     }
 
     setFilter(!filter);
@@ -66,28 +49,6 @@ const BoardMain = (props) => {
 
   const scroll = () => {
     const filter_scroll = filterRef.current;
-<<<<<<< HEAD
-    const keyword_scroll = keyword.current.value;
-
-    if (!filter_scroll) {
-      // 좋아요순
-      const api = `http://13.209.8.146/api/all/boards?page=1&filter=likeNum&keyword=${keyword_scroll}`;
-      fetch(api)
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err, "좋아요순 무한 스크롤 error"));
-    } else {
-      // 최신순
-      const api = `http://13.209.8.146/api/all/boards?page=1&filter=modifiedAt&keyword=${keyword_scroll}`;
-      fetch(api)
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err, "날짜순 무한 스크롤 error"));
-    }
-
-    const temp_arr = new Array(5).fill(0);
-    setTrilog((prevState) => [...prevState, ...temp_arr]);
-=======
     
     if(!filter_scroll) {
       // 좋아요순
@@ -96,7 +57,6 @@ const BoardMain = (props) => {
       // 최신순
       dispatch(TrilogActions.getTrilogMain('modifiedAt', ''));
     }
->>>>>>> chanyeop
   };
 
   React.useEffect(() => {
@@ -113,24 +73,11 @@ const BoardMain = (props) => {
         <Plus />
       </FloatingButton>
       <SearchContainer>
-<<<<<<< HEAD
-        <Search
-          type="text"
-          placeholder="검색어를 입력하세요."
-          ref={keyword}
-          onKeyPress={(e) => {
-            if (window.event.keyCode === 13) {
-              console.log("검색");
-            }
-          }}
-        />
-=======
         <Search type="text" placeholder="검색어를 입력하세요." ref={keyword} onKeyPress={(e) => {
             if(window.event.keyCode === 13) {
               dispatch(TrilogActions.getTrilogMainFilter(`${filter ? 'modifiedAt' : 'likeNum' }`, keyword.current.value));
             } 
         }} />
->>>>>>> chanyeop
       </SearchContainer>
       <FilterContainer>
         <Filter>
@@ -144,18 +91,6 @@ const BoardMain = (props) => {
         </Filter>
       </FilterContainer>
       <CardContainer>
-<<<<<<< HEAD
-        <InfinityScroll callNext={scroll} is_next={false}>
-          {trilog.map((val, idx) => {
-            const index = idx + 1;
-
-            if (index % 5 === 0) {
-              return <BoardCard key={index} />;
-            }
-
-            return <BoardCard key={index} margin="50px 40px 0 0" />;
-          })}
-=======
         <InfinityScroll
           callNext={scroll}
           is_next={is_last}
@@ -169,7 +104,6 @@ const BoardMain = (props) => {
 
               return <BoardCard data={val} key={index} margin="50px 40px 0 0" />
             }) }
->>>>>>> chanyeop
         </InfinityScroll>
       </CardContainer>
     </BoardMainContainer>
