@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const BoardMain = (props) => {
   const dispatch = useDispatch();
+  const is_login = useSelector((state) => state.user.is_login);
   const trilog = useSelector((state) => state.trilog.main.list);
   const is_last = useSelector((state) => state.trilog.main.is_last);
   const [filter, _setFilter] = React.useState(false);
@@ -65,13 +66,15 @@ const BoardMain = (props) => {
 
   return (
     <BoardMainContainer>
-      <FloatingButton
-        onClick={() => {
-          history.push("/trilog/write");
-        }}
-      >
-        <Plus />
-      </FloatingButton>
+      {is_login ? (
+        <FloatingButton
+          onClick={() => {
+            history.push("/trilog/write");
+          }}
+        >
+          <Plus />
+        </FloatingButton>
+      ) : (<></>)}
       <SearchContainer>
         <Search type="text" placeholder="검색어를 입력하세요." ref={keyword} onKeyPress={(e) => {
             if(window.event.keyCode === 13) {

@@ -1,45 +1,38 @@
 import React from "react";
 import styled from "styled-components";
 import { CommentLike } from "media/svg/Svg";
+import { actionCreators as TrilogActions } from 'redux/modules/trilog';
+import { useDispatch, useSelector } from 'react-redux';
 
 const BoardChildComment = (props) => {
-    const { id, comment } = props; // parent comment id
-    
-    const hitLike = () => {
-        const access_token = localStorage.getItem("access_token");
-        const api = `http://13.209.8.146/api/boards/comments/children/like/${id}`;
+  const dispatch = useDispatch();
+  const { parent_id, comment } = props; // parent comment id
+  
+  const hitLike = () => {
+    dispatch(TrilogActions.setChildCommentLike(parent_id, comment.commentChild.id));
+  };
 
-        fetch(api, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `${access_token}`,
-            },
-        }).then(res => res.json()).catch(err => console.log(err, 'child comment like'));
-    };
-
-    return(
-        <div>
-            <ChildComment>
-                <UserContainer>
-                    <img src={comment.author.profileImgUrl} />
-                    <span>{comment.author.nickname}</span>
-                </UserContainer>
-                <Content>
-                    {comment.commentChild.contents}
-                </Content>
-            </ChildComment>
-            <Likes>
-                <LikeSpan>
-                    <div onClick={hitLike}>
-                        <CommentLike />
-                    </div>
-                    <span>+{comment.commentChild.likeNum}</span>
-                </LikeSpan>
-            </Likes>
-        </div>
-    );
+  return(
+      <div>
+          <ChildComment>
+              <UserContainer>
+                  <img src={comment.author.profileImgUrl} />
+                  <span>{comment.author.nickname}</span>
+              </UserContainer>
+              <Content>
+                  {comment.commentChild.contents}
+              </Content>
+          </ChildComment>
+          <Likes>
+              <LikeSpan>
+                  <div onClick={hitLike}>
+                      <CommentLike />
+                  </div>
+                  <span>+{comment.commentChild.likeNum}</span>
+              </LikeSpan>
+          </Likes>
+      </div>
+  );
 };
 
 export default BoardChildComment;
