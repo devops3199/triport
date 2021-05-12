@@ -12,6 +12,7 @@ const BoardMain = (props) => {
   const is_login = useSelector((state) => state.user.is_login);
   const trilog = useSelector((state) => state.trilog.main.list);
   const is_last = useSelector((state) => state.trilog.main.is_last);
+  const is_loading = useSelector((state) => state.trilog.loading.main_loading);
   const [filter, _setFilter] = React.useState(false);
   const filterRef = React.useRef(filter);
   const keyword = React.useRef();
@@ -66,49 +67,66 @@ const BoardMain = (props) => {
 
   return (
     <BoardMainContainer>
-      {is_login ? (
-        <FloatingButton
-          onClick={() => {
-            history.push("/trilog/write");
-          }}
-        >
-          <Plus />
-        </FloatingButton>
-      ) : (<></>)}
-      <SearchContainer>
-        <Search type="text" placeholder="검색어를 입력하세요." ref={keyword} onKeyPress={(e) => {
-            if(window.event.keyCode === 13) {
-              dispatch(TrilogActions.getTrilogMainFilter(`${filter ? 'modifiedAt' : 'likeNum' }`, keyword.current.value));
-            } 
-        }} />
-      </SearchContainer>
-      <FilterContainer>
-        <Filter>
-          <Background id="FilterTab" />
-          <LikeFilter onClick={tabToggle}>
-            <span id="LikeText">좋아요순</span>
-          </LikeFilter>
-          <NewestFilter onClick={tabToggle}>
-            <span id="NewestText">최신순</span>
-          </NewestFilter>
-        </Filter>
-      </FilterContainer>
-      <CardContainer>
-        <InfinityScroll
-          callNext={scroll}
-          is_next={is_last}
-        >
-          { trilog.map((val, idx) => {
-              const index = idx + 1;
+      {is_loading ? (
+        <></>
+      ) : (
+        <>
+          {is_login ? (
+            <FloatingButton
+              onClick={() => {
+                history.push("/trilog/write");
+              }}
+            >
+              <Plus />
+            </FloatingButton>
+          ) : (
+            <></>
+          )}
+          <SearchContainer>
+            <Search
+              type="text"
+              placeholder="검색어를 입력하세요."
+              ref={keyword}
+              onKeyPress={(e) => {
+                if (window.event.keyCode === 13) {
+                  dispatch(
+                    TrilogActions.getTrilogMainFilter(
+                      `${filter ? "modifiedAt" : "likeNum"}`,
+                      keyword.current.value
+                    )
+                  );
+                }
+              }}
+            />
+          </SearchContainer>
+          <FilterContainer>
+            <Filter>
+              <Background id="FilterTab" />
+              <LikeFilter onClick={tabToggle}>
+                <span id="LikeText">좋아요순</span>
+              </LikeFilter>
+              <NewestFilter onClick={tabToggle}>
+                <span id="NewestText">최신순</span>
+              </NewestFilter>
+            </Filter>
+          </FilterContainer>
+          <CardContainer>
+            <InfinityScroll callNext={scroll} is_next={is_last}>
+              {trilog.map((val, idx) => {
+                const index = idx + 1;
 
-              if(index % 5 === 0) {
-                return <BoardCard data={val} key={index} />;
-              }
+                if (index % 5 === 0) {
+                  return <BoardCard data={val} key={index} />;
+                }
 
-              return <BoardCard data={val} key={index} margin="50px 40px 0 0" />
-            }) }
-        </InfinityScroll>
-      </CardContainer>
+                return (
+                  <BoardCard data={val} key={index} margin="50px 40px 0 0" />
+                );
+              })}
+            </InfinityScroll>
+          </CardContainer>
+        </>
+      )}
     </BoardMainContainer>
   );
 };

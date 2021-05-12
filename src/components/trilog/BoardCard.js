@@ -6,11 +6,9 @@ import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
 import { LikeFill, LikeEmpty } from "media/svg/Svg";
 import { history } from "redux/configureStore";
-import { BoardView } from "components/components";
 
 const BoardCard = (props) => {
     const dispatch = useDispatch();
-    const detail = useSelector((state) => state.trilog.detail);
     const { margin, data } = props;
     const information = data.information;
     const author = data.author;
@@ -44,7 +42,7 @@ const BoardCard = (props) => {
                     <span>{information.title}</span>
                 </Title>
                 <Description>
-                    <BoardView content={information.description} />
+                    {information.description}
                 </Description>
             </ContentContainer>
         </BoardCardContainer>
