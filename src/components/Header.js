@@ -1,29 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
-import { history } from "../redux/configureStore";
-
 import { Logo } from "media/svg/Svg";
-
 import Category from "components/Category";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "redux/modules/user";
 
 const Header = (props) => {
+  const { history } = props;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-
-  const pathname = history.location.pathname;
 
   const is_logout = () => {
     dispatch(userActions.logout());
     window.alert("로그아웃 되었습니다!");
     history.replace("/");
   };
-  // React.useEffect(() => {
-  // console.log(pathname);
-  //   dispatch(userActions.tokenExtension());
-  // }, []);
 
   if (user.is_login === true) {
     return (
@@ -32,6 +23,7 @@ const Header = (props) => {
           <Wrap>
             <LogoWrapper
               onClick={() => {
+                const pathname = history.location.pathname;
                 if (pathname === "/") {
                   history.replace("/");
                 } else {
@@ -42,14 +34,20 @@ const Header = (props) => {
               <Logo />
             </LogoWrapper>
             <LeftWrap>
-              <Category />
+              <Category history={history} />
             </LeftWrap>
             <div style={{ width: "30rem" }}></div>
             <RightWrap>
               <Nickname>{user.nickname}</Nickname>
               <MyOrLogin
                 onClick={() => {
-                  history.push("/profile");
+                  const pathname = history.location.pathname;
+                  
+                  if (pathname === "/profile") {
+                    history.replace("/profile");
+                  } else {
+                    history.push("/profile");
+                  }
                 }}
               >
                 마이페이지
@@ -67,6 +65,7 @@ const Header = (props) => {
         <Wrap>
           <LogoWrapper
             onClick={() => {
+              const pathname = history.location.pathname;
               if (pathname === "/") {
                 history.replace("/");
               } else {
@@ -77,20 +76,30 @@ const Header = (props) => {
             <Logo />
           </LogoWrapper>
           <LeftWrap>
-            <Category />
+            <Category history={history} />
           </LeftWrap>
           <div style={{ width: "30rem" }}></div>
           <RightWrap>
             <MyOrLogin
               onClick={() => {
-                history.push("/login");
+                const pathname = history.location.pathname;
+                if (pathname === "/login") {
+                  history.replace("/login");
+                } else {
+                  history.push("/login");
+                }
               }}
             >
               로그인
             </MyOrLogin>
             <LogoutOrSignUp
               onClick={() => {
-                history.push("/signup");
+                const pathname = history.location.pathname;
+                if (pathname === "/signup") {
+                  history.replace("/signup");
+                } else {
+                  history.push("/signup");
+                }
               }}
             >
               회원가입

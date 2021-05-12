@@ -253,7 +253,7 @@ const TrilsDetail = (props) => {
           <LikeCov onClick={like}>
             {info.member.isLike ? <HeartFill /> : <HeartEmpty />}
           </LikeCov>
-          <p style={{ color: "#8B8888", width: "5rem" }}>
+          <p style={{ color: "#8B8888", width: "5rem" , userSelect: "none"}}>
             좋아요 +{info.information.likeNum}
           </p>
           <Tag>
@@ -484,7 +484,7 @@ const Component = styled.div`
   height: 100vh;
   width: 100vw;
   background-color: black;
-  z-index: 10;
+  z-index: 60;
   opacity: 0.4;
 `;
 const Wrap = styled.div`
@@ -492,7 +492,7 @@ const Wrap = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 20;
+  z-index: 70;
   background-color: white;
   max-width: 57rem;
   max-height: 45rem;

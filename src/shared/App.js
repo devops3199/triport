@@ -31,7 +31,7 @@ const App = () => {
 
   return (
     <>
-      <Header />
+      <Header history={history} />
       <MainContainer>
         <ConnectedRouter history={history}>
           <Switch>

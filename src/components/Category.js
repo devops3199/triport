@@ -1,19 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 
-import { history } from "../redux/configureStore";
-
-const Category = () => {
+const Category = (props) => {
+  const { history } = props;
   const [currentClick, setCurrentClick] = React.useState(null);
   const [prevClick, setPrevClick] = React.useState(null);
 
   const GetClick = (e) => {
     setCurrentClick(e.target.id); // 해당 엘리먼트의 id값
-    
-    if(e.target.id === 'trils') {
-      history.push('/'); // 클릭 시 페이지 이동
+    const pathname = history.location.pathname;
+    console.log(history.action)
+    if (pathname === `${e.target.id}`) {
+      history.replace(`${e.target.id}`);
     } else {
-      history.push(`/${e.target.id}`); // 클릭 시 페이지 이동
+      history.push(`${e.target.id}`);
     }
   };
 
@@ -37,13 +37,13 @@ const Category = () => {
 
   return (
     <React.Fragment>
-      <Category1 id="trils" onClick={GetClick}>
+      <Category1 id="/" onClick={GetClick}>
         Trils
       </Category1>
-      <Category1 id="trilog" onClick={GetClick}>
+      <Category1 id="/trilog" onClick={GetClick}>
         Trilog
       </Category1>
-      <Category2 id="about" onClick={GetClick}>
+      <Category2 id="/about" onClick={GetClick}>
         About
       </Category2>
     </React.Fragment>

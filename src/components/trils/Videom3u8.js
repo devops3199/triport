@@ -121,12 +121,12 @@ const Videom3u8 = (props) => {
       />
       {/* <VideoBg /> */}
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
+      <PostBottom>
       <BottomCov>
         <LikeCov onClick={like}>
           {props.member.isLike ? <HeartFill /> : <HeartEmpty />}
         </LikeCov>
       </BottomCov>
-      <PostBottom>
         <PostLikeCnt>좋아요 +{props.information.likeNum}</PostLikeCnt>
         <PostUserComment>
           {props.information.hashtag.map((p, idx) => {
@@ -149,7 +149,7 @@ const Hash = styled.div`
 `;
 
 const PostBottom = styled.div`
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-left: 10px;
   display: flex;
   flex-direction: row;
@@ -276,9 +276,7 @@ const BookmarkCov = styled.div`
 
 const BottomCov = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: -2.5rem 1rem auto 2rem;
+  margin-right: 0.7rem;
 `;
 
 export default Videom3u8;

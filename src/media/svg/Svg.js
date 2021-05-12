@@ -142,7 +142,7 @@ const HeartEmpty = () => {
       viewBox="0 0 26.22 23.46"
       style={{
         fill: "none",
-        stroke: "#6f6f6f",
+        stroke: "#000000",
         strokeLinecap: "round",
         strokeLinejoin: "round",
       }}

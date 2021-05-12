@@ -20,6 +20,7 @@ const Trils = (props) => {
   const page = useSelector((state) => state.trils.page);
   const post_list = useSelector((state) => state.trils.data);
   const modal = useSelector((state) => state.trils.modal);
+  const modal_loading = useSelector((state) => state.trils.modal_loading);
   const [filter, _setFilter] = useState(true);
   const filterRef = useRef(filter);
   const keyword = useRef("");
@@ -102,7 +103,7 @@ const Trils = (props) => {
         </Filter>
       </FilterContainer>
       <CenterDiv>
-        {modal ? <TrilsDetail history={history} /> : null}
+        {modal && !modal_loading ? <TrilsDetail history={history} /> : null}
         <FloatingButton
           onClick={() => {
             if (access_token === null) {

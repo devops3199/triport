@@ -8,9 +8,11 @@ const trilseSlice = createSlice({
     modal: false,
     detail: [],
     page: 1,
+    modal_loading: false,
   },
   reducers: {
     GET_POST: (state, action) => {
+      console.log(action.payload.result)
       state.data = action.payload.result;
       state.page = action.payload.page;
     },
@@ -21,6 +23,7 @@ const trilseSlice = createSlice({
     GET_POST_DETAIL: (state, action) => {
       state.modal = true;
       state.detail = action.payload;
+      state.modal_loading = false;
     },
     CLOSE_MODAL: (state, action) => {
       state.modal = false;
@@ -50,6 +53,9 @@ const trilseSlice = createSlice({
       );
       state.data[idx].information.hashtag = action.payload.hashtag;
       state.detail.information.hashtag = action.payload.hashtag;
+    },
+    MODAL_LOADING: (state, action) => {
+      state.modal_loading = true;
     },
   },
 });
@@ -141,6 +147,7 @@ const getPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
 
 const getPostDetail = (postId) => {
   return function (dispatch, getState, { history }) {
+    dispatch(MODAL_LOADING());
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
     const api = `${config}/api/all/posts/detail/${postId}`;
@@ -194,6 +201,7 @@ export const {
   DELETE_POST,
   SEARCH_POST,
   EDIT_POST,
+  MODAL_LOADING,
 } = trilseSlice.actions;
 
 export const TrilsActions = {
