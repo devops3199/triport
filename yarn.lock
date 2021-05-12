@@ -9931,6 +9931,13 @@ react-error-overlay@^6.0.9:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
+react-infinite-scroll-component@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/react-infinite-scroll-component/-/react-infinite-scroll-component-6.1.0.tgz#7e511e7aa0f728ac3e51f64a38a6079ac522407f"
+  integrity sha512-SQu5nCqy8DxQWpnUVLx7V7b7LcA37aM7tvoWjTLZp1dk6EJibM5/4EJKzOnl07/BsM1Y40sKLuqjCwwH/xV0TQ==
+  dependencies:
+    throttle-debounce "^2.1.0"
+
 react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -9945,6 +9952,13 @@ react-is@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
+
+react-loader-spinner@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-loader-spinner/-/react-loader-spinner-4.0.0.tgz#43d9e71b0574219f64216933c28ef5faa12262f6"
+  integrity sha512-RU2vpEej6G4ECei0h3q6bgLU10of9Lw5O+4AwF/mtkrX5oY20Sh/AxoPJ7etbrs/7Q3u4jN5qwCwGLRKCHpk6g==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-material-ui-carousel@^2.2.4:
   version "2.2.4"
@@ -11546,6 +11560,11 @@ svgo@^1.0.0, svgo@^1.2.2:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
+sweetalert2@^10.16.7:
+  version "10.16.7"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-10.16.7.tgz#beea4accd616c93545ab16ee40c41a3e79ac866b"
+  integrity sha512-8w7UMU+joJro3r7CyyqLOK5Agc0/TI2OqC2T8odOOYRKbPvq2Bq9GF3HoQT2tFnjiqP5QEpVugayowoIl2ZlWw==
+
 symbol-observable@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
@@ -11680,6 +11699,11 @@ throat@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/throat/-/throat-5.0.0.tgz#c5199235803aad18754a667d659b5e72ce16764b"
   integrity sha512-fcwX4mndzpLQKBS1DVYhGAcYaYt7vsHNIvQV+WXMvnow5cgjPphq5CaayLaGsjRdSCKZFNGt7/GYAuXaNOiYCA==
+
+throttle-debounce@^2.1.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/throttle-debounce/-/throttle-debounce-2.3.0.tgz#fd31865e66502071e411817e241465b3e9c372e2"
+  integrity sha512-H7oLPV0P7+jgvrk+6mwwwBDmxTaxnu9HMXmloNLXwnNO0ZxZ31Orah2n8lU1eMPvsaowP2CX+USCgyovXfdOFQ==
 
 through2@^2.0.0:
   version "2.0.5"

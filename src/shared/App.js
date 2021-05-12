@@ -22,7 +22,6 @@ import Footer from "components/Footer";
 import Profile from "pages/Profile";
 import Trils from "pages/Trils";
 import SnsWrite from "pages/SnsWrite";
-import Test from "pages/Test";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "redux/modules/user";
@@ -41,6 +40,7 @@ const App = () => {
         <ConnectedRouter history={history}>
           <Switch>
             <Route path="/" exact component={Trils} />
+            <Route path="/search" exact component={Trils} />
             <Route path="/post" exact component={Snsmain} />
             <Route path="/trils/write" exact component={SnsWrite} />
             <Route path="/login" exact component={Login} />
@@ -50,7 +50,6 @@ const App = () => {
             <Route path="/trilog/write/:id" exact component={BoardWrite} />
             <Route path="/trilog/:id" exact component={BoardDetail} />
             <Route path="/profile" exact component={Profile} />
-            <Route path="/test" exact component={Test} />
             <Route component={NotFound} />
           </Switch>
         </ConnectedRouter>

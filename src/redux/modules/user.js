@@ -92,7 +92,7 @@ const loginDB = (email, pwd) => {
             })
           );
           window.alert("로그인 성공");
-          history.push("/trils");
+          history.push("/");
         }
       })
       .catch((error) => {
