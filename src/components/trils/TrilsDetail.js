@@ -21,7 +21,7 @@ const TrilsDetail = (props) => {
   const [editOn, setEditOn] = useState(false);
   const [tags, setTags] = useState(info.information.hashtag);
   const tagInput = useRef(null);
-  console.log(info)
+  console.log(info);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -170,7 +170,7 @@ const TrilsDetail = (props) => {
   };
 
   const hash = (e) => {
-    dispatch(TrilsActions.searchPost(e.target.id, "modifiedAt", 1));
+    history.push(`/search?q=${e.target.id}&filter=likeNum`, 1);
     closeModal();
   };
 

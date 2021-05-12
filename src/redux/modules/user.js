@@ -55,7 +55,7 @@ const signupDB = (email, pwd, pwdcheck, nickname) => {
 // 로그인
 const loginDB = (email, pwd) => {
   return function (dispatch, getState, { history }) {
-    const API = "http://52.79.228.115/auth/login";
+    const API = "http://13.209.8.146/auth/login";
     fetch(API, {
       method: "POST",
       headers: {
