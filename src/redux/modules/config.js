@@ -1,5 +1,3 @@
-const config = {
-  api: 'http://52.79.228.115',
-};
+const config = 'http://13.209.8.146'
 
 export { config };

@@ -8,8 +8,10 @@ import ProgressBar from "./ProgressBar";
 import { TrilsActions, DELETE_POST } from "redux/modules/trils";
 import Swal from "sweetalert2";
 import ClearIcon from "@material-ui/icons/Clear";
+import { config } from "../../redux/modules/config";
 
-const TrilsDetail = () => {
+const TrilsDetail = (props) => {
+  const { history } = props;
   const hls = new Hls();
   const player = useRef(null);
   const info = useSelector((state) => state.trils.detail);
@@ -19,6 +21,7 @@ const TrilsDetail = () => {
   const [editOn, setEditOn] = useState(false);
   const [tags, setTags] = useState(info.information.hashtag);
   const tagInput = useRef(null);
+  console.log(info)
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -99,6 +102,23 @@ const TrilsDetail = () => {
   };
 
   const like = () => {
+    const access_token = localStorage.getItem("access_token");
+    if (!access_token) {
+      Swal.fire({
+        title: "로그인을 해주세요.",
+        text: "로그인 후 좋아요를 누를 수 있습니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "로그인하기",
+        cancelButtonText: "닫기",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    }
     dispatch(TrilsActions.send_like(info.information.id, info.member.isLike));
   };
 
@@ -115,7 +135,7 @@ const TrilsDetail = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         const access_token = localStorage.getItem("access_token");
-        const url = `http://13.209.8.146/api/posts/${info.information.id}`;
+        const url = `${config}/api/posts/${info.information.id}`;
         const data = {
           method: "DELETE",
           headers: {
@@ -144,8 +164,8 @@ const TrilsDetail = () => {
   };
 
   const hash = (e) => {
-    dispatch(TrilsActions.getPost(e.target.id, "modifiedAt", 1))
-    closeModal()
+    dispatch(TrilsActions.searchPost(e.target.id, "modifiedAt", 1));
+    closeModal();
   };
 
   const edit = () => {
@@ -158,7 +178,7 @@ const TrilsDetail = () => {
 
   const doEdit = () => {
     const access_token = localStorage.getItem("access_token");
-    const url = `http://13.209.8.146/api/posts/${info.information.id}`;
+    const url = `${config}/api/posts/${info.information.id}`;
     const data = {
       method: "PUT",
       headers: {

@@ -44,21 +44,20 @@ const Trils = (props) => {
       like.style.color = "#fff";
       newest.style.color = "#89ACFF";
     }
-    console.log(filter);
 
     if (filter) {
       // 최신순
-      dispatch(TrilsActions.getPost(keyword.current.value, "modifiedAt", 1));
+      dispatch(TrilsActions.getPost(queryObj.q, "modifiedAt", 1));
     } else {
       // 좋아요순
-      dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", 1));
+      dispatch(TrilsActions.getPost(queryObj.q, "likeNum", 1));
     }
     setFilter(!filter);
   };
 
   useEffect(() => {
-    dispatch(TrilsActions.getPost());
-  }, []);
+    dispatch(TrilsActions.searchPost(queryObj.q, queryObj.filter, 1));
+  }, [dispatch,queryObj]);
 
   const next = () => {
     const setFilter = (data) => {
@@ -68,10 +67,10 @@ const Trils = (props) => {
 
     if (filter) {
       // 좋아요순
-      dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", page));
+      dispatch(TrilsActions.getPost(queryObj.q, queryObj.filter, page));
     } else {
       // 최신순
-      dispatch(TrilsActions.getPost(keyword.current.value, "modifiedAt", page));
+      dispatch(TrilsActions.getPost(queryObj.q, queryObj.filter, page));
     }
     setFilter(!filter);
   };
@@ -85,8 +84,10 @@ const Trils = (props) => {
           ref={keyword}
           onKeyPress={(e) => {
             if (window.event.keyCode === 13) {
-              // 좋아요순
-              history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+              if (window.event.keyCode === 13) {
+                // 좋아요순
+                history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+              }
             }
           }}
         />
@@ -182,7 +183,7 @@ const NewestFilter = styled.div`
   cursor: pointer;
 
   & span {
-    font-family: "paybooc-Bold";
+    font-family: "TTTogether";
     font-size: 14px;
     letter-spacing: 0px;
     color: #89acff;

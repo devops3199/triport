@@ -55,7 +55,7 @@ const writepost = (video, tags) => {
     let formData = new FormData();
     formData.append("file", video);
     tags.map((p, idx) => formData.append("hashtag", p));
-    const api = `${config.api}/api/posts`;
+    const api = `${config}/api/posts`;
     const data = {
       method: "POST",
       headers: {
@@ -81,7 +81,7 @@ const searchPost = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
-    const api = `${config.api}/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
+    const api = `${config}/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
     const data = {
       method: "GET",
       headers: {
@@ -107,7 +107,7 @@ const getPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
-    const api = `${config.api}/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
+    const api = `${config}/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
     const data = {
       method: "GET",
       headers: {
@@ -139,7 +139,7 @@ const getPostDetail = (postId) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
-    const api = `${config.api}/api/all/posts/detail/${postId}`;
+    const api = `${config}/api/all/posts/detail/${postId}`;
     const data = {
       method: "GET",
       headers: {
@@ -161,7 +161,7 @@ const send_like = (postId, like) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
-    const api = `${config.api}/api/posts/like/${postId}`;
+    const api = `${config}/api/posts/like/${postId}`;
     const data = {
       method: "POST",
       headers: {

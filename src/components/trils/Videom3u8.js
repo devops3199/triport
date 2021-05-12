@@ -2,15 +2,13 @@ import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
-import {
-  HeartEmpty,
-  HeartFill,
-} from "media/svg/Svg";
+import { HeartEmpty, HeartFill } from "media/svg/Svg";
 import { useDispatch } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
+import Swal from "sweetalert2";
 
 const Videom3u8 = (props) => {
-  const { mr } = props;
+  const { mr, history } = props;
   const hls = new Hls();
   const player = useRef(null);
   const [ismuted, setMute] = useState(true);
@@ -64,29 +62,54 @@ const Videom3u8 = (props) => {
   }, [params.src]);
 
   const videoplay = () => {
+    if(!player.current){
+      return;
+    }
     player.current.play();
   };
 
   const videopause = () => {
+    if(!player.current){
+      return;
+    }
     player.current.pause();
   };
 
   const openModal = () => {
-    dispatch(TrilsActions.getPostDetail(props.information.id))
-  }
+    dispatch(TrilsActions.getPostDetail(props.information.id));
+  };
+
+  const like = (e) => {
+    e.stopPropagation();
+    const access_token = localStorage.getItem("access_token");
+    if (!access_token) {
+      Swal.fire({
+        title: "로그인을 해주세요.",
+        text: "로그인 후 좋아요를 누를 수 있습니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "로그인하기",
+        cancelButtonText: "닫기",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    }
+    dispatch(TrilsActions.send_like(props.information.id, props.member.isLike));
+  };
 
   return (
-    <VideoCards
-      margin={mr}
-      onClick={openModal}
-      onMouseOver={videoplay}
-      onMouseLeave={videopause}
-    >
+    <VideoCards margin={mr} onClick={openModal}>
       <Profile>
         <ProfileImg src={props.author.profileImgUrl} />
         <ProfileId>{props.author.nickname}</ProfileId>
       </Profile>
       <VideoPlay
+        onMouseOver={videoplay}
+        onMouseLeave={videopause}
         ref={player}
         muted={ismuted}
         loop
@@ -99,23 +122,21 @@ const Videom3u8 = (props) => {
       {/* <VideoBg /> */}
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
       <BottomCov>
-        <LikeCov>{props.member.isLike ? <HeartFill /> : <HeartEmpty />}</LikeCov>
+        <LikeCov onClick={like}>
+          {props.member.isLike ? <HeartFill /> : <HeartEmpty />}
+        </LikeCov>
       </BottomCov>
       <PostBottom>
         <PostLikeCnt>좋아요 +{props.information.likeNum}</PostLikeCnt>
-        <PostUser>
-          <PostUserID>{props.author.nickname}</PostUserID>
-          {/* <PostUserComment>{props.information.hashtag}</PostUserComment> */}
-          <PostUserComment>
-            {props.information.hashtag.map((p, idx) => {
-              return (
-                <>
-                  <Hash>#{p}</Hash>
-                </>
-              );
-            })}
-          </PostUserComment>
-        </PostUser>
+        <PostUserComment>
+          {props.information.hashtag.map((p, idx) => {
+            return (
+              <>
+                <Hash>#{p}</Hash>
+              </>
+            );
+          })}
+        </PostUserComment>
       </PostBottom>
     </VideoCards>
   );
@@ -128,20 +149,22 @@ const Hash = styled.div`
 `;
 
 const PostBottom = styled.div`
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   margin-left: 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 `;
 
 const PostLikeCnt = styled.div`
   font-family: "AppleSDGothicNeoR";
   display: flex;
+  user-select: none;
 `;
 
 const PostUser = styled.div`
   display: flex;
   flex-direction: row;
+  user-select: none;
 `;
 
 const PostUserID = styled.div`
@@ -183,6 +206,7 @@ const VideoBg = styled.div`
 `;
 
 const Profile = styled.div`
+  user-select: none;
   margin-bottom: -3rem;
   display: flex;
   z-index: 5;
@@ -209,6 +233,8 @@ const ProfileId = styled.div`
   /* background:white; */
   border-radius: 20px;
   width: 100px;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 `;
 
 const LikeCov = styled.div`
