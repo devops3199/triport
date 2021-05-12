@@ -56,8 +56,11 @@ const Trils = (props) => {
   };
 
   useEffect(() => {
+    if (!(queryObj.filter === "modifiedAt" || queryObj.filter === "likeNum")) {
+      history.push("/notFound");
+    }
     dispatch(TrilsActions.searchPost(queryObj.q, queryObj.filter, 1));
-  }, [dispatch,queryObj]);
+  }, [dispatch,queryObj.q,queryObj.filter]);
 
   const next = () => {
     const setFilter = (data) => {
@@ -86,7 +89,9 @@ const Trils = (props) => {
             if (window.event.keyCode === 13) {
               if (window.event.keyCode === 13) {
                 // 좋아요순
-                history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+                history.push(
+                  `/search?q=${keyword.current.value}&filter=likeNum`
+                );
               }
             }
           }}

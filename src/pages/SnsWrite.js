@@ -93,10 +93,16 @@ const SnsWrite = () => {
   };
 
   const videoplay = () => {
+    if(!player.current){
+      return;
+    }
     player.current.play();
   };
 
   const videopause = () => {
+    if(!player.current){
+      return;
+    }
     player.current.pause();
   };
 

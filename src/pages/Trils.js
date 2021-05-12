@@ -1,5 +1,5 @@
 import Videom3u8 from "components/trils/Videom3u8";
-import Videomp4 from "components/trils/Videomp4";
+// import Videomp4 from "components/trils/Videomp4";
 import React, { useEffect, useRef, useState } from "react";
 import { history } from "redux/configureStore";
 import { Plus } from "media/svg/Svg";
@@ -14,7 +14,7 @@ import queryString from "query-string";
 
 const Trils = (props) => {
   const { search } = props.location;
-  const queryObj = queryString.parse(search);
+  // const queryObj = queryString.parse(search);
   const access_token = localStorage.getItem("access_token");
   const dispatch = useDispatch();
   const page = useSelector((state) => state.trils.page);
@@ -44,21 +44,23 @@ const Trils = (props) => {
       like.style.color = "#fff";
       newest.style.color = "#89ACFF";
     }
-    console.log(filter);
 
     if (filter) {
-      // 최신순
-      dispatch(TrilsActions.getPost(keyword.current.value, "modifiedAt", 1));
-    } else {
       // 좋아요순
+      console.log("좋아요순")
       dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", 1));
+    } else {
+      // 최신순
+      console.log("최신순")
+      dispatch(TrilsActions.getPost(keyword.current.value, "modifiedAt", 1));
     }
     setFilter(!filter);
   };
+  console.log(history);
 
   useEffect(() => {
     dispatch(TrilsActions.getPost());
-  }, []);
+  }, [dispatch]);
 
   const next = () => {
     const setFilter = (data) => {
@@ -129,7 +131,7 @@ const Trils = (props) => {
           <Plus />
         </FloatingButton>
         <PostLine>
-          {post_list.length === 0 ? (
+          {!post_list||post_list.length === 0 ? (
             <></>
           ) : (
             <InfiniteScroll

@@ -62,14 +62,14 @@ const Videom3u8 = (props) => {
   }, [params.src]);
 
   const videoplay = () => {
-    if(!player.current){
+    if (player.current.readyState !== 4) {
       return;
     }
     player.current.play();
   };
 
   const videopause = () => {
-    if(!player.current){
+    if (player.current.readyState !== 4) {
       return;
     }
     player.current.pause();

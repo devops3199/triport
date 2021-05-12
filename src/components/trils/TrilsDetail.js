@@ -94,10 +94,16 @@ const TrilsDetail = (props) => {
   }, []);
 
   const videoplay = () => {
+    if (player.current.readyState !== 4) {
+      return;
+    }
     player.current.play();
   };
 
   const videopause = () => {
+    if (player.current.readyState !== 4) {
+      return;
+    }
     player.current.pause();
   };
 
