@@ -7,6 +7,7 @@ import "@toast-ui/editor/dist/toastui-editor.css"; // Editor's Style
 import { history } from "redux/configureStore";
 import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
+import { config } from "redux/modules/config";
 import _ from "lodash";
 
 const BoardWrite = (props) => {
@@ -54,9 +55,9 @@ const BoardWrite = (props) => {
         let api = '';
 
         if(is_edit) {
-            api = `http://13.209.8.146/api/boards/image/${id}`;
+            api = `${config}/api/boards/image/${id}`;
         } else {
-            api = 'http://13.209.8.146/api/boards/image';
+            api = `${config}/api/boards/image`;
         }
 
         const access_token = localStorage.getItem("access_token");

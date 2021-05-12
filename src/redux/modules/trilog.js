@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { produce } from 'immer'; // 불변성 유지
+import { config } from "./config";
 
 /* Trilog - 트릴로그 */
 const trilogSlice = createSlice({
@@ -128,7 +129,7 @@ const getTrilogMain = (filter, keyword) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
         const page = getState().trilog.main.page;
-        fetch(`http://13.209.8.146/api/all/boards?page=${page}&filter=${filter}&keyword=${keyword}`, {
+        fetch(`${config}/api/all/boards?page=${page}&filter=${filter}&keyword=${keyword}`, {
             method: 'GET',
             headers: {
                 'Authorization' : `${access_token}`
@@ -157,7 +158,7 @@ const getTrilogMainFilter = (filter, keyword) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
         const page = 1;
-        fetch(`http://13.209.8.146/api/all/boards?page=${page}&filter=${filter}&keyword=${keyword}`, {
+        fetch(`${config}/api/all/boards?page=${page}&filter=${filter}&keyword=${keyword}`, {
             method: 'GET',
             headers: {
                 'Authorization' : `${access_token}`
@@ -186,7 +187,7 @@ const getTrilogDetail = (id) => {
     return async function (dispatch, getState, { history }) {
         const page = getState().trilog.parent_comment.page;
         const access_token = localStorage.getItem("access_token");
-        const detail = await fetch(`http://13.209.8.146/api/all/boards/detail/${id}`, {
+        const detail = await fetch(`${config}/api/all/boards/detail/${id}`, {
             method: 'GET',
             headers: {
                 'Authorization' : `${access_token}`
@@ -196,7 +197,7 @@ const getTrilogDetail = (id) => {
         .then(data => data)
         .catch(err => console.log(err, 'trilog detail'));
 
-        const comment = await fetch(`http://13.209.8.146/api/all/boards/comments/parents/${id}?page=1`, {
+        const comment = await fetch(`${config}/api/all/boards/comments/parents/${id}?page=1`, {
             method: 'GET',
             headers: {
                 'Authorization' : `${access_token}`
@@ -222,7 +223,7 @@ const addTrilog = (trilog) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
         if(trilog.is_edit) {
-            fetch(`http://13.209.8.146/api/boards/${trilog.id}`, {
+            fetch(`${config}/api/boards/${trilog.id}`, {
                 method: 'PUT',
                 headers : {
                     'Content-Type': 'application/json',
@@ -243,7 +244,7 @@ const addTrilog = (trilog) => {
             })
             .catch(err => console.log(err, 'Trilog Edit'))
         } else {
-            fetch('http://13.209.8.146/api/boards/', {
+            fetch('${config}/api/boards/', {
                 method: 'POST',
                 headers : {
                     'Content-Type': 'application/json',
@@ -270,7 +271,7 @@ const addTrilog = (trilog) => {
 const setLikeTrilog = (id) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
-        fetch(`http://13.209.8.146/api/boards/like/${id}`, {
+        fetch(`${config}/api/boards/like/${id}`, {
             method : 'POST',
             headers : {
                 'Content-Type': 'application/json',
@@ -293,7 +294,7 @@ const setLikeTrilog = (id) => {
 const setLikeTrilogDetail = (id) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
-        fetch(`http://13.209.8.146/api/boards/like/${id}`, {
+        fetch(`${config}/api/boards/like/${id}`, {
             method : 'POST',
             headers : {
                 'Content-Type': 'application/json',
@@ -317,7 +318,7 @@ const getParentCommentScroll = (id) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
         const page = getState().trilog.parent_comment.page;
-        fetch(`http://13.209.8.146/api/all/boards/comments/parents/${id}?page=${page}`, {
+        fetch(`${config}/api/all/boards/comments/parents/${id}?page=${page}`, {
             method: 'GET',
             headers: {
                 'Authorization' : `${access_token}`
@@ -341,7 +342,7 @@ const getParentCommentScroll = (id) => {
 const addParentComment = (id, contents) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
-        fetch(`http://13.209.8.146/api/boards/comments/parents/${id}`, {
+        fetch(`${config}/api/boards/comments/parents/${id}`, {
             method : 'POST',
             headers : {
                 'Content-Type': 'application/json',
@@ -365,7 +366,7 @@ const getChildComment = (id) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
 
-        fetch(`http://13.209.8.146/api/all/boards/comments/children/${id}?page=1`, {
+        fetch(`${config}/api/all/boards/comments/children/${id}?page=1`, {
             method : 'GET',
             headers : {
                 'Content-Type': 'application/json',
@@ -386,7 +387,7 @@ const addChildComment = (id, contents) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
 
-        fetch(`http://13.209.8.146/api/boards/comments/children/${id}`, {
+        fetch(`${config}/api/boards/comments/children/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -406,7 +407,7 @@ const addChildComment = (id, contents) => {
 const setParentCommentLike = (id) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
-        const api = `http://13.209.8.146/api/boards/comments/parents/like/${id}`;
+        const api = `${config}/api/boards/comments/parents/like/${id}`;
 
         fetch(api, {
             method: 'POST',
@@ -427,7 +428,7 @@ const setParentCommentLike = (id) => {
 const setChildCommentLike = (parent_id, id) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
-        const api = `http://13.209.8.146/api/boards/comments/children/like/${parent_id}`;
+        const api = `${config}/api/boards/comments/children/like/${parent_id}`;
 
         fetch(api, {
             method: 'POST',

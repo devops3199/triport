@@ -4,6 +4,7 @@ import { CommentLike } from "media/svg/Svg";
 import { BoardChildComment } from "components/components";
 import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
+import { config } from "redux/modules/config";
 
 const BoardComment = (props) => {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const BoardComment = (props) => {
             //dispatch(TrilogActions.getChildComment(comment.commentParent.id));
             const access_token = localStorage.getItem("access_token");
 
-            fetch(`http://13.209.8.146/api/all/boards/comments/children/${comment.commentParent.id}?page=1`, {
+            fetch(`${config}/api/all/boards/comments/children/${comment.commentParent.id}?page=1`, {
                 method : 'GET',
                 headers : {
                     'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ const BoardComment = (props) => {
       //dispatch(TrilogActions.addChildComment(comment.commentParent.id, commentRef.current.value));
       const access_token = localStorage.getItem("access_token");
 
-      fetch(`http://13.209.8.146/api/boards/comments/children/${comment.commentParent.id}`, {
+      fetch(`${config}/api/boards/comments/children/${comment.commentParent.id}`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
