@@ -97,7 +97,7 @@ const ProfileSetting = styled.div`
 `;
 
 const Setting = styled.div`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   display: flex;
 `;
 

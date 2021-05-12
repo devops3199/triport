@@ -4,145 +4,152 @@ import { CommentLike } from "media/svg/Svg";
 import { BoardChildComment } from "components/components";
 
 const BoardComment = (props) => {
-    const comment = React.useRef('');
-    const [showReply, setShowReply] = React.useState(false);
-    const [showReplyInput, setShowReplyInput] = React.useState(false);
+  const comment = React.useRef("");
+  const [showReply, setShowReply] = React.useState(false);
+  const [showReplyInput, setShowReplyInput] = React.useState(false);
 
-    const showReplyComment = () => {
-        setShowReply(!showReply);
-        console.log('대댓글 요청');
-    };
+  const showReplyComment = () => {
+    setShowReply(!showReply);
+    console.log("대댓글 요청");
+  };
 
-    const postChildComment = () => {
-        console.log(comment.current.value, '대댓글 작성');
-    }
+  const postChildComment = () => {
+    console.log(comment.current.value, "대댓글 작성");
+  };
 
-    const hitLike = () => {
-        console.log('댓글 좋아요');
-    };
+  const hitLike = () => {
+    console.log("댓글 좋아요");
+  };
 
-    return(
-        <>
-            <CommentContainer>
-                <ParentComment>
-                    <UserContainer>
-                        <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-and-shapes-3/177800/130-512.png" />
-                        <span>홍길동</span>
-                    </UserContainer>
-                    <Content>
-                        여행 정보 공유 너무 좋아요
-                    </Content>
-                </ParentComment>
-                <Likes>
-                    <LikeSpan>
-                        <div onClick={hitLike}>
-                           <CommentLike /> 
-                        </div>
-                        <span>+3</span>
-                    </LikeSpan>
-                    <span onClick={() => setShowReplyInput(!showReplyInput)}>답글 작성</span>
-                </Likes>
-                <ReplyComment showReplyInput={showReplyInput}>
-                    <input type="text" placeholder="답글 추가..." ref={comment} onKeyPress={(e) => {
-                        if(window.event.keyCode === 13) {
-                            postChildComment();
-                        } 
-                    }} />
-                </ReplyComment>
-            </CommentContainer>
-            <ShowComment>
-                {showReply ? (<span onClick={showReplyComment}>댓글 감추기 ▲</span>) : (<span onClick={showReplyComment}>댓글 보기(2) ▼</span>)}
-            </ShowComment>
-            <ReplyContainer showReply={showReply}>
-                <BoardChildComment />
-            </ReplyContainer>
-        </>
-    );
+  return (
+    <>
+      <CommentContainer>
+        <ParentComment>
+          <UserContainer>
+            <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-and-shapes-3/177800/130-512.png" />
+            <span>홍길동</span>
+          </UserContainer>
+          <Content>여행 정보 공유 너무 좋아요</Content>
+        </ParentComment>
+        <Likes>
+          <LikeSpan>
+            <div onClick={hitLike}>
+              <CommentLike />
+            </div>
+            <span>+3</span>
+          </LikeSpan>
+          <span onClick={() => setShowReplyInput(!showReplyInput)}>
+            답글 작성
+          </span>
+        </Likes>
+        <ReplyComment showReplyInput={showReplyInput}>
+          <input
+            type="text"
+            placeholder="답글 추가..."
+            ref={comment}
+            onKeyPress={(e) => {
+              if (window.event.keyCode === 13) {
+                postChildComment();
+              }
+            }}
+          />
+        </ReplyComment>
+      </CommentContainer>
+      <ShowComment>
+        {showReply ? (
+          <span onClick={showReplyComment}>댓글 감추기 ▲</span>
+        ) : (
+          <span onClick={showReplyComment}>댓글 보기(2) ▼</span>
+        )}
+      </ShowComment>
+      <ReplyContainer showReply={showReply}>
+        <BoardChildComment />
+      </ReplyContainer>
+    </>
+  );
 };
 
 const UserContainer = styled.div`
-    display: flex;
-    align-items: center;
-    margin-right: 1rem;
-    font-family: AppleSDGothicNeoB;
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  font-family: "AppleSDGothicNeoB";
 
-    & img {
-        width: 2.375rem;
-        border-radius: 50%;
-        margin-right: .5rem;
-    }
+  & img {
+    width: 2.375rem;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+  }
 `;
 
 const ParentComment = styled.div`
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 `;
 
 const ChildComment = styled.div`
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 `;
 
 const CommentContainer = styled.div`
-    width: 100%;
+  width: 100%;
 `;
 
-const Content = styled.div`
-
-`;
+const Content = styled.div``;
 
 const Likes = styled.div`
-    margin: .5rem 0 .5rem 2.5rem;
-    display: flex;
-    align-items: center;
+  margin: 0.5rem 0 0.5rem 2.5rem;
+  display: flex;
+  align-items: center;
 
-    & span {
-        cursor: pointer;
-        margin-right : 1.5rem;
-    }
+  & span {
+    cursor: pointer;
+    margin-right: 1.5rem;
+  }
 `;
 
 const LikeSpan = styled.span`
-    font-size: 18px;
-    display: flex;
-    align-items: center;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
 
-    & svg {
-        width: 1.5rem;
-        margin-right: .5rem;
-    }
+  & svg {
+    width: 1.5rem;
+    margin-right: 0.5rem;
+  }
 `;
 
 const ShowComment = styled.div`
-    margin: .5rem 0;
-    color: #2B61E1;
+  margin: 0.5rem 0;
+  color: #2b61e1;
 
-    & span {
-        cursor: pointer;
-        margin-left : 2.5rem;
-    }
+  & span {
+    cursor: pointer;
+    margin-left: 2.5rem;
+  }
 `;
 
 const ReplyComment = styled.div`
-    display: ${(props) => props.showReplyInput ? 'flex' : 'none'};
-    align-items: center;
-    margin : 1.5rem 0 1.5rem 2.5rem;
+  display: ${(props) => (props.showReplyInput ? "flex" : "none")};
+  align-items: center;
+  margin: 1.5rem 0 1.5rem 2.5rem;
 
-    & input {
-        outline: none;
-        border: 0;
-        box-sizing: border-box;
-        width: 100%;
-        height: 40px;
-        border: 1px solid #707070;
-        border-radius: 5px;
-        padding: 0 1rem;
-    }
+  & input {
+    outline: none;
+    border: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #707070;
+    border-radius: 5px;
+    padding: 0 1rem;
+  }
 `;
 
 const ReplyContainer = styled.div`
-    display: ${(props) => props.showReply ? 'block' : 'none'};
-    margin : 0 0 1.5rem 2.5rem;
+  display: ${(props) => (props.showReply ? "block" : "none")};
+  margin: 0 0 1.5rem 2.5rem;
 `;
 
 export default BoardComment;

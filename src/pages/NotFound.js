@@ -22,7 +22,7 @@ const Wrap = styled.div`
   flex-direction: row;
   justify-content: center;
   margin: 0px auto;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
 `;
 
 const SmallWrap = styled.div`

@@ -113,7 +113,7 @@ const Tag = styled.p`
 `;
 
 const Button = styled.button`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   font-size: 1rem;
   color: #ffffff;
   background-color: #2b61e1;

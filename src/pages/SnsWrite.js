@@ -226,7 +226,7 @@ const InputTag = styled.div`
 `;
 
 const Wrap = styled.div`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -294,7 +294,7 @@ const ButtonWrap = styled.div`
 
 const Button = styled.button`
   cursor: pointer;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   color: #ffffff;
   font-size: 1rem;
   width: 20rem;

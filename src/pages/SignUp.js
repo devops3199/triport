@@ -17,11 +17,10 @@ const SignUp = () => {
   const [pwd, setPwd] = React.useState("");
   const [pwdcheck, setPwdcheck] = React.useState("");
   const [nickname, setNickname] = React.useState("");
+
   const [line1, setLine1] = useState("1px solid #707070");
   const [line2, setLine2] = useState("1px solid #707070");
   const [line3, setLine3] = useState("1px solid #707070");
-
-  // const signup = dispatch(userAcitons.signupDB(email, pwd, pwdcheck, nickname));
 
   useEffect(() => {
     if (!email) {
@@ -60,6 +59,32 @@ const SignUp = () => {
   }, [pwdcheck]);
 
   const signup = () => {
+    // 값이 하나라도 없다면 alert 띄워주기
+    if (!email || !nickname || !pwd || !pwdcheck) {
+      window.alert("모든 내용을 입력해주세요!");
+      return;
+    }
+    // 이메일 정규표현식에 맞지 않을 때
+    if (!emailCheck(email)) {
+      window.alert("이메일 형식으로 입력해주세요!");
+      return;
+    }
+    if (2 > nickname.length > 6) {
+      window.alert("닉네임의 길이는 3~5글자입니다.");
+      console.log(nickname.length);
+      return;
+    }
+    // 비밀번호 정규표현식에 맞지 않을 때
+    if (!pwdCheck(pwd)) {
+      window.alert("8~20자리의 영문과 숫자, 특수문자(!@#*)를 조합해주세요!");
+      return;
+    }
+    // 비밀번호와 비밀번호확인이 일치하지 않을 때
+    if (pwd !== pwdcheck) {
+      window.alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+      return;
+    }
+
     dispatch(userAcitons.signupDB(email, pwd, pwdcheck, nickname));
   };
   return (
@@ -82,6 +107,8 @@ const SignUp = () => {
           ></EmailInput>
 
           <Input
+            // minLength="3"
+            // maxLength="5"
             placeholder="Nickname"
             onChange={(e) => {
               setNickname(e.target.value);
@@ -126,7 +153,7 @@ const Wrap = styled.div`
   flex-direction: row;
   justify-content: center;
   margin: 0px auto;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
 `;
 
 const SmallWrap = styled.div`
@@ -163,7 +190,7 @@ const Signup = styled.div`
 `;
 
 const EmailInput = styled.input`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   outline: none;
   width: 21.4rem;
   height: 3rem;
@@ -175,7 +202,7 @@ const EmailInput = styled.input`
   padding-right: 1.5rem;
 
   ::placeholder {
-    font-family: "TTTogether";
+    font-family: "paybooc-Bold";
     font-size: 1rem;
     color: #535353;
     opacity: 50%;
@@ -183,7 +210,7 @@ const EmailInput = styled.input`
 `;
 
 const PwdInput = styled.input`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   outline: none;
   width: 21.4rem;
   height: 3rem;
@@ -195,7 +222,7 @@ const PwdInput = styled.input`
   padding-right: 1.5rem;
 
   ::placeholder {
-    font-family: "TTTogether";
+    font-family: "paybooc-Bold";
     font-size: 1rem;
     color: #535353;
     opacity: 50%;
@@ -203,7 +230,7 @@ const PwdInput = styled.input`
 `;
 
 const PwdCheckInput = styled.input`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   outline: none;
   width: 21.4rem;
   height: 3rem;
@@ -215,7 +242,7 @@ const PwdCheckInput = styled.input`
   padding-right: 1.5rem;
 
   ::placeholder {
-    font-family: "TTTogether";
+    font-family: "paybooc-Bold";
     font-size: 1rem;
     color: #535353;
     opacity: 50%;
@@ -223,7 +250,7 @@ const PwdCheckInput = styled.input`
 `;
 
 const Input = styled.input`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   outline: none;
   width: 21.4rem;
   height: 3rem;
@@ -236,7 +263,7 @@ const Input = styled.input`
   padding-right: 1.5rem;
 
   ::placeholder {
-    font-family: "TTTogether";
+    font-family: "paybooc-Bold";
     font-size: 1rem;
     color: #535353;
     opacity: 50%;
@@ -244,7 +271,7 @@ const Input = styled.input`
 `;
 
 const Button1 = styled.button`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   width: 24.5rem;
   height: 3rem;
   box-shadow: 0px 3px 6px #00000029;
@@ -257,7 +284,7 @@ const Button1 = styled.button`
 `;
 
 const Button2 = styled.button`
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   width: 24.5rem;
   height: 3rem;
   display: flex;
