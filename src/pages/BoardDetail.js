@@ -103,18 +103,6 @@ const DetailContainer = styled.div`
 `;
 
 const UserContainer = styled.div`
-<<<<<<< HEAD
-  display: flex;
-  align-items: center;
-  width: 10%;
-  font-family: "AppleSDGothicNeoB";
-
-  & img {
-    width: 2.375rem;
-    border-radius: 50%;
-    margin-right: 0.5rem;
-  }
-=======
     display: flex;
     align-items: center;
     width: 100%;
@@ -131,7 +119,6 @@ const UserContainer = styled.div`
         display: flex;
         align-items: center;
     }
->>>>>>> chanyeop
 `;
 
 const LikeCount = styled.span`
