@@ -7,38 +7,73 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const BoardComment = (props) => {
     const dispatch = useDispatch();
+    const is_login = useSelector((state) => state.user.is_login);
     const child_comment = useSelector((state) => state.trilog.child_comment.list);
-    const { id, comment } = props; // parent comment id
+    const { id, comment } = props;
     const commentRef = React.useRef();
     const [showReply, setShowReply] = React.useState(false);
     const [showReplyInput, setShowReplyInput] = React.useState(false);
+    const [test, setTest] = React.useState({
+      results : [],
+    });
 
     const showReplyComment = () => {
         setShowReply(!showReply);
         
         if(!showReply) {
             // 자식 댓글 조회
-            dispatch(TrilogActions.getChildComment(comment.commentParent.id));
+            //dispatch(TrilogActions.getChildComment(comment.commentParent.id));
+            const access_token = localStorage.getItem("access_token");
+
+            fetch(`http://13.209.8.146/api/all/boards/comments/children/${comment.commentParent.id}?page=1`, {
+                method : 'GET',
+                headers : {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `${access_token}`,
+                },
+            })
+            .then(res => res.json())
+            .then(data => {
+              setTest(data);
+            })
+            .catch(err => console.log(err, 'get child comment trilog'));
         }
     };
 
     const postChildComment = () => {
-        dispatch(TrilogActions.addChildComment(comment.commentParent.id, commentRef.current.value));
-        document.getElementById('commentChildInput').value = ''; // 초기화
+      if(!is_login) {
+        alert("로그인을 먼저 하세요!");
+        return;
+      }
+      //dispatch(TrilogActions.addChildComment(comment.commentParent.id, commentRef.current.value));
+      const access_token = localStorage.getItem("access_token");
+
+      fetch(`http://13.209.8.146/api/boards/comments/children/${comment.commentParent.id}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': `${access_token}`,
+          },
+          body: JSON.stringify({
+              contents: commentRef.current.value,
+          })
+      })
+      .then(res => res.json())
+      .then(data => {
+        setTest(prevState => [...prevState, data])
+      })
+      .catch(err => console.log(err, 'child comment post'));
+      document.getElementById('commentChildInput').value = ''; // 초기화
     }
 
     const hitLike = () => {
-        const access_token = localStorage.getItem("access_token");
-        const api = `http://13.209.8.146/api/boards/comments/parents/like/${comment.commentParent.id}`;
-
-        fetch(api, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `${access_token}`,
-            },
-        }).then(res => res.json()).catch(err => console.log(err, 'comment like'));
+      if(!is_login) {
+        alert("로그인을 먼저 하세요!");
+        return;
+      }
+      dispatch(TrilogActions.setParentCommentLike(comment.commentParent.id));
     };
 
     return(
@@ -71,17 +106,32 @@ const BoardComment = (props) => {
                     }} />
                 </ReplyComment>
             </CommentContainer>
-            <ShowComment>
-                {showReply ? (<span onClick={showReplyComment}>댓글 감추기 ▲</span>) : (<span onClick={showReplyComment}>댓글 보기(2) ▼</span>)}
-            </ShowComment>
+              {
+              comment.commentParent.commentChildNum === 0 ? 
+                (<></>) : 
+                (<ShowComment> 
+                  {
+                    showReply ? 
+                    (<span onClick={showReplyComment}>댓글 감추기 ▲</span>) : 
+                    (<span onClick={showReplyComment}>댓글 보기({comment.commentParent.commentChildNum}) ▼</span>)
+                  }
+                  </ShowComment>)
+              }
             <ReplyContainer showReply={showReply}>
-                {child_comment.map((val, index) => {
-                    console.log(val, 'val child');
-                    return(
-                        <BoardChildComment key={index} comment={val} id={comment.commentParent.id} />
-                    );
-                })}
-            </ReplyContainer>          
+              {/* {child_comment.filter(el => el.parent_id === comment.commentParent.id).map((value) => {
+                console.log(value.parent_id, comment.commentParent.id, '===?');
+                value.list.map((val, index) => {
+                  return (
+                    <BoardChildComment key={index} comment={val} parent_id={comment.commentParent.id} />
+                  );
+                })
+              })} */}
+              {test.results.map((val , index) => {
+                return (
+                  <BoardChildComment key={index} comment={val} parent_id={comment.commentParent.id} />
+                );
+              })}
+            </ReplyContainer>
         </>
     );
 };

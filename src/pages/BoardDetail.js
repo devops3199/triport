@@ -9,6 +9,7 @@ import InfinityScroll from "shared/InfinityScroll";
 const BoardDetail = (props) => {
     const id = props.match.params.id;
     const dispatch = useDispatch();
+    const is_login = useSelector((state) => state.user.is_login);
     const detail = useSelector((state) => state.trilog.detail);
     const comment = useSelector((state) => state.trilog.parent_comment.list);
     const is_last = useSelector((state) => state.trilog.parent_comment.is_last);
@@ -19,15 +20,23 @@ const BoardDetail = (props) => {
     }, []);
 
     const postParentComment = () => {
+        if(!is_login) {
+            alert("로그인을 먼저 하세요!");
+            return;
+        }
         dispatch(TrilogActions.addParentComment(id, commentRef.current.value));
         document.getElementById('commentInput').value = ''; // 초기화
     };
 
     const hitLike = () => {
+        if(!is_login) {
+            alert("로그인을 먼저 하세요!");
+            return;
+        }
         dispatch(TrilogActions.setLikeTrilogDetail(id));
     };
 
-    const scroll = () => {
+    const getMorecomment = () => {
         console.log('comment scroll');
         dispatch(TrilogActions.getParentCommentScroll(id));
     };
@@ -49,7 +58,7 @@ const BoardDetail = (props) => {
                 {detail.information.description === '' ? (<></>) : (<BoardView content={detail.information.description} />) }
             </ToastViewContainer>
             <MapConatiner>
-                {detail.information.address === '' ? (<></>) : (<BoardDetailMap address={detail.information.address} />) }
+                {detail.information.address === '지도 마커를 클릭하시면 주소가 여기 표시됩니다.' ? (<></>) : (<BoardDetailMap address={detail.information.address} />) }
             </MapConatiner>
             <Separator/>
             <LikeCommentContainer>
@@ -74,17 +83,13 @@ const BoardDetail = (props) => {
                     }}/>
                 </CommentInput>
                 <Separator />
-                <InfinityScroll
-                    callNext={scroll}
-                    is_next={is_last}
-                >
                     {comment.map((val, index) => {
                         return(
                             <BoardComment id={id} comment={val} key={index} />
                         );
                     })}
-                </InfinityScroll>
             </LikeCommentContainer>
+            {is_last ? (<></>) : (<ShowMoreComment><span onClick={getMorecomment}>댓글 더 보기</span></ShowMoreComment>)}      
         </DetailContainer>
     );
 };
@@ -160,6 +165,16 @@ const CommentInput = styled.div`
     border: 1px solid #707070;
     border-radius: 5px;
     padding: 0 1rem;
+  }
+`;
+
+const ShowMoreComment = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  & span {
+      cursor: pointer;
   }
 `;
 

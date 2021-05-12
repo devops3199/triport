@@ -10,6 +10,7 @@ import { BoardView } from "components/components";
 
 const BoardCard = (props) => {
     const dispatch = useDispatch();
+    const detail = useSelector((state) => state.trilog.detail);
     const { margin, data } = props;
     const information = data.information;
     const author = data.author;
