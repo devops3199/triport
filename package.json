@@ -14,6 +14,7 @@
     "connected-react-router": "6.8.0",
     "history": "^4.10.1",
     "hls.js": "^1.0.2",
+    "moment": "^2.29.1",
     "node-sass": "4.14.1",
     "open-color": "^1.8.0",
     "react": "^17.0.2",

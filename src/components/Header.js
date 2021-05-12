@@ -20,10 +20,6 @@ const Header = (props) => {
     window.alert("로그아웃 되었습니다!");
     history.replace("/");
   };
-  // React.useEffect(() => {
-  // console.log(pathname);
-  //   dispatch(userActions.tokenExtension());
-  // }, []);
 
   if (user.is_login === true) {
     return (
