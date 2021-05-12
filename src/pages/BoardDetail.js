@@ -5,7 +5,6 @@ import { LikeFill, LikeEmpty } from "media/svg/Svg";
 import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
 import InfinityScroll from "shared/InfinityScroll";
-import { ContactSupportOutlined } from "../../node_modules/@material-ui/icons/index";
 
 const BoardDetail = (props) => {
     const id = props.match.params.id;
