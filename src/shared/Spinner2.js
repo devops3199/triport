@@ -14,7 +14,7 @@ const Wrap = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0px auto;
-  width: 1280px;
+  width: 100%;
   height: 100%;
 `;
 
@@ -32,8 +32,8 @@ const SpinnerImg = styled.div`
     height: 70px;
     margin: 8px;
     border-radius: 50%;
-    border: 4px solid #e5dada;
-    border-color: #e5dada transparent #e5dada transparent;
+    border: 4px solid #89acff;
+    border-color: #89acff transparent #89acff transparent;
     animation: Spinner 1.2s linear infinite;
   }
   @keyframes Spinner {

@@ -20,15 +20,15 @@ const Header = (props) => {
     window.alert("로그아웃 되었습니다!");
     history.replace("/");
   };
-  React.useEffect(() => {
-    // console.log(pathname);
-    dispatch(userActions.tokenExtension());
-  }, []);
+  // React.useEffect(() => {
+  // console.log(pathname);
+  //   dispatch(userActions.tokenExtension());
+  // }, []);
 
   if (user.is_login === true) {
     return (
       <React.Fragment>
-        <div style={{ position: "sticky", top: "0", zIndex: "99" }}>
+        <div style={{ position: "sticky", top: "0", zIndex: "50" }}>
           <Wrap>
             <LogoWrapper
               onClick={() => {

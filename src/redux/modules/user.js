@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { config } from "./config";
 
 const userSlice = createSlice({
   name: "user",
@@ -28,7 +29,7 @@ const userSlice = createSlice({
 // 회원가입
 const signupDB = (email, pwd, pwdcheck, nickname) => {
   return function (dispatch, getState, { history }) {
-    const API = "http://13.209.8.146/auth/signup";
+    const API = `${config.api}/auth/signup`;
     fetch(API, {
       method: "POST",
       headers: {
@@ -59,7 +60,7 @@ const signupDB = (email, pwd, pwdcheck, nickname) => {
 // 로그인
 const loginDB = (email, pwd) => {
   return function (dispatch, getState, { history }) {
-    const API = "http://13.209.8.146/auth/login";
+    const API = `${config.api}/auth/login`;
     fetch(API, {
       method: "POST",
       headers: {
@@ -110,14 +111,14 @@ const loginDB = (email, pwd) => {
   };
 };
 
-// 로그인 연장
+// 토큰 연장
 const tokenExtension = () => {
   return function (dispatch, getState, { history }) {
     const accessToken = localStorage.getItem("access_token").split(" ")[1];
     const refreshToken = localStorage.getItem("refresh_token").split(" ")[1];
     console.log(accessToken, refreshToken);
 
-    const API = "http://13.209.8.146/auth/reissue";
+    const API = `${config.api}/auth/reissue`;
     fetch(API, {
       method: "POST",
       headers: {
@@ -170,7 +171,7 @@ const logout = () => {
 const FindPwdDB = (email) => {
   return function (dispatch, getState, { history }) {
     dispatch(LOADING(true)); // 로딩중
-    const API = "http://13.209.8.146/mail/reset/password";
+    const API = `${config.api}/mail/reset/password`;
     fetch(API, {
       method: "POST",
       headers: {
