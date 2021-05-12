@@ -17,7 +17,7 @@ const ReelsTest = () => {
   const page = useSelector((state) => state.trils.page);
   const post_list = useSelector((state) => state.trils.data);
   const modal = useSelector((state) => state.trils.modal);
-  const [filter, _setFilter] = useState(false);
+  const [filter, _setFilter] = useState(true);
   const filterRef = useRef(filter);
   const keyword = useRef("");
 
@@ -41,12 +41,13 @@ const ReelsTest = () => {
       like.style.color = "#fff";
       newest.style.color = "#89ACFF";
     }
+    console.log(filter);
 
     if (filter) {
-      // 좋아요순
+      // 최신순
       dispatch(TrilsActions.getPost(keyword.current.value, "modifiedAt", 1));
     } else {
-      // 최신순
+      // 좋아요순
       dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", 1));
     }
     setFilter(!filter);
@@ -57,9 +58,20 @@ const ReelsTest = () => {
   }, []);
 
   const next = () => {
-    dispatch(TrilsActions.getPost("", "modifiedAt", page));
+    const setFilter = (data) => {
+      filterRef.current = data;
+      _setFilter(data);
+    };
+
+    if (filter) {
+      // 좋아요순
+      dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", page));
+    } else {
+      // 최신순
+      dispatch(TrilsActions.getPost(keyword.current.value, "modifiedAt", page));
+    }
+    setFilter(!filter);
   };
-  console.log(access_token);
 
   return (
     <Container>
@@ -70,9 +82,29 @@ const ReelsTest = () => {
           ref={keyword}
           onKeyPress={(e) => {
             if (window.event.keyCode === 13) {
-              dispatch(
-                TrilsActions.searchPost(keyword.current.value, "modifiedAt", 1)
-              );
+              const setFilter = (data) => {
+                filterRef.current = data;
+                _setFilter(data);
+              };
+
+              if (filter) {
+                // 좋아요순
+                console.log("좋아요");
+                dispatch(
+                  TrilsActions.searchPost(keyword.current.value, "likeNum", 1)
+                );
+              } else {
+                // 최신순
+                console.log("최신순");
+                dispatch(
+                  TrilsActions.searchPost(
+                    keyword.current.value,
+                    "modifiedAt",
+                    1
+                  )
+                );
+              }
+              setFilter(!filter);
             }
           }}
         />

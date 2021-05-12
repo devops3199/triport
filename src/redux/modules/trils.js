@@ -102,7 +102,7 @@ const searchPost = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
   };
 };
 
-const getPost = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
+const getPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
