@@ -2,13 +2,15 @@ import React from "react";
 import styled from "styled-components";
 
 import tripper from "media/image/login_logo.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { history } from "redux/configureStore";
 
 import { actionCreators as userAcitons } from "redux/modules/user";
+import Spinner from "shared/Spinner2";
 
 const FindPassword = () => {
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.user.is_loading);
 
   const findRef = React.useRef();
 
@@ -18,21 +20,25 @@ const FindPassword = () => {
   };
   return (
     <React.Fragment>
-      <Wrap>
-        <Text>비밀번호 찾기</Text>
-        <Text2>이메일</Text2>
-        <EmailInput placeholder="E-mail" ref={findRef} />
-        <Button onClick={Find}>비밀번호 찾기</Button>
-        <Text
-          login
-          onClick={() => {
-            history.push("/login");
-          }}
-        >
-          로그인하러 가기
-        </Text>
-        <Tripper />
-      </Wrap>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Wrap>
+          <Text>비밀번호 찾기</Text>
+          <Text2>이메일</Text2>
+          <EmailInput placeholder="E-mail" ref={findRef} />
+          <Button onClick={Find}>비밀번호 찾기</Button>
+          <Text
+            login
+            onClick={() => {
+              history.push("/login");
+            }}
+          >
+            로그인하러 가기
+          </Text>
+          <Tripper />
+        </Wrap>
+      )}
     </React.Fragment>
   );
 };

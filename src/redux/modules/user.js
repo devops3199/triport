@@ -6,6 +6,7 @@ const userSlice = createSlice({
     id: null,
     nickname: null,
     is_login: false,
+    is_loading: false,
   },
   reducers: {
     setUser: (state, action) => {
@@ -17,6 +18,9 @@ const userSlice = createSlice({
       state.id = null;
       state.nickname = null;
       state.is_login = false;
+    },
+    LOADING: (state, action) => {
+      state.is_loading = action.payload;
     },
   },
 });
@@ -69,10 +73,12 @@ const loginDB = (email, pwd) => {
     })
       .then((result) => {
         //성공시 토큰, 유저 정보 저장
+        console.log(result);
         let access_token = result.headers.get("Access-Token");
         let refresh_token = result.headers.get("Refresh-Token");
+        let access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
 
-        console.log(access_token);
+        console.log(access_token_exp);
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("refresh_token", refresh_token);
 
@@ -83,7 +89,9 @@ const loginDB = (email, pwd) => {
 
         //성공시 state.user 저장
         if (result.status === 401) {
-          window.alert("로그인에 실패했습니다.");
+          window.alert(
+            "로그인에 실패했습니다. 아이디 혹은 비밀번호를 확인해주세요."
+          );
         } else {
           localStorage.setItem("userInfo", JSON.stringify(result)); // JSON.stringfy 가 body에 담아오는 값
           dispatch(
@@ -98,6 +106,32 @@ const loginDB = (email, pwd) => {
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+};
+
+// 로그인 연장
+const tokenExtension = () => {
+  return function (dispatch, getState, { history }) {
+    const accessToken = localStorage.getItem("access_token").split(" ")[1];
+    const refreshToken = localStorage.getItem("refresh_token").split(" ")[1];
+    console.log(accessToken, refreshToken);
+
+    const API = "http://13.209.8.146/auth/reissue";
+    fetch(API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
       });
   };
 };
@@ -135,6 +169,7 @@ const logout = () => {
 // 비밀번호 찾기
 const FindPwdDB = (email) => {
   return function (dispatch, getState, { history }) {
+    dispatch(LOADING(true)); // 로딩중
     const API = "http://13.209.8.146/mail/reset/password";
     fetch(API, {
       method: "POST",
@@ -148,9 +183,13 @@ const FindPwdDB = (email) => {
     })
       .then((res) => res.json()) // json 형태로 변환해주고,
       .then((data) => {
+        dispatch(LOADING(false)); // 로딩 끝남
         alert(data.message);
+        history.push("/login");
       })
       .catch((err) => {
+        dispatch(LOADING(false));
+
         console.log(err);
       });
   };
@@ -162,7 +201,8 @@ export const actionCreators = {
   loginDB,
   logout,
   FindPwdDB,
+  tokenExtension,
 };
 
-export const { setUser, logOut } = userSlice.actions;
+export const { setUser, logOut, LOADING } = userSlice.actions;
 export default userSlice.reducer;

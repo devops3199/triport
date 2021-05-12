@@ -21,7 +21,8 @@ const Header = (props) => {
     history.replace("/");
   };
   React.useEffect(() => {
-    console.log(pathname);
+    // console.log(pathname);
+    dispatch(userActions.tokenExtension());
   }, []);
 
   if (user.is_login === true) {
