@@ -1,5 +1,5 @@
 import Videom3u8 from "components/trils/Videom3u8";
-// import Videomp4 from "components/trils/Videomp4";
+import Videomp4 from "components/trils/Videomp4";
 import React, { useEffect, useRef, useState } from "react";
 import { history } from "redux/configureStore";
 import { Plus } from "media/svg/Svg";
@@ -14,7 +14,7 @@ import queryString from "query-string";
 
 const Trils = (props) => {
   const { search } = props.location;
-  // const queryObj = queryString.parse(search);
+  const queryObj = queryString.parse(search);
   const access_token = localStorage.getItem("access_token");
   const dispatch = useDispatch();
   const page = useSelector((state) => state.trils.page);
@@ -46,21 +46,21 @@ const Trils = (props) => {
     }
 
     if (filter) {
-      // 좋아요순
-      console.log("좋아요순")
-      dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", 1));
-    } else {
       // 최신순
-      console.log("최신순")
-      dispatch(TrilsActions.getPost(keyword.current.value, "modifiedAt", 1));
+      dispatch(TrilsActions.getPost(queryObj.q, "modifiedAt", 1));
+    } else {
+      // 좋아요순
+      dispatch(TrilsActions.getPost(queryObj.q, "likeNum", 1));
     }
     setFilter(!filter);
   };
-  console.log(history);
 
   useEffect(() => {
-    dispatch(TrilsActions.getPost());
-  }, [dispatch]);
+    if (!(queryObj.filter === "modifiedAt" || queryObj.filter === "likeNum")) {
+      history.push("/notFound");
+    }
+    dispatch(TrilsActions.searchPost(queryObj.q, queryObj.filter, 1));
+  }, [dispatch,queryObj.q,queryObj.filter]);
 
   const next = () => {
     const setFilter = (data) => {
@@ -70,10 +70,10 @@ const Trils = (props) => {
 
     if (filter) {
       // 좋아요순
-      dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", page));
+      dispatch(TrilsActions.getPost(queryObj.q, queryObj.filter, page));
     } else {
       // 최신순
-      dispatch(TrilsActions.getPost(keyword.current.value, "modifiedAt", page));
+      dispatch(TrilsActions.getPost(queryObj.q, queryObj.filter, page));
     }
     setFilter(!filter);
   };
@@ -87,8 +87,12 @@ const Trils = (props) => {
           ref={keyword}
           onKeyPress={(e) => {
             if (window.event.keyCode === 13) {
-              // 좋아요순
-              history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+              if (window.event.keyCode === 13) {
+                // 좋아요순
+                history.push(
+                  `/search?q=${keyword.current.value}&filter=likeNum`
+                );
+              }
             }
           }}
         />
@@ -131,7 +135,7 @@ const Trils = (props) => {
           <Plus />
         </FloatingButton>
         <PostLine>
-          {!post_list||post_list.length === 0 ? (
+          {post_list.length === 0 ? (
             <></>
           ) : (
             <InfiniteScroll
@@ -184,7 +188,7 @@ const NewestFilter = styled.div`
   cursor: pointer;
 
   & span {
-    font-family: "paybooc-Bold";
+    font-family: "TTTogether";
     font-size: 14px;
     letter-spacing: 0px;
     color: #89acff;

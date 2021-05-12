@@ -17,6 +17,7 @@ import Profile from "pages/Profile";
 import Trils from "pages/Trils";
 import SnsWrite from "pages/SnsWrite";
 import FindPassword from "pages/FindPassword";
+import TrillsSearch from "pages/TrilsSearch";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "redux/modules/user";
@@ -35,7 +36,7 @@ const App = () => {
         <ConnectedRouter history={history}>
           <Switch>
             <Route path="/" exact component={Trils} />
-            <Route path="/search" exact component={Trils} />
+            <Route path="/search" exact component={TrillsSearch} />
             <Route path="/post" exact component={Snsmain} />
             <Route path="/trils/write" exact component={SnsWrite} />
             <Route path="/find" exact component={FindPassword} />
