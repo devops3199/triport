@@ -41,9 +41,15 @@ const trilseSlice = createSlice({
       }
     },
     SEARCH_POST: (state, action) => {
-      console.log(action.payload);
       state.data = action.payload.result;
       state.page = action.payload.page;
+    },
+    EDIT_POST: (state, action) => {
+      const idx = state.data.findIndex(
+        (p) => p.information.id === action.payload.id
+      );
+      state.data[idx].information.hashtag = action.payload.hashtag;
+      state.detail.information.hashtag = action.payload.hashtag;
     },
   },
 });
@@ -114,13 +120,11 @@ const getPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
         Authorization: `${access_token}`,
       },
     };
-    console.log(api)
     fetch(api, data)
       .then((result) => {
         return result.json();
       })
       .then((result) => {
-        console.log(result);
         const results = {
           result: result.results,
           page: page + 1,
@@ -189,6 +193,7 @@ export const {
   LIKE_OK,
   DELETE_POST,
   SEARCH_POST,
+  EDIT_POST,
 } = trilseSlice.actions;
 
 export const TrilsActions = {

@@ -37,7 +37,7 @@ const App = () => {
           <Switch>
             <Route path="/" exact component={Trils} />
             <Route path="/search" exact component={TrillsSearch} />
-            <Route path="/post" exact component={Snsmain} />
+            {/* <Route path="/post" exact component={Snsmain} /> */}
             <Route path="/trils/write" exact component={SnsWrite} />
             <Route path="/find" exact component={FindPassword} />
             <Route path="/login" exact component={Login} />

@@ -5,7 +5,7 @@ import { CLOSE_MODAL } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
 import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
-import { TrilsActions, DELETE_POST } from "redux/modules/trils";
+import { TrilsActions, DELETE_POST, EDIT_POST } from "redux/modules/trils";
 import Swal from "sweetalert2";
 import ClearIcon from "@material-ui/icons/Clear";
 import { config } from "../../redux/modules/config";
@@ -21,18 +21,21 @@ const TrilsDetail = (props) => {
   const [editOn, setEditOn] = useState(false);
   const [tags, setTags] = useState(info.information.hashtag);
   const tagInput = useRef(null);
-  console.log(info);
+  const [tagType, setTagType] = useState("");
 
   const removeTag = (i) => {
     const newTags = [...tags];
     newTags.splice(i, 1);
-    console.log(newTags);
     setTags([...newTags]);
   };
 
   const InputKeyDown = (e) => {
     const val = e.target.value;
-    if (e.key === "Enter" && val) {
+    if (
+      (e.key === "Enter" && val) ||
+      (e.key === "," && val) ||
+      (e.key === " " && val)
+    ) {
       if (tags.length === 3) {
         alert("태그는 최대 3개까지 가능합니다.");
         return;
@@ -40,8 +43,8 @@ const TrilsDetail = (props) => {
       if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
         return;
       }
+      setTagType("");
       setTags([...tags, val]);
-      tagInput.current.value = null;
     } else if (e.key === "Backspace" && !val) {
       removeTag(tags.length - 1);
     }
@@ -188,11 +191,12 @@ const TrilsDetail = (props) => {
     const data = {
       method: "PUT",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `${access_token}`,
       },
-      body: {
+      body: JSON.stringify({
         hashtag: tags,
-      },
+      }),
     };
     fetch(url, data)
       .then((result) => {
@@ -200,10 +204,25 @@ const TrilsDetail = (props) => {
       })
       .then((result) => {
         if (result.ok) {
-          console.log(result);
+          const data = {
+            id: info.information.id,
+            hashtag: tags,
+          };
+          dispatch(EDIT_POST(data));
+          setEditOn(false);
         }
       })
       .catch((err) => console.log(err));
+  };
+
+  const change = (e) => {
+    if (e.target.value.length > 10) {
+      e.target.value = e.target.value.substr(0, 10);
+    }
+    const curValue = e.target.value;
+    const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"\s]/gi;
+    const newValue = curValue.replace(regExp, "");
+    setTagType(newValue);
   };
 
   return (
@@ -275,9 +294,12 @@ const TrilsDetail = (props) => {
           <InputTag>
             <Input
               type="text"
+              maxLength={10}
+              value={tagType}
               onKeyDown={InputKeyDown}
               ref={tagInput}
-              placeholder="# 자유롭게 적고 엔터를 눌러주세요."
+              placeholder="# 자유롭게 적고 엔터를 눌러주세요.(10자 제한)"
+              onChange={change}
             ></Input>
           </InputTag>
         ) : (
@@ -430,8 +452,8 @@ const VideoPlay = styled.video`
   display: flex;
   margin: 0 auto;
   max-width: 50rem;
-  max-height: 21.5rem;
-  /* object-fit: cover; */
+  max-height: 30rem;
+  object-fit: contain;
 `;
 
 const VideoBg = styled.div`
@@ -473,7 +495,7 @@ const Wrap = styled.div`
   z-index: 20;
   background-color: white;
   max-width: 57rem;
-  max-height: 37rem;
+  max-height: 45rem;
   display: flex;
   flex-direction: column;
   /* justify-content: center;
@@ -523,9 +545,11 @@ const ProfileId = styled.div`
 
 const View = styled.div`
   max-width: 50rem;
-  max-height: 21.5rem;
+  max-height: 30rem;
   width: auto;
   height: auto;
+  min-width: 40rem;
+  min-height: 20rem;
   background-color: #ededed;
   /* background-color: #ededed; */
   display: flex;

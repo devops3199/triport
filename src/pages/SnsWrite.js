@@ -12,17 +12,21 @@ const SnsWrite = () => {
   const [preview, setPreview] = useState(null);
   const dispatch = useDispatch();
   const [vid, setVid] = useState();
+  const [tagType, setTagType] = useState("");
 
   const removeTag = (i) => {
     const newTags = [...tags];
     newTags.splice(i, 1);
-    console.log(newTags);
     setTags([...newTags]);
   };
 
   const InputKeyDown = (e) => {
     const val = e.target.value;
-    if (e.key === "Enter" && val) {
+    if (
+      (e.key === "Enter" && val) ||
+      (e.key === "," && val) ||
+      (e.key === " " && val)
+    ) {
       if (tags.length === 3) {
         alert("태그는 최대 3개까지 가능합니다.");
         return;
@@ -30,8 +34,8 @@ const SnsWrite = () => {
       if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
         return;
       }
+      setTagType("");
       setTags([...tags, val]);
-      tagInput.current.value = null;
     } else if (e.key === "Backspace" && !val) {
       removeTag(tags.length - 1);
     }
@@ -93,17 +97,27 @@ const SnsWrite = () => {
   };
 
   const videoplay = () => {
-    if(!player.current){
+    if (!player.current) {
       return;
     }
     player.current.play();
   };
 
   const videopause = () => {
-    if(!player.current){
+    if (!player.current) {
       return;
     }
     player.current.pause();
+  };
+
+  const change = (e) => {
+    if (e.target.value.length > 10) {
+      e.target.value = e.target.value.substr(0, 10);
+    }
+    const curValue = e.target.value;
+    const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"\s]/gi;
+    const newValue = curValue.replace(regExp, "");
+    setTagType(newValue);
   };
 
   return (
@@ -156,9 +170,12 @@ const SnsWrite = () => {
         <InputTag>
           <Input
             type="text"
+            maxLength={10}
+            value={tagType}
             onKeyDown={InputKeyDown}
             ref={tagInput}
-            placeholder="# 자유롭게 적고 엔터를 눌러주세요."
+            placeholder="# 자유롭게 적고 엔터를 눌러주세요.(10자 제한)"
+            onChange={change}
           ></Input>
         </InputTag>
       </Wrap>

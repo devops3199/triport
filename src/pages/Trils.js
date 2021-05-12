@@ -8,7 +8,7 @@ import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Spinner from "../components/Spinner";
+import Spinner from "shared/Spinner2";
 import Swal from "sweetalert2";
 import queryString from "query-string";
 
@@ -47,16 +47,13 @@ const Trils = (props) => {
 
     if (filter) {
       // 좋아요순
-      console.log("좋아요순")
       dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", 1));
     } else {
       // 최신순
-      console.log("최신순")
       dispatch(TrilsActions.getPost(keyword.current.value, "modifiedAt", 1));
     }
     setFilter(!filter);
   };
-  console.log(history);
 
   useEffect(() => {
     dispatch(TrilsActions.getPost());
@@ -131,13 +128,13 @@ const Trils = (props) => {
           <Plus />
         </FloatingButton>
         <PostLine>
-          {!post_list||post_list.length === 0 ? (
+          {!post_list || post_list.length === 0 ? (
             <></>
           ) : (
             <InfiniteScroll
               dataLength={post_list.length}
               next={next}
-              hasMore={true}
+              hasMore={post_list.length > 11}
               style={{
                 display: "flex",
                 flexDirection: "row",

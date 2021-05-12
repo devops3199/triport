@@ -8,7 +8,7 @@ import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Spinner from "../components/Spinner";
+import Spinner from "shared/Spinner2";
 import Swal from "sweetalert2";
 import queryString from "query-string";
 
@@ -60,7 +60,7 @@ const Trils = (props) => {
       history.push("/notFound");
     }
     dispatch(TrilsActions.searchPost(queryObj.q, queryObj.filter, 1));
-  }, [dispatch,queryObj.q,queryObj.filter]);
+  }, [dispatch, queryObj.q, queryObj.filter]);
 
   const next = () => {
     const setFilter = (data) => {
@@ -141,7 +141,7 @@ const Trils = (props) => {
             <InfiniteScroll
               dataLength={post_list.length}
               next={next}
-              hasMore={true}
+              hasMore={post_list.length > 11}
               style={{
                 display: "flex",
                 flexDirection: "row",
