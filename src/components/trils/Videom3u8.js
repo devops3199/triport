@@ -96,7 +96,7 @@ const Videom3u8 = (props) => {
           );
         }}
       />
-      <VideoBg />
+      {/* <VideoBg /> */}
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
       <BottomCov>
         <LikeCov>{props.member.isLike ? <HeartFill /> : <HeartEmpty />}</LikeCov>
@@ -166,15 +166,15 @@ const VideoCards = styled.div`
 
 const VideoPlay = styled.video`
   display: flex;
-  height: 25rem;
-  width: 14rem;
+  height: 45rem;
+  width: 25rem;
   margin: 0 auto;
   object-fit: cover;
 `;
 
 const VideoBg = styled.div`
   display: flex;
-  height: 25rem;
+  height: 45rem;
   width: 25rem;
   border-radius: 20px;
   background: beige;

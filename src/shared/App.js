@@ -40,6 +40,7 @@ const App = () => {
         <ConnectedRouter history={history}>
           <Switch>
             <Route path="/" exact component={Trils} />
+            <Route path="/search" exact component={Trils} />
             <Route path="/post" exact component={Snsmain} />
             <Route path="/trils/write" exact component={SnsWrite} />
             <Route path="/login" exact component={Login} />

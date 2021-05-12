@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { config } from "./config";
 
 const trilseSlice = createSlice({
   name: "trils",
@@ -40,7 +41,7 @@ const trilseSlice = createSlice({
       }
     },
     SEARCH_POST: (state, action) => {
-      console.log(action.payload)
+      console.log(action.payload);
       state.data = action.payload.result;
       state.page = action.payload.page;
     },
@@ -54,7 +55,7 @@ const writepost = (video, tags) => {
     let formData = new FormData();
     formData.append("file", video);
     tags.map((p, idx) => formData.append("hashtag", p));
-    const url = "http://13.209.8.146/api/posts";
+    const api = `${config.api}/api/posts`;
     const data = {
       method: "POST",
       headers: {
@@ -62,7 +63,7 @@ const writepost = (video, tags) => {
       },
       body: formData,
     };
-    fetch(url, data)
+    fetch(api, data)
       .then((result) => {
         return result.json();
       })
@@ -80,14 +81,14 @@ const searchPost = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
-    const url = `http://13.209.8.146/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
+    const api = `${config.api}/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
     const data = {
       method: "GET",
       headers: {
         Authorization: `${access_token}`,
       },
     };
-    fetch(url, data)
+    fetch(api, data)
       .then((result) => {
         return result.json();
       })
@@ -106,19 +107,20 @@ const getPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
-    const url = `http://13.209.8.146/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
+    const api = `${config.api}/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
     const data = {
       method: "GET",
       headers: {
         Authorization: `${access_token}`,
       },
     };
-    fetch(url, data)
+    console.log(api)
+    fetch(api, data)
       .then((result) => {
         return result.json();
       })
       .then((result) => {
-        console.log(result)
+        console.log(result);
         const results = {
           result: result.results,
           page: page + 1,
@@ -137,14 +139,14 @@ const getPostDetail = (postId) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
-    const url = `http://13.209.8.146/api/all/posts/detail/${postId}`;
+    const api = `${config.api}/api/all/posts/detail/${postId}`;
     const data = {
       method: "GET",
       headers: {
         Authorization: `${access_token}`,
       },
     };
-    fetch(url, data)
+    fetch(api, data)
       .then((result) => {
         return result.json();
       })
@@ -159,14 +161,14 @@ const send_like = (postId, like) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
-    const url = `http://13.209.8.146/api/posts/like/${postId}`;
+    const api = `${config.api}/api/posts/like/${postId}`;
     const data = {
       method: "POST",
       headers: {
         Authorization: `${access_token}`,
       },
     };
-    fetch(url, data)
+    fetch(api, data)
       .then((result) => {
         return result.json();
       })

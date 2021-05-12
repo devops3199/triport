@@ -10,8 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "../components/Spinner";
 import Swal from "sweetalert2";
+import queryString from "query-string";
 
-const ReelsTest = () => {
+const Trils = (props) => {
+  const { search } = props.location;
+  const queryObj = queryString.parse(search);
   const access_token = localStorage.getItem("access_token");
   const dispatch = useDispatch();
   const page = useSelector((state) => state.trils.page);
@@ -82,20 +85,13 @@ const ReelsTest = () => {
           ref={keyword}
           onKeyPress={(e) => {
             if (window.event.keyCode === 13) {
-              const setFilter = (data) => {
-                filterRef.current = data;
-                _setFilter(data);
-              };
-
               if (filter) {
                 // 좋아요순
-                console.log("좋아요");
                 dispatch(
                   TrilsActions.searchPost(keyword.current.value, "likeNum", 1)
                 );
               } else {
                 // 최신순
-                console.log("최신순");
                 dispatch(
                   TrilsActions.searchPost(
                     keyword.current.value,
@@ -104,7 +100,6 @@ const ReelsTest = () => {
                   )
                 );
               }
-              setFilter(!filter);
             }
           }}
         />
@@ -302,4 +297,4 @@ const PostLine = styled.div`
   flex-wrap: wrap;
 `;
 
-export default ReelsTest;
+export default Trils;
