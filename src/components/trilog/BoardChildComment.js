@@ -3,21 +3,39 @@ import styled from "styled-components";
 import { CommentLike } from "media/svg/Svg";
 
 const BoardChildComment = (props) => {
+    const { id, comment } = props; // parent comment id
+    
+    const hitLike = () => {
+        const access_token = localStorage.getItem("access_token");
+        const api = `http://13.209.8.146/api/boards/comments/children/like/${id}`;
+
+        fetch(api, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `${access_token}`,
+            },
+        }).then(res => res.json()).catch(err => console.log(err, 'child comment like'));
+    };
+
     return(
         <div>
             <ChildComment>
                 <UserContainer>
-                    <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-and-shapes-3/177800/130-512.png" />
-                    <span>홍길동</span>
+                    <img src={comment.author.profileImgUrl} />
+                    <span>{comment.author.nickname}</span>
                 </UserContainer>
                 <Content>
-                    대댓글이에요
+                    {comment.commentChild.contents}
                 </Content>
             </ChildComment>
             <Likes>
                 <LikeSpan>
-                    <CommentLike />
-                    <span>+3</span>
+                    <div onClick={hitLike}>
+                        <CommentLike />
+                    </div>
+                    <span>+{comment.commentChild.likeNum}</span>
                 </LikeSpan>
             </Likes>
         </div>

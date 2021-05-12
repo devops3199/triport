@@ -5,9 +5,12 @@ import { Editor } from '@toast-ui/react-editor';
 import "codemirror/lib/codemirror.css"; // Editor's Dependency Style
 import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
 import { history } from "redux/configureStore";
+import { actionCreators as TrilogActions } from 'redux/modules/trilog';
+import { useDispatch, useSelector } from 'react-redux';
 import _ from "lodash";
 
 const BoardWrite = (props) => {
+    const dispatch = useDispatch();
     const id = props.match.params.id;
     const is_edit = id ? true: false;
 
@@ -35,37 +38,16 @@ const BoardWrite = (props) => {
             return;
         }
 
-        let api = '';
-        let method = '';
-        if(is_edit) {
-            api = `http://13.209.8.146/api/boards/${id}`;
-            method = 'PUT';
-        } else {
-            api = 'http://13.209.8.146/api/boards';
-            method = 'POST'
-        }
+        const post = {
+            title : title.current.value,
+            address : address,
+            description : content,
+            imageUrlList : imageUrls,
+            is_edit : is_edit,
+            id : id
+        };
 
-        const access_token = localStorage.getItem("access_token");
-
-        const result = await fetch(api, {
-            method: method,
-            headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Access-Token': `${access_token}`,
-            },
-            body: JSON.stringify({
-                title : title.current.value,
-                address : address,
-                description : data.current.getInstance().getMarkdown(),
-                imageUrlList : imageUrls,
-            })
-        })
-        .then(res => res.json())
-        .then(err => console.log(err, 'Trilog Edit / Add'));
-
-        alert(result.msg);
-        history.replace('/trilog');
+        dispatch(TrilogActions.addTrilog(post));
     };
 
     const uploadImage = async (blob) => {
@@ -85,14 +67,14 @@ const BoardWrite = (props) => {
         const url = await fetch(api, {
             method : 'POST',
             headers : {
-                'Access-Token': `${access_token}`,
+                'Authorization': `${access_token}`,
             },
             body : formData
         })
         .then(res => res.json())
         .catch((error) => console.log(error, 'uploadImage'));
 
-        setImageUrls(prevState => ([...prevState, url.results.imageFilePath]))
+        setImageUrls(prevState => ([...prevState, { 'imageFilePath' : url.results.imageFilePath}]))
 
         return url.results.imageFilePath;
     };
@@ -100,11 +82,7 @@ const BoardWrite = (props) => {
 
     React.useEffect(() => {
         if(is_edit) {
-            const getDetail = async () => {
-                const api = `http://13.209.8.146/api/all/boards/detail/${id}`;
-                const result  = await fetch(api).then(res => res.json).catch(err => console.log(err, 'Edit Detail'));
-            }
-            getDetail();
+            dispatch(TrilogActions.getTrilogDetail(id));
         }
     }, []);
 

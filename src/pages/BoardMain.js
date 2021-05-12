@@ -4,10 +4,13 @@ import { history } from "redux/configureStore";
 import { Plus } from "media/svg/Svg";
 import { BoardCard } from "components/components";
 import InfinityScroll from "shared/InfinityScroll";
+import { actionCreators as TrilogActions } from 'redux/modules/trilog';
+import { useDispatch, useSelector } from 'react-redux';
 
-/* 데이터는 해당 컴포넌트에서만 사용하기 때문에 Redux를 사용안합니다. */
 const BoardMain = (props) => {
-  const [trilog, setTrilog] = React.useState([]);
+  const dispatch = useDispatch();
+  const trilog = useSelector((state) => state.trilog.main.list);
+  const is_last = useSelector((state) => state.trilog.main.is_last);
   const [filter, _setFilter] = React.useState(false);
   const filterRef = React.useRef(filter);
   const keyword = React.useRef();
@@ -35,18 +38,10 @@ const BoardMain = (props) => {
 
     if(filter) {
       // 좋아요순
-      const api = "http://13.209.8.146/api/all/boards?page=1&filter=likeNum&keyword="
-      fetch(api)
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err, "좋아요순 error"));
+      dispatch(TrilogActions.getTrilogMainFilter('likeNum', keyword.current.value));
     } else {
       // 최신순
-      const api = "http://13.209.8.146/api/all/boards?page=1&filter=modifiedAt&keyword="
-      fetch(api)
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err, "날짜순 error"));
+      dispatch(TrilogActions.getTrilogMainFilter('modifiedAt', keyword.current.value));
     }
 
     setFilter(!filter);
@@ -54,31 +49,18 @@ const BoardMain = (props) => {
 
   const scroll = () => {
     const filter_scroll = filterRef.current;
-    const keyword_scroll = keyword.current.value;
     
     if(!filter_scroll) {
       // 좋아요순
-      const api = `http://13.209.8.146/api/all/boards?page=1&filter=likeNum&keyword=${keyword_scroll}`
-      fetch(api)
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err, "좋아요순 무한 스크롤 error"));
+      dispatch(TrilogActions.getTrilogMain('likeNum', ''));
     } else {
       // 최신순
-      const api = `http://13.209.8.146/api/all/boards?page=1&filter=modifiedAt&keyword=${keyword_scroll}`
-      fetch(api)
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err, "날짜순 무한 스크롤 error"));
+      dispatch(TrilogActions.getTrilogMain('modifiedAt', ''));
     }
-
-    const temp_arr = new Array(5).fill(0);
-    setTrilog(prevState => ([...prevState, ...temp_arr]));
   };
 
   React.useEffect(() => {
-    const temp_arr = new Array(15).fill(0);
-    setTrilog([...trilog, ...temp_arr]);
+    dispatch(TrilogActions.getTrilogMain('likeNum', ''));
   }, []);
 
   return (
@@ -93,7 +75,7 @@ const BoardMain = (props) => {
       <SearchContainer>
         <Search type="text" placeholder="검색어를 입력하세요." ref={keyword} onKeyPress={(e) => {
             if(window.event.keyCode === 13) {
-                console.log('검색')
+              dispatch(TrilogActions.getTrilogMainFilter(`${filter ? 'modifiedAt' : 'likeNum' }`, keyword.current.value));
             } 
         }} />
       </SearchContainer>
@@ -111,16 +93,16 @@ const BoardMain = (props) => {
       <CardContainer>
         <InfinityScroll
           callNext={scroll}
-          is_next={false}
+          is_next={is_last}
         >
           { trilog.map((val, idx) => {
               const index = idx + 1;
 
               if(index % 5 === 0) {
-                return <BoardCard key={index} />;
+                return <BoardCard data={val} key={index} />;
               }
 
-              return <BoardCard key={index} margin="50px 40px 0 0" />
+              return <BoardCard data={val} key={index} margin="50px 40px 0 0" />
             }) }
         </InfinityScroll>
       </CardContainer>

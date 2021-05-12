@@ -2,57 +2,70 @@ import React from "react";
 import styled from "styled-components";
 import BgImg from 'media/image/trilog_default.jpg';
 import ProfileImg from 'media/image/triport_airplane.png';
+import { actionCreators as TrilogActions } from 'redux/modules/trilog';
+import { useDispatch, useSelector } from 'react-redux';
 import { LikeFill, LikeEmpty } from "media/svg/Svg";
 import { history } from "redux/configureStore";
+import { BoardView } from "components/components";
 
 const BoardCard = (props) => {
-    const { margin, id } = props;
+    const dispatch = useDispatch();
+    const { margin, data } = props;
+    const information = data.information;
+    const author = data.author;
+    const member = data.member;
+    const id = information.id;
 
     const hitLike = (e) => {
         e.stopPropagation(); // 이벤트 버블링
-        
-        const access_token = localStorage.getItem("access_token");
-        
-        const api = `http://13.209.8.146/api/boards/like/${id}`;
-        fetch(api, {
-            method : 'POST',
-            headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Access-Token': `${access_token}`,
-            }
-        })
-        .then(res => res.json())
-        .catch(err => console.log(err, 'Like'));
+        dispatch(TrilogActions.setLikeTrilog(id));
     }
 
     return(
         <BoardCardContainer margin={ margin } >
-            <ImageContainer onClick={() => {history.push('/trilog/1')}}>
+            <ImageContainer onClick={() => {history.push(`/trilog/${id}`)}} img={information.thumbNailUrl}>
                 <UserContainer>
-                    <Profile>
+                    <Profile img={author.profileImgUrl}>
                         <div></div>
-                        <span>Triport</span>
+                        <span>{author.nickname}</span>
                     </Profile>
                     <Likes onClick={hitLike}>
-                        <LikeFill />
+                        { member.isLike ? <LikeFill /> : <LikeEmpty /> }
                     </Likes>
                 </UserContainer>
             </ImageContainer>
             <ContentContainer>
                 <Detail>
-                    <span>2021년 04월 29일</span>
-                    <span>13:00:45</span>
+                    <span>{information.modifiedAt.split(' ')[0]}</span>
+                    <span>{information.modifiedAt.split(' ')[1]}</span>
                 </Detail>
-                <Title onClick={() => {history.push('/trilog/1')}}>
-                    <span>에디터가 추천하는 관악 여행</span>
+                <Title onClick={() => {history.push(`/trilog/${id}`)}}>
+                    <span>{information.title}</span>
                 </Title>
                 <Description>
-                    <span>맛집이 가득한 샤로수길을 소개합니다~</span>
+                    <BoardView content={information.description} />
                 </Description>
             </ContentContainer>
         </BoardCardContainer>
     );
+};
+
+BoardCard.defaultProps = {
+    margin: '',
+    information : {
+        address: '',
+        description: '',
+        id: 1,
+        modifiedAt: '1990-01-01 12:00:00',
+        title: '',
+    },
+    author: {
+        nickname: 'Triport',
+        profileImgUrl: ProfileImg,
+    },
+    member: {
+        like: false,
+    }
 };
 
 const BoardCardContainer = styled.div`
@@ -67,7 +80,7 @@ const ImageContainer = styled.div`
     position: relative;
     width: 100%;
     height: 14rem;
-    background: url(${BgImg}) no-repeat center;
+    background: url(${(props) => props.img === '' ? BgImg : props.img}) no-repeat center;
     background-size: cover;
     cursor: pointer;
 `;
@@ -91,7 +104,7 @@ const Profile = styled.div`
     & div {
         width: 2.375rem;
         height: 2.375rem;
-        background: url(${ProfileImg}) no-repeat center;
+        background: url(${(props) => props.img}) no-repeat center;
         background-size: cover;
         border-radius: 50%;
     }
@@ -140,18 +153,17 @@ const Title = styled.div`
     text-align: center;
     cursor: pointer;
     & span {
+        font-family: AppleSDGothicNeoB;
         color : #2B61E1;
     }
 `;
 
 const Description = styled.div`
     box-sizing: content-box;
-    padding: 10px 20px;
     text-align: center;
-    & span {
-        font-size: 12px;
-        color: #5A5A5A;
-    }
+    position: relative;
+    padding: 0 .5rem;
+    overflow: hidden;
 `;
 
 export default BoardCard;
