@@ -1,12 +1,15 @@
 /*global kakao*/ 
 import React from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from 'react-redux';
 
 const BoardDetailMap = (props) => {
     const { address } = props;
+    const detail = useSelector((state) => state.trilog.detail.information.address);
 
     React.useEffect(() => {
         mapscript();
+        console.log(detail);
     }, []);
 
     const mapscript = () => {
@@ -28,9 +31,6 @@ const BoardDetailMap = (props) => {
 
             // 정상적으로 검색이 완료됐으면 
             if (status === kakao.maps.services.Status.OK) {
-
-                console.log(result);
-
                 const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
                 // 결과값으로 받은 위치를 마커로 표시합니다
