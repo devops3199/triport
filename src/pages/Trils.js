@@ -10,10 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "shared/Spinner2";
 import Swal from "sweetalert2";
+import SearchIcon from "@material-ui/icons/Search";
 import queryString from "query-string";
 
 const Trils = (props) => {
-  const { search } = props.location;
+  // const { search } = props.location;
   // const queryObj = queryString.parse(search);
   const access_token = localStorage.getItem("access_token");
   const dispatch = useDispatch();
@@ -76,20 +77,25 @@ const Trils = (props) => {
     setFilter(!filter);
   };
 
+  const search = (e) => {
+    if (window.event.keyCode === 13) {
+      // 좋아요순
+      history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+    }
+  };
+
   return (
     <Container>
       <SearchContainer>
-        <Search
-          type="text"
-          placeholder="검색어를 입력하세요."
-          ref={keyword}
-          onKeyPress={(e) => {
-            if (window.event.keyCode === 13) {
-              // 좋아요순
-              history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
-            }
-          }}
-        />
+        <SearchWrapper>
+          <Search
+            type="text"
+            placeholder="검색어를 입력하세요."
+            ref={keyword}
+            onKeyPress={search}
+          />
+          <SearchIcon onClick={search} />
+        </SearchWrapper>
       </SearchContainer>
       <FilterContainer>
         <Filter>
@@ -166,6 +172,22 @@ const Trils = (props) => {
   );
 };
 
+const SearchWrapper = styled.div`
+  width: 40.625rem;
+  border: 1px solid rgb(43, 97, 225, 0.6);
+  border-radius: 5px;
+  outline: none;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & svg {
+    fill : rgb(43, 97, 225);
+    cursor: pointer;
+  }
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -237,12 +259,18 @@ const FilterContainer = styled.div`
   margin-bottom: 4rem;
 `;
 
+// const Search = styled.input`
+//   width: 40.625rem;
+//   border: 1px solid rgb(43, 97, 225, 0.6);
+//   border-radius: 5px;
+//   outline: none;
+//   padding: 0.75rem 1.25rem;
+// `;
+
 const Search = styled.input`
-  width: 40.625rem;
-  border: 1px solid rgb(43, 97, 225, 0.6);
-  border-radius: 5px;
+  border: none;
   outline: none;
-  padding: 0.75rem 1.25rem;
+  width: 38rem;
 `;
 
 const SearchContainer = styled.div`
