@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from "./config";
 
+import moment from "moment";
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -79,7 +81,11 @@ const loginDB = (email, pwd) => {
         let refresh_token = result.headers.get("Refresh-Token");
         let access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
 
-        console.log(access_token_exp);
+        const Current_time = new Date().getTime();
+
+        setTimeout(tokenExtension(), access_token_exp - Current_time - 60000);
+
+        // 로컬 스토리지에 토큰 저장하기
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("refresh_token", refresh_token);
 
@@ -113,7 +119,7 @@ const loginDB = (email, pwd) => {
 
 // 토큰 연장
 const tokenExtension = () => {
-  return function (dispatch, getState, { history }) {
+  return function (dispatch, getState) {
     const accessToken = localStorage.getItem("access_token").split(" ")[1];
     const refreshToken = localStorage.getItem("refresh_token").split(" ")[1];
     console.log(accessToken, refreshToken);
@@ -130,9 +136,33 @@ const tokenExtension = () => {
         refreshToken: refreshToken,
       }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+      .then((result) => {
+        console.log(result);
+        // 헤더에 담긴 토큰 가져오기
+        let access_token = result.headers.get("Access-Token");
+        let refresh_token = result.headers.get("Refresh-Token");
+        let access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
+
+        // 현재 시간
+        let Current_time = new Date().getTime();
+
+        // 기존 토큰 지우고,
+        localStorage.clear();
+
+        // 로컬에 새로 받은 토큰 저장
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("refresh_token", refresh_token);
+
+        // 만료되기 1분 전에 재발급하기
+        setTimeout(tokenExtension(), access_token_exp - Current_time - 60000);
+        console.log(moment(Current_time).format("hh:mm:ss"));
+        console.log("토큰 재생성 성공");
+
+        return;
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("토큰 재생성 실패");
       });
   };
 };
