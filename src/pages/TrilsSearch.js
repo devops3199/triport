@@ -6,8 +6,9 @@ import styled from "styled-components";
 import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
-import InfiniteScroll from "react-infinite-scroll-component";
+import InfinityScroll from "shared/InfinityScroll";
 import Spinner from "shared/Spinner2";
+import SearchIcon from "@material-ui/icons/Search";
 import Swal from "sweetalert2";
 import queryString from "query-string";
 
@@ -16,9 +17,9 @@ const Trils = (props) => {
   const queryObj = queryString.parse(search);
   const access_token = localStorage.getItem("access_token");
   const dispatch = useDispatch();
-  const page = useSelector((state) => state.trils.page);
   const post_list = useSelector((state) => state.trils.data);
   const modal = useSelector((state) => state.trils.modal);
+  const is_last = useSelector((state) => state.trils.is_last);
   const [filter, _setFilter] = useState(true);
   const filterRef = useRef(filter);
   const keyword = useRef("");
@@ -46,55 +47,52 @@ const Trils = (props) => {
 
     if (filter) {
       // 최신순
-      dispatch(TrilsActions.getPost(queryObj.q, "createdAt", 1));
+      dispatch(TrilsActions.filterPost(queryObj.q, "createdAt"));
     } else {
       // 좋아요순
-      dispatch(TrilsActions.getPost(queryObj.q, "likeNum", 1));
+      dispatch(TrilsActions.filterPost(queryObj.q, "likeNum"));
     }
     setFilter(!filter);
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     if (!(queryObj.filter === "createdAt" || queryObj.filter === "likeNum")) {
       history.push("/notFound");
     }
     dispatch(TrilsActions.searchPost(queryObj.q, queryObj.filter, 1));
   }, [dispatch, queryObj.q, queryObj.filter]);
 
-  const next = () => {
-    const setFilter = (data) => {
-      filterRef.current = data;
-      _setFilter(data);
-    };
-
-    if (filter) {
+  const scroll = () => {
+    const filter_scroll = filterRef.current;
+    if (filter_scroll) {
       // 좋아요순
-      dispatch(TrilsActions.getPost(queryObj.q, queryObj.filter, page));
+      dispatch(TrilsActions.getPost(queryObj.q, "likeNum"));
     } else {
       // 최신순
-      dispatch(TrilsActions.getPost(queryObj.q, queryObj.filter, page));
+      dispatch(TrilsActions.getPost(queryObj.q, "createdAt"));
     }
-    setFilter(!filter);
+  };
+
+  const searching = (e) => {
+    if (window.event.keyCode === 13) {
+      // 좋아요순
+      history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+    }
   };
 
   return (
     <Container>
       <SearchContainer>
-        <Search
-          type="text"
-          placeholder="검색어를 입력하세요."
-          ref={keyword}
-          onKeyPress={(e) => {
-            if (window.event.keyCode === 13) {
-              if (window.event.keyCode === 13) {
-                // 좋아요순
-                history.push(
-                  `/search?q=${keyword.current.value}&filter=likeNum`
-                );
-              }
-            }
-          }}
-        />
+        <SearchWrapper>
+          <Search
+            type="text"
+            placeholder="검색어를 입력하세요."
+            ref={keyword}
+            onKeyPress={searching}
+          />
+          <SearchIcon onClick={searching} />
+        </SearchWrapper>
       </SearchContainer>
       <FilterContainer>
         <Filter>
@@ -134,20 +132,10 @@ const Trils = (props) => {
           <Plus />
         </FloatingButton>
         <PostLine>
-          {post_list.length === 0 ? (
+        {!post_list || post_list.length === 0 ? (
             <></>
           ) : (
-            <InfiniteScroll
-              dataLength={post_list.length}
-              next={next}
-              hasMore={post_list.length > 11}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-              }}
-              loader={<Spinner />}
-            >
+            <InfinityScroll callNext={scroll} is_next={is_last}>
               {post_list.map((p, idx) => {
                 if ((idx + 1) % 3 !== 0) {
                   return (
@@ -163,13 +151,29 @@ const Trils = (props) => {
                   );
                 }
               })}
-            </InfiniteScroll>
+            </InfinityScroll>
           )}
         </PostLine>
       </CenterDiv>
     </Container>
   );
 };
+
+const SearchWrapper = styled.div`
+  width: 40.625rem;
+  border: 1px solid rgb(43, 97, 225, 0.6);
+  border-radius: 5px;
+  outline: none;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & svg {
+    fill: rgb(43, 97, 225);
+    cursor: pointer;
+  }
+`;
 
 const Container = styled.div`
   display: flex;
@@ -243,11 +247,9 @@ const FilterContainer = styled.div`
 `;
 
 const Search = styled.input`
-  width: 40.625rem;
-  border: 1px solid rgb(43, 97, 225, 0.6);
-  border-radius: 5px;
+  border: none;
   outline: none;
-  padding: 0.75rem 1.25rem;
+  width: 38rem;
 `;
 
 const SearchContainer = styled.div`

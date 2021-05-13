@@ -18,10 +18,7 @@ const Trils = (props) => {
   // const queryObj = queryString.parse(search);
   const access_token = localStorage.getItem("access_token");
   const dispatch = useDispatch();
-  const page = useSelector((state) => state.trils.page);
   const post_list = useSelector((state) => state.trils.data);
-  // const post_list = all_list.results;
-  // console.log(post_list)
   const modal = useSelector((state) => state.trils.modal);
   const is_last = useSelector((state) => state.trils.is_last);
   const [filter, _setFilter] = useState(true);
@@ -50,36 +47,25 @@ const Trils = (props) => {
     }
 
     if (filter) {
-      // 좋아요순
-      dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", 1));
-    } else {
       // 최신순
-      dispatch(TrilsActions.getPost(keyword.current.value, "createdAt", 1));
+      dispatch(TrilsActions.filterPost(keyword.current.value, "createdAt"));
+    } else {
+      // 좋아요순
+      dispatch(TrilsActions.filterPost(keyword.current.value, "likeNum"));
     }
     setFilter(!filter);
   };
 
   useEffect(() => {
-    dispatch(TrilsActions.getPost());
+    window.scrollTo(0, 0)
+    // console.log(
+    //   "%c✈트리포트에 오신걸 환영합니다!",
+    //   'font-family: "paybooc-Bold";color:#89acff; font-size:30px; font-weight: bold;'
+    // );
+    dispatch(TrilsActions.setPost());
   }, [dispatch]);
 
-  const next = () => {
-    const setFilter = (data) => {
-      filterRef.current = data;
-      _setFilter(data);
-    };
-
-    if (filter) {
-      // 좋아요순
-      dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", page));
-    } else {
-      // 최신순
-      dispatch(TrilsActions.getPost(keyword.current.value, "createdAt", page));
-    }
-    setFilter(!filter);
-  };
-
-  const search = (e) => {
+  const searching = (e) => {
     if (window.event.keyCode === 13) {
       // 좋아요순
       history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
@@ -88,13 +74,12 @@ const Trils = (props) => {
 
   const scroll = () => {
     const filter_scroll = filterRef.current;
-
-    if (!filter_scroll) {
+    if (filter_scroll) {
       // 좋아요순
-      dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", page));
+      dispatch(TrilsActions.getPost(keyword.current.value, "likeNum"));
     } else {
       // 최신순
-      dispatch(TrilsActions.getPost(keyword.current.value, "createdAt", page));
+      dispatch(TrilsActions.getPost(keyword.current.value, "createdAt"));
     }
   };
 
@@ -106,9 +91,9 @@ const Trils = (props) => {
             type="text"
             placeholder="검색어를 입력하세요."
             ref={keyword}
-            onKeyPress={search}
+            onKeyPress={searching}
           />
-          <SearchIcon onClick={search} />
+          <SearchIcon onClick={searching} />
         </SearchWrapper>
       </SearchContainer>
       <FilterContainer>
