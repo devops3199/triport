@@ -3,7 +3,7 @@ import styled from "styled-components";
 import BgImg from 'media/image/trilog_default.jpg';
 import ProfileImg from 'media/image/triport_airplane.png';
 import { actionCreators as TrilogActions } from 'redux/modules/trilog';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { LikeFill, LikeEmpty } from "media/svg/Svg";
 import { history } from "redux/configureStore";
 
@@ -72,7 +72,13 @@ const BoardCardContainer = styled.div`
     box-sizing: border-box;
     width: 14rem;
     height: 23.063rem;
+    transition: all .2s ease-in-out;
+    box-shadow: 0px 3px 6px #00000029;
     ${(props) => (props.margin ? `margin: ${props.margin};` : '')};
+
+    &:hover {
+        transform: scale(1.1);
+    }
 `; 
 
 const ImageContainer = styled.div`
@@ -110,7 +116,8 @@ const Profile = styled.div`
     & span {
         margin-left: 5px;
         font-size: 14px;
-        color: #5A5A5A;
+        color: #fff;
+        text-shadow: -1px 0 black,0 1px black,1px 0 black,0 -1px black;
         font-weight: 600;
     }
 `;
@@ -130,7 +137,6 @@ const ContentContainer = styled.div`
     height: 9.063rem;
     display: flex;
     flex-direction: column;
-    border: 1px solid #BCBCBC;
     border-radius: 5px;
     margin-top: 2px;
 `;

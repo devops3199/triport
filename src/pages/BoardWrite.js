@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Editor } from "@toast-ui/react-editor";
 import "codemirror/lib/codemirror.css"; // Editor's Dependency Style
 import "@toast-ui/editor/dist/toastui-editor.css"; // Editor's Style
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { config } from "redux/modules/config";
 import _ from "lodash";
 import { BoardWriteMap } from "components/components";
+import LoopIcon from '@material-ui/icons/Loop';
 
 const BoardWrite = (props) => {
     const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const BoardWrite = (props) => {
     const [address, setAddress] = React.useState('지도 마커를 클릭하시면 주소가 여기 표시됩니다.');
     const [keyword, setKeyword] = React.useState('관악구청');
     const [imageUrls, setImageUrls] = React.useState([]);
+    const [imgLoading, setImgLoading] = React.useState(false); // 이미지 로딩 시
 
     const handleMap = _.debounce((val) => {
         setKeyword(val);
@@ -55,34 +57,51 @@ const BoardWrite = (props) => {
 
     // 위지위그 에디터에서 사용자가 이미지 추가할때
     const uploadImage = async (blob) => {
-        let api = '';
+      const file_size = ((blob.size / 1024) / 1024);
 
-        if(is_edit) {
-            api = `${config}/api/boards/image/${id}`;
-        } else {
-            api = `${config}/api/boards/image`;
-        }
+      if(file_size > 20) {
+        // 이미지가 10MB보다 크다면
+        alert('각 이미지 용량은 최대 10MB 입니다.')
+        return 'failed';
+      }
 
-        const access_token = localStorage.getItem("access_token");
+      let api = '';
 
-        const formData = new FormData();
-        formData.append('imageFile', blob);
+      if(is_edit) {
+          api = `${config}/api/boards/image/${id}`;
+      } else {
+          api = `${config}/api/boards/image`;
+      }
 
-        const url = await fetch(api, {
-            method : 'POST',
-            headers : {
-                'Authorization': `${access_token}`,
-            },
-            body : formData
-        })
-        .then(res => res.json())
-        .catch((error) => console.log(error, 'uploadImage'));
+      const access_token = localStorage.getItem("access_token");
 
+      const formData = new FormData();
+      formData.append('imageFile', blob);
+
+      setImgLoading(true);
+      const url = await fetch(api, {
+          method : 'POST',
+          headers : {
+              'Authorization': `${access_token}`,
+          },
+          body : formData
+      })
+      .then(res => res.json())
+      .catch((error) => console.log(error, 'uploadImage'));
+      setImgLoading(false);
+
+      if(url.status === undefined) {
         setImageUrls(prevState => ([...prevState, { 'imageFilePath' : url.results.imageFilePath}]))
-
         return url.results.imageFilePath;
+      } else {
+        if(url.status === 401) {
+          alert('로그인을 다시 해주세요!');
+        } else {
+          alert('서버에 문제가 있습니다.');
+        }
+        return 'failed';
+      }
     };
-
 
     React.useEffect(() => {
         if(is_edit) {
@@ -100,8 +119,20 @@ const BoardWrite = (props) => {
           <></>
         ) : (
           <>
+            {imgLoading ? (
+              <ImgLoading>
+                <LoopIcon />
+                <div>⚡조금만 기다려 주세요⚡</div>
+              </ImgLoading>
+            ) : (
+              <></>
+            )}
             <Title margin="0 0 1.25rem 0">
-              {is_edit ? (<h2 style={{"textAlign":"center"}}>Trilog 수정</h2>) : (<h2 style={{"textAlign":"center"}}>Trilog 작성</h2>)}
+              {is_edit ? (
+                <h2 style={{ textAlign: "center" }}>Trilog 수정</h2>
+              ) : (
+                <h2 style={{ textAlign: "center" }}>Trilog 작성</h2>
+              )}
             </Title>
             <Title margin="0 0 1.25rem 0">
               <span>제목</span>
@@ -144,11 +175,13 @@ const BoardWrite = (props) => {
                 previewStyle="vertical"
                 height="600px"
                 initialEditType="markdown"
-                initialValue={is_edit ? detail.information.description : ''}
+                initialValue={is_edit ? detail.information.description : ""}
                 hooks={{
                   addImageBlobHook: async (blob, callback) => {
                     const upload = await uploadImage(blob);
-                    callback(upload, "alt text");
+                    if (upload !== "failed") {
+                      callback(upload, "alt text");
+                    }
                     return false;
                   },
                 }}
@@ -178,7 +211,31 @@ const BoardWrite = (props) => {
 const WriteContainer = styled.div`
   width: 1280px;
   margin: 0 auto;
-  position: relative;
+`;
+
+const spin = keyframes`
+  100% {
+      transform: rotate(360deg);
+  }
+`;
+
+const ImgLoading = styled.div`
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 9999;
+  width: 100%;
+  min-height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    font-size: 7rem;
+    fill : rgb(43, 97, 225, .8);
+    animation: ${spin} 2s linear infinite;
+  }
 `;
 
 const Title = styled.div`
