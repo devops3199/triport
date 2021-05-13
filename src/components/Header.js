@@ -22,7 +22,7 @@ const Header = (props) => {
   if (user.is_login === true) {
     return (
       <React.Fragment>
-        <div style={{ position: "sticky", top: "0", zIndex: "50" }}>
+        <div style={{ position: "sticky", top: "0", zIndex: "50", backgroundColor : "#fff" }}>
           <Wrap>
             <LogoWrapper
               onClick={() => {

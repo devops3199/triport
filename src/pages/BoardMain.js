@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { history } from "redux/configureStore";
 import { Plus } from "media/svg/Svg";
 import { BoardCard } from "components/components";
@@ -7,6 +7,7 @@ import InfinityScroll from "shared/InfinityScroll";
 import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
 import SearchIcon from '@material-ui/icons/Search';
+import Tripper from "media/image/triport_airplane.png";
 
 const BoardMain = (props) => {
   const dispatch = useDispatch();
@@ -103,6 +104,9 @@ const BoardMain = (props) => {
             </SearchWrapper>
           </SearchContainer>
           <FilterContainer>
+            <MoveTripper>
+              <img src={Tripper} />
+            </MoveTripper>
             <Filter>
               <Background id="FilterTab" />
               <LikeFilter onClick={tabToggle}>
@@ -156,6 +160,7 @@ const SearchWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0px 3px 6px #00000029;
 
   & svg {
     fill : rgb(43, 97, 225);
@@ -172,7 +177,7 @@ const Search = styled.input`
 const FilterContainer = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row-reverse;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -250,6 +255,25 @@ const FloatingButton = styled.div`
     width: 100%;
     height: 100%;
     fill: #2b61e1;
+  }
+`;
+
+const Move = keyframes`
+  0% {
+    transform : translateX(0%);
+  }
+  50% {
+    transform : translateX(1500%);
+  }
+  100% {
+    transform : translateX(0%);
+  }
+`;
+
+const MoveTripper = styled.div`
+  animation: ${Move} 10s;
+  & img {
+    width: 4rem;
   }
 `;
 
