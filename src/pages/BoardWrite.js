@@ -4,7 +4,7 @@ import { Editor } from "@toast-ui/react-editor";
 import "codemirror/lib/codemirror.css"; // Editor's Dependency Style
 import "@toast-ui/editor/dist/toastui-editor.css"; // Editor's Style
 import { history } from "redux/configureStore";
-import { actionCreators as TrilogActions, setTrilogFilter } from 'redux/modules/trilog';
+import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
 import { config } from "redux/modules/config";
 import _ from "lodash";
@@ -53,6 +53,7 @@ const BoardWrite = (props) => {
         dispatch(TrilogActions.addTrilog(post));
     };
 
+    // 위지위그 에디터에서 사용자가 이미지 추가할때
     const uploadImage = async (blob) => {
         let api = '';
 

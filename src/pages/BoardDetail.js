@@ -211,7 +211,7 @@ const ShowMoreComment = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-
+  margin: 1.5rem 0 1.5rem 0;
   & span {
       cursor: pointer;
   }

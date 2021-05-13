@@ -6,6 +6,7 @@ import { BoardCard } from "components/components";
 import InfinityScroll from "shared/InfinityScroll";
 import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
+import SearchIcon from '@material-ui/icons/Search';
 
 const BoardMain = (props) => {
   const dispatch = useDispatch();
@@ -61,6 +62,10 @@ const BoardMain = (props) => {
     }
   };
 
+  const searchTrilog = () => {
+    dispatch(TrilogActions.getTrilogMainFilter(`${filter ? "modifiedAt" : "likeNum"}`, keyword.current.value));
+  };
+
   React.useEffect(() => {
     dispatch(TrilogActions.getTrilogMain('likeNum', ''));
   }, []);
@@ -83,21 +88,19 @@ const BoardMain = (props) => {
             <></>
           )}
           <SearchContainer>
-            <Search
-              type="text"
-              placeholder="검색어를 입력하세요."
-              ref={keyword}
-              onKeyPress={(e) => {
-                if (window.event.keyCode === 13) {
-                  dispatch(
-                    TrilogActions.getTrilogMainFilter(
-                      `${filter ? "modifiedAt" : "likeNum"}`,
-                      keyword.current.value
-                    )
-                  );
-                }
-              }}
-            />
+            <SearchWrapper>
+              <Search
+                type="text"
+                placeholder="검색어를 입력하세요."
+                ref={keyword}
+                onKeyPress={(e) => {
+                  if (window.event.keyCode === 13) {
+                    searchTrilog();
+                  }
+                }}
+              />
+              <SearchIcon onClick={searchTrilog} />
+            </SearchWrapper>
           </SearchContainer>
           <FilterContainer>
             <Filter>
@@ -144,12 +147,26 @@ const SearchContainer = styled.div`
   margin-bottom: 50px;
 `;
 
-const Search = styled.input`
+const SearchWrapper = styled.div`
   width: 40.625rem;
   border: 1px solid rgb(43, 97, 225, 0.6);
   border-radius: 5px;
   outline: none;
   padding: 0.75rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & svg {
+    fill : rgb(43, 97, 225);
+    cursor: pointer;
+  }
+`;
+
+const Search = styled.input`
+  border: none;
+  outline: none;
+  width: 38rem;
 `;
 
 const FilterContainer = styled.div`

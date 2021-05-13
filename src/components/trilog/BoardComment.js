@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { CommentLike } from "media/svg/Svg";
 import { BoardChildComment } from "components/components";
-import { actionCreators as TrilogActions, editTrilogParentComment } from 'redux/modules/trilog';
+import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
 import { config } from "redux/modules/config";
 
@@ -19,6 +19,8 @@ const BoardComment = (props) => {
     const [data, setData] = React.useState([]);
     const [edit, setEdit] = React.useState(false);
     const [parentCommentEdit, setParentCommentEdit] = React.useState(''); // Edit일때만 사용
+    const [page, setPage] = React.useState(1);
+    const [last, setLast] = React.useState(true);
 
     const input_id = `commentChildInput${comment.commentParent.id}`;
 
@@ -28,15 +30,14 @@ const BoardComment = (props) => {
       }
     }, []);
 
+    // 대댓글 조회 - 대댓글은 Redux에서 관리안함
     const showReplyComment = () => {
         setShowReply(!showReply);
         
         if(!showReply) {
-            // 자식 댓글 조회
-            //dispatch(TrilogActions.getChildComment(comment.commentParent.id));
             const access_token = localStorage.getItem("access_token");
 
-            fetch(`${config}/api/all/boards/comments/children/${comment.commentParent.id}?page=1`, {
+            fetch(`${config}/api/all/boards/comments/children/${comment.commentParent.id}?page=${page}`, {
                 method : 'GET',
                 headers : {
                     'Content-Type': 'application/json',
@@ -47,11 +48,16 @@ const BoardComment = (props) => {
             .then(res => res.json())
             .then(data => {
               setData(data.results);
+
+              if(!data.last) {
+                setPage(prevState => prevState + 1);
+                setLast(data.last);
+              }
             })
             .catch(err => console.log(err, 'get child comment trilog'));
         }
     };
-    // 대댓글 조회 - 대댓글은 Redux에서 관리안함
+    
     const postChildComment = () => {
       if(!is_login) {
         alert("로그인을 먼저 하세요!");
@@ -93,7 +99,29 @@ const BoardComment = (props) => {
     };
 
     const getMorecomment = () => {
-      //
+      const access_token = localStorage.getItem("access_token");
+
+      fetch(`${config}/api/all/boards/comments/children/${comment.commentParent.id}?page=${page}`, {
+          method : 'GET',
+          headers : {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': `${access_token}`,
+          },
+      })
+      .then(res => res.json())
+      .then(data => {
+        setData(prevState => [...prevState, ...data.results]);
+
+        if(!data.last) {
+          setPage(prevState => prevState + 1);
+          setLast(data.last);
+        } else {
+          setPage(1);
+          setLast(data.last);
+        }
+      })
+      .catch(err => console.log(err, 'get child comment trilog'));
     };
 
     const showEdit = () => {
@@ -207,8 +235,8 @@ const BoardComment = (props) => {
             );
           })}
         </ReplyContainer>
-        <ShowMoreComment>
-          <span onClick={getMorecomment}>대댓글 더 보기</span>
+        <ShowMoreComment showReply={showReply} last={last}>
+          <span onClick={getMorecomment}>└ 대댓글 더 보기</span>
         </ShowMoreComment>
       </>
     );
@@ -343,8 +371,8 @@ const EditInput = styled.input`
 
 const ShowMoreComment = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: center;
+  display: ${(props) => (!props.last ? "flex" : "none")};
+  margin: 0 0 1.5rem 2.5rem;
 
   & span {
       cursor: pointer;
