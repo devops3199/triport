@@ -154,10 +154,9 @@ const getTrilogMain = (filter, keyword) => {
             } else {
                 dispatch(setTrilogMainPage(1));
             }
-
-            dispatch(setMainLoading(false));
         })
         .catch(err => console.log(err, "메인 error"));
+        dispatch(setMainLoading(false));
     };
 };
 
