@@ -9,9 +9,9 @@ const Category = () => {
 
   const GetClick = (e) => {
     setCurrentClick(e.target.id); // 해당 엘리먼트의 id값
-    
-    if(e.target.id === 'trils') {
-      history.push('/'); // 클릭 시 페이지 이동
+
+    if (e.target.id === "trils") {
+      history.push("/"); // 클릭 시 페이지 이동
     } else {
       history.push(`/${e.target.id}`); // 클릭 시 페이지 이동
     }

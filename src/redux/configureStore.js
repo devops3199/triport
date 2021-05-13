@@ -23,7 +23,7 @@ const rootReducer = combineReducers({
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [thunk.withExtraArgument({ history: history })],
+  middleware: [thunk.withExtraArgument({ history: history }), logger],
   devTools: process.env.NODE_ENV !== "production",
 });
 

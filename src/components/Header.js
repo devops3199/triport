@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { history } from "../redux/configureStore";
 
 import { Logo } from "media/svg/Svg";
+import grade1 from "media/svg/등급1.svg";
 
 import Category from "components/Category";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +13,7 @@ import { actionCreators as userActions } from "redux/modules/user";
 const Header = (props) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const preview = useSelector((state) => state.profileimg.user_img);
 
   const pathname = history.location.pathname;
 
@@ -42,6 +44,8 @@ const Header = (props) => {
             </LeftWrap>
             <div style={{ width: "30rem" }}></div>
             <RightWrap>
+              <Image src={preview} />
+              <Grade />
               <Nickname>{user.nickname}</Nickname>
               <MyOrLogin
                 onClick={() => {
@@ -130,6 +134,7 @@ const RightWrap = styled.div`
   display: flex;
   flex-direction: row;
   width: auto;
+  align-items: center;
 `;
 
 const Line = styled.div`
@@ -172,5 +177,30 @@ const LogoutOrSignUp = styled.button`
 const Nickname = styled.div`
   width: 5rem;
   margin-right: 2rem;
-  margin-top: 0.15rem;
+  margin-top: -0.3rem;
+  font-size: 1.2rem;
+  font-weight: 800;
+`;
+
+const Image = styled.div`
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 1.2rem;
+  border: 1px solid #2b61e1;
+  box-shadow: 0px 3px 6px #00000029;
+  background-position: center;
+  background-image: url("${(props) => props.src}");
+  background-size: cover;
+  margin-right: 1rem;
+`;
+
+const Grade = styled.div`
+  width: 1.5rem;
+  height: 1.5rem;
+  background-position: center;
+  background-image: url("${grade1}");
+  background-size: cover;
+  margin: 0px auto;
+  margin-top: -0.3rem;
+  margin-right: 0.2rem;
 `;
