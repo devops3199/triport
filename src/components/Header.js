@@ -11,7 +11,7 @@ const Header = (props) => {
   const { history } = props;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const preview = useSelector((state) => state.profileimg.user_img);
+  const preview = useSelector((state) => state.profile.user_img);
 
   const is_logout = () => {
     dispatch(userActions.logout());
@@ -192,7 +192,7 @@ const Nickname = styled.div`
   width: 5rem;
   margin-right: 2rem;
   margin-top: -0.3rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 800;
 `;
 

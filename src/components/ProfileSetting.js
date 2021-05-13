@@ -2,16 +2,40 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import image from "../media/image/login_logo.png";
 
-import { SET_PREVIEW } from "../redux/modules/profileimg";
+import { SET_PREVIEW } from "../redux/modules/profile";
 import Dmypage from "media/svg/마이페이지 D.svg";
 import edit from "media/svg/프로필수정.svg";
 import { useDispatch, useSelector } from "react-redux";
 
+import grade1 from "media/svg/등급1.svg";
+import grade2 from "media/svg/등급2.svg";
+import grade3 from "media/svg/등급3.svg";
+
+import { actionCreators as profileActions } from "redux/modules/profile";
+
 const ProfileSetting = () => {
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(profileActions.getProfile());
+  }, []);
+
+  const nameRef = useRef();
+  const newpwdRef = useRef();
+  const newpwdcheckRef = useRef();
   const fileInput = useRef(); // DOM 객체 가져오기 (인풋)
 
-  const preview = useSelector((state) => state.profileimg.user_img);
-  const dispatch = useDispatch();
+  const Update = () => {
+    const nickname = nameRef.current.value;
+    const newpwd = newpwdRef.current.value;
+    const newpwdcheck = newpwdcheckRef.current.value;
+    const img = fileInput.current.value;
+    console.log(nickname, newpwd, newpwdcheck, img);
+
+    dispatch(profileActions.updateProfile(nickname, newpwd, newpwdcheck, img));
+  };
+
+  const userprofile = useSelector((state) => state.profile);
 
   const upload = (e) => {
     const reader = new FileReader();
@@ -31,6 +55,19 @@ const ProfileSetting = () => {
     fileInput.current.click(); // 인풋 클릭한 효과
   };
 
+  // 유저 등급에 따른 등급 아이콘 보여주기
+  const gradeImg = () => {
+    if (userprofile.memberGrade === "TRAVELER") {
+      return grade1;
+    }
+    if (userprofile.memberGrade === "TRAVEL_EDITOR") {
+      return grade2;
+    }
+    if (userprofile.memberGrade === "TRAVEL_MASTER") {
+      return grade3;
+    }
+  };
+
   return (
     <React.Fragment>
       <Wrap>
@@ -38,7 +75,7 @@ const ProfileSetting = () => {
         <Title>프로필 설정</Title>
         <SmallWrap>
           <ImageWrap>
-            <Image src={preview} />
+            <Image src={userprofile.user_img} />
             <input // input을 가려놓고 EDIT 버튼을 클릭했을 때 인풋이 실행되도록 만듬.
               type="file"
               accept="image/*"
@@ -47,18 +84,25 @@ const ProfileSetting = () => {
               style={{ display: "none" }}
             />
             <Edit onClick={triggerImg}></Edit>
-            <Lank>당신의 등급은 ?</Lank>
+            <Lank>
+              당신은 <GradeIcon src={gradeImg} />
+              <Member>{userprofile.memberGrade}</Member>{" "}
+            </Lank>
           </ImageWrap>
 
           <Text>닉네임</Text>
-          <Input placeholder="Nickname" />
+          <Input placeholder="Nickname" ref={nameRef} />
           <Text>현재 비밀번호</Text>
-          <Input placeholder="PASSWORD" />
+          <Input placeholder="PASSWORD" type="password" />
           <Text>새 비밀번호</Text>
-          <Input placeholder="NEW PASSWORD" />
+          <Input placeholder="NEW PASSWORD" type="password" ref={newpwdRef} />
           <Text>새 비밀번호 확인</Text>
-          <Input placeholder="NEW PASSWORD" />
-          <Button1>저장하기</Button1>
+          <Input
+            placeholder="NEW PASSWORD"
+            type="password"
+            ref={newpwdcheckRef}
+          />
+          <Button1 onClick={Update}>저장하기</Button1>
         </SmallWrap>
       </Wrap>
     </React.Fragment>
@@ -144,7 +188,9 @@ const Edit = styled.div`
 `;
 
 const Lank = styled.div`
-  /* margin-top: 1rem; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   margin-bottom: 2rem;
 `;
 
@@ -170,6 +216,25 @@ const Button1 = styled.button`
   margin-bottom: 1rem;
   background-color: #2b61e1;
   color: #ffffff;
+`;
+
+const Member = styled.div`
+  font-family: "paybooc-Bold";
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #2b61e1;
+`;
+
+const GradeIcon = styled.div`
+  width: 1.5rem;
+  height: 1.5rem;
+  background-position: center;
+  background-image: url("${(props) => props.src}");
+  background-size: cover;
+  margin: 0px auto;
+  margin-top: -0.3rem;
+  margin-right: 0.2rem;
+  margin-left: 1rem;
 `;
 
 export default ProfileSetting;

@@ -81,7 +81,7 @@ const loginDB = (email, pwd) => {
 
         const Current_time = new Date().getTime();
 
-        setTimeout(tokenExtension(), access_token_exp - Current_time - 60000);
+        // setTimeout(tokenExtension(), access_token_exp - Current_time - 60000);
 
         // 로컬 스토리지에 토큰 저장하기
         localStorage.setItem("access_token", access_token);
@@ -136,7 +136,7 @@ const tokenExtension = () => {
     })
       .then((result) => {
         console.log(result);
-        // 헤더에 담긴 토큰 가져오기
+        // 헤더에 담긴 토큰과 만료시간 가져오기
         let access_token = result.headers.get("Access-Token");
         let refresh_token = result.headers.get("Refresh-Token");
         let access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
