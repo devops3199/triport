@@ -19,7 +19,7 @@ const Videom3u8 = (props) => {
   const [completed, setCompleted] = useState(0);
 
   const params = {
-    src: "http://d2vii12zy6qnjo.cloudfront.net/testmp4/testmp4.mp4",
+    src: props.information.videoUrl,
   };
 
   useEffect(() => {}, []);

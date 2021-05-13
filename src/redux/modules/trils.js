@@ -80,9 +80,11 @@ const writepost = (video, tags) => {
         return result.json();
       })
       .then((result) => {
-        if (result.msg === "포스팅 완료!") {
+        if (result.ok) {
           alert("정상적으로 작성되었습니다.");
           history.replace("/");
+        }else{
+          alert("작성 중 오류가 발생하였습니다.")
         }
       })
       .catch((err) => console.log(err));
