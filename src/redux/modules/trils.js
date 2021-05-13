@@ -9,16 +9,19 @@ const trilseSlice = createSlice({
     detail: [],
     page: 1,
     modal_loading: false,
+    is_last : false,
   },
   reducers: {
     GET_POST: (state, action) => {
       console.log(action.payload.result)
       state.data = action.payload.result;
       state.page = action.payload.page;
+      state.is_last = action.payload.last;
     },
     SHIFT_POST: (state, action) => {
       state.data.push(...action.payload.result);
       state.page = action.payload.page;
+      state.is_last = action.payload.last;
     },
     GET_POST_DETAIL: (state, action) => {
       state.modal = true;
@@ -46,6 +49,7 @@ const trilseSlice = createSlice({
     SEARCH_POST: (state, action) => {
       state.data = action.payload.result;
       state.page = action.payload.page;
+      state.is_last = action.payload.last;
     },
     EDIT_POST: (state, action) => {
       const idx = state.data.findIndex(
@@ -110,6 +114,7 @@ const searchPost = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
         const results = {
           result: result.results,
           page: page + 1,
+          last: result.last,
         };
         dispatch(SEARCH_POST(results));
       })
@@ -119,7 +124,6 @@ const searchPost = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
 
 const getPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
   return function (dispatch, getState, { history }) {
-    const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
     const api = `${config}/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
     const data = {
@@ -136,6 +140,7 @@ const getPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
         const results = {
           result: result.results,
           page: page + 1,
+          last: result.last
         };
         if (page === 1) {
           dispatch(GET_POST(results));
