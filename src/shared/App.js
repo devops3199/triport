@@ -8,7 +8,6 @@ import { history } from "redux/configureStore";
 
 import { NotFound, BoardMain, BoardWrite, BoardDetail } from "pages/pages";
 
-import Snsmain from "pages/SnsMain";
 import Header from "components/Header";
 import Login from "pages/Login";
 import SignUp from "pages/SignUp";
@@ -21,6 +20,7 @@ import TrillsSearch from "pages/TrilsSearch";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "redux/modules/user";
+import OAuth2RedirectHandler from "./OAuth2RedirectHandler";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -47,6 +47,11 @@ const App = () => {
             <Route path="/trilog/write/:id" exact component={BoardWrite} />
             <Route path="/trilog/:id" exact component={BoardDetail} />
             <Route path="/profile" exact component={Profile} />
+            <Route
+              path="/auth/kakao/callback"
+              exact
+              component={OAuth2RedirectHandler}
+            />
             <Route component={NotFound} />
           </Switch>
         </ConnectedRouter>

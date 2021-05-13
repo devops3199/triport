@@ -17,6 +17,9 @@ const Login = () => {
   const [line1, setLine1] = useState("1px solid #707070");
   const [line2, setLine2] = useState("1px solid #707070");
 
+  const KAKAO_URL =
+    "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code";
+
   const login = () => {
     if (email === "" || pwd === "") {
       window.alert("로그인 정보를 모두 입력해주세요.");
@@ -70,7 +73,7 @@ const Login = () => {
           }}
         ></PwdInput>
         <Button1 onClick={login}>LOGIN</Button1>
-        <Button2>
+        <Button2 href={KAKAO_URL}>
           <Kakao />
           카카오톡으로 로그인
         </Button2>
@@ -161,7 +164,7 @@ const Button1 = styled.button`
   color: #ffffff;
 `;
 
-const Button2 = styled.button`
+const Button2 = styled.a`
   font-family: "paybooc-Bold";
   width: 24.5rem;
   height: 3rem;
@@ -176,6 +179,7 @@ const Button2 = styled.button`
   background-color: #ffe600;
   font-size: 1rem;
   color: #2b1718;
+  text-decoration: none;
 `;
 
 const Kakao = styled.div`
