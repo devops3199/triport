@@ -1,7 +1,7 @@
 import Video from "components/trils/Video";
 import React, { useEffect, useRef, useState } from "react";
 import { history } from "redux/configureStore";
-import { Plus } from "media/svg/Svg";
+import { Plus, Arrow } from "media/svg/Svg";
 import styled from "styled-components";
 import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
@@ -10,7 +10,6 @@ import Spinner from "shared/Spinner2";
 import Swal from "sweetalert2";
 import SearchIcon from "@material-ui/icons/Search";
 import queryString from "query-string";
-import { all_list } from "redux/Mock/trils_all_list";
 import InfinityScroll from "shared/InfinityScroll";
 
 const Trils = (props) => {
@@ -57,11 +56,11 @@ const Trils = (props) => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-    // console.log(
-    //   "%c✈트리포트에 오신걸 환영합니다!",
-    //   'font-family: "paybooc-Bold";color:#89acff; font-size:30px; font-weight: bold;'
-    // );
+    window.scrollTo(0, 0);
+    console.log(
+      "%c✈트리포트에 오신걸 환영합니다!",
+      'font-family: "paybooc-Bold";color:#89acff; font-size:30px; font-weight: bold;'
+    );
     dispatch(TrilsActions.setPost());
   }, [dispatch]);
 
@@ -81,6 +80,31 @@ const Trils = (props) => {
       // 최신순
       dispatch(TrilsActions.getPost(keyword.current.value, "createdAt"));
     }
+  };
+
+  const write = () => {
+    if (access_token === null) {
+      Swal.fire({
+        title: "로그인을 해주세요.",
+        text: "로그인 후 글작성이 가능합니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "로그인하기",
+        cancelButtonText: "닫기",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    } else {
+      history.push("/trils/write");
+    }
+  };
+
+  const top = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -109,28 +133,10 @@ const Trils = (props) => {
       </FilterContainer>
       <CenterDiv>
         {modal ? <TrilsDetail history={history} /> : null}
-        <FloatingButton
-          onClick={() => {
-            if (access_token === null) {
-              Swal.fire({
-                title: "로그인을 해주세요.",
-                text: "로그인 후 글작성이 가능합니다.",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "로그인하기",
-                cancelButtonText: "닫기",
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  history.push("/login");
-                }
-              });
-            } else {
-              history.push("/trils/write");
-            }
-          }}
-        >
+        <TopButton onClick={top}>
+          <Arrow />
+        </TopButton>
+        <FloatingButton onClick={write}>
           <Plus />
         </FloatingButton>
         <PostLine>
@@ -275,6 +281,29 @@ const CenterDiv = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   width: 80rem;
+`;
+
+const TopButton = styled.div`
+  position: fixed;
+  bottom: 10%;
+  right: 3%;
+  width: 3.125rem;
+  height: 3.125rem;
+  cursor: pointer;
+  z-index: 9999;
+  background-color: #2b61e1;
+  border-radius: 25px;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 60%;
+    height: 60%;
+    fill: #ffffff;
+  }
 `;
 
 const FloatingButton = styled.div`

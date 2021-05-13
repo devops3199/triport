@@ -56,7 +56,7 @@ const Trils = (props) => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     if (!(queryObj.filter === "createdAt" || queryObj.filter === "likeNum")) {
       history.push("/notFound");
     }
@@ -78,6 +78,27 @@ const Trils = (props) => {
     if (window.event.keyCode === 13) {
       // 좋아요순
       history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+    }
+  };
+
+  const write = () => {
+    if (access_token === null) {
+      Swal.fire({
+        title: "로그인을 해주세요.",
+        text: "로그인 후 글작성이 가능합니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "로그인하기",
+        cancelButtonText: "닫기",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    } else {
+      history.push("/trils/write");
     }
   };
 
@@ -107,32 +128,11 @@ const Trils = (props) => {
       </FilterContainer>
       <CenterDiv>
         {modal ? <TrilsDetail history={history} /> : null}
-        <FloatingButton
-          onClick={() => {
-            if (access_token === null) {
-              Swal.fire({
-                title: "로그인을 해주세요.",
-                text: "로그인 후 글작성이 가능합니다.",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "로그인하기",
-                cancelButtonText: "닫기",
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  history.push("/login");
-                }
-              });
-            } else {
-              history.push("/trils/write");
-            }
-          }}
-        >
+        <FloatingButton onClick={write}>
           <Plus />
         </FloatingButton>
         <PostLine>
-        {!post_list || post_list.length === 0 ? (
+          {!post_list || post_list.length === 0 ? (
             <></>
           ) : (
             <InfinityScroll callNext={scroll} is_next={is_last}>
