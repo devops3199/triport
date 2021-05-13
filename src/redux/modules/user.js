@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from "./config";
 
-import moment from "moment";
-
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -155,7 +153,6 @@ const tokenExtension = () => {
 
         // 만료되기 1분 전에 재발급하기
         setTimeout(tokenExtension(), access_token_exp - Current_time - 60000);
-        console.log(moment(Current_time).format("hh:mm:ss"));
         console.log("토큰 재생성 성공");
 
         return;
