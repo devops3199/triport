@@ -1,5 +1,4 @@
-import Videom3u8 from "components/trils/Videom3u8";
-import Videomp4 from "components/trils/Videomp4";
+import Video from "components/trils/Video";
 import React, { useEffect, useRef, useState } from "react";
 import { history } from "redux/configureStore";
 import { Plus } from "media/svg/Svg";
@@ -47,7 +46,7 @@ const Trils = (props) => {
 
     if (filter) {
       // 최신순
-      dispatch(TrilsActions.getPost(queryObj.q, "modifiedAt", 1));
+      dispatch(TrilsActions.getPost(queryObj.q, "createdAt", 1));
     } else {
       // 좋아요순
       dispatch(TrilsActions.getPost(queryObj.q, "likeNum", 1));
@@ -56,7 +55,7 @@ const Trils = (props) => {
   };
 
   useEffect(() => {
-    if (!(queryObj.filter === "modifiedAt" || queryObj.filter === "likeNum")) {
+    if (!(queryObj.filter === "createdAt" || queryObj.filter === "likeNum")) {
       history.push("/notFound");
     }
     dispatch(TrilsActions.searchPost(queryObj.q, queryObj.filter, 1));
@@ -153,13 +152,13 @@ const Trils = (props) => {
                 if ((idx + 1) % 3 !== 0) {
                   return (
                     <>
-                      <Videom3u8 {...p} history={history} mr />
+                      <Video {...p} history={history} mr />
                     </>
                   );
                 } else {
                   return (
                     <>
-                      <Videom3u8 {...p} history={history} />
+                      <Video {...p} history={history} />
                     </>
                   );
                 }

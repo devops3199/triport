@@ -5,23 +5,19 @@ import ProgressBar from "./ProgressBar";
 import { HeartEmpty, HeartFill } from "media/svg/Svg";
 import { useDispatch } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
+import Uploadex from "../../media/image/upload_ex.png"
 import Swal from "sweetalert2";
 
-const VideoTest = (props) => {
+const Video = (props) => {
   const { mr, history } = props;
   const hls = new Hls();
   const player = useRef(null);
   const players = useRef(null);
-  const [ismuted, setMute] = useState(true);
   const [completed, setCompleted] = useState(0);
   const dispatch = useDispatch();
 
   const params = {
     src: props.information.videoUrl,
-  };
-
-  const heart = () => {
-    dispatch();
   };
 
   useEffect(() => {
@@ -122,36 +118,45 @@ const VideoTest = (props) => {
         <ProfileImg src={props.author.profileImgUrl} />
         <ProfileId>{props.author.nickname}</ProfileId>
       </Profile>
-      {props.information.videoType === "mp4" ? (
+      {props.information.posPlay ? (
         <>
-          <VideoPlay
-            onMouseOver={mp4play}
-            onMouseLeave={mp4pause}
-            ref={players}
-            src={params.src}
-            muted={ismuted}
-            loop
-            onTimeUpdate={() => {
-              setCompleted(
-                (players.current.currentTime / players.current.duration) * 100
-              );
-            }}
-          />
+          {props.information.videoType === "mp4" ? (
+            <>
+              <VideoPlay
+                onMouseOver={mp4play}
+                onMouseLeave={mp4pause}
+                ref={players}
+                src={params.src}
+                muted
+                loop
+                onTimeUpdate={() => {
+                  setCompleted(
+                    (players.current.currentTime / players.current.duration) *
+                      100
+                  );
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <VideoPlay
+                onMouseOver={hlsplay}
+                onMouseLeave={hlspause}
+                ref={player}
+                muted
+                loop
+                onTimeUpdate={() => {
+                  setCompleted(
+                    (player.current.currentTime / player.current.duration) * 100
+                  );
+                }}
+              />
+            </>
+          )}
         </>
       ) : (
         <>
-          <VideoPlay
-            onMouseOver={hlsplay}
-            onMouseLeave={hlspause}
-            ref={player}
-            muted={ismuted}
-            loop
-            onTimeUpdate={() => {
-              setCompleted(
-                (player.current.currentTime / player.current.duration) * 100
-              );
-            }}
-          />
+          <Nothing src={Uploadex} />
         </>
       )}
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
@@ -175,6 +180,15 @@ const VideoTest = (props) => {
     </VideoCards>
   );
 };
+
+const Nothing = styled.div`
+  display: flex;
+  height: 45rem;
+  width: 25rem;
+  margin: 0 auto;
+  background-image: url('${props=>props.src}');
+  background-size: contain;
+`;
 
 const Hash = styled.div`
   margin-left: 0.5rem;
@@ -313,4 +327,4 @@ const BottomCov = styled.div`
   margin-right: 0.7rem;
 `;
 
-export default VideoTest;
+export default Video;

@@ -1,5 +1,4 @@
-import Videom3u8 from "components/trils/Videom3u8";
-// import Videomp4 from "components/trils/Videomp4";
+import Video from "components/trils/Video";
 import React, { useEffect, useRef, useState } from "react";
 import { history } from "redux/configureStore";
 import { Plus } from "media/svg/Svg";
@@ -7,11 +6,12 @@ import styled from "styled-components";
 import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
-import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "shared/Spinner2";
 import Swal from "sweetalert2";
 import SearchIcon from "@material-ui/icons/Search";
 import queryString from "query-string";
+import { all_list } from "redux/Mock/trils_all_list";
+import InfinityScroll from "shared/InfinityScroll";
 
 const Trils = (props) => {
   // const { search } = props.location;
@@ -20,8 +20,10 @@ const Trils = (props) => {
   const dispatch = useDispatch();
   const page = useSelector((state) => state.trils.page);
   const post_list = useSelector((state) => state.trils.data);
+  // const post_list = all_list.results;
+  // console.log(post_list)
   const modal = useSelector((state) => state.trils.modal);
-  const modal_loading = useSelector((state) => state.trils.modal_loading);
+  const is_last = useSelector((state) => state.trils.is_last);
   const [filter, _setFilter] = useState(true);
   const filterRef = useRef(filter);
   const keyword = useRef("");
@@ -52,7 +54,7 @@ const Trils = (props) => {
       dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", 1));
     } else {
       // 최신순
-      dispatch(TrilsActions.getPost(keyword.current.value, "modifiedAt", 1));
+      dispatch(TrilsActions.getPost(keyword.current.value, "createdAt", 1));
     }
     setFilter(!filter);
   };
@@ -72,7 +74,7 @@ const Trils = (props) => {
       dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", page));
     } else {
       // 최신순
-      dispatch(TrilsActions.getPost(keyword.current.value, "modifiedAt", page));
+      dispatch(TrilsActions.getPost(keyword.current.value, "createdAt", page));
     }
     setFilter(!filter);
   };
@@ -81,6 +83,18 @@ const Trils = (props) => {
     if (window.event.keyCode === 13) {
       // 좋아요순
       history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+    }
+  };
+
+  const scroll = () => {
+    const filter_scroll = filterRef.current;
+
+    if (!filter_scroll) {
+      // 좋아요순
+      dispatch(TrilsActions.getPost(keyword.current.value, "likeNum", page));
+    } else {
+      // 최신순
+      dispatch(TrilsActions.getPost(keyword.current.value, "createdAt", page));
     }
   };
 
@@ -109,7 +123,7 @@ const Trils = (props) => {
         </Filter>
       </FilterContainer>
       <CenterDiv>
-        {modal && !modal_loading ? <TrilsDetail history={history} /> : null}
+        {modal ? <TrilsDetail history={history} /> : null}
         <FloatingButton
           onClick={() => {
             if (access_token === null) {
@@ -138,33 +152,23 @@ const Trils = (props) => {
           {!post_list || post_list.length === 0 ? (
             <></>
           ) : (
-            <InfiniteScroll
-              dataLength={post_list.length}
-              next={next}
-              hasMore={post_list.length > 11}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-              }}
-              loader={<Spinner />}
-            >
+            <InfinityScroll callNext={scroll} is_next={is_last}>
               {post_list.map((p, idx) => {
                 if ((idx + 1) % 3 !== 0) {
                   return (
                     <>
-                      <Videom3u8 {...p} history={history} mr />
+                      <Video {...p} history={history} mr />
                     </>
                   );
                 } else {
                   return (
                     <>
-                      <Videom3u8 {...p} history={history} />
+                      <Video {...p} history={history} />
                     </>
                   );
                 }
               })}
-            </InfiniteScroll>
+            </InfinityScroll>
           )}
         </PostLine>
       </CenterDiv>
@@ -183,7 +187,7 @@ const SearchWrapper = styled.div`
   align-items: center;
 
   & svg {
-    fill : rgb(43, 97, 225);
+    fill: rgb(43, 97, 225);
     cursor: pointer;
   }
 `;

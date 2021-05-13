@@ -8,25 +8,20 @@ const trilseSlice = createSlice({
     modal: false,
     detail: [],
     page: 1,
-    modal_loading: false,
-    is_last : false,
   },
   reducers: {
     GET_POST: (state, action) => {
-      console.log(action.payload.result)
+      console.log(action.payload.result);
       state.data = action.payload.result;
       state.page = action.payload.page;
-      state.is_last = action.payload.last;
     },
     SHIFT_POST: (state, action) => {
       state.data.push(...action.payload.result);
       state.page = action.payload.page;
-      state.is_last = action.payload.last;
     },
     GET_POST_DETAIL: (state, action) => {
       state.modal = true;
       state.detail = action.payload;
-      state.modal_loading = false;
     },
     CLOSE_MODAL: (state, action) => {
       state.modal = false;
@@ -49,7 +44,6 @@ const trilseSlice = createSlice({
     SEARCH_POST: (state, action) => {
       state.data = action.payload.result;
       state.page = action.payload.page;
-      state.is_last = action.payload.last;
     },
     EDIT_POST: (state, action) => {
       const idx = state.data.findIndex(
@@ -58,15 +52,11 @@ const trilseSlice = createSlice({
       state.data[idx].information.hashtag = action.payload.hashtag;
       state.detail.information.hashtag = action.payload.hashtag;
     },
-    MODAL_LOADING: (state, action) => {
-      state.modal_loading = true;
-    },
   },
 });
 
 const writepost = (video, tags) => {
   return function (dispatch, getState, { history }) {
-    const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
     let formData = new FormData();
     formData.append("file", video);
@@ -87,15 +77,15 @@ const writepost = (video, tags) => {
         if (result.ok) {
           alert("정상적으로 작성되었습니다.");
           history.replace("/");
-        }else{
-          alert("작성 중 오류가 발생하였습니다.")
+        } else {
+          alert(result.msg);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert("업로드 중 에러가 발생했습니다.", err));
   };
 };
 
-const searchPost = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
+const searchPost = (keyword = "", LikeOrDate = "createdAt", page = 1) => {
   return function (dispatch, getState, { history }) {
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
@@ -114,7 +104,6 @@ const searchPost = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
         const results = {
           result: result.results,
           page: page + 1,
-          last: result.last,
         };
         dispatch(SEARCH_POST(results));
       })
@@ -124,6 +113,7 @@ const searchPost = (keyword = "", LikeOrDate = "modifiedAt", page = 1) => {
 
 const getPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
   return function (dispatch, getState, { history }) {
+    const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
     const api = `${config}/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
     const data = {
@@ -140,7 +130,6 @@ const getPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
         const results = {
           result: result.results,
           page: page + 1,
-          last: result.last
         };
         if (page === 1) {
           dispatch(GET_POST(results));
@@ -154,7 +143,6 @@ const getPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
 
 const getPostDetail = (postId) => {
   return function (dispatch, getState, { history }) {
-    dispatch(MODAL_LOADING());
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
     const api = `${config}/api/all/posts/detail/${postId}`;
@@ -208,7 +196,6 @@ export const {
   DELETE_POST,
   SEARCH_POST,
   EDIT_POST,
-  MODAL_LOADING,
 } = trilseSlice.actions;
 
 export const TrilsActions = {

@@ -11,7 +11,7 @@ const SnsWrite = () => {
   const [tags, setTags] = useState([]);
   const [preview, setPreview] = useState(null);
   const dispatch = useDispatch();
-  const [vid, setVid] = useState();
+  const [vid, setVid] = useState(null);
   const [tagType, setTagType] = useState("");
 
   const removeTag = (i) => {
@@ -59,36 +59,16 @@ const SnsWrite = () => {
     if (!file) {
       return;
     }
-    if (file.size * 9.5367e-7 > 300) {
-      alert("용량이 너무 큽니다.(300mb 이하)");
+    if (file.size * 9.5367e-7 > 50) {
+      alert("용량이 너무 큽니다.(50mb 이하)");
       return;
     }
     reader.onloadstart = (e) => {
-      setPreview(null);
+      setVid(null);
     };
     reader.readAsDataURL(file);
     reader.onloadend = (e) => {
-      const videoElement = document.createElement("video");
-      videoElement.src = e.target.result;
-      const timer = setInterval(() => {
-        if (videoElement.readyState === 4) {
-          if (videoElement.duration > 100) {
-            alert("영상 길이를 확인해주세요.(100초 이하)");
-            clearInterval(timer);
-            return;
-          }
-          // else if (videoElement.duration > 30) {
-          //   alert("영상 길이를 확인해주세요.(10초 이상)");
-          //   clearInterval(timer);
-          //   return;
-          // }
-          else {
-            setVid(file);
-            setPreview(e.target.result);
-            clearInterval(timer);
-          }
-        }
-      }, 100);
+      setVid(file);
     };
   };
 
@@ -124,7 +104,7 @@ const SnsWrite = () => {
     <React.Fragment>
       <Wrap>
         <VideoView onClick={triggerVideo}>
-          {!(preview === null) ? (
+          {!(vid === null) ? (
             <Player
               ref={player}
               onMouseOver={videoplay}
@@ -137,7 +117,7 @@ const SnsWrite = () => {
             <>
               <p style={{ fontSize: "25px" }}>영상을 업로드해주세요.(클릭)</p>
               <p style={{ fontSize: "15px" }}>
-                영상 길이 10초 이하, 크기 300MB 이하
+                영상 길이 10초 이하, 크기 50MB 이하
               </p>
             </>
           )}

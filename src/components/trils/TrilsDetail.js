@@ -14,6 +14,7 @@ const TrilsDetail = (props) => {
   const { history } = props;
   const hls = new Hls();
   const player = useRef(null);
+  const players = useRef(null);
   const info = useSelector((state) => state.trils.detail);
   const dispatch = useDispatch();
   const [completed, setCompleted] = useState(0);
@@ -21,6 +22,7 @@ const TrilsDetail = (props) => {
   const [editOn, setEditOn] = useState(false);
   const [tags, setTags] = useState(info.information.hashtag);
   const tagInput = useRef(null);
+  const [mute, setMute] = useState(true);
   const [tagType, setTagType] = useState("");
 
   const removeTag = (i) => {
@@ -100,14 +102,42 @@ const TrilsDetail = (props) => {
     if (player.current.readyState !== 4) {
       return;
     }
-    player.current.play();
+    if (!info.information.posPlay) {
+      return;
+    }
+    if (info.information.videoType === "mp4") {
+      players.current.play();
+    } else if (info.information.videoType === "m3u8") {
+      player.current.play();
+    }
   };
 
   const videopause = () => {
     if (player.current.readyState !== 4) {
       return;
     }
-    player.current.pause();
+    if (!info.information.posPlay) {
+      return;
+    }
+    if (info.information.videoType === "mp4") {
+      players.current.pause();
+    } else if (info.information.videoType === "m3u8") {
+      player.current.pause();
+    }
+  };
+
+  const volumeControl = () => {
+    if (player.current.readyState !== 4) {
+      return;
+    }
+    if (!info.information.posPlay) {
+      return;
+    }
+    if(mute){
+      setMute(false);
+    }else{
+      setMute(true);
+    }
   };
 
   const like = () => {
@@ -233,18 +263,50 @@ const TrilsDetail = (props) => {
           <ProfileImg src={info.author.profileImgUrl} />
           <ProfileId>{info.author.nickname}</ProfileId>
         </Profile>
-        <View onMouseOver={videoplay} onMouseLeave={videopause}>
-          <VideoPlay
-            ref={player}
-            muted
-            loop
-            onTimeUpdate={() => {
-              setCompleted(
-                (player.current.currentTime / player.current.duration) * 100
-              );
-              setProgress(player.current.clientWidth);
-            }}
-          />
+        <View
+          onMouseOver={videoplay}
+          onMouseLeave={videopause}
+          onClick={volumeControl}
+        >
+          {info.information.posPlay ? (
+            <>
+              {info.information.videoType === "mp4" ? (
+                <>
+                  <VideoPlay
+                    ref={players}
+                    src={params.src}
+                    muted={mute}
+                    loop
+                    onTimeUpdate={() => {
+                      setCompleted(
+                        (players.current.currentTime /
+                          players.current.duration) *
+                          100
+                      );
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <VideoPlay
+                    ref={player}
+                    muted={mute}
+                    loop
+                    onTimeUpdate={() => {
+                      setCompleted(
+                        (player.current.currentTime / player.current.duration) *
+                          100
+                      );
+                    }}
+                  />
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <Nothing />
+            </>
+          )}
         </View>
         <Progress width={progress}>
           <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
@@ -253,7 +315,7 @@ const TrilsDetail = (props) => {
           <LikeCov onClick={like}>
             {info.member.isLike ? <HeartFill /> : <HeartEmpty />}
           </LikeCov>
-          <p style={{ color: "#8B8888", width: "5rem" , userSelect: "none"}}>
+          <p style={{ color: "#8B8888", width: "5rem", userSelect: "none" }}>
             좋아요 +{info.information.likeNum}
           </p>
           <Tag>
@@ -329,6 +391,8 @@ const TrilsDetail = (props) => {
     </React.Fragment>
   );
 };
+
+const Nothing = styled.div``;
 
 const Input = styled.input`
   outline: none;
