@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { BoardWriteMap } from "components/components";
 import { Editor } from "@toast-ui/react-editor";
 import "codemirror/lib/codemirror.css"; // Editor's Dependency Style
 import "@toast-ui/editor/dist/toastui-editor.css"; // Editor's Style
@@ -9,15 +8,18 @@ import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
 import { config } from "redux/modules/config";
 import _ from "lodash";
+import { BoardWriteMap } from "components/components";
 
 const BoardWrite = (props) => {
     const dispatch = useDispatch();
+    const is_loading = useSelector((state) => state.trilog.loading.detail_loading);
+    const detail = useSelector((state) => state.trilog.detail);
     const id = props.match.params.id;
     const is_edit = id ? true: false;
 
     const data = React.useRef();
-    const title = React.useRef();
 
+    const [title, setTitle] = React.useState('');
     const [address, setAddress] = React.useState('지도 마커를 클릭하시면 주소가 여기 표시됩니다.');
     const [keyword, setKeyword] = React.useState('관악구청');
     const [imageUrls, setImageUrls] = React.useState([]);
@@ -27,7 +29,7 @@ const BoardWrite = (props) => {
     }, 500);
 
     const sendData = async () => {
-        if(title.current.value === "") {
+        if(title === "") {
             alert('제목을 입력하세요.');
             return;
         }
@@ -40,7 +42,7 @@ const BoardWrite = (props) => {
         }
 
         const post = {
-            title : title.current.value,
+            title : title,
             address : address,
             description : content,
             imageUrlList : imageUrls,
@@ -51,6 +53,7 @@ const BoardWrite = (props) => {
         dispatch(TrilogActions.addTrilog(post));
     };
 
+    // 위지위그 에디터에서 사용자가 이미지 추가할때
     const uploadImage = async (blob) => {
         let api = '';
 
@@ -84,52 +87,91 @@ const BoardWrite = (props) => {
     React.useEffect(() => {
         if(is_edit) {
             dispatch(TrilogActions.getTrilogDetail(id));
+            if(detail.information !== undefined) {
+                setAddress(detail.information.address);
+                setTitle(detail.information.title);
+            }
         }
     }, []);
 
-    return(
-        <WriteContainer>
+    return (
+      <WriteContainer>
+        {is_loading && is_edit ? (
+          <></>
+        ) : (
+          <>
             <Title margin="0 0 1.25rem 0">
-                <span>제목</span>
+              {is_edit ? (<h2 style={{"textAlign":"center"}}>Trilog 수정</h2>) : (<h2 style={{"textAlign":"center"}}>Trilog 작성</h2>)}
+            </Title>
+            <Title margin="0 0 1.25rem 0">
+              <span>제목</span>
             </Title>
             <InputContainer>
-                <TitleInput type="text" placeholder="제목을 입력해주세요" ref={title} />
+              <TitleInput
+                id="title"
+                type="text"
+                placeholder="제목을 입력해주세요"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </InputContainer>
             <Title margin="1.25rem 0 1.25rem 0">
-                <span>위치</span>
+              <span>위치</span>
             </Title>
             <InputContainer margin="0 0 1.5rem 0">
-                <span>여행주소 : </span><Address>{address}</Address>
+              <span>여행주소 : </span>
+              <Address>{address}</Address>
             </InputContainer>
             <MapContainer>
-                <MapInput type="text" placeholder="예) 장소/가게 이름 - 남산, 서울역 or 주소 - 서울시 관악구 관악로 145" onChange={(e) => { handleMap(e.target.value) }} />
-                <BoardWriteMap keyword={keyword} setAddress={setAddress} drag={true} />
+              <MapInput
+                type="text"
+                placeholder="예) 장소/가게 이름 - 남산, 서울역 or 주소 - 서울시 관악구 관악로 145"
+                onChange={(e) => {
+                  handleMap(e.target.value);
+                }}
+              />
+              <BoardWriteMap
+                keyword={keyword}
+                setAddress={setAddress}
+                drag={true}
+              />
             </MapContainer>
             <Title margin="1.25rem 0 1.25rem 0">
-                <span>내용</span>
+              <span>내용</span>
             </Title>
             <InputContainer>
-                <Editor
-                    previewStyle="vertical"
-                    height="600px"
-                    initialEditType="markdown"
-                    hooks={{
-                        addImageBlobHook: async (blob, callback) => {
-                            const upload = await uploadImage(blob);
-                            callback(upload, "alt text");
-                            return false;
-                        }
-                    }}
-                    ref={data}
-                />
+              <Editor
+                previewStyle="vertical"
+                height="600px"
+                initialEditType="markdown"
+                initialValue={is_edit ? detail.information.description : ''}
+                hooks={{
+                  addImageBlobHook: async (blob, callback) => {
+                    const upload = await uploadImage(blob);
+                    callback(upload, "alt text");
+                    return false;
+                  },
+                }}
+                ref={data}
+              />
             </InputContainer>
             <ButtonContainer>
-                <ButtonComplete type="button" value={is_edit ? "수정완료" : "작성완료"} onClick={sendData} />
-                <ButtonCancel type="button" value="취소" onClick={() => {
-                    history.goBack();
-                }} />
+              <ButtonComplete
+                type="button"
+                value={is_edit ? "수정완료" : "작성완료"}
+                onClick={sendData}
+              />
+              <ButtonCancel
+                type="button"
+                value="취소"
+                onClick={() => {
+                  history.goBack();
+                }}
+              />
             </ButtonContainer>
-        </WriteContainer>
+          </>
+        )}
+      </WriteContainer>
     );
 };
 

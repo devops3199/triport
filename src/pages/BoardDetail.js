@@ -4,15 +4,18 @@ import { BoardView, BoardComment, BoardDetailMap } from "components/components";
 import { LikeFill, LikeEmpty } from "media/svg/Svg";
 import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
-import InfinityScroll from "shared/InfinityScroll";
+import { history } from "redux/configureStore";
 
 const BoardDetail = (props) => {
     const id = props.match.params.id;
     const dispatch = useDispatch();
+
     const is_login = useSelector((state) => state.user.is_login);
     const detail = useSelector((state) => state.trilog.detail);
+    const is_loading = useSelector((state) => state.trilog.loading.detail_loading);
     const comment = useSelector((state) => state.trilog.parent_comment.list);
     const is_last = useSelector((state) => state.trilog.parent_comment.is_last);
+
     const commentRef = React.useRef('');
 
     React.useEffect(() => {
@@ -37,60 +40,96 @@ const BoardDetail = (props) => {
     };
 
     const getMorecomment = () => {
-        console.log('comment scroll');
         dispatch(TrilogActions.getParentCommentScroll(id));
     };
 
-    return(
-        <DetailContainer>
+    const editTrilog = () => {
+        history.replace(`/trilog/write/${id}`);
+    };
+
+    const deleteTrilog = () => {
+        if(window.confirm('해당 게시글을 삭제하시겠습니까?')){
+            dispatch(TrilogActions.removeTrilog(id));
+        }
+    };
+
+    return (
+      <DetailContainer>
+        {is_loading ? (
+          <></>
+        ) : (
+          <>
             <UserContainer>
-                <div>
-                    <img src={detail.author.profileImgUrl} />
-                    <span>{detail.author.nickname}</span>
-                </div>
-                <div>
-                    마지막 수정시간 : {detail.information.modifiedAt}
-                    {detail.member.isMembers ? (<> <input type="button" value="수정" /> <input type="button" value="삭제" /> </>) : (<></>) }
-                </div>
+              <div>
+                <img src={detail.author.profileImgUrl} />
+                <span>{detail.author.nickname}</span>
+              </div>
+              <div>
+                마지막 수정시간 : {detail.information.modifiedAt}
+                {detail.member.isMembers ? (
+                  <>
+                    <EditButton type="button" value="수정" onClick={editTrilog} />
+                    <DeleteButton type="button" value="삭제" onClick={deleteTrilog} />
+                  </>
+                ) : (
+                  <></>
+                )}
+              </div>
             </UserContainer>
-            <Separator/>
+            <Separator />
             <ToastViewContainer>
-                {detail.information.description === '' ? (<></>) : (<BoardView content={detail.information.description} />) }
+              {detail.information.description === "" ? (
+                <></>
+              ) : (
+                <BoardView content={detail.information.description} />
+              )}
             </ToastViewContainer>
             <MapConatiner>
-                {detail.information.address === '지도 마커를 클릭하시면 주소가 여기 표시됩니다.' ? (<></>) : (<BoardDetailMap address={detail.information.address} />) }
+              {detail.information.address === '지도 마커를 클릭하시면 주소가 여기 표시됩니다.' ? (<></>) : (<BoardDetailMap address={detail.information.address} />) }
             </MapConatiner>
-            <Separator/>
+            <Separator />
             <LikeCommentContainer>
-                <Infomation>
-                    <span onClick={hitLike}>
-                        { detail.member.isLike ? ( <LikeFill/> ) : ( <LikeEmpty/> ) }
-                    </span>
-                    <div>
-                        <span>좋아요+</span>
-                        <LikeCount>{detail.information.likeNum}</LikeCount>
-                    </div>
-                    <div>
-                        <span>댓글+</span>
-                        <CommentCount>{detail.information.commentNum}</CommentCount>
-                    </div>
-                </Infomation>
-                <CommentInput>
-                    <input id="commentInput" type="text" placeholder="댓글을 입력하세요." ref={commentRef} onKeyPress={(e) => {
-                        if(window.event.keyCode === 13) {
-                            postParentComment();
-                        } 
-                    }}/>
-                </CommentInput>
-                <Separator />
-                    {comment.map((val, index) => {
-                        return(
-                            <BoardComment id={id} comment={val} key={index} />
-                        );
-                    })}
+              <Infomation>
+                <span onClick={hitLike}>
+                  {detail.member.isLike ? <LikeFill /> : <LikeEmpty />}
+                </span>
+                <div>
+                  <span>좋아요+</span>
+                  <LikeCount>{detail.information.likeNum}</LikeCount>
+                </div>
+                <div>
+                  <span>댓글+</span>
+                  <CommentCount>{detail.information.commentNum}</CommentCount>
+                </div>
+              </Infomation>
+              <CommentInput>
+                <input
+                  id="commentInput"
+                  type="text"
+                  placeholder="댓글을 입력하세요."
+                  ref={commentRef}
+                  onKeyPress={(e) => {
+                    if (window.event.keyCode === 13) {
+                      postParentComment();
+                    }
+                  }}
+                />
+              </CommentInput>
+              <Separator />
+              {comment.map((val, index) => {
+                return <BoardComment id={id} comment={val} key={index} />;
+              })}
             </LikeCommentContainer>
-            {is_last ? (<></>) : (<ShowMoreComment><span onClick={getMorecomment}>댓글 더 보기</span></ShowMoreComment>)}      
-        </DetailContainer>
+            {is_last ? (
+              <></>
+            ) : (
+              <ShowMoreComment>
+                <span onClick={getMorecomment}>댓글 더 보기</span>
+              </ShowMoreComment>
+            )}
+          </>
+        )}
+      </DetailContainer>
     );
 };
 
@@ -162,7 +201,7 @@ const CommentInput = styled.div`
     box-sizing: border-box;
     width: 100%;
     height: 40px;
-    border: 1px solid #707070;
+    border: 1px solid rgb(43,97,225,0.6);
     border-radius: 5px;
     padding: 0 1rem;
   }
@@ -172,10 +211,29 @@ const ShowMoreComment = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-
+  margin: 1.5rem 0 1.5rem 0;
   & span {
       cursor: pointer;
   }
+`;
+
+const EditButton = styled.input`
+    cursor: pointer;
+    background-color: #2b61e1;
+    color: #fff;
+    border: 1px solid #2b61e1;
+    border-radius: 5px;
+    padding: .25rem .75rem;
+    margin: 0 .5rem;
+`;
+
+const DeleteButton = styled.input`
+    cursor: pointer;
+    background-color: #f22d3f;
+    border: 1px solid #f22d3f;
+    color: #fff;
+    border-radius: 5px;
+    padding: .25rem .75rem;
 `;
 
 export default BoardDetail;

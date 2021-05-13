@@ -11,83 +11,95 @@ const trilogSlice = createSlice({
             is_last : false,
             page : 1,
         },
-        detail : {
-            information : {
-                id: 1,
-                title: '',
-                description: '',
-                address: '',
-                likeNum: 0,
-                commentNum: 0,
-                modifiedAt: '2011-01-01 12:00:00',
-            },
-            author: {
-                nickname: 'Triport',
-                profileImgUrl: '',
-            },
-            member: {
-                isLike: false,
-                isMember: false,
-            }
-        },
+        detail : {},
         parent_comment : {
             list : [],
             is_last : false,
             page : 1
         },
-        child_comment : {
-            list : [],
-        },
+        loading : {
+            main_loading : true,
+            detail_loading : true,
+        }
     },
     reducers: {
+        // Trilog 메인 페이지 - 내용 로딩 여부
+        setMainLoading : (state, action) => produce(state, (draft) => {
+            draft.loading.main_loading = action.payload;
+        }),
+        // Trilog 상세 페이지 - 내용 로딩 여부
+        setDetailLoading : (state, action) => produce(state, (draft) => {
+            draft.loading.detail_loading = action.payload;
+        }),
+        // Trilog 작성 페이지 - 게시글 작성
         setTrilogMainAdd : (state, action) => produce(state, (draft) => {
             draft.main.list = [...draft.main.list, ...action.payload.results];
             draft.main.is_last = action.payload.last;
         }),
-
+        // Trilog 메인 페이지 - 게시글 조회
         setTrilogMain : (state, action) => produce(state, (draft) => {
             draft.main.list = action.payload.results;
             draft.main.is_last = action.payload.last;
-        }),
+            /*
+                게시물 마크업 내용의 ![alt text](https://...) 문자열 제거
+                안하면 /trilog 페이지 제목 아래있는 내용에서 이상하게 결과 나옴
+            */
+            draft.main.list.forEach((val) => {
+                const max = new Array(50).fill(0); // 한 게시글에 최대 사진 50개가 있다고 가정
+                let str = val.information.description;
+                const start_str = '![';
+        
+                max.forEach((v) => {
+                    if(str.includes(start_str)) {
+                        let begin = str.indexOf(start_str);
+                        let end = str.indexOf(')', begin);
+                        let img =  str.substring(begin, end + 1);
+                        str = str.replace(img, '');
+                    }
+                })
 
+                val.information.description = str;
+            });
+        }),
+        // Trilog 메인 페이지 - 무한 스크롤 페이지 설정(다음 게시물이 있나 없나)
         setTrilogMainPage : (state, action) => produce(state, (draft) => {
             draft.main.page = action.payload;
         }),
-
+        // Trilog 메인 페이지 - 게시글 좋아요
         setTrilogLike : (state, action) => produce(state, (draft) => {
-            // 게시물을 찾아서 isMembers 바꿈
             let idx = draft.main.list.findIndex((e) => e.information.id === action.payload);
             draft.main.list[idx].member.isLike = !draft.main.list[idx].member.isLike;
         }),
-
+        // Trilog 상세 페이지 - 부모 댓글 페이징 설정(다음 부모 댓글 있나 없나)
         setTrilogParentCommentPage : (state, action) => produce(state, (draft) => {
             draft.parent_comment.page = action.payload;
         }),
-
+        // Trilog 상세 페이지 - 해당 게시글 조회
         setTrilogDetail : (state, action) => produce(state, (draft) => {
             draft.detail = action.payload.results;
         }),
-
+        // Trilog 상세 페이지 - 부모 댓글 조회
         setTrilogParentComment : (state, action) => produce(state, (draft) => {
             draft.parent_comment.list = action.payload.results;
             draft.parent_comment.is_last = action.payload.last;
         }),
-
+        // Trilog 상세 페이지 - 부모 댓글 페이징(다음 부모 댓글 조회)
         addTrilogParentCommentScroll : (state, action) => produce(state, (draft) => {
             draft.parent_comment.list = [...draft.parent_comment.list, ...action.payload.results];
             draft.parent_comment.is_last = action.payload.last;
         }),
-
-        setTrilogChildComment : (state, action) => produce(state, (draft) => {
-            const comment = {
-                parent_id : action.payload.parent_id,
-                list : action.payload.results,
-                is_last : action.payload.last,
-                page : 1
-            };
-            draft.child_comment.list = [...draft.child_comment.list, comment];
+        // Trilog 상세 페이지 - 부모 댓글 수정
+        editTrilogParentComment : (state, action) => produce(state, (draft) => {
+            let idx = draft.parent_comment.list.findIndex((e) => e.commentParent.id === action.payload.results.commentParent.id);
+            draft.parent_comment.list[idx].commentParent.contents = action.payload.results.commentParent.contents;
+            draft.parent_comment.list[idx].commentParent.modifiedAt = action.payload.results.commentParent.modifiedAt;
         }),
-
+        // Trilog 상세 페이지 - 부모 댓글 삭제
+        removeTrilogParentComment : (state, action) => produce(state, (draft) => {
+            let idx = draft.parent_comment.list.findIndex((e) => e.commentParent.id === action.payload);
+            draft.parent_comment.list.splice(idx, 1);
+        }),
+        // Trilog 상세 페이지 - 게시글 좋아요
         setTrilogDetailLike : (state, action) => produce(state, (draft) => {
             if(draft.detail.member.isLike){
                 draft.detail.information.likeNum -= 1;
@@ -97,12 +109,12 @@ const trilogSlice = createSlice({
             
             draft.detail.member.isLike = !draft.detail.member.isLike;
         }),
-
+        // Trilog 상세 페이지 - 부모 댓글 작성
         addTrilogParentComment : (state, action) => produce(state, (draft) => {
             draft.parent_comment.list = [...draft.parent_comment.list, action.payload.results];
             draft.detail.information.commentNum += 1;
         }),
-
+        // Trilog 상세 페이지 - 부모 댓글 좋아요
         setTrilogParentCommentLike: (state, action) => produce(state, (draft) => {
             let idx = draft.parent_comment.list.findIndex((e) => e.commentParent.id === action.payload);
             if(draft.parent_comment.list[idx].user.isLike){
@@ -113,20 +125,13 @@ const trilogSlice = createSlice({
                 draft.parent_comment.list[idx].user.isLike = !draft.parent_comment.list[idx].user.isLike;
             }
         }),
-
-        setTrilogChildCommentLike: (state, action) => produce(state, (draft) => {
-            draft.child_comment.list.forEach((val, index) => {
-                if(val.id === action.payload) {
-                    console.log('skip', val)
-                }
-            })
-        }),
-
     },
 });
 
+// Trilog 메인 게시물 조회
 const getTrilogMain = (filter, keyword) => {
     return function (dispatch, getState, { history }) {
+        dispatch(setMainLoading(true));
         const access_token = localStorage.getItem("access_token");
         const page = getState().trilog.main.page;
         fetch(`${config}/api/all/boards?page=${page}&filter=${filter}&keyword=${keyword}`, {
@@ -149,13 +154,17 @@ const getTrilogMain = (filter, keyword) => {
             } else {
                 dispatch(setTrilogMainPage(1));
             }
+
+            dispatch(setMainLoading(false));
         })
         .catch(err => console.log(err, "메인 error"));
     };
 };
 
+// Trilog 메인 게시물 조회 - 필터 및 검색 적용시
 const getTrilogMainFilter = (filter, keyword) => {
     return function (dispatch, getState, { history }) {
+        dispatch(setMainLoading(true));
         const access_token = localStorage.getItem("access_token");
         const page = 1;
         fetch(`${config}/api/all/boards?page=${page}&filter=${filter}&keyword=${keyword}`, {
@@ -179,12 +188,15 @@ const getTrilogMainFilter = (filter, keyword) => {
             }
         })
         .catch(err => console.log(err, "메인 필터 error"));
+
+        dispatch(setMainLoading(false));
     };
 };
 
-
+// Trilog 게시물 상세 조회
 const getTrilogDetail = (id) => {
     return async function (dispatch, getState, { history }) {
+        dispatch(setDetailLoading(true));
         const page = getState().trilog.parent_comment.page;
         const access_token = localStorage.getItem("access_token");
         const detail = await fetch(`${config}/api/all/boards/detail/${id}`, {
@@ -216,13 +228,16 @@ const getTrilogDetail = (id) => {
 
         dispatch(setTrilogDetail(detail));
         dispatch(setTrilogParentComment(comment));
+        dispatch(setDetailLoading(false));
     };
 };
 
+// Trilog 메인 게시물 등록
 const addTrilog = (trilog) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
         if(trilog.is_edit) {
+            console.log('edit called')
             fetch(`${config}/api/boards/${trilog.id}`, {
                 method: 'PUT',
                 headers : {
@@ -244,7 +259,7 @@ const addTrilog = (trilog) => {
             })
             .catch(err => console.log(err, 'Trilog Edit'))
         } else {
-            fetch('${config}/api/boards/', {
+            fetch(`${config}/api/boards/`, {
                 method: 'POST',
                 headers : {
                     'Content-Type': 'application/json',
@@ -268,6 +283,28 @@ const addTrilog = (trilog) => {
     };
 };
 
+// Trilog 메인 게시물 삭제
+const removeTrilog = (id) => {
+    return function (dispatch, getState, { history }) {
+        const access_token = localStorage.getItem("access_token");
+        fetch(`${config}/api/boards/${id}`, {
+            method: 'DELETE',
+            headers : {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `${access_token}`,
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.msg);
+            history.replace('/trilog');
+        })
+        .catch(err => console.log(err, 'Trilog Delete'))
+    };
+};
+
+// Trilog 메인 게시물 좋아요
 const setLikeTrilog = (id) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
@@ -291,6 +328,7 @@ const setLikeTrilog = (id) => {
     };
 };
 
+// Trilog 상세 게시물 좋아요
 const setLikeTrilogDetail = (id) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
@@ -314,6 +352,7 @@ const setLikeTrilogDetail = (id) => {
     };
 };
 
+// Trilog 상세 게시물 - 부모 댓글 더 보기
 const getParentCommentScroll = (id) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
@@ -335,10 +374,11 @@ const getParentCommentScroll = (id) => {
 
             dispatch(addTrilogParentCommentScroll(data));
         })
-        .catch(err => console.log(err, "부모 댓글 스크롤 error"));
+        .catch(err => console.log(err, "parent comment scroll error"));
     }
 };
 
+// Trilog 상세 게시물 - 부모 댓글 추가
 const addParentComment = (id, contents) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
@@ -356,40 +396,19 @@ const addParentComment = (id, contents) => {
         .then(res => res.json())
         .then(data => {
             dispatch(addTrilogParentComment(data));
-            alert('댓글 등록이 완료되었습니다.');
+            alert(data.msg);
         })
         .catch(err => console.log(err, 'add comment trilog'));
     };
 };
 
-const getChildComment = (id) => {
+// Trilog 상세 게시물 - 부모 댓글 수정
+const editParentComment = (id, contents) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
-
-        fetch(`${config}/api/all/boards/comments/children/${id}?page=1`, {
-            method : 'GET',
+        fetch(`${config}/api/boards/comments/parents/${id}`, {
+            method : 'PUT',
             headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `${access_token}`,
-            },
-        })
-        .then(res => res.json())
-        .then(data => {
-            const new_date = { ...data, parent_id : id }
-            dispatch(setTrilogChildComment(new_date));
-        })
-        .catch(err => console.log(err, 'get child comment trilog'));
-    };
-};
-
-const addChildComment = (id, contents) => {
-    return function (dispatch, getState, { history }) {
-        const access_token = localStorage.getItem("access_token");
-
-        fetch(`${config}/api/boards/comments/children/${id}`, {
-            method: 'POST',
-            headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Authorization': `${access_token}`,
@@ -399,11 +418,36 @@ const addChildComment = (id, contents) => {
             })
         })
         .then(res => res.json())
-        .catch(err => console.log(err, 'child comment post'));
-
+        .then(data => {
+            dispatch(editTrilogParentComment(data));
+            alert(data.msg);
+        })
+        .catch(err => console.log(err, 'edit comment trilog'));
     };
 };
 
+// Trilog 상세 게시물 - 부모 댓글 삭제
+const removeParentComment = (id) => {
+    return function (dispatch, getState, { history }) {
+        const access_token = localStorage.getItem("access_token");
+        fetch(`${config}/api/boards/comments/parents/${id}`, {
+            method : 'DELETE',
+            headers : {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `${access_token}`,
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            dispatch(removeTrilogParentComment(id));
+            alert(data.msg);
+        })
+        .catch(err => console.log(err, 'remove comment trilog'));
+    };
+};
+
+// Trilog 상세 게시물 - 부모 댓글 좋아요
 const setParentCommentLike = (id) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
@@ -425,56 +469,38 @@ const setParentCommentLike = (id) => {
     };
 };
 
-const setChildCommentLike = (parent_id, id) => {
-    return function (dispatch, getState, { history }) {
-        const access_token = localStorage.getItem("access_token");
-        const api = `${config}/api/boards/comments/children/like/${parent_id}`;
-
-        fetch(api, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `${access_token}`,
-            },
-        })
-        .then(res => res.json())
-        .then(data => {
-            dispatch(setTrilogChildCommentLike(id));
-        })
-        .catch(err => console.log(err, 'child comment like'));
-    };
-};
 
 const actionCreators = {
-    getTrilogMain,
-    getTrilogMainFilter,
-    getTrilogDetail,
-    addTrilog,
-    setLikeTrilog,
-    setLikeTrilogDetail,
-    addParentComment,
-    getChildComment,
-    addChildComment,
-    getParentCommentScroll,
-    setParentCommentLike,
-    setChildCommentLike,
+    getTrilogMain, // Trilog 메인 게시물 조회
+    getTrilogMainFilter, // Trilog 메인 게시물 조회 - 필터 및 검색 적용시
+    getTrilogDetail, // Trilog 게시물 상세 조회
+    addTrilog, // Trilog 메인 게시물 등록
+    removeTrilog, // Trilog 메인 게시물 삭제
+    setLikeTrilog, // Trilog 메인 게시물 좋아요
+    setLikeTrilogDetail, // Trilog 상세 게시물 좋아요
+    getParentCommentScroll, // Trilog 상세 게시물 - 부모 댓글 더 보기
+    addParentComment, // Trilog 상세 게시물 - 부모 댓글 추가
+    editParentComment, // Trilog 상세 게시물 - 부모 댓글 수정
+    removeParentComment, // Trilog 상세 게시물 - 부모 댓글 삭제
+    setParentCommentLike, // Trilog 상세 게시물 - 부모 댓글 좋아요
 };
 
 export const { 
-    setTrilogMain, 
-    setTrilogDetail, 
-    setTrilogMainPage, 
-    setTrilogMainAdd, 
-    setTrilogFilter,
-    setTrilogLike,
-    setTrilogParentComment, 
-    setTrilogDetailLike, 
-    setTrilogChildComment, 
-    addTrilogParentComment, 
-    setTrilogParentCommentPage, 
-    addTrilogParentCommentScroll, 
-    setTrilogParentCommentLike, 
-    setTrilogChildCommentLike } = trilogSlice.actions;
+    setMainLoading, // Trilog 메인 페이지 - 내용 로딩 여부
+    setDetailLoading, // Trilog 상세 페이지 - 내용 로딩 여부
+    setTrilogMainAdd, // Trilog 작성 페이지 - 게시글 작성
+    setTrilogMain, // Trilog 메인 페이지 - 게시글 조회
+    setTrilogMainPage, // Trilog 메인 페이지 - 무한 스크롤 페이지 설정(다음 게시물이 있나 없나)
+    setTrilogLike, // Trilog 메인 페이지 - 게시글 좋아요
+    setTrilogParentCommentPage, // Trilog 상세 페이지 - 부모 댓글 페이징 설정(다음 부모 댓글 있나 없나)
+    setTrilogDetail, // Trilog 상세 페이지 - 해당 게시글 조회
+    setTrilogParentComment, // Trilog 상세 페이지 - 부모 댓글 조회
+    addTrilogParentCommentScroll, // Trilog 상세 페이지 - 부모 댓글 페이징(다음 부모 댓글 조회)
+    editTrilogParentComment, // Trilog 상세 페이지 - 부모 댓글 수정
+    removeTrilogParentComment, // Trilog 상세 페이지 - 부모 댓글 삭제
+    setTrilogDetailLike, // Trilog 상세 페이지 - 게시글 좋아요
+    addTrilogParentComment, // Trilog 상세 페이지 - 부모 댓글 작성
+    setTrilogParentCommentLike, // Trilog 상세 페이지 - 부모 댓글 좋아요
+} = trilogSlice.actions;
 export default trilogSlice.reducer;
 export { actionCreators };
