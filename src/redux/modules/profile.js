@@ -65,10 +65,6 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
     const API = `${config}/member/profile`;
     let access_token = localStorage.getItem("access_token");
 
-    // let formData = new FormData();
-    // 폼데이터로 저장
-    // formData.append("file", img);
-
     if (!access_token) {
       console.log("토큰 없음");
       return;
@@ -84,7 +80,6 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
         Authorization: `${access_token}`,
       },
       body: JSON.stringify({
-        email: "pmk4236@naver.com",
         nickname: nickname,
         newPassword: newpwd,
         newPasswordCheck: newpwdcheck,

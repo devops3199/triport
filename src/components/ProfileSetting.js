@@ -92,8 +92,8 @@ const ProfileSetting = () => {
 
           <Text>닉네임</Text>
           <Input placeholder="Nickname" ref={nameRef} />
-          <Text>현재 비밀번호</Text>
-          <Input placeholder="PASSWORD" type="password" />
+          {/* <Text>현재 비밀번호</Text>
+          <Input placeholder="PASSWORD" type="password" /> */}
           <Text>새 비밀번호</Text>
           <Input placeholder="NEW PASSWORD" type="password" ref={newpwdRef} />
           <Text>새 비밀번호 확인</Text>

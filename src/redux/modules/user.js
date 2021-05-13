@@ -115,6 +115,28 @@ const loginDB = (email, pwd) => {
   };
 };
 
+// 소셜 로그인 (카카오) 인가코드 넘기기
+const kakaoLogin = (code) => {
+  return function (dispacth, getState, { history }) {
+    const API = `${config}/auth/kakao/callback?code=${code}`;
+    console.log(API);
+    fetch(API, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json()) // json 형태로 변환해주고,
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
 // 토큰 연장
 const tokenExtension = () => {
   return function (dispatch, getState) {
@@ -230,6 +252,7 @@ export const actionCreators = {
   logout,
   FindPwdDB,
   tokenExtension,
+  kakaoLogin,
 };
 
 export const { setUser, logOut, LOADING } = userSlice.actions;
