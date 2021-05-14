@@ -106,7 +106,8 @@ const loginDB = (email, pwd) => {
             })
           );
           window.alert("로그인 성공");
-          history.push("/");
+          history.replace("/");
+          history.go(0); // 메인 페이지로 돌아간 후 새로고침
         }
       })
       .catch((error) => {
@@ -264,7 +265,7 @@ const logout = () => {
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("userInfo");
     dispatch(logOut());
-    alert("로그아웃 완료!");
+    alert("로그아웃 되었습니다.");
     history.replace("/");
   };
 };

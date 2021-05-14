@@ -6,21 +6,12 @@ import grade1 from "media/svg/등급1.svg";
 import grade2 from "media/svg/등급2.svg";
 import grade3 from "media/svg/등급3.svg";
 
-import { actionCreators as profileActions } from "redux/modules/profile";
-import { actionCreators as userActions } from "redux/modules/user";
-
 import Category from "components/Category";
 import { useDispatch, useSelector } from "react-redux";
 
 const Header = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
-
-  const is_logout = () => {
-    dispatch(userActions.logout());
-    window.alert("로그아웃 되었습니다!");
-    history.replace("/");
-  };
 
   const userprofile = useSelector((state) => state.profile);
   console.log(userprofile);
@@ -90,7 +81,7 @@ const Header = (props) => {
                 마이페이지
               </MyOrLogin>
 
-              {/* 카카오 로그아웃 페이지로 이동 -> OAuth2LogoutHandler(카카오 로그아웃, 일반 로그아웃 둘 다 적용) 컴포넌트 실행 */}
+              {/* 카카오 로그아웃 URL로 이동 -> OAuth2LogoutHandler(카카오 로그아웃, 일반 로그아웃 둘 다 적용) 컴포넌트 로드 */}
               <LogoutOrSignUp href={KAKAO_LOGOUT_URL}>로그아웃</LogoutOrSignUp>
             </RightWrap>
           </Wrap>
@@ -225,6 +216,9 @@ const LogoutOrSignUp = styled.a`
   height: 1rem;
   font-size: 0.9rem;
   text-decoration: none;
+  &:visited {
+    color: #5a5a5a;
+  }
 `;
 
 const Nickname = styled.div`
