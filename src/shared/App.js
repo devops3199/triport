@@ -15,7 +15,7 @@ import SignUp from "pages/SignUp";
 import Footer from "components/Footer";
 import Profile from "pages/Profile";
 import Trils from "pages/Trils";
-import SnsWrite from "pages/SnsWrite";
+import TrilsWrite from "pages/TrilsWrite";
 import FindPassword from "pages/FindPassword";
 import TrillsSearch from "pages/TrilsSearch";
 
@@ -38,7 +38,7 @@ const App = () => {
             <Route path="/" exact component={Trils} />
             <Route path="/search" exact component={TrillsSearch} />
             {/* <Route path="/post" exact component={Snsmain} /> */}
-            <Route path="/trils/write" exact component={SnsWrite} />
+            <Route path="/trils/write" exact component={TrilsWrite} />
             <Route path="/find" exact component={FindPassword} />
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={SignUp} />

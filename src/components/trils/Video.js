@@ -5,7 +5,7 @@ import ProgressBar from "./ProgressBar";
 import { HeartEmpty, HeartFill } from "media/svg/Svg";
 import { useDispatch } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
-import Uploadex from "../../media/image/upload_ex.png"
+import Uploadex from "../../media/image/upload_ex.png";
 import Swal from "sweetalert2";
 
 const Video = (props) => {
@@ -186,7 +186,7 @@ const Nothing = styled.div`
   height: 45rem;
   width: 25rem;
   margin: 0 auto;
-  background-image: url('${props=>props.src}');
+  background-image: url("${(props) => props.src}");
   background-size: contain;
 `;
 
@@ -201,6 +201,8 @@ const PostBottom = styled.div`
   margin-left: 10px;
   display: flex;
   flex-direction: row;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
 `;
 
 const PostLikeCnt = styled.div`
@@ -229,10 +231,15 @@ const PostUserComment = styled.div`
 
 const VideoCards = styled.div`
   display: flex;
+  max-width: 25rem;
   flex-direction: column;
   ${(props) => (props.margin ? "margin-right:2.5rem" : "")};
   margin-top: 1rem;
-  margin-bottom: 2rem;
+  transition: 0.5s ease-in-out;
+  :hover {
+    transform: scale(1.03);
+  }
+  box-shadow: 0px 3px 6px #00000029;
 `;
 
 const VideoPlay = styled.video`

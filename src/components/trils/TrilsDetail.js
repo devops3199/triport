@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { HeartEmpty, HeartFill } from "media/svg/Svg";
-import { CLOSE_MODAL } from "redux/modules/trils";
+import { MODAL_STATUS } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
 import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
@@ -24,6 +24,7 @@ const TrilsDetail = (props) => {
   const tagInput = useRef(null);
   const [mute, setMute] = useState(true);
   const [tagType, setTagType] = useState("");
+  const is_modal = useSelector((state) => state.trils.modal);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -53,7 +54,7 @@ const TrilsDetail = (props) => {
   };
 
   const closeModal = () => {
-    dispatch(CLOSE_MODAL());
+    dispatch(MODAL_STATUS(false));
   };
 
   const params = {
@@ -98,6 +99,30 @@ const TrilsDetail = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (info.information.videoType !== "m3u8" || !info.information.posPlay) {
+      return;
+    }
+    if (!player.current) {
+      return;
+    }
+    if (player.current.readyState === 4) {
+      dispatch(MODAL_STATUS(true));
+    }
+  }, [dispatch, player]);
+
+  useEffect(() => {
+    if (info.information.videoType !== "mp4" || !info.information.posPlay) {
+      return;
+    }
+    if (!players.current) {
+      return;
+    }
+    if (players.current.readyState === 4) {
+      dispatch(MODAL_STATUS(true));
+    }
+  }, [dispatch, players]);
+
   const videoplay = () => {
     if (player.current.readyState !== 4) {
       return;
@@ -133,9 +158,9 @@ const TrilsDetail = (props) => {
     if (!info.information.posPlay) {
       return;
     }
-    if(mute){
+    if (mute) {
       setMute(false);
-    }else{
+    } else {
       setMute(true);
     }
   };
@@ -257,8 +282,8 @@ const TrilsDetail = (props) => {
 
   return (
     <React.Fragment>
-      <Component onClick={closeModal} />
-      <Wrap>
+      <Component onClick={closeModal} display={is_modal} />
+      <Wrap display={is_modal}>
         <Profile>
           <ProfileImg src={info.author.profileImgUrl} />
           <ProfileId>{info.author.nickname}</ProfileId>
@@ -468,7 +493,7 @@ const Bottom = styled.div`
 
 const Edit = styled.button`
   cursor: pointer;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   font-size: 1rem;
   color: #ffffff;
   background-color: #2b61e1;
@@ -481,7 +506,7 @@ const Edit = styled.button`
 
 const Delete = styled.button`
   cursor: pointer;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   font-size: 1rem;
   color: #ffffff;
   background-color: #2b61e1;
@@ -495,7 +520,7 @@ const Delete = styled.button`
 
 const Close = styled.button`
   cursor: pointer;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   font-size: 1rem;
   color: #ffffff;
   background-color: #2b61e1;
@@ -550,6 +575,7 @@ const Component = styled.div`
   background-color: black;
   z-index: 60;
   opacity: 0.4;
+  ${(props) => (props.display ? `` : `display:none;`)}
 `;
 const Wrap = styled.div`
   position: fixed;
@@ -560,7 +586,7 @@ const Wrap = styled.div`
   background-color: white;
   max-width: 57rem;
   max-height: 45rem;
-  display: flex;
+  display: ${(props) => (props.display ? "flex" : "none")};
   flex-direction: column;
   /* justify-content: center;
   align-items: center; */

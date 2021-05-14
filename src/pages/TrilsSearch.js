@@ -18,6 +18,7 @@ const Trils = (props) => {
   const access_token = localStorage.getItem("access_token");
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.trils.data);
+  const is_login = useSelector((state) => state.user.is_login);
   const modal = useSelector((state) => state.trils.modal);
   const is_last = useSelector((state) => state.trils.is_last);
   const [filter, _setFilter] = useState(true);
@@ -86,7 +87,7 @@ const Trils = (props) => {
   };
 
   const write = () => {
-    if (access_token === null) {
+    if (!is_login) {
       Swal.fire({
         title: "로그인을 해주세요.",
         text: "로그인 후 글작성이 가능합니다.",

@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import ClearIcon from "@material-ui/icons/Clear";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
 
-const SnsWrite = () => {
+const TrilsWrite = (props) => {
+  const { history } = props;
   const tagInput = useRef(null);
   const fileInput = useRef();
   const player = useRef(null);
@@ -13,6 +14,14 @@ const SnsWrite = () => {
   const dispatch = useDispatch();
   const [vid, setVid] = useState(null);
   const [tagType, setTagType] = useState("");
+  const is_login = useSelector((state) => state.user.is_login);
+
+  useEffect(() => {
+    if (!is_login) {
+      alert("로그인을 해주세요");
+      history.replace("/");
+    }
+  }, []);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -309,4 +318,4 @@ const Button = styled.button`
   border-radius: 5px;
 `;
 
-export default SnsWrite;
+export default TrilsWrite;

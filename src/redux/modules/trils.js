@@ -25,8 +25,8 @@ const trilseSlice = createSlice({
       state.modal = true;
       state.detail = action.payload;
     },
-    CLOSE_MODAL: (state, action) => {
-      state.modal = false;
+    MODAL_STATUS: (state, action) => {
+      state.modal = action.payload;
     },
     LIKE_OK: (state, action) => {
       const idx = state.data.findIndex(
@@ -199,6 +199,7 @@ const filterPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
 
 const getPostDetail = (postId) => {
   return function (dispatch, getState, { history }) {
+    dispatch(MODAL_STATUS(false))
     const access_token = localStorage.getItem("access_token");
     const api = `${config}/api/all/posts/detail/${postId}`;
     const data = {
@@ -245,7 +246,7 @@ export const {
   GET_POST,
   SHIFT_POST,
   GET_POST_DETAIL,
-  CLOSE_MODAL,
+  MODAL_STATUS,
   LIKE_OK,
   DELETE_POST,
   SEARCH_POST,

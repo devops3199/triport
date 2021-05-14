@@ -9,13 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Spinner from "shared/Spinner2";
 import Swal from "sweetalert2";
 import SearchIcon from "@material-ui/icons/Search";
-import queryString from "query-string";
 import InfinityScroll from "shared/InfinityScroll";
 
 const Trils = (props) => {
-  // const { search } = props.location;
-  // const queryObj = queryString.parse(search);
-  const access_token = localStorage.getItem("access_token");
   const is_login = useSelector((state) => state.user.is_login);
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.trils.data);
