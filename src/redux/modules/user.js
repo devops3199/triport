@@ -105,7 +105,7 @@ const loginDB = (email, pwd) => {
               nickname: result.nickname,
             })
           );
-          window.alert("로그인 성공");
+          window.alert("로그인 되었습니다.");
           history.replace("/");
           history.go(0); // 메인 페이지로 돌아간 후 새로고침
         }
@@ -146,6 +146,7 @@ const kakaoLogin = (code) => {
       })
       .then((result) => {
         console.log(result);
+        console.log("카카오 로그인 성공!");
 
         //성공시 state.user 저장
         if (result.status === 401) {
@@ -160,7 +161,7 @@ const kakaoLogin = (code) => {
               nickname: result.nickname,
             })
           );
-          window.alert("로그인 성공");
+          window.alert("로그인 되었습니다.");
           history.push("/");
         }
       })
@@ -173,16 +174,20 @@ const kakaoLogin = (code) => {
 // 소셜 로그아웃
 const kakaoLogout = () => {
   return function (dispatch, getState, { history }) {
+    let access_token = localStorage.getItem("access_token");
+
     const API = `${config}/auth/logout`;
     fetch(API, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        Authorization: `${access_token}`,
       },
     })
       .then((res) => {
         console.log(res);
+        console.log("카카오 로그아웃 성공!");
       })
       .catch((err) => {
         console.log(err);
@@ -265,6 +270,7 @@ const logout = () => {
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("userInfo");
     dispatch(logOut());
+    console.log("일반 로그아웃 성공!");
     alert("로그아웃 되었습니다.");
     history.replace("/");
   };
