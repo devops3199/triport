@@ -100,6 +100,7 @@ const TrilsDetail = (props) => {
   }, []);
 
   useEffect(() => {
+    console.log("123")
     if (info.information.videoType !== "m3u8" || !info.information.posPlay) {
       return;
     }
@@ -109,9 +110,10 @@ const TrilsDetail = (props) => {
     if (player.current.readyState === 4) {
       dispatch(MODAL_STATUS(true));
     }
-  }, [dispatch, player]);
+  }, [dispatch, player,info.information]);
 
   useEffect(() => {
+    console.log("123")
     if (info.information.videoType !== "mp4" || !info.information.posPlay) {
       return;
     }
@@ -121,7 +123,7 @@ const TrilsDetail = (props) => {
     if (players.current.readyState === 4) {
       dispatch(MODAL_STATUS(true));
     }
-  }, [dispatch, players]);
+  }, [dispatch, players,info.information]);
 
   const videoplay = () => {
     if (player.current.readyState !== 4) {
