@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ClearIcon from "@material-ui/icons/Clear";
 import { useDispatch, useSelector } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
+import afterImg from "../media/image/afterupload.png"
 
 const TrilsWrite = (props) => {
   const { history } = props;
@@ -85,20 +86,6 @@ const TrilsWrite = (props) => {
     fileInput.current.click(); // 인풋 클릭한 효과
   };
 
-  const videoplay = () => {
-    if (!player.current) {
-      return;
-    }
-    player.current.play();
-  };
-
-  const videopause = () => {
-    if (!player.current) {
-      return;
-    }
-    player.current.pause();
-  };
-
   const change = (e) => {
     if (e.target.value.length > 10) {
       e.target.value = e.target.value.substr(0, 10);
@@ -114,14 +101,7 @@ const TrilsWrite = (props) => {
       <Wrap>
         <VideoView onClick={triggerVideo}>
           {!(vid === null) ? (
-            <Player
-              ref={player}
-              onMouseOver={videoplay}
-              onMouseLeave={videopause}
-              src={preview}
-              muted
-              type="video/mp4"
-            />
+            <Uploading src={afterImg} />
           ) : (
             <>
               <p style={{ fontSize: "25px" }}>영상을 업로드해주세요.(클릭)</p>
@@ -176,10 +156,14 @@ const TrilsWrite = (props) => {
   );
 };
 
-const Player = styled.video`
-  width: 37rem;
-  height: 28rem;
-  background: black;
+const Uploading = styled.div`
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  background-image: url("${(props) => props.src}");
+  background-size: contain;
+    background-repeat: no-repeat;
 `;
 
 const IconCover = styled.div`

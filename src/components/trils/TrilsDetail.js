@@ -9,6 +9,7 @@ import { TrilsActions, DELETE_POST, EDIT_POST } from "redux/modules/trils";
 import Swal from "sweetalert2";
 import ClearIcon from "@material-ui/icons/Clear";
 import { config } from "../../redux/modules/config";
+import uploading from "../../media/image/uploading.png";
 
 const TrilsDetail = (props) => {
   const { history } = props;
@@ -100,7 +101,6 @@ const TrilsDetail = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("123")
     if (info.information.videoType !== "m3u8" || !info.information.posPlay) {
       return;
     }
@@ -110,10 +110,9 @@ const TrilsDetail = (props) => {
     if (player.current.readyState === 4) {
       dispatch(MODAL_STATUS(true));
     }
-  }, [dispatch, player,info.information]);
+  }, [dispatch, player, info.information]);
 
   useEffect(() => {
-    console.log("123")
     if (info.information.videoType !== "mp4" || !info.information.posPlay) {
       return;
     }
@@ -123,9 +122,12 @@ const TrilsDetail = (props) => {
     if (players.current.readyState === 4) {
       dispatch(MODAL_STATUS(true));
     }
-  }, [dispatch, players,info.information]);
+  }, [dispatch, players, info.information]);
 
   const videoplay = () => {
+    if (!player.current) {
+      return;
+    }
     if (player.current.readyState !== 4) {
       return;
     }
@@ -140,6 +142,9 @@ const TrilsDetail = (props) => {
   };
 
   const videopause = () => {
+    if (!player.current) {
+      return;
+    }
     if (player.current.readyState !== 4) {
       return;
     }
@@ -331,7 +336,7 @@ const TrilsDetail = (props) => {
             </>
           ) : (
             <>
-              <Nothing />
+              <Uploading src={uploading} />
             </>
           )}
         </View>
@@ -419,7 +424,16 @@ const TrilsDetail = (props) => {
   );
 };
 
-const Nothing = styled.div``;
+const Uploading = styled.div`
+  display: flex;
+  height: 20rem;
+  width: 40rem;
+  margin: 0 auto;
+  background-image: url("${(props) => props.src}");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
 
 const Input = styled.input`
   outline: none;

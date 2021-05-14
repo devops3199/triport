@@ -156,7 +156,7 @@ const Video = (props) => {
         </>
       ) : (
         <>
-          <Nothing src={Uploadex} />
+          <Uploading src={Uploadex} />
         </>
       )}
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
@@ -181,7 +181,7 @@ const Video = (props) => {
   );
 };
 
-const Nothing = styled.div`
+const Uploading = styled.div`
   display: flex;
   height: 45rem;
   width: 25rem;
