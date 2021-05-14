@@ -158,8 +158,22 @@ const TrilsDetail = (props) => {
     }
   };
 
-  const volumeControl = () => {
+  const m3u8volume = () => {
     if (player.current.readyState !== 4) {
+      return;
+    }
+    if (!info.information.posPlay) {
+      return;
+    }
+    if (mute) {
+      setMute(false);
+    } else {
+      setMute(true);
+    }
+  };
+
+  const mp4volume = () => {
+    if (players.current.readyState !== 4) {
       return;
     }
     if (!info.information.posPlay) {
@@ -331,7 +345,7 @@ const TrilsDetail = (props) => {
                 <View
                   onMouseOver={mp4play}
                   onMouseLeave={mp4pause}
-                  onClick={volumeControl}
+                  onClick={mp4volume}
                 >
                   <VideoPlay
                     ref={players}
@@ -353,7 +367,7 @@ const TrilsDetail = (props) => {
                 <View
                   onMouseOver={hlsplay}
                   onMouseLeave={hlspause}
-                  onClick={volumeControl}
+                  onClick={m3u8volume}
                 >
                   <VideoPlay
                     ref={player}
@@ -373,9 +387,6 @@ const TrilsDetail = (props) => {
         ) : (
           <>
             <View
-              onMouseOver={videoplay}
-              onMouseLeave={videopause}
-              onClick={volumeControl}
             >
               <Uploading src={uploading} />
             </View>

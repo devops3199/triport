@@ -2,7 +2,7 @@ import Video from "components/trils/Video";
 import React, { useEffect, useRef, useState } from "react";
 import { history } from "redux/configureStore";
 import { Plus, Arrow } from "media/svg/Svg";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import Spinner from "shared/Spinner2";
 import Swal from "sweetalert2";
 import SearchIcon from "@material-ui/icons/Search";
 import InfinityScroll from "shared/InfinityScroll";
+import Tripper from "media/image/triport_airplane.png";
 
 const Trils = (props) => {
   const is_login = useSelector((state) => state.user.is_login);
@@ -127,6 +128,9 @@ const Trils = (props) => {
             <span id="NewestText">최신순</span>
           </NewestFilter>
         </Filter>
+        <MoveTripper>
+          <img src={Tripper} alt="놀자"/>
+        </MoveTripper>
       </FilterContainer>
       <CenterDiv>
         {modal ? <TrilsDetail history={history} /> : null}
@@ -163,6 +167,23 @@ const Trils = (props) => {
     </Container>
   );
 };
+
+const Move = keyframes`
+  0% {
+    transform : translateX(-1500%);
+  }
+  100% {
+    transform : translateX(0%);
+  }
+`;
+
+const MoveTripper = styled.div`
+  animation: ${Move} 5s;
+  margin: 0 1rem 0 0;
+  & img {
+    width: 4rem;
+  }
+`;
 
 const SearchWrapper = styled.div`
   width: 40.625rem;
@@ -321,10 +342,13 @@ const FloatingButton = styled.div`
 
 const PostLine = styled.div`
   display: flex;
-  width: 1280px;
+  max-width: 80rem;
   margin: 0px auto;
   margin-bottom: 4.3rem;
   flex-wrap: wrap;
+  /* @media only screen and (max-width: 1280px) {
+    flex-direction: column;
+  } */
 `;
 
 export default Trils;
