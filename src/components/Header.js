@@ -14,9 +14,7 @@ const Header = (props) => {
   const { history } = props;
 
   const userprofile = useSelector((state) => state.profile);
-  console.log(userprofile);
   const user = useSelector((state) => state.user);
-  console.log(user);
 
   // 유저 등급에 따른 등급 아이콘 보여주기
   const gradeImg = () => {
@@ -33,6 +31,7 @@ const Header = (props) => {
 
   // 카카오 로그아웃
   const KAKAO_LOGOUT_URL =
+    // "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://triport.kr/auth/logout";
     "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://localhost:3000/auth/logout";
 
   if (user.is_login === true) {
