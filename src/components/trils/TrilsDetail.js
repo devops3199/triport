@@ -287,6 +287,34 @@ const TrilsDetail = (props) => {
     setTagType(newValue);
   };
 
+  const hlsplay = () => {
+    if (player.current.readyState !== 4) {
+      return;
+    }
+    player.current.play();
+  };
+
+  const hlspause = () => {
+    if (player.current.readyState !== 4) {
+      return;
+    }
+    player.current.pause();
+  };
+
+  const mp4play = () => {
+    if (players.current.readyState !== 4) {
+      return;
+    }
+    players.current.play();
+  };
+
+  const mp4pause = () => {
+    if (players.current.readyState !== 4) {
+      return;
+    }
+    players.current.pause();
+  };
+
   return (
     <React.Fragment>
       <Component onClick={closeModal} display={is_modal} />
@@ -295,15 +323,16 @@ const TrilsDetail = (props) => {
           <ProfileImg src={info.author.profileImgUrl} />
           <ProfileId>{info.author.nickname}</ProfileId>
         </Profile>
-        <View
-          onMouseOver={videoplay}
-          onMouseLeave={videopause}
-          onClick={volumeControl}
-        >
-          {info.information.posPlay ? (
-            <>
-              {info.information.videoType === "mp4" ? (
-                <>
+
+        {info.information.posPlay ? (
+          <>
+            {info.information.videoType === "mp4" ? (
+              <View>
+                <View
+                  onMouseOver={mp4play}
+                  onMouseLeave={mp4pause}
+                  onClick={volumeControl}
+                >
                   <VideoPlay
                     ref={players}
                     src={params.src}
@@ -317,9 +346,15 @@ const TrilsDetail = (props) => {
                       );
                     }}
                   />
-                </>
-              ) : (
-                <>
+                </View>
+              </View>
+            ) : (
+              <>
+                <View
+                  onMouseOver={hlsplay}
+                  onMouseLeave={hlspause}
+                  onClick={volumeControl}
+                >
                   <VideoPlay
                     ref={player}
                     muted={mute}
@@ -331,15 +366,21 @@ const TrilsDetail = (props) => {
                       );
                     }}
                   />
-                </>
-              )}
-            </>
-          ) : (
-            <>
+                </View>
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            <View
+              onMouseOver={videoplay}
+              onMouseLeave={videopause}
+              onClick={volumeControl}
+            >
               <Uploading src={uploading} />
-            </>
-          )}
-        </View>
+            </View>
+          </>
+        )}
         <Progress width={progress}>
           <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
         </Progress>
