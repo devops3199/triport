@@ -7,11 +7,10 @@ import { useDispatch } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
 import Swal from "sweetalert2";
 
-const VideoTest = (props) => {
+const VideoTesting = (props) => {
   const { mr, history } = props;
   const hls = new Hls();
   const player = useRef(null);
-  const players = useRef(null);
   const [ismuted, setMute] = useState(true);
   const [completed, setCompleted] = useState(0);
   const dispatch = useDispatch();
@@ -62,32 +61,18 @@ const VideoTest = (props) => {
     }
   }, [params.src]);
 
-  const hlsplay = () => {
+  const videoplay = () => {
     if (player.current.readyState !== 4) {
       return;
     }
     player.current.play();
   };
 
-  const hlspause = () => {
+  const videopause = () => {
     if (player.current.readyState !== 4) {
       return;
     }
     player.current.pause();
-  };
-
-  const mp4play = () => {
-    if (players.current.readyState !== 4) {
-      return;
-    }
-    players.current.play();
-  };
-
-  const mp4pause = () => {
-    if (players.current.readyState !== 4) {
-      return;
-    }
-    players.current.pause();
   };
 
   const openModal = () => {
@@ -122,45 +107,26 @@ const VideoTest = (props) => {
         <ProfileImg src={props.author.profileImgUrl} />
         <ProfileId>{props.author.nickname}</ProfileId>
       </Profile>
-      {props.information.videoType === "mp4" ? (
-        <>
-          <VideoPlay
-            onMouseOver={mp4play}
-            onMouseLeave={mp4pause}
-            ref={players}
-            src={params.src}
-            muted={ismuted}
-            loop
-            onTimeUpdate={() => {
-              setCompleted(
-                (players.current.currentTime / players.current.duration) * 100
-              );
-            }}
-          />
-        </>
-      ) : (
-        <>
-          <VideoPlay
-            onMouseOver={hlsplay}
-            onMouseLeave={hlspause}
-            ref={player}
-            muted={ismuted}
-            loop
-            onTimeUpdate={() => {
-              setCompleted(
-                (player.current.currentTime / player.current.duration) * 100
-              );
-            }}
-          />
-        </>
-      )}
+      <VideoPlay
+        onMouseOver={videoplay}
+        onMouseLeave={videopause}
+        ref={player}
+        muted={ismuted}
+        loop
+        onTimeUpdate={() => {
+          setCompleted(
+            (player.current.currentTime / player.current.duration) * 100
+          );
+        }}
+      />
+      {/* <VideoBg /> */}
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
       <PostBottom>
-        <BottomCov>
-          <LikeCov onClick={like}>
-            {props.member.isLike ? <HeartFill /> : <HeartEmpty />}
-          </LikeCov>
-        </BottomCov>
+      <BottomCov>
+        <LikeCov onClick={like}>
+          {props.member.isLike ? <HeartFill /> : <HeartEmpty />}
+        </LikeCov>
+      </BottomCov>
         <PostLikeCnt>좋아요 +{props.information.likeNum}</PostLikeCnt>
         <PostUserComment>
           {props.information.hashtag.map((p, idx) => {
@@ -313,4 +279,4 @@ const BottomCov = styled.div`
   margin-right: 0.7rem;
 `;
 
-export default VideoTest;
+export default VideoTesting;

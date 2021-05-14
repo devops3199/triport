@@ -1,14 +1,14 @@
-import Videom3u8 from "components/trils/Videom3u8";
-import Videomp4 from "components/trils/Videomp4";
+import Video from "components/trils/Video";
 import React, { useEffect, useRef, useState } from "react";
 import { history } from "redux/configureStore";
-import { Plus } from "media/svg/Svg";
+import { Plus, Arrow } from "media/svg/Svg";
 import styled from "styled-components";
 import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
-import InfiniteScroll from "react-infinite-scroll-component";
+import InfinityScroll from "shared/InfinityScroll";
 import Spinner from "shared/Spinner2";
+import SearchIcon from "@material-ui/icons/Search";
 import Swal from "sweetalert2";
 import queryString from "query-string";
 
@@ -17,9 +17,10 @@ const Trils = (props) => {
   const queryObj = queryString.parse(search);
   const access_token = localStorage.getItem("access_token");
   const dispatch = useDispatch();
-  const page = useSelector((state) => state.trils.page);
   const post_list = useSelector((state) => state.trils.data);
+  const is_login = useSelector((state) => state.user.is_login);
   const modal = useSelector((state) => state.trils.modal);
+  const is_last = useSelector((state) => state.trils.is_last);
   const [filter, _setFilter] = useState(true);
   const filterRef = useRef(filter);
   const keyword = useRef("");
@@ -47,55 +48,77 @@ const Trils = (props) => {
 
     if (filter) {
       // 최신순
-      dispatch(TrilsActions.getPost(queryObj.q, "modifiedAt", 1));
+      dispatch(TrilsActions.filterPost(queryObj.q, "createdAt"));
     } else {
       // 좋아요순
-      dispatch(TrilsActions.getPost(queryObj.q, "likeNum", 1));
+      dispatch(TrilsActions.filterPost(queryObj.q, "likeNum"));
     }
     setFilter(!filter);
   };
 
   useEffect(() => {
-    if (!(queryObj.filter === "modifiedAt" || queryObj.filter === "likeNum")) {
+    window.scrollTo(0, 0);
+    if (!(queryObj.filter === "createdAt" || queryObj.filter === "likeNum")) {
       history.push("/notFound");
     }
     dispatch(TrilsActions.searchPost(queryObj.q, queryObj.filter, 1));
   }, [dispatch, queryObj.q, queryObj.filter]);
 
-  const next = () => {
-    const setFilter = (data) => {
-      filterRef.current = data;
-      _setFilter(data);
-    };
-
-    if (filter) {
+  const scroll = () => {
+    const filter_scroll = filterRef.current;
+    if (filter_scroll) {
       // 좋아요순
-      dispatch(TrilsActions.getPost(queryObj.q, queryObj.filter, page));
+      dispatch(TrilsActions.getPost(queryObj.q, "likeNum"));
     } else {
       // 최신순
-      dispatch(TrilsActions.getPost(queryObj.q, queryObj.filter, page));
+      dispatch(TrilsActions.getPost(queryObj.q, "createdAt"));
     }
-    setFilter(!filter);
+  };
+
+  const searching = (e) => {
+    if (window.event.keyCode === 13) {
+      // 좋아요순
+      history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+    }
+  };
+
+  const top = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const write = () => {
+    if (!is_login) {
+      Swal.fire({
+        title: "로그인을 해주세요.",
+        text: "로그인 후 글작성이 가능합니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "로그인하기",
+        cancelButtonText: "닫기",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    } else {
+      history.push("/trils/write");
+    }
   };
 
   return (
     <Container>
       <SearchContainer>
-        <Search
-          type="text"
-          placeholder="검색어를 입력하세요."
-          ref={keyword}
-          onKeyPress={(e) => {
-            if (window.event.keyCode === 13) {
-              if (window.event.keyCode === 13) {
-                // 좋아요순
-                history.push(
-                  `/search?q=${keyword.current.value}&filter=likeNum`
-                );
-              }
-            }
-          }}
-        />
+        <SearchWrapper>
+          <Search
+            type="text"
+            placeholder="검색어를 입력하세요."
+            ref={keyword}
+            onKeyPress={searching}
+          />
+          <SearchIcon onClick={searching} />
+        </SearchWrapper>
       </SearchContainer>
       <FilterContainer>
         <Filter>
@@ -110,67 +133,78 @@ const Trils = (props) => {
       </FilterContainer>
       <CenterDiv>
         {modal ? <TrilsDetail history={history} /> : null}
-        <FloatingButton
-          onClick={() => {
-            if (access_token === null) {
-              Swal.fire({
-                title: "로그인을 해주세요.",
-                text: "로그인 후 글작성이 가능합니다.",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "로그인하기",
-                cancelButtonText: "닫기",
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  history.push("/login");
-                }
-              });
-            } else {
-              history.push("/trils/write");
-            }
-          }}
-        >
+        <TopButton onClick={top}>
+          <Arrow />
+        </TopButton>
+        <FloatingButton onClick={write}>
           <Plus />
         </FloatingButton>
         <PostLine>
-          {post_list.length === 0 ? (
+          {!post_list || post_list.length === 0 ? (
             <></>
           ) : (
-            <InfiniteScroll
-              dataLength={post_list.length}
-              next={next}
-              hasMore={post_list.length > 11}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-              }}
-              loader={<Spinner />}
-            >
+            <InfinityScroll callNext={scroll} is_next={is_last}>
               {post_list.map((p, idx) => {
                 if ((idx + 1) % 3 !== 0) {
                   return (
                     <>
-                      <Videom3u8 {...p} history={history} mr />
+                      <Video {...p} history={history} mr />
                     </>
                   );
                 } else {
                   return (
                     <>
-                      <Videom3u8 {...p} history={history} />
+                      <Video {...p} history={history} />
                     </>
                   );
                 }
               })}
-            </InfiniteScroll>
+            </InfinityScroll>
           )}
         </PostLine>
       </CenterDiv>
     </Container>
   );
 };
+
+const TopButton = styled.div`
+  position: fixed;
+  bottom: 11%;
+  right: 3%;
+  width: 3.125rem;
+  height: 3.125rem;
+  cursor: pointer;
+  z-index: 9999;
+  background-color: #2b61e1;
+  border-radius: 25px;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 60%;
+    height: 60%;
+    fill: #ffffff;
+  }
+`;
+
+const SearchWrapper = styled.div`
+  width: 40.625rem;
+  border: 1px solid rgb(43, 97, 225, 0.6);
+  border-radius: 5px;
+  outline: none;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & svg {
+    fill: rgb(43, 97, 225);
+    cursor: pointer;
+  }
+`;
 
 const Container = styled.div`
   display: flex;
@@ -244,11 +278,9 @@ const FilterContainer = styled.div`
 `;
 
 const Search = styled.input`
-  width: 40.625rem;
-  border: 1px solid rgb(43, 97, 225, 0.6);
-  border-radius: 5px;
+  border: none;
   outline: none;
-  padding: 0.75rem 1.25rem;
+  width: 38rem;
 `;
 
 const SearchContainer = styled.div`

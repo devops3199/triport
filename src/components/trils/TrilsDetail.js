@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { HeartEmpty, HeartFill } from "media/svg/Svg";
-import { CLOSE_MODAL } from "redux/modules/trils";
+import { MODAL_STATUS } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
 import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
@@ -9,11 +9,13 @@ import { TrilsActions, DELETE_POST, EDIT_POST } from "redux/modules/trils";
 import Swal from "sweetalert2";
 import ClearIcon from "@material-ui/icons/Clear";
 import { config } from "../../redux/modules/config";
+import uploading from "../../media/image/uploading.png";
 
 const TrilsDetail = (props) => {
   const { history } = props;
   const hls = new Hls();
   const player = useRef(null);
+  const players = useRef(null);
   const info = useSelector((state) => state.trils.detail);
   const dispatch = useDispatch();
   const [completed, setCompleted] = useState(0);
@@ -21,7 +23,9 @@ const TrilsDetail = (props) => {
   const [editOn, setEditOn] = useState(false);
   const [tags, setTags] = useState(info.information.hashtag);
   const tagInput = useRef(null);
+  const [mute, setMute] = useState(true);
   const [tagType, setTagType] = useState("");
+  const is_modal = useSelector((state) => state.trils.modal);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -51,7 +55,7 @@ const TrilsDetail = (props) => {
   };
 
   const closeModal = () => {
-    dispatch(CLOSE_MODAL());
+    dispatch(MODAL_STATUS(false));
   };
 
   const params = {
@@ -96,18 +100,76 @@ const TrilsDetail = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (info.information.videoType !== "m3u8" || !info.information.posPlay) {
+      return;
+    }
+    if (!player.current) {
+      return;
+    }
+    if (player.current.readyState === 4) {
+      dispatch(MODAL_STATUS(true));
+    }
+  }, [dispatch, player, info.information]);
+
+  useEffect(() => {
+    if (info.information.videoType !== "mp4" || !info.information.posPlay) {
+      return;
+    }
+    if (!players.current) {
+      return;
+    }
+    if (players.current.readyState === 4) {
+      dispatch(MODAL_STATUS(true));
+    }
+  }, [dispatch, players, info.information]);
+
   const videoplay = () => {
+    if (!player.current) {
+      return;
+    }
     if (player.current.readyState !== 4) {
       return;
     }
-    player.current.play();
+    if (!info.information.posPlay) {
+      return;
+    }
+    if (info.information.videoType === "mp4") {
+      players.current.play();
+    } else if (info.information.videoType === "m3u8") {
+      player.current.play();
+    }
   };
 
   const videopause = () => {
+    if (!player.current) {
+      return;
+    }
     if (player.current.readyState !== 4) {
       return;
     }
-    player.current.pause();
+    if (!info.information.posPlay) {
+      return;
+    }
+    if (info.information.videoType === "mp4") {
+      players.current.pause();
+    } else if (info.information.videoType === "m3u8") {
+      player.current.pause();
+    }
+  };
+
+  const volumeControl = () => {
+    if (player.current.readyState !== 4) {
+      return;
+    }
+    if (!info.information.posPlay) {
+      return;
+    }
+    if (mute) {
+      setMute(false);
+    } else {
+      setMute(true);
+    }
   };
 
   const like = () => {
@@ -227,24 +289,56 @@ const TrilsDetail = (props) => {
 
   return (
     <React.Fragment>
-      <Component onClick={closeModal} />
-      <Wrap>
+      <Component onClick={closeModal} display={is_modal} />
+      <Wrap display={is_modal}>
         <Profile>
           <ProfileImg src={info.author.profileImgUrl} />
           <ProfileId>{info.author.nickname}</ProfileId>
         </Profile>
-        <View onMouseOver={videoplay} onMouseLeave={videopause}>
-          <VideoPlay
-            ref={player}
-            muted
-            loop
-            onTimeUpdate={() => {
-              setCompleted(
-                (player.current.currentTime / player.current.duration) * 100
-              );
-              setProgress(player.current.clientWidth);
-            }}
-          />
+        <View
+          onMouseOver={videoplay}
+          onMouseLeave={videopause}
+          onClick={volumeControl}
+        >
+          {info.information.posPlay ? (
+            <>
+              {info.information.videoType === "mp4" ? (
+                <>
+                  <VideoPlay
+                    ref={players}
+                    src={params.src}
+                    muted={mute}
+                    loop
+                    onTimeUpdate={() => {
+                      setCompleted(
+                        (players.current.currentTime /
+                          players.current.duration) *
+                          100
+                      );
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <VideoPlay
+                    ref={player}
+                    muted={mute}
+                    loop
+                    onTimeUpdate={() => {
+                      setCompleted(
+                        (player.current.currentTime / player.current.duration) *
+                          100
+                      );
+                    }}
+                  />
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <Uploading src={uploading} />
+            </>
+          )}
         </View>
         <Progress width={progress}>
           <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
@@ -253,7 +347,7 @@ const TrilsDetail = (props) => {
           <LikeCov onClick={like}>
             {info.member.isLike ? <HeartFill /> : <HeartEmpty />}
           </LikeCov>
-          <p style={{ color: "#8B8888", width: "5rem" , userSelect: "none"}}>
+          <p style={{ color: "#8B8888", width: "5rem", userSelect: "none" }}>
             좋아요 +{info.information.likeNum}
           </p>
           <Tag>
@@ -330,6 +424,17 @@ const TrilsDetail = (props) => {
   );
 };
 
+const Uploading = styled.div`
+  display: flex;
+  height: 20rem;
+  width: 40rem;
+  margin: 0 auto;
+  background-image: url("${(props) => props.src}");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
 const Input = styled.input`
   outline: none;
   width: 100%;
@@ -404,7 +509,7 @@ const Bottom = styled.div`
 
 const Edit = styled.button`
   cursor: pointer;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   font-size: 1rem;
   color: #ffffff;
   background-color: #2b61e1;
@@ -417,7 +522,7 @@ const Edit = styled.button`
 
 const Delete = styled.button`
   cursor: pointer;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   font-size: 1rem;
   color: #ffffff;
   background-color: #2b61e1;
@@ -431,7 +536,7 @@ const Delete = styled.button`
 
 const Close = styled.button`
   cursor: pointer;
-  font-family: "TTTogether";
+  font-family: "paybooc-Bold";
   font-size: 1rem;
   color: #ffffff;
   background-color: #2b61e1;
@@ -486,6 +591,7 @@ const Component = styled.div`
   background-color: black;
   z-index: 60;
   opacity: 0.4;
+  ${(props) => (props.display ? `` : `display:none;`)}
 `;
 const Wrap = styled.div`
   position: fixed;
@@ -496,7 +602,7 @@ const Wrap = styled.div`
   background-color: white;
   max-width: 57rem;
   max-height: 45rem;
-  display: flex;
+  display: ${(props) => (props.display ? "flex" : "none")};
   flex-direction: column;
   /* justify-content: center;
   align-items: center; */

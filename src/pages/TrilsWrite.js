@@ -1,18 +1,28 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import ClearIcon from "@material-ui/icons/Clear";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
+import afterImg from "../media/image/afterupload.png"
 
-const SnsWrite = () => {
+const TrilsWrite = (props) => {
+  const { history } = props;
   const tagInput = useRef(null);
   const fileInput = useRef();
   const player = useRef(null);
   const [tags, setTags] = useState([]);
   const [preview, setPreview] = useState(null);
   const dispatch = useDispatch();
-  const [vid, setVid] = useState();
+  const [vid, setVid] = useState(null);
   const [tagType, setTagType] = useState("");
+  const is_login = useSelector((state) => state.user.is_login);
+
+  useEffect(() => {
+    if (!is_login) {
+      alert("로그인을 해주세요");
+      history.replace("/");
+    }
+  }, []);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -59,55 +69,21 @@ const SnsWrite = () => {
     if (!file) {
       return;
     }
-    if (file.size * 9.5367e-7 > 300) {
-      alert("용량이 너무 큽니다.(300mb 이하)");
+    if (file.size * 9.5367e-7 > 50) {
+      alert("용량이 너무 큽니다.(50mb 이하)");
       return;
     }
     reader.onloadstart = (e) => {
-      setPreview(null);
+      setVid(null);
     };
     reader.readAsDataURL(file);
     reader.onloadend = (e) => {
-      const videoElement = document.createElement("video");
-      videoElement.src = e.target.result;
-      const timer = setInterval(() => {
-        if (videoElement.readyState === 4) {
-          if (videoElement.duration > 100) {
-            alert("영상 길이를 확인해주세요.(100초 이하)");
-            clearInterval(timer);
-            return;
-          }
-          // else if (videoElement.duration > 30) {
-          //   alert("영상 길이를 확인해주세요.(10초 이상)");
-          //   clearInterval(timer);
-          //   return;
-          // }
-          else {
-            setVid(file);
-            setPreview(e.target.result);
-            clearInterval(timer);
-          }
-        }
-      }, 100);
+      setVid(file);
     };
   };
 
   const triggerVideo = () => {
     fileInput.current.click(); // 인풋 클릭한 효과
-  };
-
-  const videoplay = () => {
-    if (!player.current) {
-      return;
-    }
-    player.current.play();
-  };
-
-  const videopause = () => {
-    if (!player.current) {
-      return;
-    }
-    player.current.pause();
   };
 
   const change = (e) => {
@@ -124,20 +100,13 @@ const SnsWrite = () => {
     <React.Fragment>
       <Wrap>
         <VideoView onClick={triggerVideo}>
-          {!(preview === null) ? (
-            <Player
-              ref={player}
-              onMouseOver={videoplay}
-              onMouseLeave={videopause}
-              src={preview}
-              muted
-              type="video/mp4"
-            />
+          {!(vid === null) ? (
+            <Uploading src={afterImg} />
           ) : (
             <>
               <p style={{ fontSize: "25px" }}>영상을 업로드해주세요.(클릭)</p>
               <p style={{ fontSize: "15px" }}>
-                영상 길이 10초 이하, 크기 300MB 이하
+                영상 길이 10초 이하, 크기 50MB 이하
               </p>
             </>
           )}
@@ -187,10 +156,14 @@ const SnsWrite = () => {
   );
 };
 
-const Player = styled.video`
-  width: 37rem;
-  height: 28rem;
-  background: black;
+const Uploading = styled.div`
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  background-image: url("${(props) => props.src}");
+  background-size: contain;
+    background-repeat: no-repeat;
 `;
 
 const IconCover = styled.div`
@@ -329,4 +302,4 @@ const Button = styled.button`
   border-radius: 5px;
 `;
 
-export default SnsWrite;
+export default TrilsWrite;
