@@ -9,20 +9,26 @@ import { history } from "redux/configureStore";
 
 const BoardCard = (props) => {
     const dispatch = useDispatch();
-    const { margin, data } = props;
-    const information = data.information;
-    const author = data.author;
-    const member = data.member;
-    const id = information.id;
+    const { margin, data } = props; // data = 게시글 객체
+    const information = data.information; // 게시글 정보
+    const author = data.author; // 글쓴이 정보
+    const member = data.member; // 로그인한 유저
+    const id = information.id; // 게시글 ID
 
     const hitLike = (e) => {
         e.stopPropagation(); // 이벤트 버블링
         dispatch(TrilogActions.setLikeTrilog(id));
-    }
+    };
 
     return(
         <BoardCardContainer margin={ margin } >
             <ImageContainer onClick={() => {history.push(`/trilog/${id}`)}} img={information.thumbNailUrl}>
+
+            </ImageContainer>
+            <ContentContainer>
+                <Title onClick={() => {history.push(`/trilog/${id}`)}}>
+                    <span>{information.title}</span>
+                </Title>
                 <UserContainer>
                     <Profile img={author.profileImgUrl}>
                         <div></div>
@@ -32,18 +38,10 @@ const BoardCard = (props) => {
                         { member.isLike ? <LikeFill /> : <LikeEmpty /> }
                     </Likes>
                 </UserContainer>
-            </ImageContainer>
-            <ContentContainer>
                 <Detail>
                     <span>{information.modifiedAt.split(' ')[0]}</span>
                     <span>{information.modifiedAt.split(' ')[1]}</span>
                 </Detail>
-                <Title onClick={() => {history.push(`/trilog/${id}`)}}>
-                    <span>{information.title}</span>
-                </Title>
-                <Description>
-                    {information.description}
-                </Description>
             </ContentContainer>
         </BoardCardContainer>
     );
@@ -91,8 +89,6 @@ const ImageContainer = styled.div`
 `;
 
 const UserContainer = styled.div`
-    position: absolute;
-    bottom: 11.5px;
     width: 100%;
     height: 1.563rem;
     padding: 0 15px;
@@ -107,8 +103,8 @@ const Profile = styled.div`
     align-items: center;
 
     & div {
-        width: 2.375rem;
-        height: 2.375rem;
+        width: 2rem;
+        height: 2rem;
         background: url(${(props) => props.img}) no-repeat center;
         background-size: cover;
         border-radius: 50%;
@@ -116,9 +112,7 @@ const Profile = styled.div`
     & span {
         margin-left: 5px;
         font-size: 14px;
-        color: #fff;
-        text-shadow: -1px 0 black,0 1px black,1px 0 black,0 -1px black;
-        font-weight: 600;
+        font-weight: 500;
     }
 `;
 
@@ -157,6 +151,7 @@ const Title = styled.div`
     box-sizing: content-box;
     text-align: center;
     cursor: pointer;
+    margin: auto;
     & span {
         font-family: AppleSDGothicNeoB;
         color : #2B61E1;

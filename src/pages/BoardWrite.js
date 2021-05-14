@@ -3,6 +3,10 @@ import styled, { keyframes } from "styled-components";
 import { Editor } from "@toast-ui/react-editor";
 import "codemirror/lib/codemirror.css"; // Editor's Dependency Style
 import "@toast-ui/editor/dist/toastui-editor.css"; // Editor's Style
+import 'tui-color-picker/dist/tui-color-picker.css';
+import codeSyntax from '@toast-ui/editor-plugin-color-syntax';
+import 'highlight.js/styles/github.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import { history } from "redux/configureStore";
 import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,23 +17,24 @@ import LoopIcon from '@material-ui/icons/Loop';
 
 const BoardWrite = (props) => {
     const dispatch = useDispatch();
-    const is_loading = useSelector((state) => state.trilog.loading.detail_loading);
-    const detail = useSelector((state) => state.trilog.detail);
-    const id = props.match.params.id;
-    const is_edit = id ? true: false;
+    const is_loading = useSelector((state) => state.trilog.loading.detail_loading); // 모든 contents가 로드가 됬나 여부
+    const detail = useSelector((state) => state.trilog.detail); // 상세 게시글 정보 from Redux
+    const id = props.match.params.id; // 상세 게시글 ID
+    const is_edit = id ? true : false; // 수정페이지인지 작성페이지인지
 
     const data = React.useRef();
 
-    const [title, setTitle] = React.useState('');
-    const [address, setAddress] = React.useState('지도 마커를 클릭하시면 주소가 여기 표시됩니다.');
-    const [keyword, setKeyword] = React.useState('관악구청');
-    const [imageUrls, setImageUrls] = React.useState([]);
+    const [title, setTitle] = React.useState(''); // 제목
+    const [address, setAddress] = React.useState('지도 마커를 클릭하시면 주소가 여기 표시됩니다.'); // 주소
+    const [keyword, setKeyword] = React.useState('관악구청'); // 지도 검색 키워드
+    const [imageUrls, setImageUrls] = React.useState([]); // 사용자가 작성 및 수정시 사용했던 모든 이미지들, 이후 서버에서 사용안한 이미지들 삭제 
     const [imgLoading, setImgLoading] = React.useState(false); // 이미지 로딩 시
 
     const handleMap = _.debounce((val) => {
         setKeyword(val);
     }, 500);
 
+    // 게시글 작성 및 수정
     const sendData = async () => {
         if(title === "") {
             alert('제목을 입력하세요.');
@@ -55,11 +60,11 @@ const BoardWrite = (props) => {
         dispatch(TrilogActions.addTrilog(post));
     };
 
-    // 위지위그 에디터에서 사용자가 이미지 추가할때
+    // Toast UI Editor에서 사용자가 이미지 추가할때
     const uploadImage = async (blob) => {
       const file_size = ((blob.size / 1024) / 1024);
 
-      if(file_size > 20) {
+      if(file_size > 10) {
         // 이미지가 10MB보다 크다면
         alert('각 이미지 용량은 최대 10MB 입니다.')
         return 'failed';
@@ -174,8 +179,9 @@ const BoardWrite = (props) => {
               <Editor
                 previewStyle="vertical"
                 height="600px"
-                initialEditType="markdown"
+                initialEditType="wysiwyg"
                 initialValue={is_edit ? detail.information.description : ""}
+                plugins={[codeSyntax, codeSyntaxHighlight]}
                 hooks={{
                   addImageBlobHook: async (blob, callback) => {
                     const upload = await uploadImage(blob);

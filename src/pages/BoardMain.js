@@ -11,13 +11,13 @@ import Tripper from "media/image/triport_airplane.png";
 
 const BoardMain = (props) => {
   const dispatch = useDispatch();
-  const is_login = useSelector((state) => state.user.is_login);
-  const trilog = useSelector((state) => state.trilog.main.list);
-  const is_last = useSelector((state) => state.trilog.main.is_last);
-  const is_loading = useSelector((state) => state.trilog.loading.main_loading);
-  const [filter, _setFilter] = React.useState(false);
-  const filterRef = React.useRef(filter);
-  const keyword = React.useRef();
+  const is_login = useSelector((state) => state.user.is_login); // 로그인 여부
+  const trilog = useSelector((state) => state.trilog.main.list); // 게시글 정보
+  const is_last = useSelector((state) => state.trilog.main.is_last); // 무한 스크롤 - 다음 게시글이 있나 여부
+  const is_loading = useSelector((state) => state.trilog.loading.main_loading); // 게시글 로딩 여부
+  const [filter, _setFilter] = React.useState(false); // 필터 - 좋아요순, 최신순
+  const filterRef = React.useRef(filter); // 필터 - 좋아요순, 최신순
+  const keyword = React.useRef(); // 검색어
 
   const setFilter = (data) => {
     filterRef.current = data;
@@ -104,9 +104,6 @@ const BoardMain = (props) => {
             </SearchWrapper>
           </SearchContainer>
           <FilterContainer>
-            <MoveTripper>
-              <img src={Tripper} />
-            </MoveTripper>
             <Filter>
               <Background id="FilterTab" />
               <LikeFilter onClick={tabToggle}>
@@ -116,6 +113,9 @@ const BoardMain = (props) => {
                 <span id="NewestText">최신순</span>
               </NewestFilter>
             </Filter>
+            <MoveTripper>
+              <img src={Tripper} />
+            </MoveTripper>
           </FilterContainer>
           <CardContainer>
             <InfinityScroll callNext={scroll} is_next={is_last}>
@@ -177,8 +177,8 @@ const Search = styled.input`
 const FilterContainer = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  flex-direction: row-reverse;
 `;
 
 const Background = styled.div`
@@ -260,10 +260,7 @@ const FloatingButton = styled.div`
 
 const Move = keyframes`
   0% {
-    transform : translateX(0%);
-  }
-  50% {
-    transform : translateX(1500%);
+    transform : translateX(-1500%);
   }
   100% {
     transform : translateX(0%);
@@ -271,7 +268,8 @@ const Move = keyframes`
 `;
 
 const MoveTripper = styled.div`
-  animation: ${Move} 10s;
+  animation: ${Move} 5s;
+  margin: 0 1rem 0 0;
   & img {
     width: 4rem;
   }

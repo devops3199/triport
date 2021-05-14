@@ -4,11 +4,11 @@ import { CommentLike } from "media/svg/Svg";
 import { config } from "redux/modules/config";
 
 const BoardChildComment = (props) => {
-  const { comment, setData } = props; // parent comment id
-  const [likeNum, setLikeNum] = React.useState(comment.commentChild.likeNum);
-  const [edit, setEdit] = React.useState(false);
-  const [childCommentEdit, setChildCommentEdit] = React.useState(comment.commentChild.contents);
-  const [childCommentDate, setChildCommentDate] = React.useState(comment.commentChild.modifiedAt);
+  const { comment, setData } = props; // 부모 댓글 state 변경을 위해 setData 가져옴
+  const [likeNum, setLikeNum] = React.useState(comment.commentChild.likeNum); // 자식 댓글 좋아요 여부
+  const [edit, setEdit] = React.useState(false); // 자식 댓글 수정 버튼 토글 - input 태그 활성화 여부
+  const [childCommentEdit, setChildCommentEdit] = React.useState(comment.commentChild.contents); // 자식 댓글 내용
+  const [childCommentDate, setChildCommentDate] = React.useState(comment.commentChild.modifiedAt); // 자식 댓글 등록 시간
 
   const hitLike = () => {
     const access_token = localStorage.getItem("access_token");

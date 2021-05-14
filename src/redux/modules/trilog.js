@@ -40,26 +40,6 @@ const trilogSlice = createSlice({
         setTrilogMain : (state, action) => produce(state, (draft) => {
             draft.main.list = action.payload.results;
             draft.main.is_last = action.payload.last;
-            /*
-                게시물 마크업 내용의 ![alt text](https://...) 문자열 제거
-                안하면 /trilog 페이지 제목 아래있는 내용에서 이상하게 결과 나옴
-            */
-            draft.main.list.forEach((val) => {
-                const max = new Array(50).fill(0); // 한 게시글에 최대 사진 50개가 있다고 가정
-                let str = val.information.description;
-                const start_str = '![';
-        
-                max.forEach((v) => {
-                    if(str.includes(start_str)) {
-                        let begin = str.indexOf(start_str);
-                        let end = str.indexOf(')', begin);
-                        let img =  str.substring(begin, end + 1);
-                        str = str.replace(img, '');
-                    }
-                })
-
-                val.information.description = str;
-            });
         }),
         // Trilog 메인 페이지 - 무한 스크롤 페이지 설정(다음 게시물이 있나 없나)
         setTrilogMainPage : (state, action) => produce(state, (draft) => {

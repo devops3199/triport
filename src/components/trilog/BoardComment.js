@@ -8,19 +8,19 @@ import { config } from "redux/modules/config";
 
 const BoardComment = (props) => {
     const dispatch = useDispatch();
-    const is_login = useSelector((state) => state.user.is_login);
+    const is_login = useSelector((state) => state.user.is_login); // 로그인 체크 여부
 
-    const { comment } = props;
+    const { comment } = props; // BoardDetail 컴포넌트로부터 받은 data
 
-    const commentRef = React.useRef();
+    const commentRef = React.useRef(); // 부모 댓글 추가 시 가져오는 내용
 
-    const [showReply, setShowReply] = React.useState(false);
-    const [showReplyInput, setShowReplyInput] = React.useState(false);
-    const [data, setData] = React.useState([]);
-    const [edit, setEdit] = React.useState(false);
+    const [showReply, setShowReply] = React.useState(false); // 대댓글(자식 댓글) 보여주기 토글
+    const [showReplyInput, setShowReplyInput] = React.useState(false); // 답글 작성 토글
+    const [data, setData] = React.useState([]); // 대댓글(자식 댓글) 정보
+    const [edit, setEdit] = React.useState(false); // 부모 댓글 수정
     const [parentCommentEdit, setParentCommentEdit] = React.useState(''); // Edit일때만 사용
-    const [page, setPage] = React.useState(1);
-    const [last, setLast] = React.useState(true);
+    const [page, setPage] = React.useState(1); // 부모 댓글 페이징
+    const [last, setLast] = React.useState(true); // 부모 댓글 페이징 - 다음 댓글 있나 없나 여부
 
     const input_id = `commentChildInput${comment.commentParent.id}`;
 

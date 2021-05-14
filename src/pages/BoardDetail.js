@@ -7,14 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { history } from "redux/configureStore";
 
 const BoardDetail = (props) => {
-    const id = props.match.params.id;
+    const id = props.match.params.id; // 상세 게시글 ID
     const dispatch = useDispatch();
 
-    const is_login = useSelector((state) => state.user.is_login);
-    const detail = useSelector((state) => state.trilog.detail);
-    const is_loading = useSelector((state) => state.trilog.loading.detail_loading);
-    const comment = useSelector((state) => state.trilog.parent_comment.list);
-    const is_last = useSelector((state) => state.trilog.parent_comment.is_last);
+    const is_login = useSelector((state) => state.user.is_login); // 로그인 여부
+    const detail = useSelector((state) => state.trilog.detail); // 상세 게시글 정보
+    const is_loading = useSelector((state) => state.trilog.loading.detail_loading); // 상세 게시글 로딩 여부
+    const comment = useSelector((state) => state.trilog.parent_comment.list); // 부모 댓글
+    const is_last = useSelector((state) => state.trilog.parent_comment.is_last); // 부모 댓글 페이징 여부 - 다음 댓글 있나 없나
 
     const commentRef = React.useRef('');
 
