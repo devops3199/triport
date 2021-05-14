@@ -17,6 +17,7 @@ const Login = () => {
   const [line1, setLine1] = useState("1px solid #707070");
   const [line2, setLine2] = useState("1px solid #707070");
 
+  // 카카오 로그인 Redirect_url
   const KAKAO_URL =
     "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code";
 

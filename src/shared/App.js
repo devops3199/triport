@@ -20,13 +20,16 @@ import TrillsSearch from "pages/TrilsSearch";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "redux/modules/user";
+import { actionCreators as profileActions } from "redux/modules/profile";
 import OAuth2RedirectHandler from "./OAuth2RedirectHandler";
+import OAuth2LogoutHandler from "./OAuth2LogoutHandler";
 
 const App = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(userActions.loginCheckDB());
+    dispatch(profileActions.getProfile());
   }, []);
 
   return (
@@ -52,6 +55,7 @@ const App = () => {
               exact
               component={OAuth2RedirectHandler}
             />
+            <Route path="/auth/logout" exact component={OAuth2LogoutHandler} />
             <Route component={NotFound} />
           </Switch>
         </ConnectedRouter>
