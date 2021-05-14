@@ -4,26 +4,30 @@ import styled from "styled-components";
 import Dmypost from "media/svg/내가 쓴 글 D.svg";
 
 import { BoardCard } from "components/components";
-import MyPostDerail from "./MyPostDetail";
+import MyPostDetail from "./MyPostDetail";
+import TrilsDetail from "../components/trils/TrilsDetail";
 
-import Videom3u8 from "components/trils/Videom3u8";
+import Video from "components/trils/Video";
 
-const ProfileMyPost = () => {
-  const [modal, setModal] = useState(false);
+import { history } from "redux/configureStore";
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as profileActions } from "redux/modules/profile";
+import { TrilsActions } from "redux/modules/trils";
 
-  console.log(modal);
+const ProfileMyPost = (props) => {
+  const dispatch = useDispatch();
+  const mypost_list = useSelector((state) => state.profile.trils_data);
+  console.log(mypost_list);
 
-  const openModal = () => {
-    console.log("1");
-    setModal(true);
-  };
+  const modal = useSelector((state) => state.trils.modal);
 
-  const closeModal = () => {
-    setModal(false);
-  };
+  React.useEffect(() => {
+    dispatch(profileActions.myPostLoad());
+  }, []);
+
   return (
     <React.Fragment>
-      {modal ? <MyPostDerail close={closeModal} /> : null}
+      {modal ? <TrilsDetail history={history} /> : null}
       <ColumnWrap>
         <Wrap>
           <Icon></Icon>
@@ -33,24 +37,22 @@ const ProfileMyPost = () => {
               <Title style={{ marginLeft: "-1.5rem" }}>Trils</Title>
               <Button>더보기</Button>
             </Div>
-
-            <Wrap
-              style={{
-                width: "78rem",
-                marginLeft: "-4rem",
-                display: "flex",
-                justifyContent: "space-between",
-                margin: "0px auto",
-              }}
-            >
-              <div onClick={openModal}>
-                <Videom3u8 />
-              </div>
-              <Videom3u8 />
-              <Videom3u8 />
-            </Wrap>
-
-            <div
+            <Postlist>
+              {!mypost_list || mypost_list.length === 0 ? (
+                <div>내 Trils가 없습니다.</div>
+              ) : (
+                <>
+                  {mypost_list.map((p, idx) => {
+                    if ((idx + 1) % 3 !== 0) {
+                      return <Video {...p} history={history} mr />;
+                    } else {
+                      return <Video {...p} history={history} />;
+                    }
+                  })}
+                </>
+              )}
+            </Postlist>
+            <Br
               style={{
                 width: "79rem",
                 height: "3rem",
@@ -58,7 +60,7 @@ const ProfileMyPost = () => {
                 marginBottom: "3rem",
                 borderBottom: "3px solid #89ACFF",
               }}
-            ></div>
+            ></Br>
           </ColumnWrap>
         </Wrap>
 
@@ -74,20 +76,8 @@ const ProfileMyPost = () => {
                 marginBottom: "5rem",
               }}
             >
-              <BoardCard margin="0 40px 0 0" />
-              <BoardCard margin="0 40px 0 0" />
-              <BoardCard margin="0 40px 0 0" />
-              <BoardCard margin="0 40px 0 0" />
-              <BoardCard margin="0 40px 0 0" />
+              트릴로그들
             </Wrap>
-            <div
-              style={{
-                width: "79rem",
-                height: "3rem",
-                marginLeft: "-1rem",
-                borderBottom: "3px solid #89ACFF",
-              }}
-            ></div>
           </ColumnWrap>
         </Wrap>
       </ColumnWrap>
@@ -139,4 +129,20 @@ const Button = styled.button`
   border-radius: 5px;
   background-color: #ffffff;
   padding: 0.2rem;
+`;
+
+const Br = styled.div`
+  width: 79rem;
+  height: 3rem;
+  margin-left: -1rem;
+  margin-bottom: 3rem;
+  border-bottom: 3px solid #89acff;
+`;
+
+const Postlist = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  width: 1280px;
 `;

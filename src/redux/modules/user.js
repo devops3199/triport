@@ -78,7 +78,6 @@ const loginDB = (email, pwd) => {
     })
       .then((result) => {
         //성공시 토큰, 유저 정보 저장
-        console.log(result);
         let access_token = result.headers.get("Access-Token");
         let refresh_token = result.headers.get("Refresh-Token");
         let access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
@@ -163,8 +162,10 @@ const kakaoLogin = (code) => {
           localStorage.setItem("userInfo", JSON.stringify(result)); // JSON.stringfy 가 body에 담아오는 값
           dispatch(
             setUser({
-              id: result.id,
-              nickname: result.nickname,
+              id: result.results.id,
+              nickname: result.results.nickname,
+              memberGrade: result.results.memberGrade,
+              profileImgUrl: result.results.profileImgUrl,
             })
           );
           window.alert("로그인 되었습니다.");

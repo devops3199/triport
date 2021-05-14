@@ -105,7 +105,7 @@ const SignUp = () => {
 
           <EmailInput
             line={line1}
-            placeholder="E-mail"
+            placeholder="E-MAIL"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -114,7 +114,7 @@ const SignUp = () => {
           <Input
             // minLength="3"
             // maxLength="5"
-            placeholder="Nickname"
+            placeholder="NICKNAME"
             onChange={(e) => {
               setNickname(e.target.value);
             }}

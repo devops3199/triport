@@ -7,6 +7,8 @@ const profileimgSlice = createSlice({
     user_img: "",
     memberGrade: null,
     nickname: null,
+    trils_data: [],
+    trilog_data: [],
   },
   reducers: {
     SET_PREVIEW: (state, action) => {
@@ -19,6 +21,12 @@ const profileimgSlice = createSlice({
     },
     UPDATE_PROFILE: (state, action) => {
       state.uploading = action.payload;
+    },
+    TRILS_LOAD: (state, action) => {
+      state.trils_data = action.payload;
+    },
+    TRILOG_LOAD: (state, action) => {
+      state.trilog_data = action.payload;
     },
   },
 });
@@ -102,12 +110,40 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
   };
 };
 
-export const { SET_PREVIEW, GET_PROFILE, UPDATE_PROFILE } =
-  profileimgSlice.actions;
+// 내가 쓴 글 조회
+const myPostLoad = () => {
+  return function (dispatch, getState, { history }) {
+    let access_token = localStorage.getItem("access_token");
+    const API = `${config}/api/posts/member`;
+
+    fetch(API, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${access_token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const results = data.results;
+        dispatch(TRILS_LOAD(results));
+      });
+  };
+};
+
+export const {
+  SET_PREVIEW,
+  GET_PROFILE,
+  UPDATE_PROFILE,
+  TRILS_LOAD,
+  TRILOG_LOAD,
+} = profileimgSlice.actions;
 
 export const actionCreators = {
   getProfile,
   updateProfile,
+  myPostLoad,
 };
 
 export default profileimgSlice.reducer;

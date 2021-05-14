@@ -16,9 +16,9 @@ import { actionCreators as profileActions } from "redux/modules/profile";
 const ProfileSetting = () => {
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    dispatch(profileActions.getProfile());
-  }, []);
+  // React.useEffect(() => {
+  //   dispatch(profileActions.getProfile());
+  // }, []);
 
   const nameRef = useRef();
   const newpwdRef = useRef();
@@ -94,7 +94,7 @@ const ProfileSetting = () => {
           </ImageWrap>
 
           <Text>닉네임</Text>
-          <Input placeholder="Nickname" ref={nameRef} />
+          <Input placeholder="NICKNAME" ref={nameRef} />
           {/* <Text>현재 비밀번호</Text>
           <Input placeholder="PASSWORD" type="password" /> */}
           <Text>새 비밀번호</Text>

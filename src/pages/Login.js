@@ -64,7 +64,7 @@ const Login = () => {
           onChange={(e) => {
             setEmail(e.target.value);
           }}
-          placeholder="E-mail"
+          placeholder="E-MAIL"
         ></EmailInput>
         <PwdInput
           line={line2}
