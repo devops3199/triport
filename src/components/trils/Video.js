@@ -233,6 +233,7 @@ const VideoCards = styled.div`
   display: flex;
   max-width: 25rem;
   flex-direction: column;
+  margin-bottom: 1.5rem;
   ${(props) => (props.margin ? "margin-right:2.5rem" : "")};
   margin-top: 1rem;
   transition: 0.5s ease-in-out;
