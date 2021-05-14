@@ -1,7 +1,7 @@
 import Video from "components/trils/Video";
 import React, { useEffect, useRef, useState } from "react";
 import { history } from "redux/configureStore";
-import { Plus } from "media/svg/Svg";
+import { Plus, Arrow } from "media/svg/Svg";
 import styled from "styled-components";
 import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
@@ -81,6 +81,10 @@ const Trils = (props) => {
     }
   };
 
+  const top = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const write = () => {
     if (access_token === null) {
       Swal.fire({
@@ -128,6 +132,9 @@ const Trils = (props) => {
       </FilterContainer>
       <CenterDiv>
         {modal ? <TrilsDetail history={history} /> : null}
+        <TopButton onClick={top}>
+          <Arrow />
+        </TopButton>
         <FloatingButton onClick={write}>
           <Plus />
         </FloatingButton>
@@ -158,6 +165,29 @@ const Trils = (props) => {
     </Container>
   );
 };
+
+const TopButton = styled.div`
+  position: fixed;
+  bottom: 11%;
+  right: 3%;
+  width: 3.125rem;
+  height: 3.125rem;
+  cursor: pointer;
+  z-index: 9999;
+  background-color: #2b61e1;
+  border-radius: 25px;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 60%;
+    height: 60%;
+    fill: #ffffff;
+  }
+`;
 
 const SearchWrapper = styled.div`
   width: 40.625rem;
