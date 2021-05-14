@@ -6,6 +6,7 @@ const profileimgSlice = createSlice({
   initialState: {
     user_img: "",
     memberGrade: null,
+    nickname: null,
   },
   reducers: {
     SET_PREVIEW: (state, action) => {
@@ -14,6 +15,7 @@ const profileimgSlice = createSlice({
     GET_PROFILE: (state, action) => {
       state.user_img = action.payload.user_img;
       state.memberGrade = action.payload.memberGrade;
+      state.nickname = action.payload.nickname;
     },
     UPDATE_PROFILE: (state, action) => {
       state.uploading = action.payload;
@@ -48,8 +50,9 @@ const getProfile = () => {
         console.log(data);
         dispatch(
           GET_PROFILE({
-            user_img: data.profileImgUrl,
-            memberGrade: data.memberGrade,
+            user_img: data.results.profileImgUrl,
+            memberGrade: data.results.memberGrade,
+            nickname: data.results.nickname,
           })
         );
       })
@@ -91,6 +94,7 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
         console.log(data);
         alert("수정되었습니다!");
         history.replace("/");
+        history.go(0); // 메인 페이지로 돌아간 후 새로고침
       })
       .catch((err) => {
         console.log(err);

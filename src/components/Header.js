@@ -1,28 +1,51 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Logo } from "media/svg/Svg";
+
 import grade1 from "media/svg/등급1.svg";
+import grade2 from "media/svg/등급2.svg";
+import grade3 from "media/svg/등급3.svg";
 
 import Category from "components/Category";
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as userActions } from "redux/modules/user";
 
 const Header = (props) => {
-  const { history } = props;
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const preview = useSelector((state) => state.profile.user_img);
+  const { history } = props;
 
-  const is_logout = () => {
-    dispatch(userActions.logout());
-    window.alert("로그아웃 되었습니다!");
-    history.replace("/");
+  const userprofile = useSelector((state) => state.profile);
+  console.log(userprofile);
+  const user = useSelector((state) => state.user);
+  console.log(user);
+
+  // 유저 등급에 따른 등급 아이콘 보여주기
+  const gradeImg = () => {
+    if (userprofile.memberGrade === "TRAVELER") {
+      return grade1;
+    }
+    if (userprofile.memberGrade === "TRAVEL_EDITOR") {
+      return grade2;
+    }
+    if (userprofile.memberGrade === "TRAVEL_MASTER") {
+      return grade3;
+    }
   };
+
+  // 카카오 로그아웃
+  const KAKAO_LOGOUT_URL =
+    "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://localhost:3000/auth/logout";
 
   if (user.is_login === true) {
     return (
       <React.Fragment>
-        <div style={{ position: "sticky", top: "0", zIndex: "50", backgroundColor : "#fff" }}>
+        <div
+          style={{
+            position: "sticky",
+            top: "0",
+            zIndex: "50",
+            backgroundColor: "#fff",
+          }}
+        >
           <Wrap>
             <LogoWrapper
               onClick={() => {
@@ -41,9 +64,9 @@ const Header = (props) => {
             </LeftWrap>
             <div style={{ width: "30rem" }}></div>
             <RightWrap>
-              <Image src={preview} />
-              <Grade />
-              <Nickname>{user.nickname}</Nickname>
+              <Image src={userprofile.user_img} />
+              <Grade src={gradeImg} />
+              <Nickname>{userprofile.nickname}</Nickname>
               <MyOrLogin
                 onClick={() => {
                   const pathname = history.location.pathname;
@@ -57,7 +80,9 @@ const Header = (props) => {
               >
                 마이페이지
               </MyOrLogin>
-              <LogoutOrSignUp onClick={is_logout}>로그아웃</LogoutOrSignUp>
+
+              {/* 카카오 로그아웃 URL로 이동 -> OAuth2LogoutHandler(카카오 로그아웃, 일반 로그아웃 둘 다 적용) 컴포넌트 로드 */}
+              <LogoutOrSignUp href={KAKAO_LOGOUT_URL}>로그아웃</LogoutOrSignUp>
             </RightWrap>
           </Wrap>
           <Line />
@@ -178,14 +203,22 @@ const MyOrLogin = styled.button`
   height: 1.7rem;
 `;
 
-const LogoutOrSignUp = styled.button`
+const LogoutOrSignUp = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   background-color: #ffffff;
   border: 1px solid #989898;
   border-radius: 5px;
   padding: 0.3rem;
-  width: 5rem;
-  height: 1.7rem;
+  width: 4.5rem;
+  height: 1rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+  &:visited {
+    color: #5a5a5a;
+  }
 `;
 
 const Nickname = styled.div`

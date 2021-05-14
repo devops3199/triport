@@ -43,7 +43,7 @@ const signupDB = (email, pwd, pwdcheck, nickname) => {
         nickname: nickname,
       }),
     })
-      .then(() => {
+      .then((res) => {
         console.log("회원가입 성공");
         window.alert("회원가입에 성공하였습니다!");
         history.push("/login");
@@ -106,7 +106,8 @@ const loginDB = (email, pwd) => {
             })
           );
           window.alert("로그인 성공");
-          history.push("/");
+          history.replace("/");
+          history.go(0); // 메인 페이지로 돌아간 후 새로고침
         }
       })
       .catch((error) => {
@@ -117,7 +118,7 @@ const loginDB = (email, pwd) => {
 
 // 소셜 로그인 (카카오) 인가코드 넘기기
 const kakaoLogin = (code) => {
-  return function (dispacth, getState, { history }) {
+  return function (dispatch, getState, { history }) {
     const API = `${config}/auth/kakao/callback?code=${code}`;
     console.log(API);
     fetch(API, {
@@ -127,9 +128,61 @@ const kakaoLogin = (code) => {
         Accept: "application/json",
       },
     })
-      .then((res) => res.json()) // json 형태로 변환해주고,
-      .then((data) => {
-        console.log(data);
+      .then((result) => {
+        //성공시 토큰, 유저 정보 저장
+        console.log(result);
+        let access_token = result.headers.get("Access-Token");
+        let refresh_token = result.headers.get("Refresh-Token");
+        let access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
+
+        // const Current_time = new Date().getTime();
+        // setTimeout(tokenExtension(), access_token_exp - Current_time - 60000);
+
+        // 로컬 스토리지에 토큰 저장하기
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("refresh_token", refresh_token);
+
+        return result.json(); // fetch에서는 서버가 주는 json데이터를 사용하기 위해서
+      })
+      .then((result) => {
+        console.log(result);
+
+        //성공시 state.user 저장
+        if (result.status === 401) {
+          window.alert(
+            "로그인에 실패했습니다. 아이디 혹은 비밀번호를 확인해주세요."
+          );
+        } else {
+          localStorage.setItem("userInfo", JSON.stringify(result)); // JSON.stringfy 가 body에 담아오는 값
+          dispatch(
+            setUser({
+              id: result.id,
+              nickname: result.nickname,
+            })
+          );
+          window.alert("로그인 성공");
+          history.push("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+// 소셜 로그아웃
+const kakaoLogout = () => {
+  return function (dispatch, getState, { history }) {
+    const API = `${config}/auth/logout`;
+    fetch(API, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => {
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -198,8 +251,8 @@ const loginCheckDB = () => {
     }
     dispatch(
       setUser({
-        id: userInfo.id,
-        nickname: userInfo.nickname,
+        id: userInfo.results.id,
+        nickname: userInfo.results.nickname,
       })
     );
   };
@@ -212,6 +265,7 @@ const logout = () => {
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("userInfo");
     dispatch(logOut());
+    alert("로그아웃 되었습니다.");
     history.replace("/");
   };
 };
@@ -253,6 +307,7 @@ export const actionCreators = {
   FindPwdDB,
   tokenExtension,
   kakaoLogin,
+  kakaoLogout,
 };
 
 export const { setUser, logOut, LOADING } = userSlice.actions;

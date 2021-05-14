@@ -17,6 +17,7 @@ const Login = () => {
   const [line1, setLine1] = useState("1px solid #707070");
   const [line2, setLine2] = useState("1px solid #707070");
 
+  // 카카오 로그인 Redirect_url
   const KAKAO_URL =
     "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code";
 
@@ -73,6 +74,7 @@ const Login = () => {
           }}
         ></PwdInput>
         <Button1 onClick={login}>LOGIN</Button1>
+        {/* 카카오 로그인 URL 이동 -> OAuth2RedirectHandler 컴포넌트 로드 */}
         <Button2 href={KAKAO_URL}>
           <Kakao />
           카카오톡으로 로그인
@@ -153,6 +155,7 @@ const PwdInput = styled.input`
 `;
 
 const Button1 = styled.button`
+  cursor: pointer;
   font-family: "paybooc-Bold";
   width: 24.5rem;
   height: 3rem;
