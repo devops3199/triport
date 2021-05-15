@@ -7,7 +7,6 @@ import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
 import InfinityScroll from "shared/InfinityScroll";
-import Spinner from "shared/Spinner2";
 import SearchIcon from "@material-ui/icons/Search";
 import Swal from "sweetalert2";
 import queryString from "query-string";
@@ -15,7 +14,6 @@ import queryString from "query-string";
 const Trils = (props) => {
   const { search } = props.location;
   const queryObj = queryString.parse(search);
-  const access_token = localStorage.getItem("access_token");
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.trils.data);
   const is_login = useSelector((state) => state.user.is_login);

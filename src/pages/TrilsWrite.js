@@ -9,9 +9,7 @@ const TrilsWrite = (props) => {
   const { history } = props;
   const tagInput = useRef(null);
   const fileInput = useRef();
-  const player = useRef(null);
   const [tags, setTags] = useState([]);
-  const [preview, setPreview] = useState(null);
   const dispatch = useDispatch();
   const [vid, setVid] = useState(null);
   const [tagType, setTagType] = useState("");
@@ -91,7 +89,8 @@ const TrilsWrite = (props) => {
       e.target.value = e.target.value.substr(0, 10);
     }
     const curValue = e.target.value;
-    const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"\s]/gi;
+    // const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"\s]/gi;    
+    const regExp = /[{}[\]/?.,;:|)*~`!^\-_+<>@#$%&\\=('"\s]/gi;
     const newValue = curValue.replace(regExp, "");
     setTagType(newValue);
   };

@@ -6,7 +6,6 @@ import styled, { keyframes } from "styled-components";
 import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
-import Spinner from "shared/Spinner2";
 import Swal from "sweetalert2";
 import SearchIcon from "@material-ui/icons/Search";
 import InfinityScroll from "shared/InfinityScroll";

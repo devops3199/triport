@@ -25,7 +25,6 @@ const TrilsDetail = (props) => {
   const tagInput = useRef(null);
   const [mute, setMute] = useState(true);
   const [tagType, setTagType] = useState("");
-  const is_modal = useSelector((state) => state.trils.modal);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -123,40 +122,6 @@ const TrilsDetail = (props) => {
       dispatch(MODAL_STATUS(true));
     }
   }, [dispatch, players, info.information]);
-
-  const videoplay = () => {
-    if (!player.current) {
-      return;
-    }
-    if (player.current.readyState !== 4) {
-      return;
-    }
-    if (!info.information.posPlay) {
-      return;
-    }
-    if (info.information.videoType === "mp4") {
-      players.current.play();
-    } else if (info.information.videoType === "m3u8") {
-      player.current.play();
-    }
-  };
-
-  const videopause = () => {
-    if (!player.current) {
-      return;
-    }
-    if (player.current.readyState !== 4) {
-      return;
-    }
-    if (!info.information.posPlay) {
-      return;
-    }
-    if (info.information.videoType === "mp4") {
-      players.current.pause();
-    } else if (info.information.videoType === "m3u8") {
-      player.current.pause();
-    }
-  };
 
   const m3u8volume = () => {
     if (player.current.readyState !== 4) {
@@ -296,7 +261,8 @@ const TrilsDetail = (props) => {
       e.target.value = e.target.value.substr(0, 10);
     }
     const curValue = e.target.value;
-    const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"\s]/gi;
+    const regExp = /[{}[\]/?.,;:|)*~`!^\-_+<>@#$%&\\=('"\s]/gi;
+    // const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"\s]/gi;
     const newValue = curValue.replace(regExp, "");
     setTagType(newValue);
   };
@@ -331,8 +297,8 @@ const TrilsDetail = (props) => {
 
   return (
     <React.Fragment>
-      <Component onClick={closeModal} display={is_modal} />
-      <Wrap display={is_modal}>
+      <Component onClick={closeModal} />
+      <Wrap>
         <Profile>
           <ProfileImg src={info.author.profileImgUrl} />
           <ProfileId>{info.author.nickname}</ProfileId>
@@ -386,8 +352,7 @@ const TrilsDetail = (props) => {
           </>
         ) : (
           <>
-            <View
-            >
+            <View>
               <Uploading src={uploading} />
             </View>
           </>
@@ -613,16 +578,6 @@ const VideoPlay = styled.video`
   object-fit: contain;
 `;
 
-const VideoBg = styled.div`
-  display: flex;
-  height: 25rem;
-  width: 25rem;
-  border-radius: 20px;
-  background: beige;
-  margin-top: -25rem;
-  z-index: -99;
-`;
-
 const Hash = styled.div`
   cursor: pointer;
   margin-left: 0.5rem;
@@ -643,7 +598,6 @@ const Component = styled.div`
   background-color: black;
   z-index: 60;
   opacity: 0.4;
-  ${(props) => (props.display ? `` : `display:none;`)}
 `;
 const Wrap = styled.div`
   position: fixed;
@@ -654,10 +608,8 @@ const Wrap = styled.div`
   background-color: white;
   max-width: 57rem;
   max-height: 45rem;
-  display: ${(props) => (props.display ? "flex" : "none")};
+  display: flex;
   flex-direction: column;
-  /* justify-content: center;
-  align-items: center; */
   margin: 0px auto;
   box-shadow: 0px 3px 6px #00000029;
   border: 1px solid #2b61e1;

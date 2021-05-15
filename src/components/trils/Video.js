@@ -56,7 +56,7 @@ const Video = (props) => {
         player.current.play();
       });
     }
-  }, [params.src]);
+  }, [hls, params.src]);
 
   const hlsplay = () => {
     if (player.current.readyState !== 4) {
@@ -211,17 +211,6 @@ const PostLikeCnt = styled.div`
   user-select: none;
 `;
 
-const PostUser = styled.div`
-  display: flex;
-  flex-direction: row;
-  user-select: none;
-`;
-
-const PostUserID = styled.div`
-  font-family: "AppleSDGothicNeoB";
-  display: flex;
-`;
-
 const PostUserComment = styled.div`
   font-family: "AppleSDGothicNeoR";
   display: flex;
@@ -249,16 +238,6 @@ const VideoPlay = styled.video`
   width: 25rem;
   margin: 0 auto;
   object-fit: cover;
-`;
-
-const VideoBg = styled.div`
-  display: flex;
-  height: 45rem;
-  width: 25rem;
-  border-radius: 20px;
-  background: beige;
-  margin-top: -25rem;
-  z-index: -99;
 `;
 
 const Profile = styled.div`
@@ -302,34 +281,6 @@ const LikeCov = styled.div`
     width: 1.5rem;
   }
 `;
-
-const CommentCov = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  z-index: 10;
-  margin-left: 0.5rem;
-  & svg {
-    width: 1.5rem;
-  }
-`;
-
-const LikeComment = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const BookmarkCov = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  z-index: 10;
-  margin-left: 0.5rem;
-  & svg {
-    width: 1rem;
-  }
-`;
-
 const BottomCov = styled.div`
   display: flex;
   margin-right: 0.7rem;
