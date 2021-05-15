@@ -110,8 +110,8 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
   };
 };
 
-// 내가 쓴 글 조회
-const myPostLoad = () => {
+// 내가 쓴 Trils 조회
+const myTrilsLoad = () => {
   return function (dispatch, getState, { history }) {
     let access_token = localStorage.getItem("access_token");
     const API = `${config}/api/posts/member`;
@@ -132,6 +132,29 @@ const myPostLoad = () => {
   };
 };
 
+// 내가 쓴 Trilog 조회
+const myTrilogLoad = () => {
+  return function (dispatch, getState, { history }) {
+    let access_token = localStorage.getItem("access_token");
+    const API = `${config}/api/boards/member`;
+
+    fetch(API, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${access_token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const results = data.results;
+        dispatch(TRILOG_LOAD(results));
+        console.log(results);
+      });
+  };
+};
+
 export const {
   SET_PREVIEW,
   GET_PROFILE,
@@ -143,7 +166,8 @@ export const {
 export const actionCreators = {
   getProfile,
   updateProfile,
-  myPostLoad,
+  myTrilsLoad,
+  myTrilogLoad,
 };
 
 export default profileimgSlice.reducer;

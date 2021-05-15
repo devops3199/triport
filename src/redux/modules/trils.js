@@ -199,7 +199,7 @@ const filterPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
 
 const getPostDetail = (postId) => {
   return function (dispatch, getState, { history }) {
-    dispatch(MODAL_STATUS(false))
+    dispatch(MODAL_STATUS(false));
     const access_token = localStorage.getItem("access_token");
     const api = `${config}/api/all/posts/detail/${postId}`;
     const data = {

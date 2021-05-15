@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import image from "../media/image/login_logo.png";
 
 import { SET_PREVIEW } from "../redux/modules/profile";
 import Dmypage from "media/svg/마이페이지 D.svg";
@@ -15,10 +14,6 @@ import { actionCreators as profileActions } from "redux/modules/profile";
 
 const ProfileSetting = () => {
   const dispatch = useDispatch();
-
-  // React.useEffect(() => {
-  //   dispatch(profileActions.getProfile());
-  // }, []);
 
   const nameRef = useRef();
   const newpwdRef = useRef();

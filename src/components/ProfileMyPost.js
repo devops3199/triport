@@ -3,26 +3,27 @@ import styled from "styled-components";
 
 import Dmypost from "media/svg/내가 쓴 글 D.svg";
 
-import { BoardCard } from "components/components";
-import MyPostDetail from "./MyPostDetail";
-import TrilsDetail from "../components/trils/TrilsDetail";
-
 import Video from "components/trils/Video";
+import TrilsDetail from "../components/trils/TrilsDetail";
+import { BoardCard } from "components/components";
 
 import { history } from "redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as profileActions } from "redux/modules/profile";
-import { TrilsActions } from "redux/modules/trils";
 
-const ProfileMyPost = (props) => {
+const ProfileMyPost = () => {
   const dispatch = useDispatch();
-  const mypost_list = useSelector((state) => state.profile.trils_data);
-  console.log(mypost_list);
+  const mytrils_post = useSelector((state) => state.profile.trils_data);
+  const mytrilog_post = useSelector((state) => state.profile.trilog_data);
+
+  console.log(mytrils_post);
+  console.log(mytrilog_post);
 
   const modal = useSelector((state) => state.trils.modal);
 
   React.useEffect(() => {
-    dispatch(profileActions.myPostLoad());
+    dispatch(profileActions.myTrilsLoad());
+    dispatch(profileActions.myTrilogLoad());
   }, []);
 
   return (
@@ -38,11 +39,11 @@ const ProfileMyPost = (props) => {
               <Button>더보기</Button>
             </Div>
             <Postlist>
-              {!mypost_list || mypost_list.length === 0 ? (
+              {!mytrils_post || mytrils_post.length === 0 ? (
                 <div>내 Trils가 없습니다.</div>
               ) : (
                 <>
-                  {mypost_list.map((p, idx) => {
+                  {mytrils_post.map((p, idx) => {
                     if ((idx + 1) % 3 !== 0) {
                       return <Video {...p} history={history} mr />;
                     } else {
@@ -76,7 +77,25 @@ const ProfileMyPost = (props) => {
                 marginBottom: "5rem",
               }}
             >
-              트릴로그들
+              <Postlist>
+                {mytrilog_post.map((val, idx) => {
+                  const index = idx + 1;
+
+                  if (index % 5 === 0) {
+                    return (
+                      <BoardCard
+                        data={val}
+                        key={index}
+                        margin="50px 20px 0 0"
+                      />
+                    );
+                  }
+
+                  return (
+                    <BoardCard data={val} key={index} margin="50px 20px 0 0" />
+                  );
+                })}
+              </Postlist>
             </Wrap>
           </ColumnWrap>
         </Wrap>
