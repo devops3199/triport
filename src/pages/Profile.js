@@ -11,7 +11,6 @@ const Profile = (props) => {
   const write = useSelector((state) => state.sidebar.write);
   const like = useSelector((state) => state.sidebar.like);
 
-  console.log(setting);
   return (
     <Cover setting={setting}>
       <ProfileSideBar />
@@ -46,7 +45,6 @@ const Cover = styled.div`
   justify-content: space-between;
   width: ${(props) => (props.setting ? "70rem" : "100rem")};
   margin: 0px auto;
-
 `;
 
 export default Profile;

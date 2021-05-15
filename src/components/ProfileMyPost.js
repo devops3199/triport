@@ -16,9 +16,6 @@ const ProfileMyPost = () => {
   const mytrils_post = useSelector((state) => state.profile.trils_data);
   const mytrilog_post = useSelector((state) => state.profile.trilog_data);
 
-  console.log(mytrils_post);
-  console.log(mytrilog_post);
-
   const modal = useSelector((state) => state.trils.modal);
 
   React.useEffect(() => {

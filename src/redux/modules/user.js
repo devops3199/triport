@@ -223,7 +223,6 @@ const tokenExtension = () => {
       }),
     })
       .then((result) => {
-        console.log(result);
         // 헤더에 담긴 토큰과 만료시간 가져오기
         let access_token = result.headers.get("Access-Token");
         let refresh_token = result.headers.get("Refresh-Token");
@@ -240,7 +239,7 @@ const tokenExtension = () => {
         localStorage.setItem("refresh_token", refresh_token);
 
         // 만료되기 1분 전에 재발급하기
-        if (access_token_exp === null) {
+        if (access_token === null) {
           return;
         } else {
           setTimeout(tokenExtension(), access_token_exp - Current_time - 60000);
@@ -259,16 +258,16 @@ const tokenExtension = () => {
 const loginCheckDB = () => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    console.log(userInfo);
+    const userInfo = JSON.parse(localStorage.getItem("userInfo")).results;
+    // console.log(userInfo);
     if (!access_token || !userInfo) {
       // 로컬스토리지에 토큰 또는 유저정보가 없으면
       return false;
     }
     dispatch(
       setUser({
-        id: userInfo.results.id,
-        nickname: userInfo.results.nickname,
+        id: userInfo.id,
+        nickname: userInfo.nickname,
       })
     );
   };
