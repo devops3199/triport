@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ClearIcon from "@material-ui/icons/Clear";
 import { useDispatch, useSelector } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
-import afterImg from "../media/image/afterupload.png"
+import afterImg from "../media/image/afterupload.png";
 
 const TrilsWrite = (props) => {
   const { history } = props;
@@ -20,7 +20,7 @@ const TrilsWrite = (props) => {
       alert("로그인을 해주세요");
       history.replace("/");
     }
-  }, []);
+  }, [is_login, history]);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -89,7 +89,7 @@ const TrilsWrite = (props) => {
       e.target.value = e.target.value.substr(0, 10);
     }
     const curValue = e.target.value;
-    // const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"\s]/gi;    
+    // const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"\s]/gi;
     const regExp = /[{}[\]/?.,;:|)*~`!^\-_+<>@#$%&\\=('"\s]/gi;
     const newValue = curValue.replace(regExp, "");
     setTagType(newValue);
@@ -162,7 +162,7 @@ const Uploading = styled.div`
   margin: 0 auto;
   background-image: url("${(props) => props.src}");
   background-size: contain;
-    background-repeat: no-repeat;
+  background-repeat: no-repeat;
 `;
 
 const IconCover = styled.div`
