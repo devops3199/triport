@@ -10,7 +10,6 @@ import Swal from "sweetalert2";
 
 const Video = (props) => {
   const { mr, history } = props;
-  const hls = new Hls();
   const player = useRef(null);
   const players = useRef(null);
   const [completed, setCompleted] = useState(0);
@@ -21,6 +20,7 @@ const Video = (props) => {
   };
 
   useEffect(() => {
+    const hls = new Hls();
     if (hls === undefined) {
       return;
     }
@@ -56,7 +56,7 @@ const Video = (props) => {
         player.current.play();
       });
     }
-  }, [hls, params.src]);
+  }, [params.src]);
 
   const hlsplay = () => {
     if (player.current.readyState !== 4) {

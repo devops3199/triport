@@ -13,7 +13,6 @@ import uploading from "../../media/image/uploading.png";
 
 const TrilsDetail = (props) => {
   const { history } = props;
-  const hls = new Hls();
   const player = useRef(null);
   const players = useRef(null);
   const info = useSelector((state) => state.trils.detail);
@@ -62,6 +61,7 @@ const TrilsDetail = (props) => {
   };
 
   useEffect(() => {
+    const hls = new Hls();
     if (hls === undefined) {
       return;
     }
@@ -97,7 +97,7 @@ const TrilsDetail = (props) => {
         player.current.play();
       });
     }
-  }, []);
+  }, [params.src]);
 
   useEffect(() => {
     if (info.information.videoType !== "m3u8" || !info.information.posPlay) {
@@ -324,6 +324,7 @@ const TrilsDetail = (props) => {
                           players.current.duration) *
                           100
                       );
+                      setProgress(players.current.clientWidth);
                     }}
                   />
                 </View>
@@ -344,6 +345,7 @@ const TrilsDetail = (props) => {
                         (player.current.currentTime / player.current.duration) *
                           100
                       );
+                      setProgress(player.current.clientWidth);
                     }}
                   />
                 </View>
