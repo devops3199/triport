@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import SearchIcon from "@material-ui/icons/Search";
 import InfinityScroll from "shared/InfinityScroll";
 import Tripper from "media/image/triport_airplane.png";
+import Fade from "react-reveal/Fade";
 
 const Trils = (props) => {
   const is_login = useSelector((state) => state.user.is_login);
@@ -128,7 +129,7 @@ const Trils = (props) => {
           </NewestFilter>
         </Filter>
         <MoveTripper>
-          <img src={Tripper} alt="놀자"/>
+          <img src={Tripper} alt="놀자" />
         </MoveTripper>
       </FilterContainer>
       <CenterDiv>
@@ -148,13 +149,17 @@ const Trils = (props) => {
                 if ((idx + 1) % 3 !== 0) {
                   return (
                     <>
-                      <Video {...p} history={history} mr />
+                      <Fade bottom>
+                        <Video {...p} history={history} mr />
+                      </Fade>
                     </>
                   );
                 } else {
                   return (
                     <>
-                      <Video {...p} history={history} />
+                      <Fade bottom>
+                        <Video {...p} history={history} />
+                      </Fade>
                     </>
                   );
                 }
