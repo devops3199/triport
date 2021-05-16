@@ -48,7 +48,6 @@ const Video = (props) => {
           }
         }
       });
-
       return () => hls.destroy();
     } else if (player.current.canPlayType("application/vnd.apple.mpegurl")) {
       player.current.src = params.src;

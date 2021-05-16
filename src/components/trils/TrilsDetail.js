@@ -99,29 +99,33 @@ const TrilsDetail = (props) => {
     }
   }, [params.src]);
 
-  useEffect(() => {
-    if (info.information.videoType !== "m3u8" || !info.information.posPlay) {
-      return;
-    }
-    if (!player.current) {
-      return;
-    }
-    if (player.current.readyState === 4) {
-      dispatch(MODAL_STATUS(true));
-    }
-  }, [dispatch, player, info.information]);
+  // useEffect(() => {
+  //   if (info.information.videoType !== "m3u8" || !info.information.posPlay) {
+  //     return;
+  //   }
+  //   if (!player.current) {
+  //     return;
+  //   }
+  //   if (player.current.readyState === 4) {
+  //     console.log("player")
+  //     dispatch(MODAL_STATUS(true));
+  //     player.current.play();
+  //   }
+  // }, [dispatch, player, info.information]);
 
-  useEffect(() => {
-    if (info.information.videoType !== "mp4" || !info.information.posPlay) {
-      return;
-    }
-    if (!players.current) {
-      return;
-    }
-    if (players.current.readyState === 4) {
-      dispatch(MODAL_STATUS(true));
-    }
-  }, [dispatch, players, info.information]);
+  // useEffect(() => {
+  //   if (info.information.videoType !== "mp4" || !info.information.posPlay) {
+  //     return;
+  //   }
+  //   if (!players.current) {
+  //     return;
+  //   }
+  //   if (players.current.readyState === 4) {
+  //     console.log("players")
+  //     dispatch(MODAL_STATUS(true));
+  //     players.current.play();
+  //   }
+  // }, [dispatch, players, info.information]);
 
   const m3u8volume = () => {
     if (player.current.readyState !== 4) {
@@ -318,6 +322,7 @@ const TrilsDetail = (props) => {
                     src={params.src}
                     muted={mute}
                     loop
+                    autoPlay
                     onTimeUpdate={() => {
                       setCompleted(
                         (players.current.currentTime /
@@ -340,6 +345,7 @@ const TrilsDetail = (props) => {
                     ref={player}
                     muted={mute}
                     loop
+                    autoPlay
                     onTimeUpdate={() => {
                       setCompleted(
                         (player.current.currentTime / player.current.duration) *

@@ -77,9 +77,15 @@ const writepost = (video, tags) => {
         return result.json();
       })
       .then((result) => {
-        if (result.ok) {
+        if (result.status === 200 && result.ok) {
           alert("정상적으로 작성되었습니다.");
           history.replace("/");
+        } else if (result.status === 401) {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          localStorage.removeItem("userInfo");
+          alert("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
+          history.push("/login");
         } else {
           alert(result.msg);
         }
@@ -199,7 +205,7 @@ const filterPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
 
 const getPostDetail = (postId) => {
   return function (dispatch, getState, { history }) {
-    dispatch(MODAL_STATUS(false))
+    dispatch(MODAL_STATUS(false));
     const access_token = localStorage.getItem("access_token");
     const api = `${config}/api/all/posts/detail/${postId}`;
     const data = {
@@ -234,8 +240,16 @@ const send_like = (postId, like) => {
         return result.json();
       })
       .then((result) => {
-        if (result.ok) {
+        if (result.status === 200 && result.ok) {
           dispatch(LIKE_OK(result.results));
+        } else if (result.status === 401) {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          localStorage.removeItem("userInfo");
+          alert("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
+          history.push("/login");
+        } else {
+          alert(result.msg);
         }
       })
       .catch((err) => console.log(err));
