@@ -208,6 +208,7 @@ const tokenExtension = () => {
   return function (dispatch, getState) {
     const accessToken = localStorage.getItem("access_token").split(" ")[1];
     const refreshToken = localStorage.getItem("refresh_token").split(" ")[1];
+
     console.log(accessToken, refreshToken);
 
     const API = `${config}/auth/reissue`;
@@ -216,6 +217,7 @@ const tokenExtension = () => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        Authorization: `${accessToken}`,
       },
       body: JSON.stringify({
         accessToken: accessToken,
