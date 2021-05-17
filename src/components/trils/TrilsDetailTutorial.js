@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { HeartEmpty, HeartFill } from "media/svg/Svg";
-import { MODAL_STATUS } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
 import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
@@ -11,19 +10,21 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { config } from "../../redux/modules/config";
 import uploading from "../../media/image/uploading.png";
 
-const TrilsDetail = (props) => {
-  const { history } = props;
+const TrilsDetailTutorial = (props) => {
+  const { history, close } = props;
   const player = useRef(null);
   const players = useRef(null);
-  const info = useSelector((state) => state.trils.detail);
-  const dispatch = useDispatch();
   const [completed, setCompleted] = useState(0);
   const [progress, setProgress] = useState(0);
   const [editOn, setEditOn] = useState(false);
-  const [tags, setTags] = useState(info.information.hashtag);
+  const [tags, setTags] = useState([
+    "영상을 클릭하면 소리도 들을 수 있습니다",
+    "해시태그를 클릭하면 관련된 해시태그를 검색할 수 있습니다.",
+  ]);
   const tagInput = useRef(null);
   const [mute, setMute] = useState(true);
   const [tagType, setTagType] = useState("");
+  const [like_chk, setLike] = useState(false);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -53,11 +54,11 @@ const TrilsDetail = (props) => {
   };
 
   const closeModal = () => {
-    dispatch(MODAL_STATUS(false));
+    close();
   };
 
   const params = {
-    src: info.information.videoUrl,
+    src: props.information.videoUrl,
   };
 
   useEffect(() => {
@@ -99,39 +100,11 @@ const TrilsDetail = (props) => {
     }
   }, [params.src]);
 
-  // useEffect(() => {
-  //   if (info.information.videoType !== "m3u8" || !info.information.posPlay) {
-  //     return;
-  //   }
-  //   if (!player.current) {
-  //     return;
-  //   }
-  //   if (player.current.readyState === 4) {
-  //     console.log("player")
-  //     dispatch(MODAL_STATUS(true));
-  //     player.current.play();
-  //   }
-  // }, [dispatch, player, info.information]);
-
-  // useEffect(() => {
-  //   if (info.information.videoType !== "mp4" || !info.information.posPlay) {
-  //     return;
-  //   }
-  //   if (!players.current) {
-  //     return;
-  //   }
-  //   if (players.current.readyState === 4) {
-  //     console.log("players")
-  //     dispatch(MODAL_STATUS(true));
-  //     players.current.play();
-  //   }
-  // }, [dispatch, players, info.information]);
-
   const m3u8volume = () => {
     if (player.current.readyState !== 4) {
       return;
     }
-    if (!info.information.posPlay) {
+    if (!props.information.posPlay) {
       return;
     }
     if (mute) {
@@ -145,7 +118,7 @@ const TrilsDetail = (props) => {
     if (players.current.readyState !== 4) {
       return;
     }
-    if (!info.information.posPlay) {
+    if (!props.information.posPlay) {
       return;
     }
     if (mute) {
@@ -156,70 +129,45 @@ const TrilsDetail = (props) => {
   };
 
   const like = () => {
-    const access_token = localStorage.getItem("access_token");
-    if (!access_token) {
-      Swal.fire({
-        title: "로그인을 해주세요.",
-        text: "로그인 후 좋아요를 누를 수 있습니다.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "로그인하기",
-        cancelButtonText: "닫기",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          history.push("/login");
-        }
-      });
+    if (like_chk) {
+      setLike(false);
+    } else {
+      setLike(true);
     }
-    dispatch(TrilsActions.send_like(info.information.id, info.member.isLike));
   };
 
   const del = () => {
     Swal.fire({
-      title: "게시글을 삭제하시겠습니까?",
-      text: "게시글 삭제 시 다시 복구할 수 없습니다.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "삭제",
-      cancelButtonText: "취소",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const access_token = localStorage.getItem("access_token");
-        const url = `${config}/api/posts/${info.information.id}`;
-        const data = {
-          method: "DELETE",
-          headers: {
-            Authorization: `${access_token}`,
-          },
-        };
-        fetch(url, data)
-          .then((result) => {
-            return result.json();
-          })
-          .then((result) => {
-            if (result.ok) {
-              dispatch(DELETE_POST(info.information.id));
-              Swal.fire(
-                "삭제 완료!",
-                "게시글이 삭제되었습니다.",
-                "success"
-              ).then(() => {
-                closeModal();
-              });
-            }
-          })
-          .catch((err) => console.log(err));
-      }
+      title: "사용자 가이드",
+      text: "사용자 가이드에서는 삭제 기능이 없습니다.",
+      confirmButtonText: "확인",
     });
+    // Swal.fire({
+    //   title: "게시글을 삭제하시겠습니까?",
+    //   text: "게시글 삭제 시 다시 복구할 수 없습니다.",
+    //   icon: "warning",
+    //   showCancelButton: true,
+    //   confirmButtonColor: "#3085d6",
+    //   cancelButtonColor: "#d33",
+    //   confirmButtonText: "삭제",
+    //   cancelButtonText: "취소",
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     Swal.fire("삭제 완료!", "게시글이 삭제되었습니다.", "success").then(
+    //       () => {
+    //         closeModal();
+    //       }
+    //     );
+    //   }
+    // });
   };
 
   const hash = (e) => {
-    history.push(`/search?q=${e.target.id}&filter=likeNum`, 1);
-    closeModal();
+    Swal.fire({
+      title: "사용자 가이드",
+      text: "해시태그를 클릭하면 해시태그를 검색 할 수 있습니다.",
+      confirmButtonText: "확인",
+    });
   };
 
   const edit = () => {
@@ -231,33 +179,7 @@ const TrilsDetail = (props) => {
   };
 
   const doEdit = () => {
-    const access_token = localStorage.getItem("access_token");
-    const url = `${config}/api/posts/${info.information.id}`;
-    const data = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${access_token}`,
-      },
-      body: JSON.stringify({
-        hashtag: tags,
-      }),
-    };
-    fetch(url, data)
-      .then((result) => {
-        return result.json();
-      })
-      .then((result) => {
-        if (result.ok) {
-          const data = {
-            id: info.information.id,
-            hashtag: tags,
-          };
-          dispatch(EDIT_POST(data));
-          setEditOn(false);
-        }
-      })
-      .catch((err) => console.log(err));
+    setEditOn(false);
   };
 
   const change = (e) => {
@@ -285,93 +207,51 @@ const TrilsDetail = (props) => {
     player.current.pause();
   };
 
-  const mp4play = () => {
-    if (players.current.readyState !== 4) {
-      return;
-    }
-    players.current.play();
-  };
-
-  const mp4pause = () => {
-    if (players.current.readyState !== 4) {
-      return;
-    }
-    players.current.pause();
-  };
-
   return (
     <React.Fragment>
       <Component width={window.innerWidth} height={window.innerHeight} onClick={closeModal} />
       <Wrap>
         <Profile>
-          <ProfileImg src={info.author.profileImgUrl} />
-          <ProfileId>{info.author.nickname}</ProfileId>
+          <ProfileImg src={props.author.profileImgUrl} />
+          <ProfileId>{props.author.nickname}</ProfileId>
         </Profile>
-
-        {info.information.posPlay ? (
-          <>
-            {info.information.videoType === "mp4" ? (
-              <View
-                onMouseOver={mp4play}
-                onMouseLeave={mp4pause}
-                onClick={mp4volume}
-              >
-                <VideoPlay
-                  ref={players}
-                  src={params.src}
-                  muted={mute}
-                  loop
-                  autoPlay
-                  onTimeUpdate={() => {
-                    setCompleted(
-                      (players.current.currentTime / players.current.duration) *
-                        100
-                    );
-                    setProgress(players.current.clientWidth);
-                  }}
-                />
-              </View>
-            ) : (
-              <>
-                <View
-                  onMouseOver={hlsplay}
-                  onMouseLeave={hlspause}
-                  onClick={m3u8volume}
-                >
-                  <VideoPlay
-                    ref={player}
-                    muted={mute}
-                    loop
-                    autoPlay
-                    onTimeUpdate={() => {
-                      setCompleted(
-                        (player.current.currentTime / player.current.duration) *
-                          100
-                      );
-                      setProgress(player.current.clientWidth);
-                    }}
-                  />
-                </View>
-              </>
-            )}
-          </>
-        ) : (
-          <>
-            <View>
-              <Uploading src={uploading} />
-            </View>
-          </>
-        )}
+        <View
+          onMouseOver={hlsplay}
+          onMouseLeave={hlspause}
+          onClick={m3u8volume}
+        >
+          <VideoPlay
+            ref={player}
+            muted={mute}
+            loop
+            autoPlay
+            onTimeUpdate={() => {
+              setCompleted(
+                (player.current.currentTime / player.current.duration) * 100
+              );
+              setProgress(player.current.clientWidth);
+            }}
+          />
+        </View>
+        {/* <TutorialBg>
+        <TutorialTextCover>
+          <TutirialText>커서를 올리면</TutirialText>
+          <TutirialText>영상이 재생됩니다.</TutirialText>
+        </TutorialTextCover>
+        <TutorialTextCover>
+          <TutirialText2>화면을 클릭하면</TutirialText2>
+          <TutirialText2>화면을 크게</TutirialText2>
+          <TutirialText2>볼 수 있습니다.</TutirialText2>
+        </TutorialTextCover>
+        </TutorialBg> */}
         <Progress width={progress}>
           <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
         </Progress>
         <LowWrap>
           <LikeCov onClick={like}>
-            {info.member.isLike ? <HeartFill /> : <HeartEmpty />}
+            {like_chk ? <HeartFill /> : <HeartEmpty />}
           </LikeCov>
-          <LikeText>
-            좋아요 +{info.information.likeNum}
-          </LikeText>
+          <LikeText>좋아요 +{props.information.likeNum}</LikeText>
           <Tag>
             {editOn ? (
               <>
@@ -393,7 +273,7 @@ const TrilsDetail = (props) => {
               </>
             ) : (
               <>
-                {info.information.hashtag.map((p, idx) => {
+                {tags.map((p, idx) => {
                   return (
                     <>
                       <Hash id={p} onClick={hash}>
@@ -429,7 +309,7 @@ const TrilsDetail = (props) => {
             </>
           ) : (
             <>
-              {info.member.isMembers ? (
+              {props.member.isMembers ? (
                 <>
                   <Edit onClick={edit}>수정하기</Edit>
                   <Delete onClick={del}>삭제하기</Delete>
@@ -446,12 +326,78 @@ const TrilsDetail = (props) => {
   );
 };
 
+TrilsDetailTutorial.defaultProps = {
+  information: {
+    id: 1,
+    likeNum: 0,
+    modifiedAt: "2021-05-14 00:00",
+    videoType: "m3u8",
+    videoUrl:
+      "https://d1nogx3a73keco.cloudfront.net/video/tutorials/tutorials.m3u8",
+    posPlay: true,
+    hashtag: ["트리포트", "튜토리얼"],
+  },
+  author: {
+    nickname: "Triport.kr",
+    profileImgUrl: "https://i.ibb.co/MDKhN7F/kakao-11.jpg",
+  },
+  member: { isMembers: true, isLike: false },
+};
+
 const LikeText = styled.div`
   color: #8b8888;
   width: 5rem;
   user-select: none;
   display: flex;
   align-items: center;
+`;
+
+const TutirialText2 = styled.div`
+  user-select: none;
+  opacity: 0;
+  color: white;
+  z-index: 12;
+  font-size: 3rem;
+  transition: all 0.3s ease-in-out;
+`;
+
+const TutorialTextCover = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const TutirialText = styled.div`
+  user-select: none;
+  opacity: 1;
+  color: white;
+  z-index: 12;
+  font-size: 3rem;
+  transition: all 0.3s ease-in-out;
+`;
+
+const TutorialBg = styled.div`
+  display: flex;
+  width: 50rem;
+  position: absolute;
+  height: 28.125rem;
+  margin-top: 4rem;
+  z-index: 11;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+  :hover {
+    & > :first-child > div {
+      opacity: 0;
+    }
+    & > :last-child > div {
+      opacity: 1;
+    }
+  }
 `;
 
 const Uploading = styled.div`
@@ -592,7 +538,6 @@ const VideoPlay = styled.video`
 `;
 
 const Hash = styled.div`
-  user-select: none;
   cursor: pointer;
   margin-left: 0.5rem;
   font-family: "AppleSDGothicNeoR";
@@ -668,12 +613,8 @@ const ProfileId = styled.div`
 `;
 
 const View = styled.div`
-  max-width: 50rem;
-  max-height: 30rem;
-  width: auto;
-  height: auto;
-  min-width: 40rem;
-  min-height: 20rem;
+  width: 50rem;
+  height: 28.125rem;
   background-color: #ededed;
   /* background-color: #ededed; */
   display: flex;
@@ -700,4 +641,4 @@ const Tag = styled.p`
   flex-wrap: wrap;
 `;
 
-export default TrilsDetail;
+export default TrilsDetailTutorial;

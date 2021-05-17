@@ -1,7 +1,7 @@
 import Video from "components/trils/Video";
 import React, { useEffect, useRef, useState } from "react";
 import { history } from "redux/configureStore";
-import { Plus, Arrow } from "media/svg/Svg";
+import { QuestionMark, Plus, Arrow } from "media/svg/Svg";
 import styled, { keyframes } from "styled-components";
 import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
@@ -11,6 +11,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import InfinityScroll from "shared/InfinityScroll";
 import Tripper from "media/image/triport_airplane.png";
 import Fade from "react-reveal/Fade";
+import TrilsDetailTutorial from "components/trils/TrilsDetailTutorial";
+import TrilsTutorial from "components/trils/TrilsTutorial";
 
 const Trils = (props) => {
   const is_login = useSelector((state) => state.user.is_login);
@@ -21,6 +23,8 @@ const Trils = (props) => {
   const [filter, _setFilter] = useState(true);
   const filterRef = useRef(filter);
   const keyword = useRef("");
+  const [tutorial, setTutorial] = useState(false);
+  const [TDetailModal, setTDM] = useState(false);
 
   /* 필터 기능 - 좋아요순 최신순 */
   const tabToggle = () => {
@@ -134,43 +138,103 @@ const Trils = (props) => {
       </FilterContainer>
       <CenterDiv>
         {modal ? <TrilsDetail history={history} /> : null}
-        <TopButton onClick={top}>
-          <Arrow />
-        </TopButton>
-        <FloatingButton onClick={write}>
-          <Plus />
-        </FloatingButton>
+        {TDetailModal ? (
+          <TrilsDetailTutorial
+            history={history}
+            close={() => {
+              setTDM(false);
+            }}
+          />
+        ) : null}
+        <FloatingBox>
+          <FloatingTutorial
+            tutorial={tutorial}
+            onClick={() => {
+              if (tutorial) {
+                setTutorial(false);
+              } else {
+                setTutorial(true);
+              }
+            }}
+          >
+            {tutorial ? (
+              <CloseTutorial>사용자 가이드 닫기</CloseTutorial>
+            ) : (
+              <QuestionMark />
+            )}
+          </FloatingTutorial>
+          <FloatingGoTop onClick={top}>
+            <Arrow />
+          </FloatingGoTop>
+          <FloatingWrite onClick={write}>
+            <Plus />
+          </FloatingWrite>
+        </FloatingBox>
         <PostLine>
-          {!post_list || post_list.length === 0 ? (
-            <></>
+          {tutorial ? (
+            <>
+              <Fade right>
+                <TrilsTutorial
+                  open={() => {
+                    console.log("123");
+                    setTDM(true);
+                  }}
+                />
+              </Fade>
+            </>
           ) : (
-            <InfinityScroll callNext={scroll} is_next={is_last}>
-              {post_list.map((p, idx) => {
-                if ((idx + 1) % 3 !== 0) {
-                  return (
-                    <>
-                      <Fade bottom>
-                        <Video {...p} history={history} mr />
-                      </Fade>
-                    </>
-                  );
-                } else {
-                  return (
-                    <>
-                      <Fade bottom>
-                        <Video {...p} history={history} />
-                      </Fade>
-                    </>
-                  );
-                }
-              })}
-            </InfinityScroll>
+            <>
+              {!post_list || post_list.length === 0 ? (
+                <></>
+              ) : (
+                <InfinityScroll callNext={scroll} is_next={is_last}>
+                  {post_list.map((p, idx) => {
+                    if ((idx + 1) % 3 !== 0) {
+                      return (
+                        <>
+                          <Fade bottom>
+                            <Video {...p} history={history} mr />
+                          </Fade>
+                        </>
+                      );
+                    } else {
+                      return (
+                        <>
+                          <Fade bottom>
+                            <Video {...p} history={history} />
+                          </Fade>
+                        </>
+                      );
+                    }
+                  })}
+                </InfinityScroll>
+              )}
+            </>
           )}
         </PostLine>
       </CenterDiv>
     </Container>
   );
 };
+
+const Opacity = keyframes`
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+const CloseTutorial = styled.div`
+  animation: ${Opacity} 1s;
+  font-family: "paybooc-Bold";
+  color: white;
+  right: 50%;
+`;
 
 const Move = keyframes`
   0% {
@@ -312,7 +376,7 @@ const TopButton = styled.div`
   width: 3.125rem;
   height: 3.125rem;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 50;
   background-color: #2b61e1;
   border-radius: 25px;
   transform: rotate(-90deg);
@@ -335,7 +399,7 @@ const FloatingButton = styled.div`
   width: 3.125rem;
   height: 3.125rem;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 50;
 
   & svg {
     width: 100%;
@@ -353,6 +417,70 @@ const PostLine = styled.div`
   /* @media only screen and (max-width: 1280px) {
     flex-direction: column;
   } */
+`;
+
+const FloatingBox = styled.div`
+  position: fixed;
+  bottom: 5%;
+  right: 3%;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
+const FloatingTutorial = styled.div`
+  width: ${(props) => (props.tutorial ? "10rem" : "3.125rem")};
+  height: 3.125rem;
+  cursor: pointer;
+  z-index: 50;
+  background: linear-gradient(to bottom right, #52A0FD, #00e2fa);
+  /* background-color: #2b61e1; */
+  border-radius: 25px;
+  transform-origin: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s ease-in-out;
+  & svg {
+    width: 60%;
+    height: 60%;
+    fill: #ffffff;
+    animation: ${Opacity} 1s;
+  }
+  margin-bottom: 0.5rem;
+`;
+
+const FloatingGoTop = styled.div`
+  width: 3.125rem;
+  height: 3.125rem;
+  cursor: pointer;
+  z-index: 50;
+  background-color: #2b61e1;
+  border-radius: 25px;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & svg {
+    width: 60%;
+    height: 60%;
+    fill: #ffffff;
+  }
+  margin-bottom: 0.5rem;
+`;
+
+const FloatingWrite = styled.div`
+  width: 3.125rem;
+  height: 3.125rem;
+  cursor: pointer;
+  z-index: 50;
+  & svg {
+    width: 100%;
+    height: 100%;
+    fill: #2b61e1;
+  }
 `;
 
 export default Trils;
