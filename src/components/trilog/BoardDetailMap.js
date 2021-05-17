@@ -1,15 +1,12 @@
 /*global kakao*/ 
 import React from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from 'react-redux';
 
 const BoardDetailMap = (props) => {
     const { address } = props;
-    const detail = useSelector((state) => state.trilog.detail.information.address);
 
     React.useEffect(() => {
         mapscript();
-        console.log(detail);
     }, []);
 
     const mapscript = () => {

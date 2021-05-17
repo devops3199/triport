@@ -85,7 +85,7 @@ const BoardDetail = (props) => {
               )}
             </ToastViewContainer>
             <MapConatiner>
-              {detail.information.address === '지도 마커를 클릭하시면 주소가 여기 표시됩니다.' ? (<></>) : (<BoardDetailMap address={detail.information.address} />) }
+              {detail.information.address === '지도 마커를 클릭하시면 주소가 여기 표시됩니다.' || detail.information.address === 'seoul' ? (<></>) : (<BoardDetailMap address={detail.information.address} />) }
             </MapConatiner>
             <Separator />
             <LikeCommentContainer>
