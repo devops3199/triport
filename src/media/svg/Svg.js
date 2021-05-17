@@ -355,4 +355,5 @@ export {
   Cmt,
   CommentLike,
   Arrow,
+  Play
 };

@@ -1,0 +1,38 @@
+@keyframes fadeUp {
+    0% {
+        transform : translateY(100%);
+    }
+    100% {
+        transform : translateY(0%);
+    }
+}
+
+@keyframes fadeRight {
+    0% {
+        transform : translateX(100%);
+    }
+    100% {
+        transform : translateX(0%);
+    }
+}
+
+@keyframes fadeLeft {
+    0% {
+        transform : translateX(-100%);
+    }
+    100% {
+        transform : translateX(0%);
+    }
+}
+
+.showUp {
+    animation: fadeUp 1.7s ease-out;
+}
+
+.showRight {
+    animation: fadeRight 1.7s ease-out;
+}
+
+.showLeft {
+    animation: fadeLeft 1.7s ease-out;
+}
