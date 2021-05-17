@@ -85,26 +85,12 @@ const TrilsTutorial = (props) => {
     players.current.pause();
   };
 
-  const like = (e) => {
-    e.stopPropagation();
-    const access_token = localStorage.getItem("access_token");
-    if (!access_token) {
-      Swal.fire({
-        title: "로그인을 해주세요.",
-        text: "로그인 후 좋아요를 누를 수 있습니다.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "로그인하기",
-        cancelButtonText: "닫기",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          history.push("/login");
-        }
-      });
-    }
-    dispatch(TrilsActions.send_like(props.information.id, props.member.isLike));
+  const like = () => {
+    Swal.fire({
+      title: "좋아요 기능",
+      text: "로그인 후 좋아요를 누를 수 있습니다.",
+      confirmButtonText: "확인",
+    });
   };
 
   return (
@@ -201,7 +187,7 @@ TrilsTutorial.defaultProps = {
     modifiedAt: "2021-05-14 00:00",
     videoType: "m3u8",
     videoUrl:
-      "https://d1nogx3a73keco.cloudfront.net/video/tutorial/tutorial.m3u8",
+      "https://d1nogx3a73keco.cloudfront.net/video/tutorials/tutorials.m3u8",
     posPlay: true,
     hashtag: ["트리포트", "튜토리얼"],
   },
@@ -245,7 +231,7 @@ const TutirialText = styled.div`
 `;
 
 const TutirialText2 = styled.div`
-user-select: none;
+  user-select: none;
   opacity: 0;
   color: white;
   z-index: 12;
@@ -263,6 +249,7 @@ const Uploading = styled.div`
 `;
 
 const Hash = styled.div`
+  user-select: none;
   margin-left: 0.5rem;
   font-family: "AppleSDGothicNeoR";
   color: blue;

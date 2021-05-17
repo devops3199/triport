@@ -301,7 +301,7 @@ const TrilsDetail = (props) => {
 
   return (
     <React.Fragment>
-      <Component onClick={closeModal} />
+      <Component width={window.innerWidth} height={window.innerHeight} onClick={closeModal} />
       <Wrap>
         <Profile>
           <ProfileImg src={info.author.profileImgUrl} />
@@ -311,28 +311,25 @@ const TrilsDetail = (props) => {
         {info.information.posPlay ? (
           <>
             {info.information.videoType === "mp4" ? (
-              <View>
-                <View
-                  onMouseOver={mp4play}
-                  onMouseLeave={mp4pause}
-                  onClick={mp4volume}
-                >
-                  <VideoPlay
-                    ref={players}
-                    src={params.src}
-                    muted={mute}
-                    loop
-                    autoPlay
-                    onTimeUpdate={() => {
-                      setCompleted(
-                        (players.current.currentTime /
-                          players.current.duration) *
-                          100
-                      );
-                      setProgress(players.current.clientWidth);
-                    }}
-                  />
-                </View>
+              <View
+                onMouseOver={mp4play}
+                onMouseLeave={mp4pause}
+                onClick={mp4volume}
+              >
+                <VideoPlay
+                  ref={players}
+                  src={params.src}
+                  muted={mute}
+                  loop
+                  autoPlay
+                  onTimeUpdate={() => {
+                    setCompleted(
+                      (players.current.currentTime / players.current.duration) *
+                        100
+                    );
+                    setProgress(players.current.clientWidth);
+                  }}
+                />
               </View>
             ) : (
               <>
@@ -372,9 +369,9 @@ const TrilsDetail = (props) => {
           <LikeCov onClick={like}>
             {info.member.isLike ? <HeartFill /> : <HeartEmpty />}
           </LikeCov>
-          <p style={{ color: "#8B8888", width: "5rem", userSelect: "none" }}>
+          <LikeText>
             좋아요 +{info.information.likeNum}
-          </p>
+          </LikeText>
           <Tag>
             {editOn ? (
               <>
@@ -448,6 +445,14 @@ const TrilsDetail = (props) => {
     </React.Fragment>
   );
 };
+
+const LikeText = styled.div`
+  color: #8b8888;
+  width: 5rem;
+  user-select: none;
+  display: flex;
+  align-items: center;
+`;
 
 const Uploading = styled.div`
   display: flex;
@@ -587,6 +592,7 @@ const VideoPlay = styled.video`
 `;
 
 const Hash = styled.div`
+  user-select: none;
   cursor: pointer;
   margin-left: 0.5rem;
   font-family: "AppleSDGothicNeoR";
@@ -601,8 +607,8 @@ const Component = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  height: 100vh;
-  width: 100vw;
+  height: ${(props)=>props.height}px;
+  width: ${(props)=>props.width}px;
   background-color: black;
   z-index: 60;
   opacity: 0.4;
@@ -691,6 +697,7 @@ const Tag = styled.p`
   margin-left: 1rem;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 export default TrilsDetail;

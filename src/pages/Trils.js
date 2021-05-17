@@ -233,7 +233,6 @@ const CloseTutorial = styled.div`
   animation: ${Opacity} 1s;
   font-family: "paybooc-Bold";
   color: white;
-  transition: 0.5s ease-in-out;
   right: 50%;
 `;
 

@@ -14,11 +14,13 @@ const TrilsDetailTutorial = (props) => {
   const { history, close } = props;
   const player = useRef(null);
   const players = useRef(null);
-  const dispatch = useDispatch();
   const [completed, setCompleted] = useState(0);
   const [progress, setProgress] = useState(0);
   const [editOn, setEditOn] = useState(false);
-  const [tags, setTags] = useState(["트리포트", "튜토리얼"]);
+  const [tags, setTags] = useState([
+    "영상을 클릭하면 소리도 들을 수 있습니다",
+    "해시태그를 클릭하면 관련된 해시태그를 검색할 수 있습니다.",
+  ]);
   const tagInput = useRef(null);
   const [mute, setMute] = useState(true);
   const [tagType, setTagType] = useState("");
@@ -161,8 +163,11 @@ const TrilsDetailTutorial = (props) => {
   };
 
   const hash = (e) => {
-    history.push(`/search?q=${e.target.id}&filter=likeNum`, 1);
-    closeModal();
+    Swal.fire({
+      title: "사용자 가이드",
+      text: "해시태그를 클릭하면 해시태그를 검색 할 수 있습니다.",
+      confirmButtonText: "확인",
+    });
   };
 
   const edit = () => {
@@ -202,86 +207,43 @@ const TrilsDetailTutorial = (props) => {
     player.current.pause();
   };
 
-  const mp4play = () => {
-    if (players.current.readyState !== 4) {
-      return;
-    }
-    players.current.play();
-  };
-
-  const mp4pause = () => {
-    if (players.current.readyState !== 4) {
-      return;
-    }
-    players.current.pause();
-  };
-
   return (
     <React.Fragment>
-      <Component onClick={closeModal} />
+      <Component width={window.innerWidth} height={window.innerHeight} onClick={closeModal} />
       <Wrap>
         <Profile>
           <ProfileImg src={props.author.profileImgUrl} />
           <ProfileId>{props.author.nickname}</ProfileId>
         </Profile>
-
-        {props.information.posPlay ? (
-          <>
-            {props.information.videoType === "mp4" ? (
-              <View>
-                <View
-                  onMouseOver={mp4play}
-                  onMouseLeave={mp4pause}
-                  onClick={mp4volume}
-                >
-                  <VideoPlay
-                    ref={players}
-                    src={params.src}
-                    muted={mute}
-                    loop
-                    autoPlay
-                    onTimeUpdate={() => {
-                      setCompleted(
-                        (players.current.currentTime /
-                          players.current.duration) *
-                          100
-                      );
-                      setProgress(players.current.clientWidth);
-                    }}
-                  />
-                </View>
-              </View>
-            ) : (
-              <>
-                <View
-                  onMouseOver={hlsplay}
-                  onMouseLeave={hlspause}
-                  onClick={m3u8volume}
-                >
-                  <VideoPlay
-                    ref={player}
-                    muted={mute}
-                    loop
-                    autoPlay
-                    onTimeUpdate={() => {
-                      setCompleted(
-                        (player.current.currentTime / player.current.duration) *
-                          100
-                      );
-                      setProgress(player.current.clientWidth);
-                    }}
-                  />
-                </View>
-              </>
-            )}
-          </>
-        ) : (
-          <>
-            <View>
-              <Uploading src={uploading} />
-            </View>
-          </>
-        )}
+        <View
+          onMouseOver={hlsplay}
+          onMouseLeave={hlspause}
+          onClick={m3u8volume}
+        >
+          <VideoPlay
+            ref={player}
+            muted={mute}
+            loop
+            autoPlay
+            onTimeUpdate={() => {
+              setCompleted(
+                (player.current.currentTime / player.current.duration) * 100
+              );
+              setProgress(player.current.clientWidth);
+            }}
+          />
+        </View>
+        {/* <TutorialBg>
+        <TutorialTextCover>
+          <TutirialText>커서를 올리면</TutirialText>
+          <TutirialText>영상이 재생됩니다.</TutirialText>
+        </TutorialTextCover>
+        <TutorialTextCover>
+          <TutirialText2>화면을 클릭하면</TutirialText2>
+          <TutirialText2>화면을 크게</TutirialText2>
+          <TutirialText2>볼 수 있습니다.</TutirialText2>
+        </TutorialTextCover>
+        </TutorialBg> */}
         <Progress width={progress}>
           <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
         </Progress>
@@ -289,9 +251,7 @@ const TrilsDetailTutorial = (props) => {
           <LikeCov onClick={like}>
             {like_chk ? <HeartFill /> : <HeartEmpty />}
           </LikeCov>
-          <p style={{ color: "#8B8888", width: "5rem", userSelect: "none" }}>
-            좋아요 +{props.information.likeNum}
-          </p>
+          <LikeText>좋아요 +{props.information.likeNum}</LikeText>
           <Tag>
             {editOn ? (
               <>
@@ -373,7 +333,7 @@ TrilsDetailTutorial.defaultProps = {
     modifiedAt: "2021-05-14 00:00",
     videoType: "m3u8",
     videoUrl:
-      "https://d1nogx3a73keco.cloudfront.net/video/tutorial/tutorial.m3u8",
+      "https://d1nogx3a73keco.cloudfront.net/video/tutorials/tutorials.m3u8",
     posPlay: true,
     hashtag: ["트리포트", "튜토리얼"],
   },
@@ -383,6 +343,62 @@ TrilsDetailTutorial.defaultProps = {
   },
   member: { isMembers: true, isLike: false },
 };
+
+const LikeText = styled.div`
+  color: #8b8888;
+  width: 5rem;
+  user-select: none;
+  display: flex;
+  align-items: center;
+`;
+
+const TutirialText2 = styled.div`
+  user-select: none;
+  opacity: 0;
+  color: white;
+  z-index: 12;
+  font-size: 3rem;
+  transition: all 0.3s ease-in-out;
+`;
+
+const TutorialTextCover = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const TutirialText = styled.div`
+  user-select: none;
+  opacity: 1;
+  color: white;
+  z-index: 12;
+  font-size: 3rem;
+  transition: all 0.3s ease-in-out;
+`;
+
+const TutorialBg = styled.div`
+  display: flex;
+  width: 50rem;
+  position: absolute;
+  height: 28.125rem;
+  margin-top: 4rem;
+  z-index: 11;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+  :hover {
+    & > :first-child > div {
+      opacity: 0;
+    }
+    & > :last-child > div {
+      opacity: 1;
+    }
+  }
+`;
 
 const Uploading = styled.div`
   display: flex;
@@ -536,8 +552,8 @@ const Component = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  height: 100vh;
-  width: 100vw;
+  height: ${(props)=>props.height}px;
+  width: ${(props)=>props.width}px;
   background-color: black;
   z-index: 60;
   opacity: 0.4;
@@ -597,12 +613,8 @@ const ProfileId = styled.div`
 `;
 
 const View = styled.div`
-  max-width: 50rem;
-  max-height: 30rem;
-  width: auto;
-  height: auto;
-  min-width: 40rem;
-  min-height: 20rem;
+  width: 50rem;
+  height: 28.125rem;
   background-color: #ededed;
   /* background-color: #ededed; */
   display: flex;
@@ -626,6 +638,7 @@ const Tag = styled.p`
   margin-left: 1rem;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 export default TrilsDetailTutorial;
