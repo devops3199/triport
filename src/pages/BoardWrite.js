@@ -3,219 +3,227 @@ import styled, { keyframes } from "styled-components";
 import { Editor } from "@toast-ui/react-editor";
 import "codemirror/lib/codemirror.css"; // Editor's Dependency Style
 import "@toast-ui/editor/dist/toastui-editor.css"; // Editor's Style
-import 'tui-color-picker/dist/tui-color-picker.css';
-import codeSyntax from '@toast-ui/editor-plugin-color-syntax';
-import 'highlight.js/styles/github.css';
-import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import "tui-color-picker/dist/tui-color-picker.css";
+import codeSyntax from "@toast-ui/editor-plugin-color-syntax";
+import "highlight.js/styles/github.css";
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { history } from "redux/configureStore";
-import { actionCreators as TrilogActions } from 'redux/modules/trilog';
-import { useDispatch, useSelector } from 'react-redux';
+import { actionCreators as TrilogActions } from "redux/modules/trilog";
+import { useDispatch, useSelector } from "react-redux";
 import { config } from "redux/modules/config";
 import _ from "lodash";
 import { BoardWriteMap } from "components/components";
-import LoopIcon from '@material-ui/icons/Loop';
-import { FLOWBASEANNOTATION_TYPES } from "../../../../../../../AppData/Local/Microsoft/TypeScript/4.2/node_modules/@babel/types/lib/index";
+import LoopIcon from "@material-ui/icons/Loop";
 
 const BoardWrite = (props) => {
-    const dispatch = useDispatch();
-    const is_loading = useSelector((state) => state.trilog.loading.detail_loading); // 모든 contents가 로드가 됬나 여부
-    const detail = useSelector((state) => state.trilog.detail); // 상세 게시글 정보 from Redux
-    const id = props.match.params.id; // 상세 게시글 ID
-    const is_edit = id ? true : false; // 수정페이지인지 작성페이지인지
+  const dispatch = useDispatch();
+  const is_loading = useSelector(
+    (state) => state.trilog.loading.detail_loading
+  ); // 모든 contents가 로드가 됬나 여부
+  const detail = useSelector((state) => state.trilog.detail); // 상세 게시글 정보 from Redux
+  const id = props.match.params.id; // 상세 게시글 ID
+  const is_edit = id ? true : false; // 수정페이지인지 작성페이지인지
 
-    const data = React.useRef();
+  const data = React.useRef();
 
-    const [title, setTitle] = React.useState(''); // 제목
-    const [address, setAddress] = React.useState('지도 마커를 클릭하시면 주소가 여기 표시됩니다.'); // 주소
-    const [keyword, setKeyword] = React.useState('관악구청'); // 지도 검색 키워드
-    const [imageUrls, setImageUrls] = React.useState([]); // 사용자가 작성 및 수정시 사용했던 모든 이미지들, 이후 서버에서 사용안한 이미지들 삭제 
-    const [imgLoading, setImgLoading] = React.useState(false); // 이미지 로딩 시
+  const [title, setTitle] = React.useState(""); // 제목
+  const [address, setAddress] = React.useState(
+    "지도 마커를 클릭하시면 주소가 여기 표시됩니다."
+  ); // 주소
+  const [keyword, setKeyword] = React.useState("관악구청"); // 지도 검색 키워드
+  const [imageUrls, setImageUrls] = React.useState([]); // 사용자가 작성 및 수정시 사용했던 모든 이미지들, 이후 서버에서 사용안한 이미지들 삭제
+  const [imgLoading, setImgLoading] = React.useState(false); // 이미지 로딩 시
 
-    const handleMap = _.debounce((val) => {
-        setKeyword(val);
-    }, 500);
+  const handleMap = _.debounce((val) => {
+    setKeyword(val);
+  }, 500);
 
-    // 게시글 작성 및 수정
-    const sendData = async () => {
-        if(title === "") {
-            alert('제목을 입력하세요.');
-            return;
-        }
-        
-        const content = data.current.getInstance().getMarkdown();
+  // 게시글 작성 및 수정
+  const sendData = async () => {
+    if (title === "") {
+      alert("제목을 입력하세요.");
+      return;
+    }
 
-        if(content === "") {
-            alert('내용을 입력하세요.');
-            return;
-        }
+    const content = data.current.getInstance().getMarkdown();
 
-        const filter_imageUrls = imageUrls.filter((val) => content.includes(val.imageFilePath)); // 사용안한 이미지 링크들 제거
+    if (content === "") {
+      alert("내용을 입력하세요.");
+      return;
+    }
 
-        const post = {
-            title : title,
-            address : address,
-            description : content,
-            imageUrlList : filter_imageUrls,
-            is_edit : is_edit,
-            id : id
-        };
+    const filter_imageUrls = imageUrls.filter((val) =>
+      content.includes(val.imageFilePath)
+    ); // 사용안한 이미지 링크들 제거
 
-        dispatch(TrilogActions.addTrilog(post));
-        setImageUrls([]);
+    const post = {
+      title: title,
+      address: address,
+      description: content,
+      imageUrlList: filter_imageUrls,
+      is_edit: is_edit,
+      id: id,
     };
 
-    // Toast UI Editor에서 사용자가 이미지 추가할때
-    const uploadImage = async (blob) => {
-      const file_size = ((blob.size / 1024) / 1024);
+    dispatch(TrilogActions.addTrilog(post));
+    setImageUrls([]);
+  };
 
-      if(file_size > 10) {
-        // 이미지가 10MB보다 크다면
-        alert('각 이미지 용량은 최대 10MB 입니다.')
-        return 'failed';
-      }
+  // Toast UI Editor에서 사용자가 이미지 추가할때
+  const uploadImage = async (blob) => {
+    const file_size = blob.size / 1024 / 1024;
 
-      let api = '';
+    if (file_size > 10) {
+      // 이미지가 10MB보다 크다면
+      alert("각 이미지 용량은 최대 10MB 입니다.");
+      return "failed";
+    }
 
-      if(is_edit) {
-          api = `${config}/api/boards/image/${id}`;
+    let api = "";
+
+    if (is_edit) {
+      api = `${config}/api/boards/image/${id}`;
+    } else {
+      api = `${config}/api/boards/image`;
+    }
+
+    const access_token = localStorage.getItem("access_token");
+
+    const formData = new FormData();
+    formData.append("imageFile", blob);
+
+    setImgLoading(true);
+    const url = await fetch(api, {
+      method: "POST",
+      headers: {
+        Authorization: `${access_token}`,
+      },
+      body: formData,
+    })
+      .then((res) => res.json())
+      .catch((error) => console.log(error, "uploadImage"));
+    setImgLoading(false);
+
+    if (url.status === undefined) {
+      setImageUrls((prevState) => [
+        ...prevState,
+        { imageFilePath: url.results.imageFilePath },
+      ]);
+      return url.results.imageFilePath;
+    } else {
+      if (url.status === 401) {
+        alert("로그인을 다시 해주세요!");
       } else {
-          api = `${config}/api/boards/image`;
+        alert("서버에 문제가 있습니다.");
       }
+      return "failed";
+    }
+  };
 
-      const access_token = localStorage.getItem("access_token");
-
-      const formData = new FormData();
-      formData.append('imageFile', blob);
-
-      setImgLoading(true);
-      const url = await fetch(api, {
-          method : 'POST',
-          headers : {
-              'Authorization': `${access_token}`,
-          },
-          body : formData
-      })
-      .then(res => res.json())
-      .catch((error) => console.log(error, 'uploadImage'));
-      setImgLoading(false);
-
-      if(url.status === undefined) {
-        setImageUrls(prevState => ([...prevState, { 'imageFilePath' : url.results.imageFilePath }]));
-        return url.results.imageFilePath;
-      } else {
-        if(url.status === 401) {
-          alert('로그인을 다시 해주세요!');
-        } else {
-          alert('서버에 문제가 있습니다.');
-        }
-        return 'failed';
+  React.useEffect(() => {
+    if (is_edit) {
+      dispatch(TrilogActions.getTrilogDetail(id));
+      if (detail.information !== undefined) {
+        setAddress(detail.information.address);
+        setTitle(detail.information.title);
       }
-    };
+    }
+  }, []);
 
-    React.useEffect(() => {
-        if(is_edit) {
-            dispatch(TrilogActions.getTrilogDetail(id));
-            if(detail.information !== undefined) {
-                setAddress(detail.information.address);
-                setTitle(detail.information.title);
-            }
-        }
-    }, []);
-
-    return (
-      <WriteContainer>
-        {is_loading && is_edit ? (
-          <></>
-        ) : (
-          <>
-            {imgLoading ? (
-              <ImgLoading>
-                <LoopIcon />
-                <div>⚡조금만 기다려 주세요⚡</div>
-              </ImgLoading>
+  return (
+    <WriteContainer>
+      {is_loading && is_edit ? (
+        <></>
+      ) : (
+        <>
+          {imgLoading ? (
+            <ImgLoading>
+              <LoopIcon />
+              <div>⚡조금만 기다려 주세요⚡</div>
+            </ImgLoading>
+          ) : (
+            <></>
+          )}
+          <Title margin="0 0 1.25rem 0">
+            {is_edit ? (
+              <h2 style={{ textAlign: "center" }}>Trilog 수정</h2>
             ) : (
-              <></>
+              <h2 style={{ textAlign: "center" }}>Trilog 작성</h2>
             )}
-            <Title margin="0 0 1.25rem 0">
-              {is_edit ? (
-                <h2 style={{ textAlign: "center" }}>Trilog 수정</h2>
-              ) : (
-                <h2 style={{ textAlign: "center" }}>Trilog 작성</h2>
-              )}
-            </Title>
-            <Title margin="0 0 1.25rem 0">
-              <span>제목</span>
-            </Title>
-            <InputContainer>
-              <TitleInput
-                id="title"
-                type="text"
-                placeholder="제목을 입력해주세요"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </InputContainer>
-            <Title margin="1.25rem 0 1.25rem 0">
-              <span>위치</span>
-            </Title>
-            <InputContainer margin="0 0 1.5rem 0">
-              <span>여행주소 : </span>
-              <Address>{address}</Address>
-            </InputContainer>
-            <MapContainer>
-              <MapInput
-                type="text"
-                placeholder="예) 장소/가게 이름 - 남산, 서울역 or 주소 - 서울시 관악구 관악로 145"
-                onChange={(e) => {
-                  handleMap(e.target.value);
-                }}
-              />
-              <BoardWriteMap
-                keyword={keyword}
-                setAddress={setAddress}
-                drag={true}
-              />
-            </MapContainer>
-            <Title margin="1.25rem 0 1.25rem 0">
-              <span>내용</span>
-            </Title>
-            <InputContainer>
-              <Editor
-                previewStyle="vertical"
-                height="600px"
-                initialEditType="wysiwyg"
-                initialValue={is_edit ? detail.information.description : ""}
-                plugins={[codeSyntax, codeSyntaxHighlight]}
-                hooks={{
-                  addImageBlobHook: async (blob, callback) => {
-                    const upload = await uploadImage(blob);
-                    if (upload !== "failed") {
-                      callback(upload, "alt text");
-                    }
-                    return false;
-                  },
-                }}
-                ref={data}
-              />
-            </InputContainer>
-            <ButtonContainer>
-              <ButtonComplete
-                type="button"
-                value={is_edit ? "수정완료" : "작성완료"}
-                onClick={sendData}
-              />
-              <ButtonCancel
-                type="button"
-                value="취소"
-                onClick={() => {
-                  history.goBack();
-                }}
-              />
-            </ButtonContainer>
-          </>
-        )}
-      </WriteContainer>
-    );
+          </Title>
+          <Title margin="0 0 1.25rem 0">
+            <span>제목</span>
+          </Title>
+          <InputContainer>
+            <TitleInput
+              id="title"
+              type="text"
+              placeholder="제목을 입력해주세요"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </InputContainer>
+          <Title margin="1.25rem 0 1.25rem 0">
+            <span>위치</span>
+          </Title>
+          <InputContainer margin="0 0 1.5rem 0">
+            <span>여행주소 : </span>
+            <Address>{address}</Address>
+          </InputContainer>
+          <MapContainer>
+            <MapInput
+              type="text"
+              placeholder="예) 장소/가게 이름 - 남산, 서울역 or 주소 - 서울시 관악구 관악로 145"
+              onChange={(e) => {
+                handleMap(e.target.value);
+              }}
+            />
+            <BoardWriteMap
+              keyword={keyword}
+              setAddress={setAddress}
+              drag={true}
+            />
+          </MapContainer>
+          <Title margin="1.25rem 0 1.25rem 0">
+            <span>내용</span>
+          </Title>
+          <InputContainer>
+            <Editor
+              previewStyle="vertical"
+              height="600px"
+              initialEditType="wysiwyg"
+              initialValue={is_edit ? detail.information.description : ""}
+              plugins={[codeSyntax, codeSyntaxHighlight]}
+              hooks={{
+                addImageBlobHook: async (blob, callback) => {
+                  const upload = await uploadImage(blob);
+                  if (upload !== "failed") {
+                    callback(upload, "alt text");
+                  }
+                  return false;
+                },
+              }}
+              ref={data}
+            />
+          </InputContainer>
+          <ButtonContainer>
+            <ButtonComplete
+              type="button"
+              value={is_edit ? "수정완료" : "작성완료"}
+              onClick={sendData}
+            />
+            <ButtonCancel
+              type="button"
+              value="취소"
+              onClick={() => {
+                history.goBack();
+              }}
+            />
+          </ButtonContainer>
+        </>
+      )}
+    </WriteContainer>
+  );
 };
 
 const WriteContainer = styled.div`
@@ -243,7 +251,7 @@ const ImgLoading = styled.div`
 
   & svg {
     font-size: 7rem;
-    fill : rgb(43, 97, 225, .8);
+    fill: rgb(43, 97, 225, 0.8);
     animation: ${spin} 2s linear infinite;
   }
 `;

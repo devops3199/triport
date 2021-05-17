@@ -260,7 +260,7 @@ const tokenExtension = () => {
 const loginCheckDB = () => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
-    const userInfo = JSON.parse(localStorage.getItem("userInfo")).results;
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     // console.log(userInfo);
     if (!access_token || !userInfo) {
       // 로컬스토리지에 토큰 또는 유저정보가 없으면
@@ -268,8 +268,8 @@ const loginCheckDB = () => {
     }
     dispatch(
       setUser({
-        id: userInfo.id,
-        nickname: userInfo.nickname,
+        id: userInfo.results.id,
+        nickname: userInfo.results.nickname,
       })
     );
   };
