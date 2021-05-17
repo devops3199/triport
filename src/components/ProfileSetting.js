@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import image from "../media/image/login_logo.png";
 
 import { SET_PREVIEW } from "../redux/modules/profile";
 import Dmypage from "media/svg/마이페이지 D.svg";
@@ -16,10 +15,6 @@ import { actionCreators as profileActions } from "redux/modules/profile";
 const ProfileSetting = () => {
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    dispatch(profileActions.getProfile());
-  }, []);
-
   const nameRef = useRef();
   const newpwdRef = useRef();
   const newpwdcheckRef = useRef();
@@ -30,8 +25,11 @@ const ProfileSetting = () => {
     const newpwd = newpwdRef.current.value;
     const newpwdcheck = newpwdcheckRef.current.value;
     const img = fileInput.current.value;
-    console.log(nickname, newpwd, newpwdcheck, img);
 
+    if (!nickname || !newpwd || !newpwdcheck) {
+      alert("모든 내용을 입력해주세요!");
+      return;
+    }
     dispatch(profileActions.updateProfile(nickname, newpwd, newpwdcheck, img));
   };
 
@@ -91,7 +89,7 @@ const ProfileSetting = () => {
           </ImageWrap>
 
           <Text>닉네임</Text>
-          <Input placeholder="Nickname" ref={nameRef} />
+          <Input placeholder="NICKNAME" ref={nameRef} />
           {/* <Text>현재 비밀번호</Text>
           <Input placeholder="PASSWORD" type="password" /> */}
           <Text>새 비밀번호</Text>

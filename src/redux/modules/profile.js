@@ -7,6 +7,8 @@ const profileimgSlice = createSlice({
     user_img: "",
     memberGrade: null,
     nickname: null,
+    trils_data: [],
+    trilog_data: [],
   },
   reducers: {
     SET_PREVIEW: (state, action) => {
@@ -20,6 +22,12 @@ const profileimgSlice = createSlice({
     UPDATE_PROFILE: (state, action) => {
       state.uploading = action.payload;
     },
+    TRILS_LOAD: (state, action) => {
+      state.trils_data = action.payload;
+    },
+    TRILOG_LOAD: (state, action) => {
+      state.trilog_data = action.payload;
+    },
   },
 });
 
@@ -28,7 +36,6 @@ const getProfile = () => {
   return function (dispatch, getState, { history }) {
     const API = `${config}/member/profile`;
     let access_token = localStorage.getItem("access_token");
-    console.log(access_token);
 
     if (!access_token) {
       console.log("토큰 없음");
@@ -47,7 +54,6 @@ const getProfile = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         dispatch(
           GET_PROFILE({
             user_img: data.results.profileImgUrl,
@@ -91,7 +97,6 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         alert("수정되었습니다!");
         history.replace("/");
         history.go(0); // 메인 페이지로 돌아간 후 새로고침
@@ -102,12 +107,63 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
   };
 };
 
-export const { SET_PREVIEW, GET_PROFILE, UPDATE_PROFILE } =
-  profileimgSlice.actions;
+// 내가 쓴 Trils 조회
+const myTrilsLoad = () => {
+  return function (dispatch, getState, { history }) {
+    let access_token = localStorage.getItem("access_token");
+    const API = `${config}/api/posts/member`;
+
+    fetch(API, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${access_token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const results = data.results;
+        dispatch(TRILS_LOAD(results));
+      });
+  };
+};
+
+// 내가 쓴 Trilog 조회
+const myTrilogLoad = () => {
+  return function (dispatch, getState, { history }) {
+    let access_token = localStorage.getItem("access_token");
+    const API = `${config}/api/boards/member`;
+
+    fetch(API, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${access_token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const results = data.results;
+        dispatch(TRILOG_LOAD(results));
+      });
+  };
+};
+
+export const {
+  SET_PREVIEW,
+  GET_PROFILE,
+  UPDATE_PROFILE,
+  TRILS_LOAD,
+  TRILOG_LOAD,
+} = profileimgSlice.actions;
 
 export const actionCreators = {
   getProfile,
   updateProfile,
+  myTrilsLoad,
+  myTrilogLoad,
 };
 
 export default profileimgSlice.reducer;

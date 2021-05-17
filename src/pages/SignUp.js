@@ -22,6 +22,11 @@ const SignUp = () => {
   const [line2, setLine2] = useState("1px solid #707070");
   const [line3, setLine3] = useState("1px solid #707070");
 
+  // 카카오 로그인 Redirect_url
+  const KAKAO_URL =
+    // "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=http://triport.kr/auth/kakao/callback&response_type=code";
+    "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code";
+
   useEffect(() => {
     if (!email) {
       setLine1("1px solid #707070");
@@ -100,7 +105,7 @@ const SignUp = () => {
 
           <EmailInput
             line={line1}
-            placeholder="E-mail"
+            placeholder="E-MAIL"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -109,7 +114,7 @@ const SignUp = () => {
           <Input
             // minLength="3"
             // maxLength="5"
-            placeholder="Nickname"
+            placeholder="NICKNAME"
             onChange={(e) => {
               setNickname(e.target.value);
             }}
@@ -134,7 +139,7 @@ const SignUp = () => {
 
           <Text>가입 후 변경할 수 있어요!</Text>
           <Button1 onClick={signup}>SIGN UP</Button1>
-          <Button2>
+          <Button2 href={KAKAO_URL}>
             <Kakao />
             카카오톡으로 가입하기
           </Button2>
@@ -283,7 +288,7 @@ const Button1 = styled.button`
   cursor: pointer;
 `;
 
-const Button2 = styled.button`
+const Button2 = styled.a`
   font-family: "paybooc-Bold";
   width: 24.5rem;
   height: 3rem;
@@ -298,6 +303,7 @@ const Button2 = styled.button`
   background-color: #ffe600;
   font-size: 1rem;
   color: #2b1718;
+  text-decoration: none;
 `;
 
 const Kakao = styled.div`

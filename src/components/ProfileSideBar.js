@@ -20,7 +20,7 @@ const ProfileSideBar = () => {
   const write = useSelector((state) => state.sidebar.write);
   const like = useSelector((state) => state.sidebar.like);
   const dispatch = useDispatch();
-  console.log(setting, write, like);
+  // console.log(setting, write, like);
 
   const clicksetting = () => {
     dispatch(CLICK_SETTING());

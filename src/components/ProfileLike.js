@@ -22,11 +22,7 @@ const ProfileLike = () => {
                 width: "78rem",
                 marginLeft: "-4rem",
               }}
-            >
-              <SnsPost />
-              <SnsPost />
-              <SnsPost />
-            </Wrap>
+            ></Wrap>
             <div
               style={{
                 width: "79rem",
@@ -50,13 +46,7 @@ const ProfileLike = () => {
                 width: "78rem",
                 marginBottom: "5rem",
               }}
-            >
-              <BoardCard margin="0 40px 0 0" />
-              <BoardCard margin="0 40px 0 0" />
-              <BoardCard margin="0 40px 0 0" />
-              <BoardCard margin="0 40px 0 0" />
-              <BoardCard margin="0 40px 0 0" />
-            </Wrap>
+            ></Wrap>
             <div
               style={{
                 width: "79rem",
