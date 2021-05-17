@@ -11,6 +11,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import InfinityScroll from "shared/InfinityScroll";
 import Tripper from "media/image/triport_airplane.png";
 import Fade from "react-reveal/Fade";
+import TrilsDetailTutorial from "components/trils/TrilsDetailTutorial";
+import TrilsTutorial from "components/trils/TrilsTutorial";
 
 const Trils = (props) => {
   const is_login = useSelector((state) => state.user.is_login);
@@ -21,6 +23,8 @@ const Trils = (props) => {
   const [filter, _setFilter] = useState(true);
   const filterRef = useRef(filter);
   const keyword = useRef("");
+  const [tutorial, setTutorial] = useState(false);
+  const [TDetailModal, setTDM] = useState(false);
 
   /* 필터 기능 - 좋아요순 최신순 */
   const tabToggle = () => {
@@ -134,49 +138,104 @@ const Trils = (props) => {
       </FilterContainer>
       <CenterDiv>
         {modal ? <TrilsDetail history={history} /> : null}
+        {TDetailModal ? (
+          <TrilsDetailTutorial
+            history={history}
+            close={() => {
+              setTDM(false);
+            }}
+          />
+        ) : null}
         <FloatingBox>
-          {/* <FloatingTutorial>
-            <QuestionMark/>
-          </FloatingTutorial> */}
-          <FloatingGoTop>
+          <FloatingTutorial
+            tutorial={tutorial}
+            onClick={() => {
+              if (tutorial) {
+                setTutorial(false);
+              } else {
+                setTutorial(true);
+              }
+            }}
+          >
+            {tutorial ? (
+              <CloseTutorial>사용자 가이드 닫기</CloseTutorial>
+            ) : (
+              <QuestionMark />
+            )}
+          </FloatingTutorial>
+          <FloatingGoTop onClick={top}>
             <Arrow />
           </FloatingGoTop>
           <FloatingWrite onClick={write}>
             <Plus />
           </FloatingWrite>
         </FloatingBox>
-
         <PostLine>
-          {!post_list || post_list.length === 0 ? (
-            <></>
+          {tutorial ? (
+            <>
+              <Fade right>
+                <TrilsTutorial
+                  open={() => {
+                    console.log("123");
+                    setTDM(true);
+                  }}
+                />
+              </Fade>
+            </>
           ) : (
-            <InfinityScroll callNext={scroll} is_next={is_last}>
-              {post_list.map((p, idx) => {
-                if ((idx + 1) % 3 !== 0) {
-                  return (
-                    <>
-                      <Fade bottom>
-                        <Video {...p} history={history} mr />
-                      </Fade>
-                    </>
-                  );
-                } else {
-                  return (
-                    <>
-                      <Fade bottom>
-                        <Video {...p} history={history} />
-                      </Fade>
-                    </>
-                  );
-                }
-              })}
-            </InfinityScroll>
+            <>
+              {!post_list || post_list.length === 0 ? (
+                <></>
+              ) : (
+                <InfinityScroll callNext={scroll} is_next={is_last}>
+                  {post_list.map((p, idx) => {
+                    if ((idx + 1) % 3 !== 0) {
+                      return (
+                        <>
+                          <Fade bottom>
+                            <Video {...p} history={history} mr />
+                          </Fade>
+                        </>
+                      );
+                    } else {
+                      return (
+                        <>
+                          <Fade bottom>
+                            <Video {...p} history={history} />
+                          </Fade>
+                        </>
+                      );
+                    }
+                  })}
+                </InfinityScroll>
+              )}
+            </>
           )}
         </PostLine>
       </CenterDiv>
     </Container>
   );
 };
+
+const Opacity = keyframes`
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+const CloseTutorial = styled.div`
+  animation: ${Opacity} 1s;
+  font-family: "paybooc-Bold";
+  color: white;
+  transition: 0.5s ease-in-out;
+  right: 50%;
+`;
 
 const Move = keyframes`
   0% {
@@ -368,27 +427,30 @@ const FloatingBox = styled.div`
   z-index: 50;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
 `;
 
 const FloatingTutorial = styled.div`
-  width: 3.125rem;
+  width: ${(props) => (props.tutorial ? "10rem" : "3.125rem")};
   height: 3.125rem;
   cursor: pointer;
   z-index: 50;
-  background-color: #2b61e1;
+  background: linear-gradient(to bottom right, #52A0FD, #00e2fa);
+  /* background-color: #2b61e1; */
   border-radius: 25px;
   transform-origin: center center;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.5s ease-in-out;
   & svg {
     width: 60%;
     height: 60%;
     fill: #ffffff;
+    animation: ${Opacity} 1s;
   }
   margin-bottom: 0.5rem;
 `;
-
 
 const FloatingGoTop = styled.div`
   width: 3.125rem;
