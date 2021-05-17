@@ -206,6 +206,7 @@ const kakaoLogout = () => {
 // 토큰 연장
 const tokenExtension = () => {
   return function (dispatch, getState) {
+    const access_token = localStorage.getItem("access_token");
     const accessToken = localStorage.getItem("access_token").split(" ")[1];
     const refreshToken = localStorage.getItem("refresh_token").split(" ")[1];
 
@@ -217,7 +218,7 @@ const tokenExtension = () => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `${accessToken}`,
+        Authorization: `${access_token}`,
       },
       body: JSON.stringify({
         accessToken: accessToken,

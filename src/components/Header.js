@@ -50,7 +50,7 @@ const Header = (props) => {
               onClick={() => {
                 const pathname = history.location.pathname;
                 if (pathname === "/") {
-                  history.replace("/");
+                  window.location.reload();
                 } else {
                   history.push("/");
                 }

@@ -6,7 +6,13 @@ import { ConnectedRouter } from "connected-react-router";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { history } from "redux/configureStore";
 
-import { NotFound, BoardMain, BoardWrite, BoardDetail, About } from "pages/pages";
+import {
+  NotFound,
+  BoardMain,
+  BoardWrite,
+  BoardDetail,
+  About,
+} from "pages/pages";
 
 import Header from "components/Header";
 import Login from "pages/Login";
@@ -28,8 +34,8 @@ const App = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(userActions.loginCheckDB());
-    dispatch(profileActions.getProfile());
+    dispatch(userActions.loginCheckDB()); // 로그인 여부 체크
+    dispatch(profileActions.getProfile()); // 프로필 조회
   }, []);
 
   return (

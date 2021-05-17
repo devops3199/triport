@@ -79,6 +79,14 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
       return;
     }
 
+    let formData = new FormData();
+
+    formData.append("nickname", nickname);
+    formData.append("newPassword", newpwd);
+    formData.append("newPasswordCheck", newpwdcheck);
+    formData.append("profileImgFile", img);
+    console.log(formData);
+
     fetch(API, {
       method: "POST",
 
@@ -88,18 +96,20 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
         Accept: "application/json",
         Authorization: `${access_token}`,
       },
-      body: JSON.stringify({
-        nickname: nickname,
-        newPassword: newpwd,
-        newPasswordCheck: newpwdcheck,
-        profileImgUrl: img,
-      }),
+      body: formData,
+      // JSON.stringify({
+      //   nickname: nickname,
+      //   newPassword: newpwd,
+      //   newPasswordCheck: newpwdcheck,
+      //   profileImgUrl: img,
+      // }),
     })
       .then((res) => res.json())
       .then((data) => {
-        alert("수정되었습니다!");
-        history.replace("/");
-        history.go(0); // 메인 페이지로 돌아간 후 새로고침
+        console.log(data);
+        // alert("수정되었습니다!");
+        // history.replace("/");
+        // history.go(0); // 메인 페이지로 돌아간 후 새로고침
       })
       .catch((err) => {
         console.log(err);

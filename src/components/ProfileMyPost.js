@@ -75,23 +75,34 @@ const ProfileMyPost = () => {
               }}
             >
               <Postlist>
-                {mytrilog_post.map((val, idx) => {
-                  const index = idx + 1;
+                {mytrilog_post || mytrilog_post.length === 0 ? (
+                  <div>내 Trilog가 없습니다.</div>
+                ) : (
+                  <>
+                    {" "}
+                    {mytrilog_post.map((val, idx) => {
+                      const index = idx + 1;
 
-                  if (index % 5 === 0) {
-                    return (
-                      <BoardCard
-                        data={val}
-                        key={index}
-                        margin="50px 20px 0 0"
-                      />
-                    );
-                  }
-
-                  return (
-                    <BoardCard data={val} key={index} margin="50px 20px 0 0" />
-                  );
-                })}
+                      if (index % 5 === 0) {
+                        return (
+                          <BoardCard
+                            data={val}
+                            key={index}
+                            margin="50px 20px 0 0"
+                          />
+                        );
+                      } else {
+                        return (
+                          <BoardCard
+                            data={val}
+                            key={index}
+                            margin="50px 20px 0 0"
+                          />
+                        );
+                      }
+                    })}
+                  </>
+                )}
               </Postlist>
             </Wrap>
           </ColumnWrap>
