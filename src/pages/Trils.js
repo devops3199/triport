@@ -1,7 +1,7 @@
 import Video from "components/trils/Video";
 import React, { useEffect, useRef, useState } from "react";
 import { history } from "redux/configureStore";
-import { Plus, Arrow } from "media/svg/Svg";
+import { QuestionMark, Plus, Arrow } from "media/svg/Svg";
 import styled, { keyframes } from "styled-components";
 import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
@@ -134,12 +134,18 @@ const Trils = (props) => {
       </FilterContainer>
       <CenterDiv>
         {modal ? <TrilsDetail history={history} /> : null}
-        <TopButton onClick={top}>
-          <Arrow />
-        </TopButton>
-        <FloatingButton onClick={write}>
-          <Plus />
-        </FloatingButton>
+        <FloatingBox>
+          {/* <FloatingTutorial>
+            <QuestionMark/>
+          </FloatingTutorial> */}
+          <FloatingGoTop>
+            <Arrow />
+          </FloatingGoTop>
+          <FloatingWrite onClick={write}>
+            <Plus />
+          </FloatingWrite>
+        </FloatingBox>
+
         <PostLine>
           {!post_list || post_list.length === 0 ? (
             <></>
@@ -353,6 +359,67 @@ const PostLine = styled.div`
   /* @media only screen and (max-width: 1280px) {
     flex-direction: column;
   } */
+`;
+
+const FloatingBox = styled.div`
+  position: fixed;
+  bottom: 5%;
+  right: 3%;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+`;
+
+const FloatingTutorial = styled.div`
+  width: 3.125rem;
+  height: 3.125rem;
+  cursor: pointer;
+  z-index: 50;
+  background-color: #2b61e1;
+  border-radius: 25px;
+  transform-origin: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & svg {
+    width: 60%;
+    height: 60%;
+    fill: #ffffff;
+  }
+  margin-bottom: 0.5rem;
+`;
+
+
+const FloatingGoTop = styled.div`
+  width: 3.125rem;
+  height: 3.125rem;
+  cursor: pointer;
+  z-index: 50;
+  background-color: #2b61e1;
+  border-radius: 25px;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & svg {
+    width: 60%;
+    height: 60%;
+    fill: #ffffff;
+  }
+  margin-bottom: 0.5rem;
+`;
+
+const FloatingWrite = styled.div`
+  width: 3.125rem;
+  height: 3.125rem;
+  cursor: pointer;
+  z-index: 50;
+  & svg {
+    width: 100%;
+    height: 100%;
+    fill: #2b61e1;
+  }
 `;
 
 export default Trils;
