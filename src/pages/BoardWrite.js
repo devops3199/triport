@@ -14,6 +14,7 @@ import { config } from "redux/modules/config";
 import _ from "lodash";
 import { BoardWriteMap } from "components/components";
 import LoopIcon from '@material-ui/icons/Loop';
+import { FLOWBASEANNOTATION_TYPES } from "../../../../../../../AppData/Local/Microsoft/TypeScript/4.2/node_modules/@babel/types/lib/index";
 
 const BoardWrite = (props) => {
     const dispatch = useDispatch();
@@ -48,16 +49,19 @@ const BoardWrite = (props) => {
             return;
         }
 
+        const filter_imageUrls = imageUrls.filter((val) => content.includes(val.imageFilePath)); // 사용안한 이미지 링크들 제거
+
         const post = {
             title : title,
             address : address,
             description : content,
-            imageUrlList : imageUrls,
+            imageUrlList : filter_imageUrls,
             is_edit : is_edit,
             id : id
         };
 
         dispatch(TrilogActions.addTrilog(post));
+        setImageUrls([]);
     };
 
     // Toast UI Editor에서 사용자가 이미지 추가할때
@@ -96,7 +100,7 @@ const BoardWrite = (props) => {
       setImgLoading(false);
 
       if(url.status === undefined) {
-        setImageUrls(prevState => ([...prevState, { 'imageFilePath' : url.results.imageFilePath}]))
+        setImageUrls(prevState => ([...prevState, { 'imageFilePath' : url.results.imageFilePath }]));
         return url.results.imageFilePath;
       } else {
         if(url.status === 401) {

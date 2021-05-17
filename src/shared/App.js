@@ -6,7 +6,7 @@ import { ConnectedRouter } from "connected-react-router";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { history } from "redux/configureStore";
 
-import { NotFound, BoardMain, BoardWrite, BoardDetail } from "pages/pages";
+import { NotFound, BoardMain, BoardWrite, BoardDetail, About } from "pages/pages";
 
 import Header from "components/Header";
 import Login from "pages/Login";
@@ -50,6 +50,7 @@ const App = () => {
             <Route path="/trilog/write/:id" exact component={BoardWrite} />
             <Route path="/trilog/:id" exact component={BoardDetail} />
             <Route path="/profile" exact component={Profile} />
+            <Route path="/about" exact component={About} />
             <Route
               path="/auth/kakao/callback"
               exact

@@ -125,7 +125,6 @@ const getTrilogMain = (filter, keyword) => {
             if(page === 1){
                 dispatch(setTrilogMain(data));
             } else {
-                console.log('Add')
                 dispatch(setTrilogMainAdd(data));
             }
             
@@ -344,7 +343,7 @@ const getParentCommentScroll = (id) => {
         })
         .then(res => res.json())
         .then(data => {     
-            console.log(data, 'data');  
+            console.log(data, 'data');
             if(!data.last) {
                 dispatch(setTrilogParentCommentPage(page + 1));
             } else {

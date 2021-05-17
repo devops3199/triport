@@ -1,3 +1,17 @@
+const Play = () => {
+  return (
+    <svg id="레이어_1" data-name="레이어 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136 136">
+        <g id="그룹_179" data-name="그룹 179" className="cls-1" style={{opacity:"0.72"}}>
+          <g id="패스_75" data-name="패스 75">
+            <path className="cls-2" style={{fill:"none"}} d="M68,0A68,68,0,1,1,0,68,68,68,0,0,1,68,0Z"/>
+            <path className="cls-3" style={{fill:"#fff"}} d="M68,7a61,61,0,1,0,61,61A61.06,61.06,0,0,0,68,7m0-7A68,68,0,1,1,0,68,68,68,0,0,1,68,0Z"/>
+          </g>
+          <path id="패스_74" data-name="패스 74" className="cls-3" style={{fill:"#fff"}} d="M98,68,52,95V41Z"/>
+        </g>
+    </svg>
+  );
+};
+
 const Logo = () => {
   return (
     <svg
