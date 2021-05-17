@@ -36,6 +36,7 @@ const BoardCard = (props) => {
                     </Profile>
                     <Likes onClick={hitLike}>
                         { member.isLike ? <LikeFill /> : <LikeEmpty /> }
+                        <span>+{information.likeNum}</span>
                     </Likes>
                 </UserContainer>
                 <Detail>
