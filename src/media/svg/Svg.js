@@ -405,4 +405,5 @@ export {
   CommentLike,
   Arrow,
   QuestionMark,
+  Play
 };
