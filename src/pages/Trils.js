@@ -312,7 +312,7 @@ const TopButton = styled.div`
   width: 3.125rem;
   height: 3.125rem;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 50;
   background-color: #2b61e1;
   border-radius: 25px;
   transform: rotate(-90deg);
@@ -335,7 +335,7 @@ const FloatingButton = styled.div`
   width: 3.125rem;
   height: 3.125rem;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 50;
 
   & svg {
     width: 100%;

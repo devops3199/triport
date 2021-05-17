@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from "./config";
+import {actionCreators as userCreators} from "./user"
 
 const trilseSlice = createSlice({
   name: "trils",
@@ -81,9 +82,7 @@ const writepost = (video, tags) => {
           alert("정상적으로 작성되었습니다.");
           history.replace("/");
         } else if (result.status === 401) {
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("refresh_token");
-          localStorage.removeItem("userInfo");
+          dispatch(userCreators.logout())
           alert("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
           history.push("/login");
         } else {
@@ -243,9 +242,7 @@ const send_like = (postId, like) => {
         if (result.status === 200 && result.ok) {
           dispatch(LIKE_OK(result.results));
         } else if (result.status === 401) {
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("refresh_token");
-          localStorage.removeItem("userInfo");
+          dispatch(userCreators.logout())
           alert("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
           history.push("/login");
         } else {
