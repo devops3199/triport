@@ -75,16 +75,17 @@ const writepost = (video, tags) => {
     };
     fetch(api, data)
       .then((result) => {
-        return result.json();
-      })
-      .then((result) => {
-        if (result.status === 200 && result.ok) {
-          alert("정상적으로 작성되었습니다.");
-          history.replace("/");
-        } else if (result.status === 401) {
+        if (result.status === 401) {
           dispatch(userCreators.logout());
           alert("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
           history.push("/login");
+        }
+        return result.json();
+      })
+      .then((result) => {
+        if (result.ok) {
+          alert("정상적으로 작성되었습니다.");
+          history.replace("/");
         } else {
           alert(result.msg);
         }
@@ -236,15 +237,16 @@ const send_like = (postId, like) => {
     };
     fetch(api, data)
       .then((result) => {
-        return result.json();
-      })
-      .then((result) => {
-        if (result.status === 200 && result.ok) {
-          dispatch(LIKE_OK(result.results));
-        } else if (result.status === 401) {
+        if (result.status === 401) {
           dispatch(userCreators.logout());
           alert("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
           history.push("/login");
+        }
+        return result.json();
+      })
+      .then((result) => {
+        if (result.ok) {
+          dispatch(LIKE_OK(result.results));
         } else {
           alert(result.msg);
         }

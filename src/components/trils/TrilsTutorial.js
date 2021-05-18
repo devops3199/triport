@@ -3,17 +3,14 @@ import styled from "styled-components";
 import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
 import { HeartEmpty, HeartFill } from "media/svg/Svg";
-import { useDispatch } from "react-redux";
-import { TrilsActions } from "redux/modules/trils";
 import Uploadex from "../../media/image/upload_ex.png";
 import Swal from "sweetalert2";
 
 const TrilsTutorial = (props) => {
-  const { history, open } = props;
+  const { open } = props;
   const player = useRef(null);
   const players = useRef(null);
   const [completed, setCompleted] = useState(0);
-  const dispatch = useDispatch();
 
   const params = {
     src: props.information.videoUrl,
