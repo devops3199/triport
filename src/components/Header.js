@@ -9,12 +9,22 @@ import grade3 from "media/svg/등급3.svg";
 import Category from "components/Category";
 import { useDispatch, useSelector } from "react-redux";
 
+import { actionCreators as userAcitons } from "redux/modules/user";
+import { actionCreators as profileActions } from "redux/modules/profile";
+
 const Header = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
 
   const userprofile = useSelector((state) => state.profile);
   const user = useSelector((state) => state.user);
+
+  React.useEffect(() => {
+    if (user.is_login === true) {
+      dispatch(profileActions.getProfile()); // 프로필 조회
+      // dispatch(userAcitons.tokenExtension()); // 토큰 재발급
+    }
+  }, []);
 
   // 유저 등급에 따른 등급 아이콘 보여주기
   const gradeImg = () => {

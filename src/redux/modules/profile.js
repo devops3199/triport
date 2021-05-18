@@ -45,10 +45,10 @@ const getProfile = () => {
     const API = `${config}/member/profile`;
     let access_token = localStorage.getItem("access_token");
 
-    if (!access_token) {
-      console.log("토큰 없음");
-      return;
-    }
+    // if (!access_token) {
+    //   console.log("토큰 없음");
+    //   return;
+    // }
 
     fetch(API, {
       method: "GET",
@@ -71,7 +71,7 @@ const getProfile = () => {
         );
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 };

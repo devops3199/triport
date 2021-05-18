@@ -84,7 +84,12 @@ const loginDB = (email, pwd) => {
 
         const Current_time = new Date().getTime();
 
-        setTimeout(tokenExtension(), access_token_exp - Current_time - 60000);
+        // if (!access_token === null) {
+        //   setTimeout(
+        //     tokenExtension(),
+        //     access_token_exp - Current_time - 1797000
+        //   );
+        // }
 
         // 로컬 스토리지에 토큰 저장하기
         localStorage.setItem("access_token", access_token);
@@ -141,8 +146,13 @@ const kakaoLogin = (code) => {
         let access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
 
         const Current_time = new Date().getTime();
-        setTimeout(tokenExtension(), access_token_exp - Current_time - 60000);
 
+        if (!access_token === null) {
+          setTimeout(
+            tokenExtension(),
+            access_token_exp - Current_time - 1797000
+          );
+        }
         // 로컬 스토리지에 토큰 저장하기
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("refresh_token", refresh_token);
@@ -193,10 +203,7 @@ const kakaoLogout = () => {
         Authorization: `${access_token}`,
       },
     })
-      .then((res) => {
-        console.log(res);
-        console.log("카카오 로그아웃 성공!");
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -209,8 +216,6 @@ const tokenExtension = () => {
     const access_token = localStorage.getItem("access_token");
     const accessToken = localStorage.getItem("access_token").split(" ")[1];
     const refreshToken = localStorage.getItem("refresh_token").split(" ")[1];
-
-    console.log(accessToken, refreshToken);
 
     const API = `${config}/auth/reissue`;
     fetch(API, {
@@ -242,13 +247,10 @@ const tokenExtension = () => {
         localStorage.setItem("refresh_token", refresh_token);
 
         // 만료되기 1분 전에 재발급하기
-        if (access_token === null) {
-          return;
-        } else {
-          setTimeout(tokenExtension(), access_token_exp - Current_time - 60000);
-          console.log("토큰 재생성 성공");
-          return;
-        }
+
+        setTimeout(tokenExtension(), access_token_exp - Current_time - 1797000);
+
+        console.log("토큰 재생성 성공");
       })
       .catch((err) => {
         console.log(err);
@@ -262,7 +264,6 @@ const loginCheckDB = () => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    // console.log(userInfo);
     if (!access_token || !userInfo) {
       // 로컬스토리지에 토큰 또는 유저정보가 없으면
       return false;
@@ -283,7 +284,6 @@ const logout = () => {
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("userInfo");
     dispatch(logOut());
-    console.log("일반 로그아웃 성공!");
     alert("로그아웃 되었습니다.");
     history.replace("/");
   };
@@ -307,7 +307,8 @@ const FindPwdDB = (email) => {
       .then((res) => res.json()) // json 형태로 변환해주고,
       .then((data) => {
         dispatch(LOADING(false)); // 로딩 끝남
-        alert(data.message);
+
+        alert(data.msg);
         history.push("/login");
       })
       .catch((err) => {
