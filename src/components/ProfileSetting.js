@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
 import { SET_PREVIEW } from "../redux/modules/profile";
@@ -20,11 +20,12 @@ const ProfileSetting = () => {
   const newpwdcheckRef = useRef();
   const fileInput = useRef(); // DOM 객체 가져오기 (인풋)
 
+  const [img, setImg] = useState(null);
+
   const Update = () => {
     const nickname = nameRef.current.value;
     const newpwd = newpwdRef.current.value;
     const newpwdcheck = newpwdcheckRef.current.value;
-    const img = fileInput.current.value;
 
     if (!nickname || !newpwd || !newpwdcheck) {
       alert("모든 내용을 입력해주세요!");
@@ -38,6 +39,7 @@ const ProfileSetting = () => {
   const upload = (e) => {
     const reader = new FileReader();
     const file = fileInput.current.files[0];
+    console.log(file);
     if (!file) {
       // 파일 선택 안했을 때
       return;
@@ -45,6 +47,8 @@ const ProfileSetting = () => {
     reader.readAsDataURL(file); // 이미지파일 url로 변경
 
     reader.onloadend = () => {
+      //reader load 끝났을 때,
+      setImg(file);
       dispatch(SET_PREVIEW(reader.result));
     };
   };
