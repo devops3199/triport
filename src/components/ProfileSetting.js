@@ -89,7 +89,7 @@ const ProfileSetting = () => {
           </ImageWrap>
 
           <Text>닉네임</Text>
-          <Input placeholder="NICKNAME" ref={nameRef} />
+          <Input placeholder="NICKNAME" ref={nameRef} type="text" />
           {/* <Text>현재 비밀번호</Text>
           <Input placeholder="PASSWORD" type="password" /> */}
           <Text>새 비밀번호</Text>

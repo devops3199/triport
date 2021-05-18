@@ -71,7 +71,7 @@ const Header = (props) => {
                   const pathname = history.location.pathname;
 
                   if (pathname === "/profile") {
-                    history.replace("/profile");
+                    window.location.reload();
                   } else {
                     history.push("/profile");
                   }
@@ -96,7 +96,7 @@ const Header = (props) => {
             onClick={() => {
               const pathname = history.location.pathname;
               if (pathname === "/") {
-                history.replace("/");
+                window.location.reload();
               } else {
                 history.push("/");
               }
@@ -113,7 +113,7 @@ const Header = (props) => {
               onClick={() => {
                 const pathname = history.location.pathname;
                 if (pathname === "/login") {
-                  history.replace("/login");
+                  window.location.reload();
                 } else {
                   history.push("/login");
                 }
@@ -125,7 +125,7 @@ const Header = (props) => {
               onClick={() => {
                 const pathname = history.location.pathname;
                 if (pathname === "/signup") {
-                  history.replace("/signup");
+                  window.location.reload();
                 } else {
                   history.push("/signup");
                 }

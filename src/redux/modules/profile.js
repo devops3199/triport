@@ -71,13 +71,12 @@ const getProfile = () => {
 // 프로필 수정
 const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
   return function (dispatch, getState, { history }) {
-    const API = `${config}/member/profile`;
-    let access_token = localStorage.getItem("access_token");
+    const access_token = localStorage.getItem("access_token");
 
-    if (!access_token) {
-      console.log("토큰 없음");
-      return;
-    }
+    // if (!access_token) {
+    //   console.log("토큰 없음");
+    //   return;
+    // }
 
     let formData = new FormData();
 
@@ -87,22 +86,17 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
     formData.append("profileImgFile", img);
     console.log(formData);
 
+    const API = `${config}/member/profile`;
+
     fetch(API, {
       method: "POST",
-
       // 헤더에 토큰 담아 보내기
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        // "Content-Type": "multipart/form-data",
+        // Accept: "multipart/form-data",
         Authorization: `${access_token}`,
       },
       body: formData,
-      // JSON.stringify({
-      //   nickname: nickname,
-      //   newPassword: newpwd,
-      //   newPasswordCheck: newpwdcheck,
-      //   profileImgUrl: img,
-      // }),
     })
       .then((res) => res.json())
       .then((data) => {
