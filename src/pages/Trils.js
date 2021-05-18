@@ -262,6 +262,7 @@ const SearchWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0px 3px 6px #00000029;
 
   & svg {
     fill: rgb(43, 97, 225);

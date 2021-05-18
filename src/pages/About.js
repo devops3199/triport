@@ -237,7 +237,7 @@ const About = () => {
                             <MemberImg data-lazy={Profile} />
                             <MemberText>
                                 <NameTag>
-                                    <Name>안지수</Name>
+                                    <Name>안지수</Name><FeatureTag>갓지수님</FeatureTag>
                                 </NameTag>
                                 <div><BlueTag>portfolio:</BlueTag> <a href="https://jisooahn3582.wixsite.com/my-site" target="_blank">https://jisooahn3582.wixsite.com/my-site</a></div>
                                 <div><BlueTag>email:</BlueTag> js3582@naver.com</div>
