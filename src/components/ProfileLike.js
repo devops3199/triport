@@ -2,12 +2,32 @@ import React from "react";
 import styled from "styled-components";
 
 import DmyLike from "media/svg/좋아요D.svg";
+
+import Video from "components/trils/Video";
 import { BoardCard } from "components/components";
-import SnsPost from "components/SnsPost";
+import TrilsDetail from "../components/trils/TrilsDetail";
+
+import { history } from "redux/configureStore";
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as profileActions } from "redux/modules/profile";
 
 const ProfileLike = () => {
+  const dispatch = useDispatch();
+  const liketrils_post = useSelector((state) => state.profile.like_trils_data);
+  const liketrilog_post = useSelector(
+    (state) => state.profile.like_trilog_data
+  );
+
+  const modal = useSelector((state) => state.trils.modal);
+
+  React.useEffect(() => {
+    dispatch(profileActions.likeTrilsLoad());
+    dispatch(profileActions.likeTrilogLoad());
+  }, []);
+
   return (
     <React.Fragment>
+      {modal ? <TrilsDetail history={history} /> : null}
       <ColumnWrap>
         <Wrap>
           <Icon></Icon>
@@ -17,21 +37,22 @@ const ProfileLike = () => {
               <Title style={{ marginLeft: "-1.5rem" }}>Trils</Title>
               <Button>더보기</Button>
             </Div>
-            <Wrap
-              style={{
-                width: "78rem",
-                marginLeft: "-4rem",
-              }}
-            ></Wrap>
-            <div
-              style={{
-                width: "79rem",
-                height: "3rem",
-                marginLeft: "-1rem",
-                marginBottom: "3rem",
-                borderBottom: "3px solid #89ACFF",
-              }}
-            ></div>
+            <Postlist>
+              {!liketrils_post || liketrils_post.length === 0 ? (
+                <div>내 Trils가 없습니다.</div>
+              ) : (
+                <>
+                  {liketrils_post.map((p, idx) => {
+                    if ((idx + 1) % 3 !== 0) {
+                      return <Video {...p} history={history} mr />;
+                    } else {
+                      return <Video {...p} history={history} />;
+                    }
+                  })}
+                </>
+              )}
+            </Postlist>
+            <Br />
           </ColumnWrap>
         </Wrap>
 
@@ -46,15 +67,38 @@ const ProfileLike = () => {
                 width: "78rem",
                 marginBottom: "5rem",
               }}
-            ></Wrap>
-            <div
-              style={{
-                width: "79rem",
-                height: "3rem",
-                marginLeft: "-1rem",
-                borderBottom: "3px solid #89ACFF",
-              }}
-            ></div>
+            >
+              <Postlist>
+                {!liketrilog_post || liketrilog_post.length === 0 ? (
+                  <div>내 Trilog가 없습니다.</div>
+                ) : (
+                  <>
+                    {" "}
+                    {liketrilog_post.map((val, idx) => {
+                      const index = idx + 1;
+
+                      if (index % 5 === 0) {
+                        return (
+                          <BoardCard
+                            data={val}
+                            key={index}
+                            margin="50px 20px 0 0"
+                          />
+                        );
+                      } else {
+                        return (
+                          <BoardCard
+                            data={val}
+                            key={index}
+                            margin="50px 20px 0 0"
+                          />
+                        );
+                      }
+                    })}
+                  </>
+                )}
+              </Postlist>
+            </Wrap>
           </ColumnWrap>
         </Wrap>
       </ColumnWrap>
@@ -106,4 +150,20 @@ const Button = styled.button`
   border-radius: 5px;
   background-color: #ffffff;
   padding: 0.2rem;
+`;
+
+const Br = styled.div`
+  width: 79rem;
+  height: 3rem;
+  margin-left: -1rem;
+  margin-bottom: 3rem;
+  border-bottom: 3px solid #89acff;
+`;
+
+const Postlist = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  width: 1280px;
 `;

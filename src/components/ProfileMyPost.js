@@ -13,8 +13,10 @@ import { actionCreators as profileActions } from "redux/modules/profile";
 
 const ProfileMyPost = () => {
   const dispatch = useDispatch();
-  const mytrils_post = useSelector((state) => state.profile.trils_data);
-  const mytrilog_post = useSelector((state) => state.profile.trilog_data);
+  const mytrils_post = useSelector((state) => state.profile.mypost_trils_data);
+  const mytrilog_post = useSelector(
+    (state) => state.profile.mypost_trilog_data
+  );
 
   const modal = useSelector((state) => state.trils.modal);
 
@@ -50,15 +52,7 @@ const ProfileMyPost = () => {
                 </>
               )}
             </Postlist>
-            <Br
-              style={{
-                width: "79rem",
-                height: "3rem",
-                marginLeft: "-1rem",
-                marginBottom: "3rem",
-                borderBottom: "3px solid #89ACFF",
-              }}
-            ></Br>
+            <Br />
           </ColumnWrap>
         </Wrap>
 
@@ -75,7 +69,7 @@ const ProfileMyPost = () => {
               }}
             >
               <Postlist>
-                {mytrilog_post || mytrilog_post.length === 0 ? (
+                {!mytrilog_post || mytrilog_post.length === 0 ? (
                   <div>내 Trilog가 없습니다.</div>
                 ) : (
                   <>

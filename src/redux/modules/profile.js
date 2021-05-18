@@ -7,8 +7,10 @@ const profileimgSlice = createSlice({
     user_img: "",
     memberGrade: null,
     nickname: null,
-    trils_data: [],
-    trilog_data: [],
+    mypost_trils_data: [],
+    mypost_trilog_data: [],
+    like_trils_data: [],
+    like_trilog_data: [],
   },
   reducers: {
     SET_PREVIEW: (state, action) => {
@@ -22,11 +24,17 @@ const profileimgSlice = createSlice({
     UPDATE_PROFILE: (state, action) => {
       state.uploading = action.payload;
     },
-    TRILS_LOAD: (state, action) => {
-      state.trils_data = action.payload;
+    POST_TRILS_LOAD: (state, action) => {
+      state.mypost_trils_data = action.payload;
     },
-    TRILOG_LOAD: (state, action) => {
-      state.trilog_data = action.payload;
+    POST_TRILOG_LOAD: (state, action) => {
+      state.mypost_trilog_data = action.payload;
+    },
+    LIKE_TRILS_LOAD: (state, action) => {
+      state.like_trils_data = action.payload;
+    },
+    LIKE_TRILOG_LOAD: (state, action) => {
+      state.like_trilog_data = action.payload;
     },
   },
 });
@@ -78,8 +86,8 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
     //   return;
     // }
 
+    // formdata에 담기
     let formData = new FormData();
-
     formData.append("nickname", nickname);
     formData.append("newPassword", newpwd);
     formData.append("newPasswordCheck", newpwdcheck);
@@ -92,18 +100,15 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
       method: "POST",
       // 헤더에 토큰 담아 보내기
       headers: {
-        // "Content-Type": "multipart/form-data",
-        // Accept: "multipart/form-data",
         Authorization: `${access_token}`,
       },
       body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        // alert("수정되었습니다!");
-        // history.replace("/");
-        // history.go(0); // 메인 페이지로 돌아간 후 새로고침
+        alert("수정되었습니다!");
+        history.replace("/");
+        history.go(0); // 메인 페이지로 돌아간 후 새로고침
       })
       .catch((err) => {
         console.log(err);
@@ -128,7 +133,10 @@ const myTrilsLoad = () => {
       .then((res) => res.json())
       .then((data) => {
         const results = data.results;
-        dispatch(TRILS_LOAD(results));
+        dispatch(POST_TRILS_LOAD(results));
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 };
@@ -149,8 +157,65 @@ const myTrilogLoad = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         const results = data.results;
-        dispatch(TRILOG_LOAD(results));
+        dispatch(POST_TRILOG_LOAD(results));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+// 좋아요 Trils 조회
+
+const likeTrilsLoad = () => {
+  return function (dispatch, getState, { history }) {
+    let access_token = localStorage.getItem("access_token");
+    const API = `${config}`;
+
+    fetch(API, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${access_token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        const results = data.results;
+        dispatch(LIKE_TRILS_LOAD(results));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+// 좋아요 Trilog 조회
+const likeTrilogLoad = () => {
+  return function (dispatch, getState, { history }) {
+    let access_token = localStorage.getItem("access_token");
+    const API = `${config}/api/boards/member/like`;
+
+    fetch(API, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${access_token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        const results = data.results;
+        dispatch(LIKE_TRILOG_LOAD(results));
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 };
@@ -159,8 +224,10 @@ export const {
   SET_PREVIEW,
   GET_PROFILE,
   UPDATE_PROFILE,
-  TRILS_LOAD,
-  TRILOG_LOAD,
+  POST_TRILS_LOAD,
+  POST_TRILOG_LOAD,
+  LIKE_TRILS_LOAD,
+  LIKE_TRILOG_LOAD,
 } = profileimgSlice.actions;
 
 export const actionCreators = {
@@ -168,6 +235,8 @@ export const actionCreators = {
   updateProfile,
   myTrilsLoad,
   myTrilogLoad,
+  likeTrilsLoad,
+  likeTrilogLoad,
 };
 
 export default profileimgSlice.reducer;
