@@ -174,7 +174,7 @@ const About = () => {
                             <MemberImg data-lazy={Profile} />
                             <MemberText>
                                 <Name>정찬엽</Name>
-                                <div>안녕하세요 😄 Trilog 서비스를 담당한 FE개발자입니다. Trilog 관련 문의는 채진욱님이나 저에게 해주시면 됩니다. 그럼 즐거운 트릴하세요!</div>
+                                <div>안녕하세요 😄 매일 성장하는 FE개발자, 정찬엽입니다. 즐거운 트릴하세요!</div>
                                 <div><span>github:</span> <a href="https://github.com/rayrayj92" target="_blank">https://github.com/rayrayj92</a></div>
                                 <div><span>blog:</span> <a href="https://kodepaper.tistory.com/" target="_blank">https://kodepaper.tistory.com/</a></div>
                                 <div><span>email:</span> ops3199@outlook.kr</div>
@@ -184,6 +184,7 @@ const About = () => {
                             <MemberImg data-lazy={Profile} />
                             <MemberText>
                                 <Name>박민경</Name>
+                                <div>안녕하세요! ☺️ TRIPORT에 많은 애정을 꾹꾹 눌러담은 박민경입니다 :) 그럼, Traveler 여러분! 모두 Happy TRIPORT~ ✈️🥰</div>
                                 <div><span>github:</span> <a href="https://github.com/pmk2424" target="_blank">https://github.com/pmk2424</a></div>
                                 <div><span>blog:</span> <a href="https://velog.io/@pmk4236" target="_blank">https://velog.io/@pmk4236</a></div>
                                 <div><span>email:</span> pmk42360@gmail.com</div>
@@ -199,8 +200,8 @@ const About = () => {
                             <MemberText>
                                 <Name>손윤환</Name>
                                 <div><span>github:</span> <a href="https://github.com/beadoer1" target="_blank">https://github.com/beadoer1</a></div>
-                                <div><span>blog:</span> <a href="https://kodepaper.tistory.com/" target="_blank">None</a></div>
-                                <div><span>email:</span> </div>
+                                <div><span>blog:</span> <a href="https://beadoer1.github.io/" target="_blank">https://beadoer1.github.io/</a></div>
+                                <div><span>email:</span> beadoer1@gmail.com</div>
                             </MemberText>
                         </MemberCard>
                         <MemberCard className="animate right">
@@ -310,7 +311,7 @@ const TitleWrapper = styled.div`
     
     & span {
         font-family: paybooc-bold;
-        font-size 30px; 
+        font-size: 30px; 
         color: #2B61E1;
     }
 `;
@@ -424,7 +425,7 @@ const SectionWrapper = styled.div`
 
     & span {
         font-family: paybooc-bold;
-        font-size 18px; 
+        font-size: 18px; 
         color: #2B61E1;
     }
 `;
@@ -459,7 +460,7 @@ const MemberText = styled.div`
 
 const Name = styled.div`
     font-family: paybooc-bold;
-    font-size 20px;
+    font-size: 20px;
     margin-bottom: 1rem;
 `;
 
