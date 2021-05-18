@@ -1,5 +1,5 @@
 import Video from "components/trils/Video";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Fragment } from "react";
 import { history } from "redux/configureStore";
 import { QuestionMark, Plus, Arrow } from "media/svg/Svg";
 import styled, { keyframes } from "styled-components";
@@ -191,19 +191,19 @@ const Trils = (props) => {
                   {post_list.map((p, idx) => {
                     if ((idx + 1) % 3 !== 0) {
                       return (
-                        <>
+                        <Fragment key={idx}>
                           <Fade bottom>
                             <Video {...p} history={history} mr />
                           </Fade>
-                        </>
+                        </Fragment>
                       );
                     } else {
                       return (
-                        <>
+                        <Fragment key={idx}>
                           <Fade bottom>
                             <Video {...p} history={history} />
                           </Fade>
-                        </>
+                        </Fragment>
                       );
                     }
                   })}

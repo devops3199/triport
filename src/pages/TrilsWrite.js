@@ -15,12 +15,12 @@ const TrilsWrite = (props) => {
   const [tagType, setTagType] = useState("");
   const is_login = useSelector((state) => state.user.is_login);
 
-  useEffect(() => {
-    if (!is_login) {
-      alert("로그인을 해주세요");
-      history.replace("/");
-    }
-  }, [is_login, history]);
+  // useEffect(() => {
+  //   if (!is_login) {
+  //     alert("로그인을 해주세요");
+  //     history.replace("/");
+  //   }
+  // }, [is_login, history]);
 
   const removeTag = (i) => {
     const newTags = [...tags];
