@@ -8,21 +8,16 @@ import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
 import SearchIcon from '@material-ui/icons/Search';
 import Tripper from "media/image/triport_airplane.png";
+import Fade from "react-reveal/Fade";
 
 const BoardMain = (props) => {
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login); // 로그인 여부
   const trilog = useSelector((state) => state.trilog.main.list); // 게시글 정보
   const is_last = useSelector((state) => state.trilog.main.is_last); // 무한 스크롤 - 다음 게시글이 있나 여부
-  const is_loading = useSelector((state) => state.trilog.loading.main_loading); // 게시글 로딩 여부
-  const [filter, _setFilter] = React.useState(false); // 필터 - 좋아요순, 최신순
-  const filterRef = React.useRef(filter); // 필터 - 좋아요순, 최신순
+  const filter_type = useSelector((state) => state.trilog.main.filter); // 필터
+  const filterRef = React.useRef(filter_type); // 필터 - 좋아요순, 최신순
   const keyword = React.useRef(); // 검색어
-
-  const setFilter = (data) => {
-    filterRef.current = data;
-    _setFilter(data);
-  };
 
   /* 필터 기능 - 좋아요순 최신순 */
   const tabToggle = () => {
@@ -30,31 +25,31 @@ const BoardMain = (props) => {
     const like = document.getElementById("LikeText");
     const newest = document.getElementById("NewestText");
 
-    if (tab.style.left !== "50%") {
-      tab.style.left = "50%";
-      like.style.color = "#89ACFF";
-      newest.style.color = "#fff";
-    } else {
+    if (filter_type === 'modifiedAt') {
+      // 좋아요순
       tab.style.left = "0%";
       like.style.color = "#fff";
       newest.style.color = "#89ACFF";
-    }
-
-    if (filter) {
-      // 좋아요순
       dispatch(TrilogActions.getTrilogMainFilter('likeNum', keyword.current.value));
     } else {
       // 최신순
+      tab.style.left = "50%";
+      like.style.color = "#89ACFF";
+      newest.style.color = "#fff";
       dispatch(TrilogActions.getTrilogMainFilter('modifiedAt', keyword.current.value));
     }
 
-    setFilter(!filter);
+    filterRef.current = filter_type;
   };
+
+  React.useEffect(() => {
+    dispatch(TrilogActions.getTrilogMain('likeNum', ''));
+  }, []);
 
   const scroll = () => {
     const filter_scroll = filterRef.current;
     
-    if(!filter_scroll) {
+    if(filter_scroll === 'likeNum') {
       // 좋아요순
       dispatch(TrilogActions.getTrilogMain('likeNum', ''));
     } else {
@@ -64,76 +59,78 @@ const BoardMain = (props) => {
   };
 
   const searchTrilog = () => {
-    dispatch(TrilogActions.getTrilogMainFilter(`${filter ? "modifiedAt" : "likeNum"}`, keyword.current.value));
+    dispatch(TrilogActions.getTrilogMainFilter(filter_type, keyword.current.value));
   };
-
-  React.useEffect(() => {
-    dispatch(TrilogActions.getTrilogMain('likeNum', ''));
-  }, []);
 
   return (
     <BoardMainContainer>
-      {is_loading ? (
-        <></>
+      {is_login ? (
+        <FloatingButton
+          onClick={() => {
+            history.push("/trilog/write");
+          }}
+        >
+          <Plus />
+        </FloatingButton>
       ) : (
-        <>
-          {is_login ? (
-            <FloatingButton
-              onClick={() => {
-                history.push("/trilog/write");
-              }}
-            >
-              <Plus />
-            </FloatingButton>
-          ) : (
-            <></>
-          )}
-          <SearchContainer>
-            <SearchWrapper>
-              <Search
-                type="text"
-                placeholder="검색어를 입력하세요."
-                ref={keyword}
-                onKeyPress={(e) => {
-                  if (window.event.keyCode === 13) {
-                    searchTrilog();
-                  }
-                }}
-              />
-              <SearchIcon onClick={searchTrilog} />
-            </SearchWrapper>
-          </SearchContainer>
-          <FilterContainer>
-            <Filter>
-              <Background id="FilterTab" />
-              <LikeFilter onClick={tabToggle}>
-                <span id="LikeText">좋아요순</span>
-              </LikeFilter>
-              <NewestFilter onClick={tabToggle}>
-                <span id="NewestText">최신순</span>
-              </NewestFilter>
-            </Filter>
-            <MoveTripper>
-              <img src={Tripper} />
-            </MoveTripper>
-          </FilterContainer>
-          <CardContainer>
+        <></>
+      )}
+      <SearchContainer>
+        <SearchWrapper>
+          <Search
+            type="text"
+            placeholder="검색어를 입력하세요."
+            ref={keyword}
+            onKeyPress={(e) => {
+              if (window.event.keyCode === 13) {
+                searchTrilog();
+              }
+            }}
+          />
+          <SearchIcon onClick={searchTrilog} />
+        </SearchWrapper>
+      </SearchContainer>
+      <FilterContainer>
+        <Filter>
+          <Background id="FilterTab" type={filter_type} />
+          <LikeFilter onClick={tabToggle} type={filter_type}>
+            <span id="LikeText">좋아요순</span>
+          </LikeFilter>
+          <NewestFilter onClick={tabToggle} type={filter_type}>
+            <span id="NewestText">최신순</span>
+          </NewestFilter>
+        </Filter>
+        <MoveTripper>
+          <img src={Tripper} />
+        </MoveTripper>
+      </FilterContainer>
+      <CardContainer>
+        {trilog.length === 0 ? (
+          <></>
+        ) : (
+          <>
             <InfinityScroll callNext={scroll} is_next={is_last}>
               {trilog.map((val, idx) => {
                 const index = idx + 1;
 
                 if (index % 5 === 0) {
-                  return <BoardCard data={val} key={index} />;
+                  return (
+                    <Fade bottom key={index}>
+                      <BoardCard data={val} margin="50px 0 0 0" />
+                    </Fade>
+                  );
                 }
 
                 return (
-                  <BoardCard data={val} key={index} margin="50px 40px 0 0" />
+                  <Fade bottom key={index}>
+                    <BoardCard data={val} margin="50px 40px 0 0" />
+                  </Fade>
                 );
               })}
             </InfinityScroll>
-          </CardContainer>
-        </>
-      )}
+          </>
+        )}
+      </CardContainer>
     </BoardMainContainer>
   );
 };
@@ -185,7 +182,7 @@ const Background = styled.div`
   position: absolute;
   width: 50%;
   height: 100%;
-  left: 0;
+  left: ${(props) => props.type === 'likeNum' ? '0;' : '50%;'}
   background: #2b61e1 0% 0% no-repeat padding-box;
   border-radius: 5px;
   transition: left 0.5s;
@@ -203,7 +200,7 @@ const LikeFilter = styled.div`
     font-family: "paybooc-Bold";
     font-size: 14px;
     letter-spacing: 0px;
-    color: #fff;
+    color: ${(props) => props.type === 'likeNum' ? '#fff;' : '#89ACFF;'}
     z-index: 10;
     transition: color 0.3s;
   }
@@ -221,7 +218,7 @@ const NewestFilter = styled.div`
     font-family: "paybooc-Bold";
     font-size: 14px;
     letter-spacing: 0px;
-    color: #89acff;
+    color: ${(props) => props.type === 'likeNum' ? '#89ACFF;' : '#fff;'}
     z-index: 10;
     transition: color 0.3s;
   }
@@ -240,6 +237,8 @@ const Filter = styled.div`
 const CardContainer = styled.div`
   width: 100%;
   margin: 0 0 4.2rem 0;
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 const FloatingButton = styled.div`

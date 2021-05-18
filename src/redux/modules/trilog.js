@@ -10,6 +10,7 @@ const trilogSlice = createSlice({
             list : [],
             is_last : false,
             page : 1,
+            filter : 'likeNum',
         },
         detail : {},
         parent_comment : {
@@ -40,6 +41,10 @@ const trilogSlice = createSlice({
         setTrilogMain : (state, action) => produce(state, (draft) => {
             draft.main.list = action.payload.results;
             draft.main.is_last = action.payload.last;
+        }),
+        // Trilog 메인 페이지 - 필터 설정
+        setTrilogMainFilter : (state, action) => produce(state, (draft) => {
+            draft.main.filter = action.payload;
         }),
         // Trilog 메인 페이지 - 무한 스크롤 페이지 설정(다음 게시물이 있나 없나)
         setTrilogMainPage : (state, action) => produce(state, (draft) => {
@@ -168,6 +173,7 @@ const getTrilogMainFilter = (filter, keyword) => {
         .catch(err => console.log(err, "메인 필터 error"));
 
         dispatch(setMainLoading(false));
+        dispatch(setTrilogMainFilter(filter));
     };
 };
 
@@ -468,6 +474,7 @@ export const {
     setDetailLoading, // Trilog 상세 페이지 - 내용 로딩 여부
     setTrilogMainAdd, // Trilog 작성 페이지 - 게시글 작성
     setTrilogMain, // Trilog 메인 페이지 - 게시글 조회
+    setTrilogMainFilter, // Trilog 메인 페이지 - 필터 설정
     setTrilogMainPage, // Trilog 메인 페이지 - 무한 스크롤 페이지 설정(다음 게시물이 있나 없나)
     setTrilogLike, // Trilog 메인 페이지 - 게시글 좋아요
     setTrilogParentCommentPage, // Trilog 상세 페이지 - 부모 댓글 페이징 설정(다음 부모 댓글 있나 없나)
