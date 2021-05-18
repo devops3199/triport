@@ -10,7 +10,7 @@ const Category = (props) => {
     setCurrentClick(e.target.id); // 해당 엘리먼트의 id값
     const pathname = history.location.pathname;
     if (pathname === `${e.target.id}`) {
-      history.replace(`${e.target.id}`);
+      window.location.reload();
     } else {
       history.push(`${e.target.id}`);
     }
