@@ -39,7 +39,7 @@ const ProfileLike = () => {
             </Div>
             <Postlist>
               {!liketrils_post || liketrils_post.length === 0 ? (
-                <div>내 Trils가 없습니다.</div>
+                <div>내가 좋아요한 Trils가 없습니다.</div>
               ) : (
                 <>
                   {liketrils_post.map((p, idx) => {
@@ -70,7 +70,7 @@ const ProfileLike = () => {
             >
               <Postlist>
                 {!liketrilog_post || liketrilog_post.length === 0 ? (
-                  <div>내 Trilog가 없습니다.</div>
+                  <div>내가 좋아요한 Trilog가 없습니다.</div>
                 ) : (
                   <>
                     {" "}

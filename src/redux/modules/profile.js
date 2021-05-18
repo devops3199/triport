@@ -157,7 +157,6 @@ const myTrilogLoad = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         const results = data.results;
         dispatch(POST_TRILOG_LOAD(results));
       })
@@ -184,7 +183,6 @@ const likeTrilsLoad = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
         const results = data.results;
         dispatch(LIKE_TRILS_LOAD(results));
       })
@@ -210,7 +208,6 @@ const likeTrilogLoad = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         const results = data.results;
         dispatch(LIKE_TRILOG_LOAD(results));
       })
