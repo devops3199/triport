@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import ClearIcon from "@material-ui/icons/Clear";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
 import afterImg from "../media/image/afterupload.png";
 
 const TrilsWrite = (props) => {
-  const { history } = props;
+  // const { history } = props;
   const tagInput = useRef(null);
   const fileInput = useRef();
   const [tags, setTags] = useState([]);
   const dispatch = useDispatch();
   const [vid, setVid] = useState(null);
   const [tagType, setTagType] = useState("");
-  const is_login = useSelector((state) => state.user.is_login);
+  // const is_login = useSelector((state) => state.user.is_login);
 
   // useEffect(() => {
   //   if (!is_login) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Fragment } from "react";
 import styled from "styled-components";
 import { HeartEmpty, HeartFill } from "media/svg/Svg";
 import { MODAL_STATUS } from "redux/modules/trils";
@@ -301,7 +301,11 @@ const TrilsDetail = (props) => {
 
   return (
     <React.Fragment>
-      <Component width={window.innerWidth} height={window.innerHeight} onClick={closeModal} />
+      <Component
+        width={window.innerWidth}
+        height={window.innerHeight}
+        onClick={closeModal}
+      />
       <Wrap>
         <Profile>
           <ProfileImg src={info.author.profileImgUrl} />
@@ -369,9 +373,7 @@ const TrilsDetail = (props) => {
           <LikeCov onClick={like}>
             {info.member.isLike ? <HeartFill /> : <HeartEmpty />}
           </LikeCov>
-          <LikeText>
-            좋아요 +{info.information.likeNum}
-          </LikeText>
+          <LikeText>좋아요 +{info.information.likeNum}</LikeText>
           <Tag>
             {editOn ? (
               <>
@@ -395,11 +397,11 @@ const TrilsDetail = (props) => {
               <>
                 {info.information.hashtag.map((p, idx) => {
                   return (
-                    <>
+                    <Fragment key={idx}>
                       <Hash id={p} onClick={hash}>
                         #{p}
                       </Hash>
-                    </>
+                    </Fragment>
                   );
                 })}
               </>
@@ -521,7 +523,7 @@ const Libutton = styled.div`
   outline: 0;
 `;
 
-const Li = styled.p`
+const Li = styled.div`
   cursor: pointer;
   margin-left: 0.5rem;
   margin-right: 1rem;
@@ -607,8 +609,8 @@ const Component = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  height: ${(props)=>props.height}px;
-  width: ${(props)=>props.width}px;
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
   background-color: black;
   z-index: 60;
   opacity: 0.4;
@@ -692,7 +694,7 @@ const LikeCov = styled.div`
   }
 `;
 
-const Tag = styled.p`
+const Tag = styled.div`
   font-weight: 700;
   margin-left: 1rem;
   display: flex;

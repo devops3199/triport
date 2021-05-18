@@ -1,19 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Fragment } from "react";
 import styled from "styled-components";
 import { HeartEmpty, HeartFill } from "media/svg/Svg";
-import { useDispatch, useSelector } from "react-redux";
 import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
-import { TrilsActions, DELETE_POST, EDIT_POST } from "redux/modules/trils";
 import Swal from "sweetalert2";
 import ClearIcon from "@material-ui/icons/Clear";
-import { config } from "../../redux/modules/config";
-import uploading from "../../media/image/uploading.png";
 
 const TrilsDetailTutorial = (props) => {
-  const { history, close } = props;
+  const { close } = props;
   const player = useRef(null);
-  const players = useRef(null);
   const [completed, setCompleted] = useState(0);
   const [progress, setProgress] = useState(0);
   const [editOn, setEditOn] = useState(false);
@@ -114,20 +109,6 @@ const TrilsDetailTutorial = (props) => {
     }
   };
 
-  const mp4volume = () => {
-    if (players.current.readyState !== 4) {
-      return;
-    }
-    if (!props.information.posPlay) {
-      return;
-    }
-    if (mute) {
-      setMute(false);
-    } else {
-      setMute(true);
-    }
-  };
-
   const like = () => {
     if (like_chk) {
       setLike(false);
@@ -209,7 +190,11 @@ const TrilsDetailTutorial = (props) => {
 
   return (
     <React.Fragment>
-      <Component width={window.innerWidth} height={window.innerHeight} onClick={closeModal} />
+      <Component
+        width={window.innerWidth}
+        height={window.innerHeight}
+        onClick={closeModal}
+      />
       <Wrap>
         <Profile>
           <ProfileImg src={props.author.profileImgUrl} />
@@ -275,11 +260,11 @@ const TrilsDetailTutorial = (props) => {
               <>
                 {tags.map((p, idx) => {
                   return (
-                    <>
+                    <Fragment key={idx}>
                       <Hash id={p} onClick={hash}>
                         #{p}
                       </Hash>
-                    </>
+                    </Fragment>
                   );
                 })}
               </>
@@ -352,65 +337,6 @@ const LikeText = styled.div`
   align-items: center;
 `;
 
-const TutirialText2 = styled.div`
-  user-select: none;
-  opacity: 0;
-  color: white;
-  z-index: 12;
-  font-size: 3rem;
-  transition: all 0.3s ease-in-out;
-`;
-
-const TutorialTextCover = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const TutirialText = styled.div`
-  user-select: none;
-  opacity: 1;
-  color: white;
-  z-index: 12;
-  font-size: 3rem;
-  transition: all 0.3s ease-in-out;
-`;
-
-const TutorialBg = styled.div`
-  display: flex;
-  width: 50rem;
-  position: absolute;
-  height: 28.125rem;
-  margin-top: 4rem;
-  z-index: 11;
-  background-color: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  opacity: 1;
-  transition: all 0.3s ease-in-out;
-  :hover {
-    & > :first-child > div {
-      opacity: 0;
-    }
-    & > :last-child > div {
-      opacity: 1;
-    }
-  }
-`;
-
-const Uploading = styled.div`
-  display: flex;
-  height: 20rem;
-  width: 40rem;
-  margin: 0 auto;
-  background-image: url("${(props) => props.src}");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-`;
-
 const Input = styled.input`
   outline: none;
   width: 100%;
@@ -467,7 +393,7 @@ const Libutton = styled.div`
   outline: 0;
 `;
 
-const Li = styled.p`
+const Li = styled.div`
   cursor: pointer;
   margin-left: 0.5rem;
   margin-right: 1rem;
@@ -552,8 +478,8 @@ const Component = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  height: ${(props)=>props.height}px;
-  width: ${(props)=>props.width}px;
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
   background-color: black;
   z-index: 60;
   opacity: 0.4;
@@ -633,7 +559,7 @@ const LikeCov = styled.div`
   }
 `;
 
-const Tag = styled.p`
+const Tag = styled.div`
   font-weight: 700;
   margin-left: 1rem;
   display: flex;

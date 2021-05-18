@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, Fragment } from "react";
 import styled from "styled-components";
 import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
@@ -148,9 +148,9 @@ const TrilsTutorial = (props) => {
         <PostUserComment>
           {props.information.hashtag.map((p, idx) => {
             return (
-              <>
+              <Fragment key={idx}>
                 <Hash>#{p}</Hash>
-              </>
+              </Fragment>
             );
           })}
         </PostUserComment>

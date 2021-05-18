@@ -370,45 +370,6 @@ const CenterDiv = styled.div`
   width: 80rem;
 `;
 
-const TopButton = styled.div`
-  position: fixed;
-  bottom: 11%;
-  right: 3%;
-  width: 3.125rem;
-  height: 3.125rem;
-  cursor: pointer;
-  z-index: 50;
-  background-color: #2b61e1;
-  border-radius: 25px;
-  transform: rotate(-90deg);
-  transform-origin: center center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  & svg {
-    width: 60%;
-    height: 60%;
-    fill: #ffffff;
-  }
-`;
-
-const FloatingButton = styled.div`
-  position: fixed;
-  bottom: 5%;
-  right: 3%;
-  width: 3.125rem;
-  height: 3.125rem;
-  cursor: pointer;
-  z-index: 50;
-
-  & svg {
-    width: 100%;
-    height: 100%;
-    fill: #2b61e1;
-  }
-`;
-
 const PostLine = styled.div`
   display: flex;
   max-width: 80rem;
