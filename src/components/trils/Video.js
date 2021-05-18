@@ -253,6 +253,7 @@ const ProfileImg = styled.div`
   border-radius: var(--size);
   background-position: center;
   background-image: url(${(props) => props.src});
+  background-color: white;
   background-size: cover;
   margin-left: 16px;
   display: flex;
