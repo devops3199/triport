@@ -172,7 +172,7 @@ const myTrilogLoad = () => {
 const likeTrilsLoad = () => {
   return function (dispatch, getState, { history }) {
     let access_token = localStorage.getItem("access_token");
-    const API = `${config}`;
+    const API = `${config}/api/posts/member/like`;
 
     fetch(API, {
       method: "GET",
