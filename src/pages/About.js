@@ -140,7 +140,7 @@ const About = () => {
             <MemberWrapper>
                 <CenterWrapper>
                     <TitleWrapper>
-                        <span>팀 소개</span>
+                        <span>Triport 팀 소개</span>
                     </TitleWrapper>
                     <SectionWrapper>
                         <span>리더</span>
@@ -149,20 +149,25 @@ const About = () => {
                         <MemberCard className="animate right">
                             <MemberImg data-lazy={Profile} />
                             <MemberText>
-                                <Name>박은진</Name>
-                                <div><span>github:</span> <a href="https://github.com/eungenie" target="_blank">https://github.com/eungenie</a></div>
-                                <div><span>blog:</span> <a href="https://zins.tistory.com/" target="_blank">https://zins.tistory.com/</a></div>
-                                <div><span>email:</span> eunzin.park@gmail.com</div>
+                                <NameTag>
+                                    <Name>박은진</Name><FeatureTag>로그인</FeatureTag><FeatureTag>회원가입</FeatureTag><FeatureTag>마이페이지</FeatureTag>
+                                </NameTag>
+                                <div>안녕하세요! 차근차근 생각을 실천하는 백엔드 개발자 박은진 입니다!😊 <br/>서비스의 기획, 코드 구성에 대한 고민을 하나씩 이루는 재미에 푹 빠진 요즘입니다.🥰<br/> 무엇이든 구현해낼 수 있다는 자신감과 긍정적인 마음으로 코딩과 밀당중! <br/>성장의 계기가된 팀에서, 좋은 팀원들과 특별한 이야기를 담은 TRIPORT✈️  많이 이용해주세요!<br/> Bug, VoC 등 피드백은 언제나 감사드립니다. 🙏🏻</div>
+                                <div><BlueTag>github:</BlueTag> <a href="https://github.com/eungenie" target="_blank">https://github.com/eungenie</a></div>
+                                <div><BlueTag>blog:</BlueTag> <a href="https://zins.tistory.com/" target="_blank">https://zins.tistory.com/</a></div>
+                                <div><BlueTag>email:</BlueTag> eunzin.park@gmail.com</div>
                             </MemberText>
                         </MemberCard>
                         <MemberCard className="animate right">
                             <MemberImg data-lazy={Profile} />
                             <MemberText>
-                                <Name>김병훈</Name>
-                                <div>안녕하세요. 프론트엔드 개발자 김병훈입니다. 여행을 좋아하는 사람 중 하나로써 영상과 사진을 업로드하고 다른 사람들의 글도 보면서 그 다음 여행할 때 여행지를 참고하거나 눈으로 힐링할 수 있으면 좋을 것 같다는 취지로 이 프로젝트를 진행하게 되었습니다. Trils에 관한 문의나 피드백이 있으시다면 저 혹은 손윤환님께 연락을 주시면 될 것 같습니다. 감사합니다.</div>
-                                <div><span>github:</span> <a href="https://github.com/kbyunghoon" target="_blank">https://github.com/kbyunghoon</a></div>
-                                <div><span>blog:</span> <a href="https://velog.io/@kbhoon" target="_blank">https://velog.io/@kbhoon</a></div>
-                                <div><span>email:</span> kbhthl11@gmail.com</div>
+                                <NameTag>
+                                    <Name>김병훈</Name><FeatureTag>Trils</FeatureTag>
+                                </NameTag>
+                                <div>안녕하세요. 프론트엔드 개발자 김병훈입니다. 여행을 좋아하는 사람 중 하나로써 영상과 사진을 업로드하고 다른 사람들의 글도 보면서 그 다음 여행할 때 여행지를 참고하거나 눈으로 힐링할 수 있으면 좋을 것 같다는 취지로 이 프로젝트를 진행하게 되었습니다. 감사합니다.</div>
+                                <div><BlueTag>github:</BlueTag> <a href="https://github.com/kbyunghoon" target="_blank">https://github.com/kbyunghoon</a></div>
+                                <div><BlueTag>blog:</BlueTag> <a href="https://velog.io/@kbhoon" target="_blank">https://velog.io/@kbhoon</a></div>
+                                <div><BlueTag>email:</BlueTag> kbhthl11@gmail.com</div>
                             </MemberText>
                         </MemberCard>
                     </div>
@@ -173,21 +178,25 @@ const About = () => {
                         <MemberCard className="animate left">
                             <MemberImg data-lazy={Profile} />
                             <MemberText>
-                                <Name>정찬엽</Name>
+                                <NameTag>
+                                    <Name>정찬엽</Name><FeatureTag>Trilog</FeatureTag><FeatureTag>About</FeatureTag>
+                                </NameTag>
                                 <div>안녕하세요 😄 매일 성장하는 FE개발자, 정찬엽입니다. 즐거운 트릴하세요!</div>
-                                <div><span>github:</span> <a href="https://github.com/rayrayj92" target="_blank">https://github.com/rayrayj92</a></div>
-                                <div><span>blog:</span> <a href="https://kodepaper.tistory.com/" target="_blank">https://kodepaper.tistory.com/</a></div>
-                                <div><span>email:</span> ops3199@outlook.kr</div>
+                                <div><BlueTag>github:</BlueTag> <a href="https://github.com/rayrayj92" target="_blank">https://github.com/rayrayj92</a></div>
+                                <div><BlueTag>blog:</BlueTag> <a href="https://kodepaper.tistory.com/" target="_blank">https://kodepaper.tistory.com/</a></div>
+                                <div><BlueTag>email:</BlueTag> ops3199@outlook.kr</div>
                             </MemberText>
                         </MemberCard>
                         <MemberCard className="animate left">
                             <MemberImg data-lazy={Profile} />
                             <MemberText>
-                                <Name>박민경</Name>
-                                <div>안녕하세요! ☺️ TRIPORT에 많은 애정을 꾹꾹 눌러담은 박민경입니다 :) 그럼, Traveler 여러분! 모두 Happy TRIPORT~ ✈️🥰</div>
-                                <div><span>github:</span> <a href="https://github.com/pmk2424" target="_blank">https://github.com/pmk2424</a></div>
-                                <div><span>blog:</span> <a href="https://velog.io/@pmk4236" target="_blank">https://velog.io/@pmk4236</a></div>
-                                <div><span>email:</span> pmk42360@gmail.com</div>
+                                <NameTag>
+                                    <Name>박민경</Name><FeatureTag>로그인</FeatureTag><FeatureTag>회원가입</FeatureTag><FeatureTag>마이페이지</FeatureTag>
+                                </NameTag>
+                                <div>안녕하세요! ☺️ TRIPORT에 많은 애정을 꾹꾹 눌러담은 박민경입니다 :)<br/>그럼, Traveler 여러분! 모두 Happy TRIPORT~ ✈️🥰</div>
+                                <div><BlueTag>github:</BlueTag> <a href="https://github.com/pmk2424" target="_blank">https://github.com/pmk2424</a></div>
+                                <div><BlueTag>blog:</BlueTag> <a href="https://velog.io/@pmk4236" target="_blank">https://velog.io/@pmk4236</a></div>
+                                <div><BlueTag>email:</BlueTag> pmk42360@gmail.com</div>
                             </MemberText>
                         </MemberCard>
                     </div>
@@ -198,19 +207,25 @@ const About = () => {
                         <MemberCard className="animate right">
                             <MemberImg data-lazy={Profile} />
                             <MemberText>
-                                <Name>손윤환</Name>
-                                <div><span>github:</span> <a href="https://github.com/beadoer1" target="_blank">https://github.com/beadoer1</a></div>
-                                <div><span>blog:</span> <a href="https://beadoer1.github.io/" target="_blank">https://beadoer1.github.io/</a></div>
-                                <div><span>email:</span> beadoer1@gmail.com</div>
+                                <NameTag>
+                                    <Name>손윤환</Name><FeatureTag>Trils</FeatureTag>
+                                </NameTag>
+                                <div>자유롭게 여행하듯 삶을 살고 싶은 손윤환이라고 합니다😘<br/>제 개발자 여행이 여러분께 잠시나마 즐거움을 선물할 수 있었으면 좋겠습니다😁</div>
+                                <div><BlueTag>github:</BlueTag> <a href="https://github.com/beadoer1" target="_blank">https://github.com/beadoer1</a></div>
+                                <div><BlueTag>blog:</BlueTag> <a href="https://beadoer1.github.io/" target="_blank">https://beadoer1.github.io/</a></div>
+                                <div><BlueTag>email:</BlueTag> beadoer1@gmail.com</div>
                             </MemberText>
                         </MemberCard>
                         <MemberCard className="animate right">
                             <MemberImg data-lazy={Profile} />
                             <MemberText>
-                                <Name>채진욱</Name>
-                                <div><span>github:</span> <a href="https://github.com/cowlsdnr77" target="_blank">https://github.com/cowlsdnr77</a></div>
-                                <div><span>blog:</span> <a href="https://velog.io/@cowlsdnr77" target="_blank">https://velog.io/@cowlsdnr77</a></div>
-                                <div><span>email:</span> cowlsdnr77@naver.com</div>
+                                <NameTag>
+                                    <Name>채진욱</Name><FeatureTag>Trilog</FeatureTag><FeatureTag>마이페이지</FeatureTag>
+                                </NameTag>
+                                <div>😄 하루하루 개발의 즐거움을 알아가고 있는 채진욱이라고 합니다. <br/>Triport를 통해 여행이 쉽지 않은 시국이지만 서로의 경험을 공유하면서 대리만족을 할 수 있으셨으면 좋겠습니다! 🎉</div>
+                                <div><BlueTag>github:</BlueTag> <a href="https://github.com/cowlsdnr77" target="_blank">https://github.com/cowlsdnr77</a></div>
+                                <div><BlueTag>blog:</BlueTag> <a href="https://velog.io/@cowlsdnr77" target="_blank">https://velog.io/@cowlsdnr77</a></div>
+                                <div><BlueTag>email:</BlueTag> cowlsdnr77@naver.com</div>
                             </MemberText>
                         </MemberCard>
                     </div>
@@ -221,9 +236,11 @@ const About = () => {
                         <MemberCard className="animate up">
                             <MemberImg data-lazy={Profile} />
                             <MemberText>
-                                <Name>안지수</Name>
-                                <div><span>portfolio:</span> <a href="https://jisooahn3582.wixsite.com/my-site" target="_blank">https://jisooahn3582.wixsite.com/my-site</a></div>
-                                <div><span>email:</span> js3582@naver.com</div>
+                                <NameTag>
+                                    <Name>안지수</Name>
+                                </NameTag>
+                                <div><BlueTag>portfolio:</BlueTag> <a href="https://jisooahn3582.wixsite.com/my-site" target="_blank">https://jisooahn3582.wixsite.com/my-site</a></div>
+                                <div><BlueTag>email:</BlueTag> js3582@naver.com</div>
                             </MemberText>
                         </MemberCard>
                     </div>
@@ -416,7 +433,7 @@ const ImgWrapper = styled.div`
 
 const MemberWrapper = styled.div`
     width: 100%;
-    min-height: 2850px;
+    min-height: 2700px;
 `;
 
 const SectionWrapper = styled.div`
@@ -432,7 +449,7 @@ const SectionWrapper = styled.div`
 
 const MemberCard = styled.div`
     width: 900px;
-    height: 300px;
+    height: 280px;
     box-shadow: 0px 3px 6px #2B61E143;
     border-radius: 10px;
     margin: 30px 0;
@@ -447,21 +464,37 @@ const MemberImg = styled.img`
 `;
 
 const MemberText = styled.div`
-    width: 500px;
+    width: 600px;
 
     & div {
         margin: .5rem 0;
     }
-
-    & span {
-        color: #2B61E1;
-    }
 `;
 
-const Name = styled.div`
+const NameTag = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const Name = styled.span`
     font-family: paybooc-bold;
     font-size: 20px;
-    margin-bottom: 1rem;
+    color: #5a5a5a;
+`;
+
+const FeatureTag = styled.span`
+    font-family: paybooc-Light;
+    font-size: .75rem;
+    padding: .25rem .75rem;
+    margin: 0 .25rem;
+    border: 1px solid #2B61E1;
+    border-radius: 10px;
+    background-color: #2B61E1;
+    color: #fff;
+`;
+
+const BlueTag = styled.span`
+    color: #2B61E1;
 `;
 
 export default About;
