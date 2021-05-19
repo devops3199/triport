@@ -464,6 +464,7 @@ const VideoPlay = styled.video`
 `;
 
 const Hash = styled.div`
+  user-select: none;
   cursor: pointer;
   margin-left: 0.5rem;
   font-family: "AppleSDGothicNeoR";
