@@ -1,37 +1,27 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
 import loginlogo from "media/image/login_logo.png";
 import kakaoicon from "media/svg/kakao_symbol.svg";
-
 import { emailCheck, pwdCheck } from "../shared/common";
 import { useDispatch } from "react-redux";
-
 import { actionCreators as userAcitons } from "redux/modules/user";
-import { actionCreators as profileActions } from "redux/modules/profile";
-
 const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = React.useState("");
   const [pwd, setPwd] = React.useState("");
-
   const [line1, setLine1] = useState("1px solid #707070");
   const [line2, setLine2] = useState("1px solid #707070");
-
   // 카카오 로그인 Redirect_url
   const KAKAO_URL =
-    // "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=http://triport.kr/auth/kakao/callback&response_type=code";
-    "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code";
-
+    "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=http://triport.kr/auth/kakao/callback&response_type=code";
+  // "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code";
   const login = () => {
     if (email === "" || pwd === "") {
       window.alert("로그인 정보를 모두 입력해주세요.");
       return;
     }
     dispatch(userAcitons.loginDB(email, pwd));
-    dispatch(profileActions.getProfile()); // 프로필 조회
   };
-
   useEffect(() => {
     if (!email) {
       setLine1("1px solid #707070");
@@ -43,7 +33,6 @@ const Login = () => {
       setLine1("1px solid #FF8080");
     }
   }, [email]);
-
   useEffect(() => {
     if (!pwd) {
       setLine2("1px solid #707070");
@@ -55,7 +44,6 @@ const Login = () => {
       setLine2("1px solid #FF8080");
     }
   }, [pwd]);
-
   return (
     <React.Fragment>
       <Wrap>
@@ -88,9 +76,7 @@ const Login = () => {
     </React.Fragment>
   );
 };
-
 export default Login;
-
 const Wrap = styled.div`
   width: 22rem;
   display: flex;
@@ -99,14 +85,12 @@ const Wrap = styled.div`
   margin: 0px auto;
   font-family: "paybooc-Bold";
 `;
-
 const Image = styled.div`
   background-image: url("${loginlogo}");
   background-size: 23rem 18.75rem;
   width: 23rem;
   height: 18.75rem;
 `;
-
 const LoginDiv = styled.div`
   display: flex;
   font-size: 1.625rem;
@@ -116,7 +100,6 @@ const LoginDiv = styled.div`
   margin-bottom: 3rem;
   justify-content: center;
 `;
-
 const EmailInput = styled.input`
   font-family: "paybooc-Bold";
   outline: none;
@@ -128,7 +111,6 @@ const EmailInput = styled.input`
   box-shadow: 0px 3px 6px #00000029;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-
   ::placeholder {
     font-family: "paybooc-Bold";
     font-size: 1rem;
@@ -136,7 +118,6 @@ const EmailInput = styled.input`
     opacity: 50%;
   }
 `;
-
 const PwdInput = styled.input`
   font-family: "paybooc-Bold";
   outline: none;
@@ -148,7 +129,6 @@ const PwdInput = styled.input`
   box-shadow: 0px 3px 6px #00000029;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-
   ::placeholder {
     font-family: "paybooc-Bold";
     font-size: 1rem;
@@ -156,7 +136,6 @@ const PwdInput = styled.input`
     opacity: 50%;
   }
 `;
-
 const Button1 = styled.button`
   cursor: pointer;
   font-family: "paybooc-Bold";
@@ -169,7 +148,6 @@ const Button1 = styled.button`
   background-color: #2b61e1;
   color: #ffffff;
 `;
-
 const Button2 = styled.a`
   font-family: "paybooc-Bold";
   width: 24.5rem;
@@ -187,7 +165,6 @@ const Button2 = styled.a`
   color: #2b1718;
   text-decoration: none;
 `;
-
 const Kakao = styled.div`
   display: flex;
   margin: 0px;
@@ -197,7 +174,6 @@ const Kakao = styled.div`
   height: 19.86px;
   margin-right: 1rem;
 `;
-
 const Text = styled.a`
   width: 24.5rem;
   text-decoration: none;
