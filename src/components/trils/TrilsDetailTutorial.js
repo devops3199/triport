@@ -464,6 +464,7 @@ const VideoPlay = styled.video`
 `;
 
 const Hash = styled.div`
+  user-select: none;
   cursor: pointer;
   margin-left: 0.5rem;
   font-family: "AppleSDGothicNeoR";
@@ -525,6 +526,7 @@ const ProfileImg = styled.div`
   border-radius: var(--size);
   background-position: center;
   background-image: url(${(props) => props.src});
+  background-color: white;
   background-size: cover;
   margin-left: 16px;
   display: flex;

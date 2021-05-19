@@ -107,8 +107,11 @@ const Video = (props) => {
           history.push("/login");
         }
       });
+    } else {
+      dispatch(
+        TrilsActions.send_like(props.information.id, props.member.isLike)
+      );
     }
-    dispatch(TrilsActions.send_like(props.information.id, props.member.isLike));
   };
 
   return (
@@ -253,6 +256,7 @@ const ProfileImg = styled.div`
   border-radius: var(--size);
   background-position: center;
   background-image: url(${(props) => props.src});
+  background-color: white;
   background-size: cover;
   margin-left: 16px;
   display: flex;

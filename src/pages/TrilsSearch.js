@@ -1,5 +1,5 @@
 import Video from "components/trils/Video";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Fragment } from "react";
 import { history } from "redux/configureStore";
 import { Plus, Arrow } from "media/svg/Svg";
 import styled from "styled-components";
@@ -10,6 +10,7 @@ import InfinityScroll from "shared/InfinityScroll";
 import SearchIcon from "@material-ui/icons/Search";
 import Swal from "sweetalert2";
 import queryString from "query-string";
+import Fade from "react-reveal/Fade";
 
 const Trils = (props) => {
   const { search } = props.location;
@@ -145,15 +146,19 @@ const Trils = (props) => {
               {post_list.map((p, idx) => {
                 if ((idx + 1) % 3 !== 0) {
                   return (
-                    <>
-                      <Video {...p} history={history} mr />
-                    </>
+                    <Fragment key={idx}>
+                      <Fade bottom>
+                        <Video {...p} history={history} mr />
+                      </Fade>
+                    </Fragment>
                   );
                 } else {
                   return (
-                    <>
-                      <Video {...p} history={history} />
-                    </>
+                    <Fragment key={idx}>
+                      <Fade bottom>
+                        <Video {...p} history={history} />
+                      </Fade>
+                    </Fragment>
                   );
                 }
               })}

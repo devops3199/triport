@@ -172,8 +172,9 @@ const TrilsDetail = (props) => {
           history.push("/login");
         }
       });
+    } else {
+      dispatch(TrilsActions.send_like(info.information.id, info.member.isLike));
     }
-    dispatch(TrilsActions.send_like(info.information.id, info.member.isLike));
   };
 
   const del = () => {
@@ -656,6 +657,7 @@ const ProfileImg = styled.div`
   border-radius: var(--size);
   background-position: center;
   background-image: url(${(props) => props.src});
+  background-color: white;
   background-size: cover;
   margin-left: 16px;
   display: flex;

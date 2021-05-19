@@ -234,6 +234,7 @@ const CloseTutorial = styled.div`
   font-family: "paybooc-Bold";
   color: white;
   right: 50%;
+  user-select: none;
 `;
 
 const Move = keyframes`
