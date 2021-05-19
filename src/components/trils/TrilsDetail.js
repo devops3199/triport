@@ -172,8 +172,9 @@ const TrilsDetail = (props) => {
           history.push("/login");
         }
       });
+    } else {
+      dispatch(TrilsActions.send_like(info.information.id, info.member.isLike));
     }
-    dispatch(TrilsActions.send_like(info.information.id, info.member.isLike));
   };
 
   const del = () => {

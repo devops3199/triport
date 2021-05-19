@@ -107,8 +107,11 @@ const Video = (props) => {
           history.push("/login");
         }
       });
+    } else {
+      dispatch(
+        TrilsActions.send_like(props.information.id, props.member.isLike)
+      );
     }
-    dispatch(TrilsActions.send_like(props.information.id, props.member.isLike));
   };
 
   return (
