@@ -16,15 +16,14 @@ const Header = (props) => {
   const userprofile = useSelector((state) => state.profile);
   const user = useSelector((state) => state.user);
 
-  // 유저 등급에 따른 등급 아이콘 보여주기
   const gradeImg = () => {
-    if (userprofile.memberGrade === "TRAVELER") {
+    if (user.memberGrade === "TRAVELER") {
       return grade1;
     }
-    if (userprofile.memberGrade === "TRAVEL_EDITOR") {
+    if (user.memberGrade === "TRAVEL_EDITOR") {
       return grade2;
     }
-    if (userprofile.memberGrade === "TRAVEL_MASTER") {
+    if (user.memberGrade === "TRAVEL_MASTER") {
       return grade3;
     }
   };
@@ -63,9 +62,9 @@ const Header = (props) => {
             </LeftWrap>
             <div style={{ width: "30rem" }}></div>
             <RightWrap>
-              <Image src={userprofile.user_img} />
-              <Grade src={gradeImg} />
-              <Nickname>{userprofile.nickname}</Nickname>
+              <Image url={user.profileImgUrl} />
+              <Grade url={gradeImg} />
+              <Nickname>{user.nickname}</Nickname>
               <MyOrLogin
                 onClick={() => {
                   const pathname = history.location.pathname;
@@ -235,7 +234,7 @@ const Image = styled.div`
   border: 1px solid #2b61e1;
   box-shadow: 0px 3px 6px #00000029;
   background-position: center;
-  background-image: url("${(props) => props.src}");
+  background-image: url(${(props) => props.url});
   background-size: cover;
   margin-right: 1rem;
 `;
@@ -244,7 +243,7 @@ const Grade = styled.div`
   width: 1.5rem;
   height: 1.5rem;
   background-position: center;
-  background-image: url("${grade1}");
+  background-image: url(${(props) => props.url});
   background-size: cover;
   margin: 0px auto;
   margin-top: -0.3rem;

@@ -8,6 +8,13 @@ import TrilsImage2 from "media/image/about-trils2.jpg";
 import Profile from "media/image/about_profile.png";
 import Profile2 from "media/image/about_profile2.jpg"
 import Blog from "media/image/about_blog.jpg";
+import Park from "media/image/park.png";
+import Hoon from "media/image/hoon.png";
+import Chan from "media/image/chan.jpg";
+import Jin from "media/image/jin.png";
+import Min from "media/image/min.png";
+import Jisoo from "media/image/jisoo.png";
+import Yoon from "media/image/yoon.png";
 
 const About = () => {
     const lazyLoad = (target) => {
@@ -79,14 +86,15 @@ const About = () => {
                     <DivideWrapper>
                         <LeftWrapper>
                             <Info>
-                                <div>여행지에 대한 영상을 한번에 볼 수 있어요!</div>
-                                <div>짧은 영상을  <span>Trils</span>에 올려,</div>
-                                <div>여러분이 다녀온 곳을 자랑해주세요! 😄</div>
+                                <div>짜릿했던 순간!</div>
+                                <div>생생한 영상을 <span>Trils</span>에 올려주세요.</div>
+                                <div>영상 속 여행이 궁금하다면, 💙를 눌러보세요!</div>
+                                <div><span>Trilog</span>에 여행 이야기가 올라올지도 몰라요..!😄</div>
                             </Info>
                             <CardWrapper className="animate left">
                                 <User>
                                     <img data-lazy={Profile2} />
-                                    <span>트리포트</span>
+                                    <span>Tripper</span>
                                 </User>
                                 <TrilsCard url={TrilsImage2}>
                                    <Play />
@@ -104,7 +112,7 @@ const About = () => {
                             <CardWrapper className="animate right">
                                 <User>
                                     <img data-lazy={Profile2} />
-                                    <span>트리포트</span>
+                                    <span>Tripper</span>
                                 </User>
                                 <TrilsCard url={TrilsImage1}>
                                    <Play />
@@ -147,24 +155,24 @@ const About = () => {
                     </SectionWrapper>
                     <div>
                         <MemberCard className="animate right">
-                            <MemberImg data-lazy={Profile} />
+                            <MemberImg data-lazy={Park} />
                             <MemberText>
                                 <NameTag>
                                     <Name>박은진</Name><FeatureTag>로그인</FeatureTag><FeatureTag>회원가입</FeatureTag><FeatureTag>마이페이지</FeatureTag>
                                 </NameTag>
-                                <div>안녕하세요! 차근차근 생각을 실천하는 백엔드 개발자 박은진 입니다!😊 <br/>서비스의 기획, 코드 구성에 대한 고민을 하나씩 이루는 재미에 푹 빠진 요즘입니다.🥰<br/> 무엇이든 구현해낼 수 있다는 자신감과 긍정적인 마음으로 코딩과 밀당중! <br/>성장의 계기가된 팀에서, 좋은 팀원들과 특별한 이야기를 담은 TRIPORT✈️  많이 이용해주세요!<br/> Bug, VoC 등 피드백은 언제나 감사드립니다. 🙏🏻</div>
+                                <div>차근차근 생각을 실천하는 백엔드 개발자 박은진 입니다!😊 <br/>서비스의 기획, 코드 구성에 대한 고민을 하나씩 이루는 재미에 푹 빠진 요즘입니다.🥰<br/> 무엇이든 구현해낼 수 있다는 자신감과 긍정적인 마음으로 코딩과 밀당중! <br/>성장의 계기가된 팀에서, 좋은 팀원들과 특별한 이야기를 담은 TRIPORT✈️  많이 이용해주세요!<br/> Bug, VoC 등 피드백은 언제나 감사드립니다. 🙏🏻</div>
                                 <div><BlueTag>github:</BlueTag> <a href="https://github.com/eungenie" target="_blank">https://github.com/eungenie</a></div>
                                 <div><BlueTag>blog:</BlueTag> <a href="https://zins.tistory.com/" target="_blank">https://zins.tistory.com/</a></div>
                                 <div><BlueTag>email:</BlueTag> eunzin.park@gmail.com</div>
                             </MemberText>
                         </MemberCard>
                         <MemberCard className="animate right">
-                            <MemberImg data-lazy={Profile} />
+                            <MemberImg data-lazy={Hoon} />
                             <MemberText>
                                 <NameTag>
                                     <Name>김병훈</Name><FeatureTag>Trils</FeatureTag>
                                 </NameTag>
-                                <div>안녕하세요. 프론트엔드 개발자 김병훈입니다. 여행을 좋아하는 사람 중 하나로써 영상과 사진을 업로드하고 다른 사람들의 글도 보면서 그 다음 여행할 때 여행지를 참고하거나 눈으로 힐링할 수 있으면 좋을 것 같다는 취지로 이 프로젝트를 진행하게 되었습니다. 감사합니다.</div>
+                                <div>프론트엔드 개발자 김병훈입니다. 여행을 좋아하는 사람 중 하나로써 영상과 사진을 업로드하고 다른 사람들의 글도 보면서 그 다음 여행할 때 여행지를 참고하거나 눈으로 힐링할 수 있으면 좋을 것 같다는 취지로 이 프로젝트를 진행하게 되었습니다. 감사합니다.</div>
                                 <div><BlueTag>github:</BlueTag> <a href="https://github.com/kbyunghoon" target="_blank">https://github.com/kbyunghoon</a></div>
                                 <div><BlueTag>blog:</BlueTag> <a href="https://velog.io/@kbhoon" target="_blank">https://velog.io/@kbhoon</a></div>
                                 <div><BlueTag>email:</BlueTag> kbhthl11@gmail.com</div>
@@ -176,24 +184,24 @@ const About = () => {
                     </SectionWrapper>
                     <div>
                         <MemberCard className="animate left">
-                            <MemberImg data-lazy={Profile} />
+                            <MemberImg data-lazy={Chan} />
                             <MemberText>
                                 <NameTag>
                                     <Name>정찬엽</Name><FeatureTag>Trilog</FeatureTag><FeatureTag>About</FeatureTag>
                                 </NameTag>
-                                <div>안녕하세요 😄 매일 성장하는 FE개발자, 정찬엽입니다. 즐거운 트릴하세요!</div>
+                                <div>매일 성장하는 FE개발자, 정찬엽입니다!😄 즐거운 트릴하세요!</div>
                                 <div><BlueTag>github:</BlueTag> <a href="https://github.com/rayrayj92" target="_blank">https://github.com/rayrayj92</a></div>
                                 <div><BlueTag>blog:</BlueTag> <a href="https://kodepaper.tistory.com/" target="_blank">https://kodepaper.tistory.com/</a></div>
                                 <div><BlueTag>email:</BlueTag> ops3199@outlook.kr</div>
                             </MemberText>
                         </MemberCard>
                         <MemberCard className="animate left">
-                            <MemberImg data-lazy={Profile} />
+                            <MemberImg data-lazy={Min} />
                             <MemberText>
                                 <NameTag>
                                     <Name>박민경</Name><FeatureTag>로그인</FeatureTag><FeatureTag>회원가입</FeatureTag><FeatureTag>마이페이지</FeatureTag>
                                 </NameTag>
-                                <div>안녕하세요! ☺️ TRIPORT에 많은 애정을 꾹꾹 눌러담은 박민경입니다 :)<br/>그럼, Traveler 여러분! 모두 Happy TRIPORT~ ✈️🥰</div>
+                                <div>☺️ TRIPORT에 많은 애정을 꾹꾹 눌러담은 박민경입니다 :)<br/>그럼, Traveler 여러분! 모두 Happy TRIPORT~ ✈️🥰</div>
                                 <div><BlueTag>github:</BlueTag> <a href="https://github.com/pmk2424" target="_blank">https://github.com/pmk2424</a></div>
                                 <div><BlueTag>blog:</BlueTag> <a href="https://velog.io/@pmk4236" target="_blank">https://velog.io/@pmk4236</a></div>
                                 <div><BlueTag>email:</BlueTag> pmk42360@gmail.com</div>
@@ -205,7 +213,7 @@ const About = () => {
                     </SectionWrapper>
                     <div>
                         <MemberCard className="animate right">
-                            <MemberImg data-lazy={Profile} />
+                            <MemberImg data-lazy={Yoon} />
                             <MemberText>
                                 <NameTag>
                                     <Name>손윤환</Name><FeatureTag>Trils</FeatureTag>
@@ -217,7 +225,7 @@ const About = () => {
                             </MemberText>
                         </MemberCard>
                         <MemberCard className="animate right">
-                            <MemberImg data-lazy={Profile} />
+                            <MemberImg data-lazy={Jin} />
                             <MemberText>
                                 <NameTag>
                                     <Name>채진욱</Name><FeatureTag>Trilog</FeatureTag><FeatureTag>마이페이지</FeatureTag>
@@ -233,8 +241,8 @@ const About = () => {
                         <span>디자인</span>
                     </SectionWrapper>
                     <div>
-                        <MemberCard className="animate up">
-                            <MemberImg data-lazy={Profile} />
+                        <MemberCard className="animate right">
+                            <MemberImg data-lazy={Jisoo} />
                             <MemberText>
                                 <NameTag>
                                     <Name>안지수</Name><FeatureTag>갓지수님</FeatureTag>

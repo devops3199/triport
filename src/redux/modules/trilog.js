@@ -37,6 +37,20 @@ const trilogSlice = createSlice({
             draft.main.list = [...draft.main.list, ...action.payload.results];
             draft.main.is_last = action.payload.last;
         }),
+        // Trilog 수정 페이지 - 게시글 수정
+        setTrilogMainEdit : (state, action) => produce(state, (draft) => {
+            let idx = draft.main.list.findIndex((e) => e.information.id === parseInt(action.payload.id));
+            draft.main.list[idx].information.title = action.payload.title;
+            draft.main.list[idx].information.address = action.payload.address;
+            draft.main.list[idx].information.description = action.payload.description;
+
+            if(action.payload.imageUrlList.length !== 0) {
+                draft.main.list[idx].information.thumbNailUrl = action.payload.imageUrlList[0].imageFilePath;
+            } else {
+                draft.main.list[idx].information.thumbNailUrl = '';
+            }
+            
+        }),
         // Trilog 메인 페이지 - 게시글 조회
         setTrilogMain : (state, action) => produce(state, (draft) => {
             draft.main.list = action.payload.results;
@@ -54,6 +68,12 @@ const trilogSlice = createSlice({
         setTrilogLike : (state, action) => produce(state, (draft) => {
             let idx = draft.main.list.findIndex((e) => e.information.id === action.payload);
             draft.main.list[idx].member.isLike = !draft.main.list[idx].member.isLike;
+            if(draft.main.list[idx].member.isLike) {
+                draft.main.list[idx].information.likeNum += 1;
+            } else {
+                draft.main.list[idx].information.likeNum -= 1;
+            }
+            
         }),
         // Trilog 상세 페이지 - 부모 댓글 페이징 설정(다음 부모 댓글 있나 없나)
         setTrilogParentCommentPage : (state, action) => produce(state, (draft) => {
@@ -221,7 +241,6 @@ const addTrilog = (trilog) => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
         if(trilog.is_edit) {
-            console.log('edit called')
             fetch(`${config}/api/boards/${trilog.id}`, {
                 method: 'PUT',
                 headers : {
@@ -238,8 +257,10 @@ const addTrilog = (trilog) => {
             })
             .then(res => res.json())
             .then(data => {
+                console.log(data, 'data');
                 alert(data.msg);
-                history.replace('/trilog');
+                dispatch(setTrilogMainEdit(trilog));
+                history.push('/trilog');
             })
             .catch(err => console.log(err, 'Trilog Edit'))
         } else {
@@ -259,8 +280,9 @@ const addTrilog = (trilog) => {
             })
             .then(res => res.json())
             .then(data => {
+                console.log(data, 'data');
                 alert(data.msg);
-                history.replace('/trilog');
+                history.push('/trilog');
             })
             .catch(err => console.log(err, 'Trilog Add'))
         }
@@ -473,6 +495,7 @@ export const {
     setMainLoading, // Trilog 메인 페이지 - 내용 로딩 여부
     setDetailLoading, // Trilog 상세 페이지 - 내용 로딩 여부
     setTrilogMainAdd, // Trilog 작성 페이지 - 게시글 작성
+    setTrilogMainEdit, // Trilog 수정 페이지 - 게시글 수정
     setTrilogMain, // Trilog 메인 페이지 - 게시글 조회
     setTrilogMainFilter, // Trilog 메인 페이지 - 필터 설정
     setTrilogMainPage, // Trilog 메인 페이지 - 무한 스크롤 페이지 설정(다음 게시물이 있나 없나)

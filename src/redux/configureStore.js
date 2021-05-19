@@ -25,7 +25,7 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: [
     thunk.withExtraArgument({ history: history }),
-    // , logger
+   logger
   ],
   devTools: process.env.NODE_ENV !== "production",
 });
