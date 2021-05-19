@@ -16,7 +16,6 @@ const Header = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
 
-  const userprofile = useSelector((state) => state.profile);
   const user = useSelector((state) => state.user);
 
   const gradeImg = () => {
@@ -33,8 +32,8 @@ const Header = (props) => {
 
   // 카카오 로그아웃
   const KAKAO_LOGOUT_URL =
-    "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://triport.kr/auth/logout";
-  // "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://localhost:3000/auth/logout";
+    // "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://triport.kr/auth/logout";
+    "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://localhost:3000/auth/logout";
 
   if (user.is_login === true) {
     return (

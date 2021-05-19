@@ -51,9 +51,11 @@ const tokenExtension = () => {
       // 헤더에 담긴 토큰과 만료시간 가져오기
       let access_token = result.headers.get("Access-Token");
       let refresh_token = result.headers.get("Refresh-Token");
+
       // 로컬에 새로 받은 토큰 저장
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("refresh_token", refresh_token);
+      console.log("토큰 재생성 성공");
     })
     .catch((err) => {
       console.log(err);
@@ -114,7 +116,7 @@ const loginDB = (email, pwd) => {
         //성공시 토큰, 유저 정보 저장
         let access_token = result.headers.get("Access-Token");
         let refresh_token = result.headers.get("Refresh-Token");
-        access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
+        let access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
         // 로컬 스토리지에 토큰 저장하기
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("refresh_token", refresh_token);
@@ -123,7 +125,7 @@ const loginDB = (email, pwd) => {
       .then((result) => {
         if (result.ok) {
           localStorage.setItem("userInfo", JSON.stringify(result)); // JSON.stringfy 가 body에 담아오는 값
-          setInterval(tokenExtension, 1740000);
+          setInterval(tokenExtension, 1740000); // 29분 후 실행
           dispatch(
             setUser({
               id: result.results.id,
@@ -154,26 +156,23 @@ const kakaoLogin = (code) => {
       },
     })
       .then((result) => {
-        //성공시 토큰, 유저 정보 저장
-        console.log(result);
+        if (result.status !== 200) {
+          alert("로그인에 실패했습니다. 아이디 혹은 비밀번호를 확인해주세요.");
+          return { ok: false };
+        }
+
         let access_token = result.headers.get("Access-Token");
         let refresh_token = result.headers.get("Refresh-Token");
-        setInterval(tokenExtension(), 1740000);
+
         // 로컬 스토리지에 토큰 저장하기
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("refresh_token", refresh_token);
         return result.json(); // fetch에서는 서버가 주는 json데이터를 사용하기 위해서
       })
       .then((result) => {
-        console.log(result);
-        console.log("카카오 로그인 성공!");
-        //성공시 state.user 저장
-        if (result.status === 401) {
-          window.alert(
-            "로그인에 실패했습니다. 아이디 혹은 비밀번호를 확인해주세요."
-          );
-        } else {
+        if (result.ok) {
           localStorage.setItem("userInfo", JSON.stringify(result)); // JSON.stringfy 가 body에 담아오는 값
+          setInterval(tokenExtension, 1740000); // 29분 후 실행
           dispatch(
             setUser({
               id: result.results.id,
@@ -182,16 +181,16 @@ const kakaoLogin = (code) => {
               profileImgUrl: result.results.profileImgUrl,
             })
           );
-          window.alert("로그인 되었습니다.");
+          alert("로그인 되었습니다.");
           history.replace("/");
-          history.go(0); // 메인 페이지로 돌아간 후 새로고침
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
       });
   };
 };
+
 // 소셜 로그아웃
 const kakaoLogout = () => {
   return function (dispatch, getState, { history }) {
@@ -264,7 +263,7 @@ const FindPwdDB = (email) => {
       .then((res) => res.json()) // json 형태로 변환해주고,
       .then((data) => {
         dispatch(LOADING(false)); // 로딩 끝남
-        alert(data.message);
+        alert(data.msg);
         history.push("/login");
       })
       .catch((err) => {
