@@ -9,6 +9,9 @@ import grade3 from "media/svg/등급3.svg";
 import Category from "components/Category";
 import { useDispatch, useSelector } from "react-redux";
 
+import { actionCreators as userAcitons } from "redux/modules/user";
+import { actionCreators as profileActions } from "redux/modules/profile";
+
 const Header = (props) => {
   const dispatch = useDispatch();
   const { history } = props;

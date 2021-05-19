@@ -30,40 +30,6 @@ const userSlice = createSlice({
   },
 });
 
-// 토큰 연장
-const tokenExtension = () => {
-  const access_token = localStorage.getItem("access_token");
-  const accessToken = localStorage.getItem("access_token").split(" ")[1];
-  const refreshToken = localStorage.getItem("refresh_token").split(" ")[1];
-
-  const API = `${config}/auth/reissue`;
-  fetch(API, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `${access_token}`,
-    },
-    body: JSON.stringify({
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-    }),
-  })
-    .then((result) => {
-      // 헤더에 담긴 토큰과 만료시간 가져오기
-      let access_token = result.headers.get("Access-Token");
-      let refresh_token = result.headers.get("Refresh-Token");
-
-      // 로컬에 새로 받은 토큰 저장
-      localStorage.setItem("access_token", access_token);
-      localStorage.setItem("refresh_token", refresh_token);
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log("토큰 재생성 실패");
-    });
-};
-
 // 회원가입
 const signupDB = (email, pwd, pwdcheck, nickname) => {
   return function (dispatch, getState, { history }) {
@@ -98,9 +64,6 @@ const signupDB = (email, pwd, pwdcheck, nickname) => {
 // 로그인
 const loginDB = (email, pwd) => {
   return function (dispatch, getState, { history }) {
-
-    let access_token_exp = null;
-
     const API = `${config}/auth/login`;
     fetch(API, {
       method: "POST",
@@ -114,15 +77,14 @@ const loginDB = (email, pwd) => {
       }),
     })
       .then((result) => {
-        if(result.status !== 200) {
-          alert("로그인에 실패했습니다. 아이디 혹은 비밀번호를 확인해주세요.");
-          return { ok : false };
-        }
-
         //성공시 토큰, 유저 정보 저장
         let access_token = result.headers.get("Access-Token");
         let refresh_token = result.headers.get("Refresh-Token");
-        access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
+        let access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
+
+        const Current_time = new Date().getTime();
+
+        setTimeout(tokenExtension(), access_token_exp - Current_time - 1797000);
 
         // 로컬 스토리지에 토큰 저장하기
         localStorage.setItem("access_token", access_token);
@@ -131,19 +93,26 @@ const loginDB = (email, pwd) => {
         return result.json(); // fetch에서는 서버가 주는 json데이터를 사용하기 위해서
       })
       .then((result) => {
-        if(result.ok) {
+        console.log(result);
+
+        //성공시 state.user 저장
+        if (result.status === 401) {
+          window.alert(
+            "로그인에 실패했습니다. 아이디 혹은 비밀번호를 확인해주세요."
+          );
+        } else {
           localStorage.setItem("userInfo", JSON.stringify(result)); // JSON.stringfy 가 body에 담아오는 값
-
-          setInterval(tokenExtension, 1740000);
-
-          dispatch(setUser({
-            id: result.results.id,
-            nickname: result.results.nickname,
-            memberGrade: result.results.memberGrade,
-            profileImgUrl: result.results.profileImgUrl,
-          }));
-          alert("로그인 되었습니다.");
+          dispatch(
+            setUser({
+              id: result.results.id,
+              nickname: result.results.nickname,
+              memberGrade: result.results.memberGrade,
+              profileImgUrl: result.results.profileImgUrl,
+            })
+          );
+          window.alert("로그인 되었습니다.");
           history.replace("/");
+          // history.go(0); // 메인 페이지로 돌아간 후 새로고침
         }
       })
       .catch((error) => {
@@ -169,9 +138,16 @@ const kakaoLogin = (code) => {
         console.log(result);
         let access_token = result.headers.get("Access-Token");
         let refresh_token = result.headers.get("Refresh-Token");
+        let access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
 
-        setInterval(tokenExtension(), 1740000);
+        const Current_time = new Date().getTime();
 
+        if (!access_token === null) {
+          setTimeout(
+            tokenExtension(),
+            access_token_exp - Current_time - 1797000
+          );
+        }
         // 로컬 스토리지에 토큰 저장하기
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("refresh_token", refresh_token);
@@ -222,12 +198,58 @@ const kakaoLogout = () => {
         Authorization: `${access_token}`,
       },
     })
-      .then((res) => {
-        console.log(res);
-        console.log("카카오 로그아웃 성공!");
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+// 토큰 연장
+const tokenExtension = () => {
+  return function (dispatch, getState) {
+    const access_token = localStorage.getItem("access_token");
+    const accessToken = localStorage.getItem("access_token").split(" ")[1];
+    const refreshToken = localStorage.getItem("refresh_token").split(" ")[1];
+
+    const API = `${config}/auth/reissue`;
+    fetch(API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${access_token}`,
+      },
+      body: JSON.stringify({
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      }),
+    })
+      .then((result) => {
+        // 헤더에 담긴 토큰과 만료시간 가져오기
+        let access_token = result.headers.get("Access-Token");
+        let refresh_token = result.headers.get("Refresh-Token");
+        let access_token_exp = result.headers.get("Access-Token-Expire-Time"); // 토큰 만료시간
+
+        // 현재 시간
+        let Current_time = new Date().getTime();
+
+        // 기존 토큰 지우고,
+        localStorage.clear();
+
+        // 로컬에 새로 받은 토큰 저장
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("refresh_token", refresh_token);
+
+        // 만료되기 1분 전에 재발급하기
+
+        setTimeout(tokenExtension(), access_token_exp - Current_time - 1797000);
+
+        console.log("토큰 재생성 성공");
       })
       .catch((err) => {
         console.log(err);
+        console.log("토큰 재생성 실패");
       });
   };
 };
@@ -237,12 +259,11 @@ const loginCheckDB = () => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
+    console.log(userInfo);
     if (!access_token || !userInfo) {
       // 로컬스토리지에 토큰 또는 유저정보가 없으면
-      return;
+      return false;
     }
-
     dispatch(
       setUser({
         id: userInfo.results.id,
@@ -251,8 +272,6 @@ const loginCheckDB = () => {
         profileImgUrl: userInfo.results.profileImgUrl,
       })
     );
-
-    setInterval(tokenExtension, 1740000);
   };
 };
 
@@ -263,7 +282,6 @@ const logout = () => {
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("userInfo");
     dispatch(logOut());
-    console.log("일반 로그아웃 성공!");
     alert("로그아웃 되었습니다.");
     history.replace("/");
   };
@@ -287,7 +305,8 @@ const FindPwdDB = (email) => {
       .then((res) => res.json()) // json 형태로 변환해주고,
       .then((data) => {
         dispatch(LOADING(false)); // 로딩 끝남
-        alert(data.message);
+
+        alert(data.msg);
         history.push("/login");
       })
       .catch((err) => {
