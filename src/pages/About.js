@@ -5,7 +5,6 @@ import { Logo, Play, LikeFill } from "media/svg/Svg";
 import Tripper from "media/image/about-tripper.jpg";
 import TrilsImage1 from "media/image/about-trils.jpg";
 import TrilsImage2 from "media/image/about-trils2.jpg";
-import Profile from "media/image/about_profile.png";
 import Profile2 from "media/image/about_profile2.jpg"
 import Blog from "media/image/about_blog.jpg";
 import Park from "media/image/park.png";
@@ -24,7 +23,6 @@ const About = () => {
                     const img = entry.target;
                     const src = img.getAttribute('data-lazy');
                     img.setAttribute('src', src);
-                    //img.classList.add('show');
                     o.disconnect();
                 }
             })
@@ -158,7 +156,7 @@ const About = () => {
                             <MemberImg data-lazy={Park} />
                             <MemberText>
                                 <NameTag>
-                                    <Name>박은진</Name><FeatureTag>로그인</FeatureTag><FeatureTag>회원가입</FeatureTag><FeatureTag>마이페이지</FeatureTag>
+                                    <Name>박은진</Name><FeatureTag>로그인</FeatureTag><FeatureTag>회원가입</FeatureTag><FeatureTag>마이페이지</FeatureTag><FeatureTag>AWS</FeatureTag>
                                 </NameTag>
                                 <div>차근차근 생각을 실천하는 백엔드 개발자 박은진 입니다!😊 <br/>서비스의 기획, 코드 구성에 대한 고민을 하나씩 이루는 재미에 푹 빠진 요즘입니다.🥰<br/> 무엇이든 구현해낼 수 있다는 자신감과 긍정적인 마음으로 코딩과 밀당중! <br/>성장의 계기가된 팀에서, 좋은 팀원들과 특별한 이야기를 담은 TRIPORT✈️  많이 이용해주세요!<br/> Bug, VoC 등 피드백은 언제나 감사드립니다. 🙏🏻</div>
                                 <div><BlueTag>github:</BlueTag> <a href="https://github.com/eungenie" target="_blank">https://github.com/eungenie</a></div>
@@ -187,7 +185,7 @@ const About = () => {
                             <MemberImg data-lazy={Chan} />
                             <MemberText>
                                 <NameTag>
-                                    <Name>정찬엽</Name><FeatureTag>Trilog</FeatureTag><FeatureTag>About</FeatureTag>
+                                    <Name>정찬엽</Name><FeatureTag>Trilog</FeatureTag><FeatureTag>About</FeatureTag><FeatureTag>AWS</FeatureTag>
                                 </NameTag>
                                 <div>매일 성장하는 FE개발자, 정찬엽입니다!😄 즐거운 트릴하세요!</div>
                                 <div><BlueTag>github:</BlueTag> <a href="https://github.com/rayrayj92" target="_blank">https://github.com/rayrayj92</a></div>
@@ -216,7 +214,7 @@ const About = () => {
                             <MemberImg data-lazy={Yoon} />
                             <MemberText>
                                 <NameTag>
-                                    <Name>손윤환</Name><FeatureTag>Trils</FeatureTag>
+                                    <Name>손윤환</Name><FeatureTag>Trils</FeatureTag><FeatureTag>AWS</FeatureTag>
                                 </NameTag>
                                 <div>자유롭게 여행하듯 삶을 살고 싶은 손윤환이라고 합니다😘<br/>제 개발자 여행이 여러분께 잠시나마 즐거움을 선물할 수 있었으면 좋겠습니다😁</div>
                                 <div><BlueTag>github:</BlueTag> <a href="https://github.com/beadoer1" target="_blank">https://github.com/beadoer1</a></div>
@@ -228,7 +226,7 @@ const About = () => {
                             <MemberImg data-lazy={Jin} />
                             <MemberText>
                                 <NameTag>
-                                    <Name>채진욱</Name><FeatureTag>Trilog</FeatureTag><FeatureTag>마이페이지</FeatureTag>
+                                    <Name>채진욱</Name><FeatureTag>Trilog</FeatureTag><FeatureTag>마이페이지</FeatureTag><FeatureTag>AWS</FeatureTag>
                                 </NameTag>
                                 <div>😄 하루하루 개발의 즐거움을 알아가고 있는 채진욱이라고 합니다. <br/>Triport를 통해 여행이 쉽지 않은 시국이지만 서로의 경험을 공유하면서 대리만족을 할 수 있으셨으면 좋겠습니다! 🎉</div>
                                 <div><BlueTag>github:</BlueTag> <a href="https://github.com/cowlsdnr77" target="_blank">https://github.com/cowlsdnr77</a></div>

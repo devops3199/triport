@@ -111,19 +111,9 @@ const BoardMain = (props) => {
           <>
             <InfinityScroll callNext={scroll} is_next={is_last}>
               {trilog.map((val, idx) => {
-                const index = idx + 1;
-
-                if (index % 5 === 0) {
-                  return (
-                    <Fade bottom key={index}>
-                      <BoardCard data={val} margin="50px 0 0 0" />
-                    </Fade>
-                  );
-                }
-
                 return (
-                  <Fade bottom key={index}>
-                    <BoardCard data={val} margin="50px 40px 0 0" />
+                  <Fade bottom key={idx}>
+                    <BoardCard data={val} margin="50px 15px 0 15px"/>
                   </Fade>
                 );
               })}
@@ -139,6 +129,22 @@ const BoardMainContainer = styled.div`
   width: 1280px;
   margin: 0 auto;
   position: relative;
+
+  @media (max-width: 1270px) {
+    width: 850px;
+  }
+
+  @media (max-width: 980px) {
+    width: 700px;
+  }
+
+  @media (max-width: 768px) {
+    width: 500px;
+  }
+
+  @media (max-width: 600px) {
+    width: 300px;
+  }
 `;
 
 const SearchContainer = styled.div`
@@ -162,6 +168,18 @@ const SearchWrapper = styled.div`
   & svg {
     fill : rgb(43, 97, 225);
     cursor: pointer;
+  }
+
+  @media (max-width: 980px) {
+    width: 490px;
+  }
+
+  @media (max-width: 768px) {
+    width: 384px;
+  }
+
+  @media (max-width: 600px) {
+    width: 300px;
   }
 `;
 
@@ -238,6 +256,7 @@ const CardContainer = styled.div`
   width: 100%;
   margin: 0 0 4.2rem 0;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
 `;
 

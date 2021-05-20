@@ -52,9 +52,18 @@ const BoardWrite = (props) => {
       return;
     }
 
-    const filter_imageUrls = imageUrls.filter((val) =>
+    let filter_imageUrls = imageUrls.filter((val) =>
       content.includes(val.imageFilePath)
     ); // 사용안한 이미지 링크들 제거
+
+    if(is_edit) {
+      if(detail.information.imageUrlList.length > 0) {
+        const filter_images = detail.information.imageUrlList.filter((val) => content.includes(val.imageFilePath));
+        filter_imageUrls = [...filter_images, ...filter_imageUrls];
+      } 
+    }
+
+    console.log(filter_imageUrls, '최종 모든 이미지들');
 
     const post = {
       title: title,
@@ -127,6 +136,7 @@ const BoardWrite = (props) => {
         setAddress(detail.information.address);
         setTitle(detail.information.title);
       }
+      console.log(detail.information.imageUrlList, '이미 list ');
     }
   }, []);
 
@@ -229,6 +239,22 @@ const BoardWrite = (props) => {
 const WriteContainer = styled.div`
   width: 1280px;
   margin: 0 auto;
+  
+  @media (max-width: 1270px) {
+    width: 850px;
+  }
+
+  @media (max-width: 980px) {
+    width: 700px;
+  }
+
+  @media (max-width: 768px) {
+    width: 500px;
+  }
+
+  @media (max-width: 600px) {
+    width: 300px;
+  }
 `;
 
 const spin = keyframes`
@@ -288,6 +314,14 @@ const MapInput = styled.input`
   outline: none;
   padding: 0.75rem 1.25rem;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    width: 15rem;
+  }
+
+  @media (max-width: 600px) {
+    width: 10rem;
+  }
 `;
 
 const TitleInput = styled.input`
@@ -297,6 +331,10 @@ const TitleInput = styled.input`
   outline: none;
   padding: 0.75rem 1.25rem;
   box-sizing: border-box;
+
+  @media (max-width: 600px) {
+    width: 15rem;
+  }
 `;
 
 const ButtonContainer = styled.div`
