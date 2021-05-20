@@ -147,7 +147,6 @@ const loginDB = (email, pwd) => {
 const kakaoLogin = (code) => {
   return function (dispatch, getState, { history }) {
     const API = `${config}/auth/kakao/callback?code=${code}`;
-    console.log(API);
     fetch(API, {
       method: "GET",
       headers: {

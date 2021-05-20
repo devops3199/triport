@@ -12,7 +12,7 @@ const Profile = (props) => {
   const like = useSelector((state) => state.sidebar.like);
 
   return (
-    <Cover setting={setting}>
+    <Cover>
       <ProfileSideBar />
       {setting ? (
         <>
@@ -41,9 +41,10 @@ const Profile = (props) => {
 
 const Cover = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: ${(props) => (props.setting ? "70rem" : "100rem")};
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70rem;
   margin: 0px auto;
 `;
 

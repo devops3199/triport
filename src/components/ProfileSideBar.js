@@ -58,15 +58,16 @@ const ProfileSideBar = () => {
 
 const Profile = styled.div`
   display: flex;
-  /* margin-right: 10px; */
-  margin: 0px;
-  width: 9.7rem;
+  justify-content: center;
+  margin: 0px auto;
+  margin-bottom: 5rem;
+  width: 27rem;
 `;
 
 const Sidebar = styled.div`
   display: flex;
-  width: 9.7rem;
-  height: 9.3rem;
+  width: 27rem;
+  height: 3.5rem;
   margin: 0px auto;
   background: #f4f4f4;
   box-shadow: 0px 3px 6px #00000029;
@@ -77,7 +78,7 @@ const Sidebar = styled.div`
 const SideCover = styled.div`
   justify-content: space-between;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin: 0 auto;
   margin-top: 10px;
   margin-bottom: 10px;

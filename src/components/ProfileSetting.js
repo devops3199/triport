@@ -77,8 +77,6 @@ const ProfileSetting = () => {
   return (
     <React.Fragment>
       <Wrap>
-        <Icon></Icon>
-        <Title>프로필 설정</Title>
         <SmallWrap>
           <ImageWrap>
             <Image src={userprofile.user_img} />
@@ -117,16 +115,13 @@ const ProfileSetting = () => {
 
 const Wrap = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   font-family: "paybooc-Bold";
-  margin: 0px auto;
-  margin-left: 2rem;
 `;
 
 const SmallWrap = styled.div`
   display: flex;
   flex-direction: column;
-  width: 22rem;
 `;
 
 const ImageWrap = styled.div`
@@ -145,21 +140,6 @@ const Image = styled.div`
   background-image: url("${(props) => props.src}");
   background-size: cover;
   margin: 4px;
-`;
-
-const Icon = styled.div`
-  width: 2rem;
-  height: 1.3rem;
-  background-image: url("${Dmypage}");
-  background-size: 2rem 1.3rem;
-  margin-left: 5rem;
-`;
-
-const Title = styled.div`
-  width: 8rem;
-  color: #2b61e1;
-  margin-left: 1rem;
-  font-size: 1.2rem;
 `;
 
 const Input = styled.input`

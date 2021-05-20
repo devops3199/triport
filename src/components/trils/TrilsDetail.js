@@ -307,7 +307,7 @@ const TrilsDetail = (props) => {
         height={window.innerHeight}
         onClick={closeModal}
       />
-      <Wrap>
+      <Wrap width={window.innerWidth} height={window.innerHeight}>
         <Profile>
           <ProfileImg src={info.author.profileImgUrl} />
           <ProfileId>{info.author.nickname}</ProfileId>
@@ -592,6 +592,20 @@ const VideoPlay = styled.video`
   max-width: 50rem;
   max-height: 30rem;
   object-fit: contain;
+
+  @media (max-width: 768px) {
+    max-width: 35rem;
+    max-height: 30rem;
+  }
+
+  @media (max-width: 600px) {
+  }
+  @media (max-width: 540px) {
+    width: 30rem;
+    max-height: 50rem;
+  }
+  @media (max-width: 415px) {
+  }
 `;
 
 const Hash = styled.div`
@@ -633,6 +647,26 @@ const Wrap = styled.div`
   border-radius: 5px;
   padding: 3rem;
   z-index: 98;
+
+  @media (max-width: 768px) {
+    max-width: 35rem;
+    max-height: 30rem;
+  }
+
+  @media (max-width: 600px) {
+    max-width: 32rem;
+    max-height: 30rem;
+  }
+  @media (max-width: 540px) {
+    height: ${(props) => props.height}px;
+    width: ${(props) => props.width}px;
+    max-height: ${(props) => props.height}px;
+    max-width: ${(props) => props.width}px;
+  }
+  @media (max-width: 415px) {
+    height: ${(props) => props.height}px;
+    width: ${(props) => props.width}px;
+  }
 `;
 
 const LowWrap = styled.div`
@@ -683,6 +717,25 @@ const View = styled.div`
   display: flex;
   justify-content: center;
   margin: 0px auto;
+
+  @media (max-width: 768px) {
+    max-width: 30rem;
+    max-height: 30rem;
+    min-width: 30rem;
+  }
+
+  @media (max-width: 600px) {
+    max-width: 28rem;
+    max-height: 30rem;
+    min-width: 28rem;
+  }
+  @media (max-width: 540px) {
+    max-width: 18rem;
+    max-height: 30rem;
+    min-width: 18rem;
+  }
+  @media (max-width: 415px) {
+  }
 `;
 
 const LikeCov = styled.div`
