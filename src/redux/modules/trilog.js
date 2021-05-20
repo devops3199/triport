@@ -39,17 +39,18 @@ const trilogSlice = createSlice({
         }),
         // Trilog 수정 페이지 - 게시글 수정
         setTrilogMainEdit : (state, action) => produce(state, (draft) => {
-            let idx = draft.main.list.findIndex((e) => e.information.id === parseInt(action.payload.id));
-            draft.main.list[idx].information.title = action.payload.title;
-            draft.main.list[idx].information.address = action.payload.address;
-            draft.main.list[idx].information.description = action.payload.description;
-
-            if(action.payload.imageUrlList.length !== 0) {
-                draft.main.list[idx].information.thumbNailUrl = action.payload.imageUrlList[0].imageFilePath;
-            } else {
-                draft.main.list[idx].information.thumbNailUrl = '';
+            if(draft.main.list.length > 0) {
+                let idx = draft.main.list.findIndex((e) => e.information.id === parseInt(action.payload.id));
+                draft.main.list[idx].information.title = action.payload.title;
+                draft.main.list[idx].information.address = action.payload.address;
+                draft.main.list[idx].information.description = action.payload.description;
+    
+                if(action.payload.imageUrlList.length !== 0) {
+                    draft.main.list[idx].information.thumbNailUrl = action.payload.imageUrlList[0].imageFilePath;
+                } else {
+                    draft.main.list[idx].information.thumbNailUrl = '';
+                }
             }
-            
         }),
         // Trilog 메인 페이지 - 게시글 조회
         setTrilogMain : (state, action) => produce(state, (draft) => {
@@ -257,7 +258,6 @@ const addTrilog = (trilog) => {
             })
             .then(res => res.json())
             .then(data => {
-                console.log(data, 'data');
                 alert(data.msg);
                 dispatch(setTrilogMainEdit(trilog));
                 history.push('/trilog');
@@ -280,7 +280,6 @@ const addTrilog = (trilog) => {
             })
             .then(res => res.json())
             .then(data => {
-                console.log(data, 'data');
                 alert(data.msg);
                 history.push('/trilog');
             })

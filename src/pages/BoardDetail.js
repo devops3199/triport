@@ -65,7 +65,7 @@ const BoardDetail = (props) => {
                 <span>{detail.author.nickname}</span>
               </div>
               <div>
-                마지막 수정시간 : {detail.information.modifiedAt}
+                <LastUpdate>마지막 수정시간 : {detail.information.modifiedAt}</LastUpdate>
                 {detail.member.isMembers ? (
                   <>
                     <EditButton type="button" value="수정" onClick={editTrilog} />
@@ -143,6 +143,22 @@ const DetailContainer = styled.div`
   width: 1280px;
   margin: 0 auto;
   position: relative;
+
+  @media (max-width: 1270px) {
+    width: 850px;
+  }
+
+  @media (max-width: 980px) {
+    width: 700px;
+  }
+
+  @media (max-width: 768px) {
+    width: 500px;
+  }
+
+  @media (max-width: 600px) {
+    width: 300px;
+  }
 `;
 
 const UserContainer = styled.div`
@@ -162,6 +178,12 @@ const UserContainer = styled.div`
         display: flex;
         align-items: center;
     }
+`;
+
+const LastUpdate = styled.span`
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
 const LikeCount = styled.span`

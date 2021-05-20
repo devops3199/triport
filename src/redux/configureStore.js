@@ -24,8 +24,7 @@ const rootReducer = combineReducers({
 const store = configureStore({
   reducer: rootReducer,
   middleware: [
-    thunk.withExtraArgument({ history: history }),
-   logger
+    thunk.withExtraArgument({ history: history })
   ],
   devTools: process.env.NODE_ENV !== "production",
 });
