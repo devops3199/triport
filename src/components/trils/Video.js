@@ -123,7 +123,7 @@ const Video = (props) => {
       {props.information.posPlay ? (
         <>
           {props.information.videoType === "mp4" ? (
-            <VideoCover>
+            <>
               <VideoPlay
                 onMouseOver={mp4play}
                 onMouseLeave={mp4pause}
@@ -138,9 +138,9 @@ const Video = (props) => {
                   );
                 }}
               />
-            </VideoCover>
+            </>
           ) : (
-            <VideoCover>
+            <>
               <VideoPlay
                 onMouseOver={hlsplay}
                 onMouseLeave={hlspause}
@@ -153,13 +153,13 @@ const Video = (props) => {
                   );
                 }}
               />
-            </VideoCover>
+            </>
           )}
         </>
       ) : (
-        <VideoCover>
+        <>
           <Uploading src={Uploadex} />
-        </VideoCover>
+        </>
       )}
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
       <PostBottom>
@@ -199,11 +199,11 @@ const Hash = styled.div`
 `;
 
 const PostBottom = styled.div`
-  margin-top: 0.7rem;
+  margin-top: 1rem;
   margin-left: 10px;
   display: flex;
   flex-direction: row;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.5rem;
   flex-wrap: wrap;
 `;
 
@@ -218,17 +218,15 @@ const PostUserComment = styled.div`
   display: flex;
   margin-left: 18px;
   cursor: pointer;
-  flex-direction: row;
-  flex-wrap: wrap;
 `;
 
 const VideoCards = styled.div`
   display: flex;
   max-width: 25rem;
-  width: 100%;
-  height: 100%;
   flex-direction: column;
+  margin-bottom: 1.5rem;
   ${(props) => (props.margin ? "margin-right:2.5rem" : "")};
+  margin-top: 1rem;
   transition: 0.5s ease-in-out;
   :hover {
     transform: scale(1.03);
@@ -236,24 +234,17 @@ const VideoCards = styled.div`
   box-shadow: 0px 3px 6px #00000029;
 `;
 
-const VideoCover = styled.div`
-  display: flex;
-  height: 100%;
-  width: 100%;
-`;
-
 const VideoPlay = styled.video`
   display: flex;
-  height: 100%;
-  width: 100%;
+  height: 45rem;
+  width: 25rem;
   margin: 0 auto;
   object-fit: cover;
 `;
 
 const Profile = styled.div`
   user-select: none;
-  position: absolute;
-  padding-top: 0.7rem;
+  margin-bottom: -3rem;
   display: flex;
   z-index: 5;
 `;

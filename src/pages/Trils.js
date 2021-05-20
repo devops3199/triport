@@ -188,13 +188,23 @@ const Trils = (props) => {
             ) : (
               <InfinityScroll callNext={scroll} is_next={is_last}>
                 {post_list.map((p, idx) => {
-                  return (
-                    <Fragment key={idx}>
-                      <Fade bottom>
-                        <Video {...p} history={history} />
-                      </Fade>
-                    </Fragment>
-                  );
+                  if ((idx + 1) % 3 !== 0) {
+                    return (
+                      <Fragment key={idx}>
+                        <Fade bottom>
+                          <Video {...p} history={history} mr />
+                        </Fade>
+                      </Fragment>
+                    );
+                  } else {
+                    return (
+                      <Fragment key={idx}>
+                        <Fade bottom>
+                          <Video {...p} history={history} />
+                        </Fade>
+                      </Fragment>
+                    );
+                  }
                 })}
               </InfinityScroll>
             )}
@@ -252,10 +262,6 @@ const SearchWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   box-shadow: 0px 3px 6px #00000029;
-  @media only screen and (max-width: 720px) {
-    width: calc(100% - 30px);
-  }
-
   & svg {
     fill: rgb(43, 97, 225);
     cursor: pointer;
@@ -267,9 +273,6 @@ const Container = styled.div`
   flex-direction: column;
   margin: 0 auto;
   width: 80rem;
-  @media only screen and (max-width: 1280px) {
-    width: calc(100% - 30px);
-  }
 `;
 
 const NewestFilter = styled.div`
@@ -279,7 +282,6 @@ const NewestFilter = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
   & span {
     font-family: "paybooc-Bold";
     font-size: 14px;
@@ -297,7 +299,6 @@ const LikeFilter = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
   & span {
     font-family: "paybooc-Bold";
     font-size: 14px;
@@ -326,9 +327,6 @@ const Filter = styled.div`
   box-shadow: 0px 3px 6px #00000029;
   border-radius: 5px;
   display: flex;
-  @media only screen and (max-width: 1280px) {
-    margin-right: 1rem;
-  }
 `;
 
 const FilterContainer = styled.div`
@@ -369,20 +367,14 @@ const CenterDiv = styled.div`
 `;
 
 const PostLine = styled.div`
-  display: grid;
-  width: 100%;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  column-gap: 1.5rem;
-  row-gap: 2rem;
+  display: flex;
   max-width: 80rem;
   margin: 0px auto;
   margin-bottom: 4.3rem;
   flex-wrap: wrap;
-  @media only screen and (max-width: 413px) {
-    grid-template-columns: 1fr;
-    column-gap: 1.5rem;
-  }
+  /* @media only screen and (max-width: 1280px) {
+    flex-direction: column;
+  } */
 `;
 
 const FloatingBox = styled.div`
