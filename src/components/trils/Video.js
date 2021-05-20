@@ -244,7 +244,8 @@ const VideoPlay = styled.video`
 
 const Profile = styled.div`
   user-select: none;
-  margin-bottom: -3rem;
+  position: absolute;
+  padding-top: 0.7rem;
   display: flex;
   z-index: 5;
 `;

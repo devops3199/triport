@@ -120,7 +120,7 @@ const Trils = (props) => {
           }}
         />
       ) : null}
-      {/* <FloatingBox>
+      <FloatingBox>
         <FloatingTutorial
           tutorial={tutorial}
           onClick={() => {
@@ -143,7 +143,7 @@ const Trils = (props) => {
         <FloatingWrite onClick={write}>
           <Plus />
         </FloatingWrite>
-      </FloatingBox> */}
+      </FloatingBox>
       <SearchContainer>
         <SearchWrapper>
           <Search
@@ -188,23 +188,13 @@ const Trils = (props) => {
             ) : (
               <InfinityScroll callNext={scroll} is_next={is_last}>
                 {post_list.map((p, idx) => {
-                  if ((idx + 1) % 3 !== 0) {
-                    return (
-                      <Fragment key={idx}>
-                        <Fade bottom>
-                          <Video {...p} history={history} mr />
-                        </Fade>
-                      </Fragment>
-                    );
-                  } else {
-                    return (
-                      <Fragment key={idx}>
-                        <Fade bottom>
-                          <Video {...p} history={history} />
-                        </Fade>
-                      </Fragment>
-                    );
-                  }
+                  return (
+                    <Fragment key={idx}>
+                      <Fade bottom>
+                        <Video {...p} history={history} />
+                      </Fade>
+                    </Fragment>
+                  );
                 })}
               </InfinityScroll>
             )}
@@ -250,6 +240,9 @@ const MoveTripper = styled.div`
   & img {
     width: 4rem;
   }
+  @media only screen and (max-width: 425px) {
+    display: none;
+  }
 `;
 
 const SearchWrapper = styled.div`
@@ -262,6 +255,10 @@ const SearchWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   box-shadow: 0px 3px 6px #00000029;
+  @media only screen and (max-width: 720px) {
+    width: 80%;
+  }
+
   & svg {
     fill: rgb(43, 97, 225);
     cursor: pointer;
@@ -273,6 +270,12 @@ const Container = styled.div`
   flex-direction: column;
   margin: 0 auto;
   width: 80rem;
+  @media only screen and (max-width: 1280px) {
+    width: 850px;
+  }
+  @media only screen and (max-width: 870px) {
+    width: 410px;
+  }
 `;
 
 const NewestFilter = styled.div`
@@ -282,6 +285,7 @@ const NewestFilter = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
   & span {
     font-family: "paybooc-Bold";
     font-size: 14px;
@@ -299,6 +303,7 @@ const LikeFilter = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
   & span {
     font-family: "paybooc-Bold";
     font-size: 14px;
@@ -327,6 +332,9 @@ const Filter = styled.div`
   box-shadow: 0px 3px 6px #00000029;
   border-radius: 5px;
   display: flex;
+  @media only screen and (min-width: 425px) and (max-width: 1280px) {
+    margin-right: 1rem;
+  }
 `;
 
 const FilterContainer = styled.div`
@@ -335,6 +343,10 @@ const FilterContainer = styled.div`
   flex-direction: row-reverse;
   align-items: center;
   margin-bottom: 4rem;
+  @media only screen and (max-width: 425px) {
+    margin-bottom: 1rem;
+    justify-content: center;
+  }
 `;
 
 // const Search = styled.input`
@@ -349,6 +361,9 @@ const Search = styled.input`
   border: none;
   outline: none;
   width: 38rem;
+  @media only screen and (max-width: 870px) {
+    width: 100%;
+  }
 `;
 
 const SearchContainer = styled.div`
@@ -356,6 +371,9 @@ const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
+  @media only screen and (max-width: 425px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const CenterDiv = styled.div`
@@ -367,14 +385,22 @@ const CenterDiv = styled.div`
 `;
 
 const PostLine = styled.div`
-  display: flex;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  /* grid-template-rows: repeat(auto-fit, 45rem); */
+  /* row-gap: 2rem; */
+  justify-items: center;
   max-width: 80rem;
   margin: 0px auto;
   margin-bottom: 4.3rem;
   flex-wrap: wrap;
-  /* @media only screen and (max-width: 1280px) {
-    flex-direction: column;
-  } */
+  @media only screen and (max-width: 1280px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media only screen and (max-width: 870px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const FloatingBox = styled.div`
