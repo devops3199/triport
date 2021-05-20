@@ -9,9 +9,6 @@ import grade3 from "media/svg/등급3.svg";
 import Category from "components/Category";
 import { useDispatch, useSelector } from "react-redux";
 
-import { actionCreators as userAcitons } from "redux/modules/user";
-import { actionCreators as profileActions } from "redux/modules/profile";
-
 const Header = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
@@ -32,8 +29,8 @@ const Header = (props) => {
 
   // 카카오 로그아웃
   const KAKAO_LOGOUT_URL =
-    // "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://triport.kr/auth/logout";
-    "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://localhost:3000/auth/logout";
+    "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://triport.kr/auth/logout";
+  // "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://localhost:3000/auth/logout";
 
   if (user.is_login === true) {
     return (

@@ -1,3 +1,3 @@
-const config = "http://13.209.8.146";
+const config = "http://3.37.89.30";
 
 export { config };
