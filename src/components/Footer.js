@@ -21,10 +21,10 @@ const Wrap = styled.footer`
   left: 0px;
   bottom: 0px;
   height: 50px;
-  width: 100%;
+  width: 100vw;
   background: #89acff;
   color: white;
-  z-index:99;
+  z-index: 99;
 `;
 
 const Logo = styled.div`
@@ -35,7 +35,8 @@ const Logo = styled.div`
 `;
 
 const LogoContainer = styled.div`
-  width: 1280px;
+  width: 100vw;
+  margin-left: 2rem;
 `;
 
 export default Footer;

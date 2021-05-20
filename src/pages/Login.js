@@ -84,11 +84,13 @@ const Login = () => {
   );
 };
 export default Login;
+
 const Wrap = styled.div`
-  width: 22rem;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin: 0px auto;
   font-family: "paybooc-Bold";
 `;
@@ -97,6 +99,11 @@ const Image = styled.div`
   background-size: 23rem 18.75rem;
   width: 23rem;
   height: 18.75rem;
+  @media (max-width: 600px) {
+    background-size: 18rem 15rem;
+    width: 18rem;
+    height: 15rem;
+  }
 `;
 const LoginDiv = styled.div`
   display: flex;
@@ -106,6 +113,9 @@ const LoginDiv = styled.div`
   margin-top: 3rem;
   margin-bottom: 3rem;
   justify-content: center;
+  @media (max-width: 600px) {
+    font-size: 1.2rem;
+  }
 `;
 const EmailInput = styled.input`
   font-family: "paybooc-Bold";
@@ -123,6 +133,9 @@ const EmailInput = styled.input`
     font-size: 1rem;
     color: #535353;
     opacity: 50%;
+  }
+  @media (max-width: 600px) {
+    width: 17rem;
   }
 `;
 const PwdInput = styled.input`
@@ -142,6 +155,9 @@ const PwdInput = styled.input`
     color: #535353;
     opacity: 50%;
   }
+  @media (max-width: 600px) {
+    width: 17rem;
+  }
 `;
 const Button1 = styled.button`
   cursor: pointer;
@@ -154,6 +170,9 @@ const Button1 = styled.button`
   margin-bottom: 2rem;
   background-color: #2b61e1;
   color: #ffffff;
+  @media (max-width: 600px) {
+    width: 20rem;
+  }
 `;
 const Button2 = styled.a`
   font-family: "paybooc-Bold";
@@ -171,6 +190,9 @@ const Button2 = styled.a`
   font-size: 1rem;
   color: #2b1718;
   text-decoration: none;
+  @media (max-width: 600px) {
+    width: 20rem;
+  }
 `;
 const Kakao = styled.div`
   display: flex;

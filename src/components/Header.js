@@ -59,7 +59,6 @@ const Header = (props) => {
             <LeftWrap>
               <Category history={history} />
             </LeftWrap>
-            <div style={{ width: "30rem" }}></div>
             <RightWrap>
               <Image url={user.profileImgUrl} />
               <Grade url={gradeImg} />
@@ -106,7 +105,6 @@ const Header = (props) => {
           <LeftWrap>
             <Category history={history} />
           </LeftWrap>
-          <div style={{ width: "30rem" }}></div>
           <RightWrap>
             <MyOrLogin
               onClick={() => {
@@ -150,9 +148,9 @@ export default Header;
 const Wrap = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  width: 1280px;
-  margin: 0px auto;
+  justify-content: space-between;
+  width: 100vw;
+  margin: 0px;
   height: 5rem;
   background-color: #ffffff;
   background-size: cover;
@@ -163,19 +161,34 @@ const LeftWrap = styled.div`
   display: flex;
   flex-direction: row;
   font-family: "paybooc-Bold";
+  width: 50% auto;
   margin: 0px auto;
   margin-left: 5rem;
+
+  @media (max-width: 768px) {
+    margin-left: 2rem;
+  }
+
+  @media (max-width: 600px) {
+    margin-left: 2rem;
+  }
+  @media (max-width: 375px) {
+    margin-left: 1rem;
+  }
+  @media (min-width: 375px) {
+    margin-left: 1rem;
+  }
 `;
 
 const RightWrap = styled.div`
   display: flex;
   flex-direction: row;
-  width: auto;
+  width: 30% auto;
   align-items: center;
 `;
 
 const Line = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 5px;
   background: #89acff;
   opacity: 1;
@@ -183,9 +196,26 @@ const Line = styled.div`
 `;
 
 const LogoWrapper = styled.div`
+  margin-left: 2rem;
   cursor: pointer;
   & svg {
     width: 12rem;
+  }
+  @media (max-width: 600px) {
+    & svg {
+      width: 8rem;
+    }
+  }
+  @media (max-width: 375px) {
+    margin-left: 0.5rem;
+    & svg {
+      width: 6rem;
+    }
+  }
+  @media (min-width: 375px) {
+    & svg {
+      width: 6rem;
+    }
   }
 `;
 
@@ -196,9 +226,22 @@ const MyOrLogin = styled.button`
   border: 1px solid #2b61e1;
   border-radius: 5px;
   padding: 0.3rem;
+  margin-left: 2rem;
   margin-right: 1.5rem;
   width: 5rem;
   height: 1.7rem;
+  @media (max-width: 375px) {
+    font-size: 0.6rem;
+    margin-left: 0.8rem;
+    margin-right: 0.5rem;
+    width: 2.5rem;
+  }
+  @media (min-width: 375px) {
+    font-size: 0.6rem;
+    margin-left: 0.8rem;
+    margin-right: 0.5rem;
+    width: 2.5rem;
+  }
 `;
 
 const LogoutOrSignUp = styled.a`
@@ -212,10 +255,19 @@ const LogoutOrSignUp = styled.a`
   padding: 0.3rem;
   width: 4.5rem;
   height: 1rem;
+  margin-right: 2rem;
   font-size: 0.9rem;
   text-decoration: none;
   &:visited {
     color: #5a5a5a;
+  }
+  @media (max-width: 375px) {
+    font-size: 0.5rem;
+    width: 2.2rem;
+  }
+  @media (min-width: 375px) {
+    font-size: 0.5rem;
+    width: 2.2rem;
   }
 `;
 
