@@ -111,6 +111,39 @@ const Trils = (props) => {
 
   return (
     <Container>
+      {modal ? <TrilsDetail history={history} /> : null}
+      {TDetailModal ? (
+        <TrilsDetailTutorial
+          history={history}
+          close={() => {
+            setTDM(false);
+          }}
+        />
+      ) : null}
+      <FloatingBox>
+        <FloatingTutorial
+          tutorial={tutorial}
+          onClick={() => {
+            if (tutorial) {
+              setTutorial(false);
+            } else {
+              setTutorial(true);
+            }
+          }}
+        >
+          {tutorial ? (
+            <CloseTutorial>사용자 가이드 닫기</CloseTutorial>
+          ) : (
+            <QuestionMark />
+          )}
+        </FloatingTutorial>
+        <FloatingGoTop onClick={top}>
+          <Arrow />
+        </FloatingGoTop>
+        <FloatingWrite onClick={write}>
+          <Plus />
+        </FloatingWrite>
+      </FloatingBox>
       <SearchContainer>
         <SearchWrapper>
           <Search
@@ -136,73 +169,38 @@ const Trils = (props) => {
           <img src={Tripper} alt="놀자" />
         </MoveTripper>
       </FilterContainer>
-      <CenterDiv>
-        {modal ? <TrilsDetail history={history} /> : null}
-        {TDetailModal ? (
-          <TrilsDetailTutorial
-            history={history}
-            close={() => {
-              setTDM(false);
-            }}
-          />
-        ) : null}
-        <FloatingBox>
-          <FloatingTutorial
-            tutorial={tutorial}
-            onClick={() => {
-              if (tutorial) {
-                setTutorial(false);
-              } else {
-                setTutorial(true);
-              }
-            }}
-          >
-            {tutorial ? (
-              <CloseTutorial>사용자 가이드 닫기</CloseTutorial>
+      <PostLine>
+        {tutorial ? (
+          <>
+            <Fade right>
+              <TrilsTutorial
+                open={() => {
+                  console.log("123");
+                  setTDM(true);
+                }}
+              />
+            </Fade>
+          </>
+        ) : (
+          <>
+            {!post_list || post_list.length === 0 ? (
+              <></>
             ) : (
-              <QuestionMark />
+              <InfinityScroll callNext={scroll} is_next={is_last}>
+                {post_list.map((p, idx) => {
+                  return (
+                    <Fragment key={idx}>
+                      <Fade bottom>
+                        <Video {...p} history={history} />
+                      </Fade>
+                    </Fragment>
+                  );
+                })}
+              </InfinityScroll>
             )}
-          </FloatingTutorial>
-          <FloatingGoTop onClick={top}>
-            <Arrow />
-          </FloatingGoTop>
-          <FloatingWrite onClick={write}>
-            <Plus />
-          </FloatingWrite>
-        </FloatingBox>
-        <PostLine>
-          {tutorial ? (
-            <>
-              <Fade right>
-                <TrilsTutorial
-                  open={() => {
-                    console.log("123");
-                    setTDM(true);
-                  }}
-                />
-              </Fade>
-            </>
-          ) : (
-            <>
-              {!post_list || post_list.length === 0 ? (
-                <></>
-              ) : (
-                <InfinityScroll callNext={scroll} is_next={is_last}>
-                  {post_list.map((p, idx) => {
-                    return (
-                      <Fragment key={idx}>
-                        <Fade bottom>
-                          <Video {...p} history={history} />
-                        </Fade>
-                      </Fragment>
-                    );
-                  })}
-                </InfinityScroll>
-              )}
-            </>
-          )}
-        </PostLine>
-      </CenterDiv>
+          </>
+        )}
+      </PostLine>
     </Container>
   );
 };
@@ -369,6 +367,7 @@ const CenterDiv = styled.div`
 
 const PostLine = styled.div`
   display: grid;
+  width: 100%;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   column-gap: 1.5rem;
