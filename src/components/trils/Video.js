@@ -218,6 +218,8 @@ const PostUserComment = styled.div`
   display: flex;
   margin-left: 18px;
   cursor: pointer;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 const VideoCards = styled.div`

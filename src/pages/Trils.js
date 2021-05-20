@@ -120,7 +120,7 @@ const Trils = (props) => {
           }}
         />
       ) : null}
-      <FloatingBox>
+      {/* <FloatingBox>
         <FloatingTutorial
           tutorial={tutorial}
           onClick={() => {
@@ -143,7 +143,7 @@ const Trils = (props) => {
         <FloatingWrite onClick={write}>
           <Plus />
         </FloatingWrite>
-      </FloatingBox>
+      </FloatingBox> */}
       <SearchContainer>
         <SearchWrapper>
           <Search
@@ -252,6 +252,9 @@ const SearchWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   box-shadow: 0px 3px 6px #00000029;
+  @media only screen and (max-width: 720px) {
+    width: calc(100% - 30px);
+  }
 
   & svg {
     fill: rgb(43, 97, 225);
@@ -264,8 +267,8 @@ const Container = styled.div`
   flex-direction: column;
   margin: 0 auto;
   width: 80rem;
-  @media (max-width: 1280px) {
-    width: calc(100% - 10px);
+  @media only screen and (max-width: 1280px) {
+    width: calc(100% - 30px);
   }
 `;
 
@@ -323,7 +326,7 @@ const Filter = styled.div`
   box-shadow: 0px 3px 6px #00000029;
   border-radius: 5px;
   display: flex;
-  @media (max-width: 1280px) {
+  @media only screen and (max-width: 1280px) {
     margin-right: 1rem;
   }
 `;
@@ -376,9 +379,10 @@ const PostLine = styled.div`
   margin: 0px auto;
   margin-bottom: 4.3rem;
   flex-wrap: wrap;
-  /* @media only screen and (max-width: 1280px) {
-    flex-direction: column;
-  } */
+  @media only screen and (max-width: 413px) {
+    grid-template-columns: 1fr;
+    column-gap: 1.5rem;
+  }
 `;
 
 const FloatingBox = styled.div`
