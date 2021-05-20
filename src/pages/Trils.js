@@ -266,6 +266,9 @@ const Container = styled.div`
   flex-direction: column;
   margin: 0 auto;
   width: 80rem;
+  @media (max-width: 1280px) {
+    width: calc(100% - 10px);
+  }
 `;
 
 const NewestFilter = styled.div`
@@ -322,6 +325,9 @@ const Filter = styled.div`
   box-shadow: 0px 3px 6px #00000029;
   border-radius: 5px;
   display: flex;
+  @media (max-width: 1280px) {
+    margin-right: 1rem;
+  }
 `;
 
 const FilterContainer = styled.div`
@@ -366,6 +372,7 @@ const PostLine = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   column-gap: 1.5rem;
+  row-gap: 2rem;
   max-width: 80rem;
   margin: 0px auto;
   margin-bottom: 4.3rem;

@@ -123,7 +123,7 @@ const Video = (props) => {
       {props.information.posPlay ? (
         <>
           {props.information.videoType === "mp4" ? (
-            <>
+            <VideoCover>
               <VideoPlay
                 onMouseOver={mp4play}
                 onMouseLeave={mp4pause}
@@ -138,9 +138,9 @@ const Video = (props) => {
                   );
                 }}
               />
-            </>
+            </VideoCover>
           ) : (
-            <>
+            <VideoCover>
               <VideoPlay
                 onMouseOver={hlsplay}
                 onMouseLeave={hlspause}
@@ -153,13 +153,13 @@ const Video = (props) => {
                   );
                 }}
               />
-            </>
+            </VideoCover>
           )}
         </>
       ) : (
-        <>
+        <VideoCover>
           <Uploading src={Uploadex} />
-        </>
+        </VideoCover>
       )}
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
       <PostBottom>
@@ -199,11 +199,11 @@ const Hash = styled.div`
 `;
 
 const PostBottom = styled.div`
-  margin-top: 1rem;
+  margin-top: 0.7rem;
   margin-left: 10px;
   display: flex;
   flex-direction: row;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.7rem;
   flex-wrap: wrap;
 `;
 
@@ -223,8 +223,9 @@ const PostUserComment = styled.div`
 const VideoCards = styled.div`
   display: flex;
   max-width: 25rem;
+  width: 100%;
+  height: 100%;
   flex-direction: column;
-  margin-bottom: 1.5rem;
   ${(props) => (props.margin ? "margin-right:2.5rem" : "")};
   transition: 0.5s ease-in-out;
   :hover {
@@ -233,10 +234,16 @@ const VideoCards = styled.div`
   box-shadow: 0px 3px 6px #00000029;
 `;
 
+const VideoCover = styled.div`
+  display: flex;
+  height: 100%;
+  width: 100%;
+`;
+
 const VideoPlay = styled.video`
   display: flex;
-  height: 45rem;
-  width: 25rem;
+  height: 100%;
+  width: 100%;
   margin: 0 auto;
   object-fit: cover;
 `;
