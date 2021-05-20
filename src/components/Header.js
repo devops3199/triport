@@ -172,10 +172,7 @@ const LeftWrap = styled.div`
   @media (max-width: 600px) {
     margin-left: 2rem;
   }
-  @media (max-width: 375px) {
-    margin-left: 1rem;
-  }
-  @media (min-width: 375px) {
+  @media (max-width: 414px) {
     margin-left: 1rem;
   }
 `;
@@ -206,13 +203,8 @@ const LogoWrapper = styled.div`
       width: 8rem;
     }
   }
-  @media (max-width: 375px) {
+  @media (max-width: 414px) {
     margin-left: 0.5rem;
-    & svg {
-      width: 6rem;
-    }
-  }
-  @media (min-width: 375px) {
     & svg {
       width: 6rem;
     }
@@ -230,13 +222,7 @@ const MyOrLogin = styled.button`
   margin-right: 1.5rem;
   width: 5rem;
   height: 1.7rem;
-  @media (max-width: 375px) {
-    font-size: 0.6rem;
-    margin-left: 0.8rem;
-    margin-right: 0.5rem;
-    width: 2.5rem;
-  }
-  @media (min-width: 375px) {
+  @media (max-width: 414px) {
     font-size: 0.6rem;
     margin-left: 0.8rem;
     margin-right: 0.5rem;
@@ -256,16 +242,13 @@ const LogoutOrSignUp = styled.a`
   width: 4.5rem;
   height: 1rem;
   margin-right: 2rem;
+  padding-bottom: 0.4rem;
   font-size: 0.9rem;
   text-decoration: none;
   &:visited {
     color: #5a5a5a;
   }
-  @media (max-width: 375px) {
-    font-size: 0.5rem;
-    width: 2.2rem;
-  }
-  @media (min-width: 375px) {
+  @media (max-width: 414px) {
     font-size: 0.5rem;
     width: 2.2rem;
   }

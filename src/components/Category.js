@@ -67,10 +67,6 @@ const Category1 = styled.a`
     font-size: 0.8rem;
     margin-right: 1rem;
   }
-  @media (min-width: 375px) {
-    font-size: 0.8rem;
-    margin-right: 1rem;
-  }
 `;
 
 const Category2 = styled.a`
@@ -82,9 +78,6 @@ const Category2 = styled.a`
     opacity: 1;
   }
   @media (max-width: 375px) {
-    font-size: 0.8rem;
-  }
-  @media (min-width: 375px) {
     font-size: 0.8rem;
   }
 `;

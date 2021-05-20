@@ -100,7 +100,7 @@ const SignUp = () => {
           <Logo />
         </SmallWrap>
 
-        <SmallWrap style={{ marginLeft: "10rem" }}>
+        <SmallWrap2>
           <Signup>SIGN UP</Signup>
 
           <EmailInput
@@ -144,7 +144,7 @@ const SignUp = () => {
             카카오톡으로 가입하기
           </Button2>
           <Text href="/login">로그인 하러 가기</Text>
-        </SmallWrap>
+        </SmallWrap2>
       </Wrap>
     </React.Fragment>
   );
@@ -153,12 +153,15 @@ const SignUp = () => {
 export default SignUp;
 
 const Wrap = styled.div`
-  width: 58rem;
+  width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin: 0px auto;
   font-family: "paybooc-Bold";
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 const SmallWrap = styled.div`
@@ -170,6 +173,20 @@ const SmallWrap = styled.div`
   align-items: center;
 `;
 
+const SmallWrap2 = styled.div`
+  width: 23rem;
+  display: flex;
+  flex-direction: column;
+  margin: 0px auto;
+  justify-content: center;
+  align-items: center;
+  margin-left: 8rem;
+  @media (max-width: 600px) {
+    margin-left: 0rem;
+    margin: 0px auto;
+  }
+`;
+
 const Image = styled.div`
   background-image: url("${signuplogo}");
   background-size: 23rem 20rem;
@@ -178,6 +195,13 @@ const Image = styled.div`
   margin: 0px auto;
   margin-top: 3rem;
   margin-bottom: 3rem;
+  @media (max-width: 414px) {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    background-size: 13rem 11rem;
+    width: 13rem;
+    height: 11rem;
+  }
 `;
 
 const Logo = styled.div`
@@ -185,6 +209,11 @@ const Logo = styled.div`
   background-size: 14rem 2.56rem;
   width: 14rem;
   height: 2.56rem;
+  @media (max-width: 414px) {
+    background-size: 12rem 2.56rem;
+    width: 12rem;
+    height: 2.56rem;
+  }
 `;
 
 const Signup = styled.div`
@@ -192,6 +221,11 @@ const Signup = styled.div`
   color: #535353;
   margin: 0px auto;
   margin-bottom: 3rem;
+  @media (max-width: 414px) {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+  }
 `;
 
 const EmailInput = styled.input`
@@ -211,6 +245,9 @@ const EmailInput = styled.input`
     font-size: 1rem;
     color: #535353;
     opacity: 50%;
+  }
+  @media (max-width: 600px) {
+    width: 17rem;
   }
 `;
 
@@ -232,6 +269,9 @@ const PwdInput = styled.input`
     color: #535353;
     opacity: 50%;
   }
+  @media (max-width: 600px) {
+    width: 17rem;
+  }
 `;
 
 const PwdCheckInput = styled.input`
@@ -251,6 +291,9 @@ const PwdCheckInput = styled.input`
     font-size: 1rem;
     color: #535353;
     opacity: 50%;
+  }
+  @media (max-width: 600px) {
+    width: 17rem;
   }
 `;
 
@@ -273,6 +316,9 @@ const Input = styled.input`
     color: #535353;
     opacity: 50%;
   }
+  @media (max-width: 600px) {
+    width: 17rem;
+  }
 `;
 
 const Button1 = styled.button`
@@ -286,6 +332,9 @@ const Button1 = styled.button`
   background-color: #2b61e1;
   color: #ffffff;
   cursor: pointer;
+  @media (max-width: 600px) {
+    width: 20rem;
+  }
 `;
 
 const Button2 = styled.a`
@@ -304,6 +353,9 @@ const Button2 = styled.a`
   font-size: 1rem;
   color: #2b1718;
   text-decoration: none;
+  @media (max-width: 600px) {
+    width: 20rem;
+  }
 `;
 
 const Kakao = styled.div`
