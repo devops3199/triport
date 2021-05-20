@@ -35,7 +35,6 @@ const App = () => {
 
   React.useEffect(() => {
     dispatch(userActions.loginCheckDB()); // 로그인 여부 체크
-    dispatch(profileActions.getProfile()); // 프로필 조회
   }, []);
 
   return (

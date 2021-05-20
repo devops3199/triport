@@ -45,11 +45,6 @@ const getProfile = () => {
     const API = `${config}/member/profile`;
     let access_token = localStorage.getItem("access_token");
 
-    // if (!access_token) {
-    //   console.log("토큰 없음");
-    //   return;
-    // }
-
     fetch(API, {
       method: "GET",
 
@@ -71,7 +66,7 @@ const getProfile = () => {
         );
       })
       .catch((err) => {
-        // console.log(err);
+        console.log(err);
       });
   };
 };
@@ -80,11 +75,6 @@ const getProfile = () => {
 const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
-
-    // if (!access_token) {
-    //   console.log("토큰 없음");
-    //   return;
-    // }
 
     // formdata에 담기
     let formData = new FormData();

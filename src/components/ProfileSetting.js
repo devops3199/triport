@@ -15,6 +15,10 @@ import { actionCreators as profileActions } from "redux/modules/profile";
 const ProfileSetting = () => {
   const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    dispatch(profileActions.getProfile()); // 프로필 조회
+  }, []);
+
   const nameRef = useRef();
   const newpwdRef = useRef();
   const newpwdcheckRef = useRef();

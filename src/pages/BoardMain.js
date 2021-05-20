@@ -4,9 +4,9 @@ import { history } from "redux/configureStore";
 import { Plus } from "media/svg/Svg";
 import { BoardCard } from "components/components";
 import InfinityScroll from "shared/InfinityScroll";
-import { actionCreators as TrilogActions } from 'redux/modules/trilog';
-import { useDispatch, useSelector } from 'react-redux';
-import SearchIcon from '@material-ui/icons/Search';
+import { actionCreators as TrilogActions } from "redux/modules/trilog";
+import { useDispatch, useSelector } from "react-redux";
+import SearchIcon from "@material-ui/icons/Search";
 import Tripper from "media/image/triport_airplane.png";
 import Fade from "react-reveal/Fade";
 
@@ -25,41 +25,47 @@ const BoardMain = (props) => {
     const like = document.getElementById("LikeText");
     const newest = document.getElementById("NewestText");
 
-    if (filter_type === 'modifiedAt') {
+    if (filter_type === "modifiedAt") {
       // 좋아요순
       tab.style.left = "0%";
       like.style.color = "#fff";
       newest.style.color = "#89ACFF";
-      dispatch(TrilogActions.getTrilogMainFilter('likeNum', keyword.current.value));
+      dispatch(
+        TrilogActions.getTrilogMainFilter("likeNum", keyword.current.value)
+      );
     } else {
       // 최신순
       tab.style.left = "50%";
       like.style.color = "#89ACFF";
       newest.style.color = "#fff";
-      dispatch(TrilogActions.getTrilogMainFilter('modifiedAt', keyword.current.value));
+      dispatch(
+        TrilogActions.getTrilogMainFilter("modifiedAt", keyword.current.value)
+      );
     }
 
     filterRef.current = filter_type;
   };
 
   React.useEffect(() => {
-    dispatch(TrilogActions.getTrilogMain('likeNum', ''));
+    dispatch(TrilogActions.getTrilogMain("likeNum", ""));
   }, []);
 
   const scroll = () => {
     const filter_scroll = filterRef.current;
-    
-    if(filter_scroll === 'likeNum') {
+
+    if (filter_scroll === "likeNum") {
       // 좋아요순
-      dispatch(TrilogActions.getTrilogMain('likeNum', ''));
+      dispatch(TrilogActions.getTrilogMain("likeNum", ""));
     } else {
       // 최신순
-      dispatch(TrilogActions.getTrilogMain('modifiedAt', ''));
+      dispatch(TrilogActions.getTrilogMain("modifiedAt", ""));
     }
   };
 
   const searchTrilog = () => {
-    dispatch(TrilogActions.getTrilogMainFilter(filter_type, keyword.current.value));
+    dispatch(
+      TrilogActions.getTrilogMainFilter(filter_type, keyword.current.value)
+    );
   };
 
   return (
@@ -113,7 +119,7 @@ const BoardMain = (props) => {
               {trilog.map((val, idx) => {
                 return (
                   <Fade bottom key={idx}>
-                    <BoardCard data={val} margin="50px 15px 0 15px"/>
+                    <BoardCard data={val} margin="50px 15px 0 15px" />
                   </Fade>
                 );
               })}
@@ -166,7 +172,7 @@ const SearchWrapper = styled.div`
   box-shadow: 0px 3px 6px #00000029;
 
   & svg {
-    fill : rgb(43, 97, 225);
+    fill: rgb(43, 97, 225);
     cursor: pointer;
   }
 
@@ -200,7 +206,7 @@ const Background = styled.div`
   position: absolute;
   width: 50%;
   height: 100%;
-  left: ${(props) => props.type === 'likeNum' ? '0;' : '50%;'}
+  left: ${(props) => (props.type === "likeNum" ? "0;" : "50%;")};
   background: #2b61e1 0% 0% no-repeat padding-box;
   border-radius: 5px;
   transition: left 0.5s;
@@ -218,7 +224,7 @@ const LikeFilter = styled.div`
     font-family: "paybooc-Bold";
     font-size: 14px;
     letter-spacing: 0px;
-    color: ${(props) => props.type === 'likeNum' ? '#fff;' : '#89ACFF;'}
+    color: ${(props) => (props.type === "likeNum" ? "#fff;" : "#89ACFF;")};
     z-index: 10;
     transition: color 0.3s;
   }
@@ -236,7 +242,7 @@ const NewestFilter = styled.div`
     font-family: "paybooc-Bold";
     font-size: 14px;
     letter-spacing: 0px;
-    color: ${(props) => props.type === 'likeNum' ? '#89ACFF;' : '#fff;'}
+    color: ${(props) => (props.type === "likeNum" ? "#89ACFF;" : "#fff;")};
     z-index: 10;
     transition: color 0.3s;
   }

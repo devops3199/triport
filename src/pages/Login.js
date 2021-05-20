@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+
 import loginlogo from "media/image/login_logo.png";
 import kakaoicon from "media/svg/kakao_symbol.svg";
 import { emailCheck, pwdCheck } from "../shared/common";
+
 import { useDispatch } from "react-redux";
+
 import { actionCreators as userAcitons } from "redux/modules/user";
+import { actionCreators as profileActions } from "redux/modules/profile";
+
 const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = React.useState("");
@@ -13,8 +18,8 @@ const Login = () => {
   const [line2, setLine2] = useState("1px solid #707070");
   // 카카오 로그인 Redirect_url
   const KAKAO_URL =
-    "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=http://triport.kr/auth/kakao/callback&response_type=code";
-  // "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code";
+    // "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=https://triport.kr/auth/kakao/callback&response_type=code";
+    "https://kauth.kakao.com/oauth/authorize?client_id=b30e166ade03d146889e1b012679fcf6&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code";
 
   const login = () => {
     if (email === "" || pwd === "") {
@@ -22,6 +27,7 @@ const Login = () => {
       return;
     }
     dispatch(userAcitons.loginDB(email, pwd));
+    dispatch(profileActions.getProfile());
   };
   useEffect(() => {
     if (!email) {
