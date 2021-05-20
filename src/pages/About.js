@@ -199,7 +199,7 @@ const About = () => {
                                 <NameTag>
                                     <Name>박민경</Name><FeatureTag>로그인</FeatureTag><FeatureTag>회원가입</FeatureTag><FeatureTag>마이페이지</FeatureTag>
                                 </NameTag>
-                                <div>☺️ TRIPORT에 많은 애정을 꾹꾹 눌러담은 박민경입니다 :)<br/>그럼, Traveler 여러분! 모두 Happy TRIPORT~ ✈️🥰</div>
+                                <div>TRIPORT에 많은 애정을 꾹꾹 눌러담은 박민경입니다 :)<br/>그럼, Traveler 여러분! 모두 Happy TRIPORT~ ✈️🥰</div>
                                 <div><BlueTag>github:</BlueTag> <a href="https://github.com/pmk2424" target="_blank">https://github.com/pmk2424</a></div>
                                 <div><BlueTag>blog:</BlueTag> <a href="https://velog.io/@pmk4236" target="_blank">https://velog.io/@pmk4236</a></div>
                                 <div><BlueTag>email:</BlueTag> pmk42360@gmail.com</div>

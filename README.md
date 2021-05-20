@@ -12,7 +12,7 @@
 </p>
 
 <p align='center'>
-  <img src="./src/media/image/login_logo.png" width="300px />
+  <img src="./src/media/image/login_logo.png" width="300px" />
 </p>
 
 ### 🔗 라이브
