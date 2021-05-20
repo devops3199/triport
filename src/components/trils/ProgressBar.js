@@ -18,6 +18,7 @@ const ContainerStyles = styled.div`
   border-radius: 50px;
   margin: 0 auto;
   margin-top: -0.7rem;
+  margin-bottom: 0.2rem;
   z-index: 1;
   opacity: 0.5;
 `;

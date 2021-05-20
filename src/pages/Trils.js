@@ -8,7 +8,7 @@ import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import SearchIcon from "@material-ui/icons/Search";
-import InfinityScroll from "shared/InfinityScroll";
+import InfinityScroll from "shared/TrillsInfinityScroll";
 import Tripper from "media/image/triport_airplane.png";
 import Fade from "react-reveal/Fade";
 import TrilsDetailTutorial from "components/trils/TrilsDetailTutorial";
@@ -111,6 +111,39 @@ const Trils = (props) => {
 
   return (
     <Container>
+      {modal ? <TrilsDetail history={history} /> : null}
+      {TDetailModal ? (
+        <TrilsDetailTutorial
+          history={history}
+          close={() => {
+            setTDM(false);
+          }}
+        />
+      ) : null}
+      {/* <FloatingBox>
+        <FloatingTutorial
+          tutorial={tutorial}
+          onClick={() => {
+            if (tutorial) {
+              setTutorial(false);
+            } else {
+              setTutorial(true);
+            }
+          }}
+        >
+          {tutorial ? (
+            <CloseTutorial>사용자 가이드 닫기</CloseTutorial>
+          ) : (
+            <QuestionMark />
+          )}
+        </FloatingTutorial>
+        <FloatingGoTop onClick={top}>
+          <Arrow />
+        </FloatingGoTop>
+        <FloatingWrite onClick={write}>
+          <Plus />
+        </FloatingWrite>
+      </FloatingBox> */}
       <SearchContainer>
         <SearchWrapper>
           <Search
@@ -136,83 +169,48 @@ const Trils = (props) => {
           <img src={Tripper} alt="놀자" />
         </MoveTripper>
       </FilterContainer>
-      <CenterDiv>
-        {modal ? <TrilsDetail history={history} /> : null}
-        {TDetailModal ? (
-          <TrilsDetailTutorial
-            history={history}
-            close={() => {
-              setTDM(false);
-            }}
-          />
-        ) : null}
-        <FloatingBox>
-          <FloatingTutorial
-            tutorial={tutorial}
-            onClick={() => {
-              if (tutorial) {
-                setTutorial(false);
-              } else {
-                setTutorial(true);
-              }
-            }}
-          >
-            {tutorial ? (
-              <CloseTutorial>사용자 가이드 닫기</CloseTutorial>
+      <PostLine>
+        {tutorial ? (
+          <>
+            <Fade right>
+              <TrilsTutorial
+                open={() => {
+                  console.log("123");
+                  setTDM(true);
+                }}
+              />
+            </Fade>
+          </>
+        ) : (
+          <>
+            {!post_list || post_list.length === 0 ? (
+              <></>
             ) : (
-              <QuestionMark />
+              <InfinityScroll callNext={scroll} is_next={is_last}>
+                {post_list.map((p, idx) => {
+                  if ((idx + 1) % 3 !== 0) {
+                    return (
+                      <Fragment key={idx}>
+                        <Fade bottom>
+                          <Video {...p} history={history} mr />
+                        </Fade>
+                      </Fragment>
+                    );
+                  } else {
+                    return (
+                      <Fragment key={idx}>
+                        <Fade bottom>
+                          <Video {...p} history={history} />
+                        </Fade>
+                      </Fragment>
+                    );
+                  }
+                })}
+              </InfinityScroll>
             )}
-          </FloatingTutorial>
-          <FloatingGoTop onClick={top}>
-            <Arrow />
-          </FloatingGoTop>
-          <FloatingWrite onClick={write}>
-            <Plus />
-          </FloatingWrite>
-        </FloatingBox>
-        <PostLine>
-          {tutorial ? (
-            <>
-              <Fade right>
-                <TrilsTutorial
-                  open={() => {
-                    console.log("123");
-                    setTDM(true);
-                  }}
-                />
-              </Fade>
-            </>
-          ) : (
-            <>
-              {!post_list || post_list.length === 0 ? (
-                <></>
-              ) : (
-                <InfinityScroll callNext={scroll} is_next={is_last}>
-                  {post_list.map((p, idx) => {
-                    if ((idx + 1) % 3 !== 0) {
-                      return (
-                        <Fragment key={idx}>
-                          <Fade bottom>
-                            <Video {...p} history={history} mr />
-                          </Fade>
-                        </Fragment>
-                      );
-                    } else {
-                      return (
-                        <Fragment key={idx}>
-                          <Fade bottom>
-                            <Video {...p} history={history} />
-                          </Fade>
-                        </Fragment>
-                      );
-                    }
-                  })}
-                </InfinityScroll>
-              )}
-            </>
-          )}
-        </PostLine>
-      </CenterDiv>
+          </>
+        )}
+      </PostLine>
     </Container>
   );
 };
@@ -264,7 +262,6 @@ const SearchWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   box-shadow: 0px 3px 6px #00000029;
-
   & svg {
     fill: rgb(43, 97, 225);
     cursor: pointer;
@@ -285,7 +282,6 @@ const NewestFilter = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
   & span {
     font-family: "paybooc-Bold";
     font-size: 14px;
@@ -303,7 +299,6 @@ const LikeFilter = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
   & span {
     font-family: "paybooc-Bold";
     font-size: 14px;
@@ -397,7 +392,7 @@ const FloatingTutorial = styled.div`
   height: 3.125rem;
   cursor: pointer;
   z-index: 50;
-  background: linear-gradient(to bottom right, #52A0FD, #00e2fa);
+  background: linear-gradient(to bottom right, #52a0fd, #00e2fa);
   /* background-color: #2b61e1; */
   border-radius: 25px;
   transform-origin: center center;
