@@ -8,7 +8,7 @@ import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import SearchIcon from "@material-ui/icons/Search";
-import InfinityScroll from "shared/InfinityScroll";
+import InfinityScroll from "shared/TrillsInfinityScroll";
 import Tripper from "media/image/triport_airplane.png";
 import Fade from "react-reveal/Fade";
 import TrilsDetailTutorial from "components/trils/TrilsDetailTutorial";
