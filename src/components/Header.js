@@ -63,6 +63,7 @@ const Header = (props) => {
               <Image url={user.profileImgUrl} />
               <Grade url={gradeImg} />
               <Nickname>{user.nickname}</Nickname>
+
               <MyOrLogin
                 onClick={() => {
                   const pathname = history.location.pathname;
@@ -155,6 +156,11 @@ const Wrap = styled.div`
   background-color: #ffffff;
   background-size: cover;
   align-items: center;
+  @media (max-width: 540px) {
+    height: 8rem;
+    flex-direction: column;
+    justify-content: center;
+  }
 `;
 
 const LeftWrap = styled.div`
@@ -165,15 +171,22 @@ const LeftWrap = styled.div`
   margin: 0px auto;
   margin-left: 5rem;
 
+  @media (max-width: 980px) {
+    margin-left: 3rem;
+  }
   @media (max-width: 768px) {
     margin-left: 2rem;
   }
 
   @media (max-width: 600px) {
-    margin-left: 2rem;
-  }
-  @media (max-width: 414px) {
     margin-left: 1rem;
+  }
+  @media (max-width: 540px) {
+    width: 100%;
+    margin: 0px auto;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 `;
 
@@ -182,6 +195,9 @@ const RightWrap = styled.div`
   flex-direction: row;
   width: 30% auto;
   align-items: center;
+  /* @media (max-width: 540px) {
+    justify-content: flex-end;
+  } */
 `;
 
 const Line = styled.div`
@@ -198,12 +214,25 @@ const LogoWrapper = styled.div`
   & svg {
     width: 12rem;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 980px) {
+    margin-left: 0.5rem;
     & svg {
       width: 8rem;
     }
   }
-  @media (max-width: 414px) {
+  @media (max-width: 768px) {
+    margin-left: 0.5rem;
+    & svg {
+      width: 8rem;
+    }
+  }
+  @media (max-width: 600px) {
+    margin-left: 0.5rem;
+    & svg {
+      width: 7rem;
+    }
+  }
+  @media (max-width: 540px) {
     margin-left: 0.5rem;
     & svg {
       width: 6rem;
@@ -222,11 +251,30 @@ const MyOrLogin = styled.button`
   margin-right: 1.5rem;
   width: 5rem;
   height: 1.7rem;
-  @media (max-width: 414px) {
+
+  @media (max-width: 980px) {
+    font-size: 0.5rem;
+    margin-left: 0.1rem;
+    margin-right: 0.5rem;
+    width: 3.5rem;
+  }
+  @media (max-width: 768px) {
+    font-size: 0.5rem;
+    margin-left: 0.1rem;
+    margin-right: 0.5rem;
+    width: 3.5rem;
+  }
+  @media (max-width: 600px) {
     font-size: 0.6rem;
     margin-left: 0.8rem;
     margin-right: 0.5rem;
-    width: 2.5rem;
+    width: 3.5rem;
+  }
+  @media (max-width: 540px) {
+    font-size: 0.6rem;
+    margin-left: 0.8rem;
+    margin-right: 0.5rem;
+    width: 3.5rem;
   }
 `;
 
@@ -248,9 +296,23 @@ const LogoutOrSignUp = styled.a`
   &:visited {
     color: #5a5a5a;
   }
-  @media (max-width: 414px) {
+  @media (max-width: 980px) {
     font-size: 0.5rem;
-    width: 2.2rem;
+    width: 3rem;
+  }
+  @media (max-width: 768px) {
+    font-size: 0.5rem;
+    width: 3rem;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 0.5rem;
+    width: 3rem;
+  }
+  @media (max-width: 540px) {
+    font-size: 0.5rem;
+    width: 3rem;
+    margin-right: 0rem;
   }
 `;
 
@@ -260,6 +322,21 @@ const Nickname = styled.div`
   margin-top: -0.3rem;
   font-size: 1rem;
   font-weight: 800;
+  @media (max-width: 768px) {
+    margin-top: 0.1rem;
+    margin-right: 0;
+    font-size: 0.8rem;
+    width: 4rem;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 0.5rem;
+    width: 3rem;
+  }
+  @media (max-width: 540px) {
+    font-size: 0.7rem;
+    width: 3.5rem;
+  }
 `;
 
 const Image = styled.div`
@@ -272,6 +349,16 @@ const Image = styled.div`
   background-image: url(${(props) => props.url});
   background-size: cover;
   margin-right: 1rem;
+
+  @media (max-width: 1270px) {
+    width: 2rem;
+    height: 2rem;
+  }
+  @media (max-width: 768px) {
+    margin-right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+  }
 `;
 
 const Grade = styled.div`

@@ -181,6 +181,14 @@ const SmallWrap2 = styled.div`
   justify-content: center;
   align-items: center;
   margin-left: 8rem;
+  @media (max-width: 980px) {
+    margin-left: 1rem;
+    margin: 0px auto;
+  }
+  @media (max-width: 768px) {
+    margin-left: 1rem;
+    margin: 0px auto;
+  }
   @media (max-width: 600px) {
     margin-left: 0rem;
     margin: 0px auto;
@@ -195,7 +203,16 @@ const Image = styled.div`
   margin: 0px auto;
   margin-top: 3rem;
   margin-bottom: 3rem;
-  @media (max-width: 414px) {
+
+  @media (max-width: 768px) {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    background-size: 15rem 13rem;
+    width: 15rem;
+    height: 13rem;
+  }
+
+  @media (max-width: 600px) {
     margin-top: 0.5rem;
     margin-bottom: 1rem;
     background-size: 13rem 11rem;
@@ -209,7 +226,7 @@ const Logo = styled.div`
   background-size: 14rem 2.56rem;
   width: 14rem;
   height: 2.56rem;
-  @media (max-width: 414px) {
+  @media (max-width: 600px) {
     background-size: 12rem 2.56rem;
     width: 12rem;
     height: 2.56rem;
@@ -221,7 +238,7 @@ const Signup = styled.div`
   color: #535353;
   margin: 0px auto;
   margin-bottom: 3rem;
-  @media (max-width: 414px) {
+  @media (max-width: 600px) {
     margin-top: 1rem;
     margin-bottom: 2rem;
     font-size: 1.5rem;
@@ -246,6 +263,12 @@ const EmailInput = styled.input`
     color: #535353;
     opacity: 50%;
   }
+  @media (max-width: 980px) {
+    width: 19rem;
+  }
+  @media (max-width: 768px) {
+    width: 19rem;
+  }
   @media (max-width: 600px) {
     width: 17rem;
   }
@@ -269,6 +292,12 @@ const PwdInput = styled.input`
     color: #535353;
     opacity: 50%;
   }
+  @media (max-width: 980px) {
+    width: 19rem;
+  }
+  @media (max-width: 768px) {
+    width: 19rem;
+  }
   @media (max-width: 600px) {
     width: 17rem;
   }
@@ -291,6 +320,12 @@ const PwdCheckInput = styled.input`
     font-size: 1rem;
     color: #535353;
     opacity: 50%;
+  }
+  @media (max-width: 980px) {
+    width: 19rem;
+  }
+  @media (max-width: 768px) {
+    width: 19rem;
   }
   @media (max-width: 600px) {
     width: 17rem;
@@ -316,6 +351,12 @@ const Input = styled.input`
     color: #535353;
     opacity: 50%;
   }
+  @media (max-width: 980px) {
+    width: 19rem;
+  }
+  @media (max-width: 768px) {
+    width: 19rem;
+  }
   @media (max-width: 600px) {
     width: 17rem;
   }
@@ -332,6 +373,12 @@ const Button1 = styled.button`
   background-color: #2b61e1;
   color: #ffffff;
   cursor: pointer;
+  @media (max-width: 980px) {
+    width: 22rem;
+  }
+  @media (max-width: 768px) {
+    width: 22rem;
+  }
   @media (max-width: 600px) {
     width: 20rem;
   }
@@ -353,6 +400,12 @@ const Button2 = styled.a`
   font-size: 1rem;
   color: #2b1718;
   text-decoration: none;
+  @media (max-width: 980px) {
+    width: 22rem;
+  }
+  @media (max-width: 768px) {
+    width: 22rem;
+  }
   @media (max-width: 600px) {
     width: 20rem;
   }

@@ -60,8 +60,21 @@ const Category1 = styled.a`
   :hover {
     opacity: 1;
   }
+  @media (max-width: 1270px) {
+    margin-right: 2rem;
+  }
+
+  @media (max-width: 980px) {
+    margin-right: 1.5rem;
+    font-size: 0.8rem;
+  }
+  @media (max-width: 768px) {
+    margin-right: 1.5rem;
+    font-size: 0.8rem;
+  }
   @media (max-width: 600px) {
     margin-right: 1rem;
+    font-size: 0.8rem;
   }
   @media (max-width: 375px) {
     font-size: 0.8rem;
@@ -77,7 +90,23 @@ const Category2 = styled.a`
   :hover {
     opacity: 1;
   }
-  @media (max-width: 375px) {
+  @media (max-width: 1270px) {
+    margin-right: 2rem;
+  }
+  @media (max-width: 980px) {
+    margin-right: 1.5rem;
     font-size: 0.8rem;
+  }
+  @media (max-width: 768px) {
+    margin-right: 1rem;
+    font-size: 0.8rem;
+  }
+  @media (max-width: 600px) {
+    margin-right: 1rem;
+    font-size: 0.8rem;
+  }
+  @media (max-width: 540px) {
+    font-size: 0.8rem;
+    margin-right: 0;
   }
 `;
