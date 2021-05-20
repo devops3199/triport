@@ -370,7 +370,6 @@ const getParentCommentScroll = (id) => {
         })
         .then(res => res.json())
         .then(data => {     
-            console.log(data, 'data');
             if(!data.last) {
                 dispatch(setTrilogParentCommentPage(page + 1));
             } else {
