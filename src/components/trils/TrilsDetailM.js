@@ -629,6 +629,8 @@ const Uploading = styled.div`
 const VideoPlay = styled.video`
   display: flex;
   margin: 0 auto;
+  width: 100%;
+  height: 100%;
   max-width: 40rem;
   max-height: 30rem;
   object-fit: contain;
@@ -646,6 +648,7 @@ const View = styled.div`
   display: flex;
   justify-content: center;
   margin: 0px auto;
+  align-items: center;
 `;
 
 const Wrap = styled.div`
