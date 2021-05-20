@@ -189,23 +189,13 @@ const Trils = (props) => {
               ) : (
                 <InfinityScroll callNext={scroll} is_next={is_last}>
                   {post_list.map((p, idx) => {
-                    if ((idx + 1) % 3 !== 0) {
-                      return (
-                        <Fragment key={idx}>
-                          <Fade bottom>
-                            <Video {...p} history={history} mr />
-                          </Fade>
-                        </Fragment>
-                      );
-                    } else {
-                      return (
-                        <Fragment key={idx}>
-                          <Fade bottom>
-                            <Video {...p} history={history} />
-                          </Fade>
-                        </Fragment>
-                      );
-                    }
+                    return (
+                      <Fragment key={idx}>
+                        <Fade bottom>
+                          <Video {...p} history={history} />
+                        </Fade>
+                      </Fragment>
+                    );
                   })}
                 </InfinityScroll>
               )}
@@ -372,7 +362,10 @@ const CenterDiv = styled.div`
 `;
 
 const PostLine = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  column-gap: 1.5rem;
   max-width: 80rem;
   margin: 0px auto;
   margin-bottom: 4.3rem;
@@ -397,7 +390,7 @@ const FloatingTutorial = styled.div`
   height: 3.125rem;
   cursor: pointer;
   z-index: 50;
-  background: linear-gradient(to bottom right, #52A0FD, #00e2fa);
+  background: linear-gradient(to bottom right, #52a0fd, #00e2fa);
   /* background-color: #2b61e1; */
   border-radius: 25px;
   transform-origin: center center;

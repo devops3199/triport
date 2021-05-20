@@ -226,7 +226,6 @@ const VideoCards = styled.div`
   flex-direction: column;
   margin-bottom: 1.5rem;
   ${(props) => (props.margin ? "margin-right:2.5rem" : "")};
-  margin-top: 1rem;
   transition: 0.5s ease-in-out;
   :hover {
     transform: scale(1.03);
@@ -244,7 +243,8 @@ const VideoPlay = styled.video`
 
 const Profile = styled.div`
   user-select: none;
-  margin-bottom: -3rem;
+  position: absolute;
+  padding-top: 0.7rem;
   display: flex;
   z-index: 5;
 `;
