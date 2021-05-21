@@ -319,9 +319,7 @@ const TrilsDetailM = (props) => {
         {info.information.posPlay ? (
           <>
             {info.information.videoType === "mp4" ? (
-              <View
-                onClick={mp4}
-              >
+              <View onClick={mp4}>
                 <VideoPlay
                   ref={players}
                   src={params.src}
@@ -337,9 +335,7 @@ const TrilsDetailM = (props) => {
               </View>
             ) : (
               <>
-                <View
-                  onClick={m3u8}
-                >
+                <View onClick={m3u8}>
                   <VideoPlay
                     ref={player}
                     loop
@@ -628,6 +624,7 @@ const VideoPlay = styled.video`
   display: flex;
   margin: 0 auto;
   height: 100%;
+  width: 100%;
   max-width: 40rem;
   max-height: 30rem;
   object-fit: contain;

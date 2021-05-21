@@ -32,7 +32,7 @@ const TrilsWrite = (props) => {
     const val = e.target.value;
     if (
       (e.key === "Enter" && val) ||
-      1(e.key === "," && val) ||
+      (e.key === "," && val) ||
       (e.key === " " && val)
     ) {
       if (tags.length === 3) {
