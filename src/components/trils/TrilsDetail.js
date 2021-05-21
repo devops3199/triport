@@ -287,7 +287,8 @@ const TrilsDetail = (props) => {
 
         {info.information.posPlay ? (
           <>
-            {info.information.videoType === "mp4" ? (
+            {info.information.videoType === "mp4" ||
+            info.information.videoType === "mov" ? (
               <View
                 onMouseOver={mp4play}
                 onMouseLeave={mp4pause}

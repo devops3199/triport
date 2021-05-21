@@ -72,6 +72,7 @@ const Video = (props) => {
   };
 
   const mp4play = () => {
+    console.log("123")
     if (players.current.readyState !== 4) {
       return;
     }
@@ -127,7 +128,8 @@ const Video = (props) => {
       </Profile>
       {props.information.posPlay ? (
         <>
-          {props.information.videoType === "mp4" ? (
+          {props.information.videoType === "mp4" ||
+          props.information.videoType === "mov" ? (
             <>
               {window.innerWidth > 1024 ? (
                 <>

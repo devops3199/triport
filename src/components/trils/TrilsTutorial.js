@@ -91,7 +91,7 @@ const TrilsTutorial = (props) => {
   };
 
   const mobile_chk = () => {
-    history.push('/trils/tutorial');
+    history.push("/trils/tutorial");
   };
 
   return (
@@ -102,7 +102,8 @@ const TrilsTutorial = (props) => {
       </Profile>
       {props.information.posPlay ? (
         <>
-          {props.information.videoType === "mp4" ? (
+          {props.information.videoType === "mp4" ||
+          props.information.videoType === "mov" ? (
             <>
               <VideoPlay
                 onMouseOver={mp4play}
