@@ -492,6 +492,7 @@ const Bottom = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  margin-right:1rem;
   @media only screen and (max-width: 425px) {
     justify-content: center;
   }
