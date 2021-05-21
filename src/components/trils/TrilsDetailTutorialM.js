@@ -16,15 +16,14 @@ const TrilsDetailTutorialM = (props) => {
   const player = useRef(null);
   const players = useRef(null);
   const info = props.info;
-  const dispatch = useDispatch();
   const [completed, setCompleted] = useState(0);
   const [progress, setProgress] = useState(0);
   const [editOn, setEditOn] = useState(false);
   const [tags, setTags] = useState(info.information.hashtag);
   const tagInput = useRef(null);
-  const [mute, setMute] = useState(true);
   const [tagType, setTagType] = useState("");
   const [like_chk, setLike] = useState(false);
+  const [nowPlaying, setNowPlaying] = useState(false);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -100,31 +99,35 @@ const TrilsDetailTutorialM = (props) => {
     }
   }, [params.src]);
 
-  const m3u8volume = () => {
+  const m3u8 = () => {
     if (player.current.readyState !== 4) {
       return;
     }
     if (!info.information.posPlay) {
       return;
     }
-    if (mute) {
-      setMute(false);
+    if (nowPlaying) {
+      setNowPlaying(false);
+      player.current.pause();
     } else {
-      setMute(true);
+      setNowPlaying(true);
+      player.current.play();
     }
   };
 
-  const mp4volume = () => {
+  const mp4 = () => {
     if (players.current.readyState !== 4) {
       return;
     }
     if (!info.information.posPlay) {
       return;
     }
-    if (mute) {
-      setMute(false);
+    if (nowPlaying) {
+      setNowPlaying(false);
+      players.current.pause();
     } else {
-      setMute(true);
+      setNowPlaying(true);
+      players.current.play();
     }
   };
 
@@ -215,17 +218,11 @@ const TrilsDetailTutorialM = (props) => {
           <>
             {info.information.videoType === "mp4" ||
             info.information.videoType === "mov" ? (
-              <View
-                onMouseOver={mp4play}
-                onMouseLeave={mp4pause}
-                onClick={mp4volume}
-              >
+              <View onClick={mp4}>
                 <VideoPlay
                   ref={players}
                   src={params.src}
-                  muted={mute}
                   loop
-                  autoPlay
                   onTimeUpdate={() => {
                     setCompleted(
                       (players.current.currentTime / players.current.duration) *
@@ -237,16 +234,10 @@ const TrilsDetailTutorialM = (props) => {
               </View>
             ) : (
               <>
-                <View
-                  onMouseOver={hlsplay}
-                  onMouseLeave={hlspause}
-                  onClick={m3u8volume}
-                >
+                <View onClick={m3u8}>
                   <VideoPlay
                     ref={player}
-                    muted={mute}
                     loop
-                    autoPlay
                     onTimeUpdate={() => {
                       setCompleted(
                         (player.current.currentTime / player.current.duration) *

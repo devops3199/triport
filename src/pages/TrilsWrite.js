@@ -111,7 +111,7 @@ const TrilsWrite = (props) => {
           )}
           <input
             type="file"
-            accept="video/mp4"
+            accept="video/*"
             ref={fileInput}
             onChange={upload}
             style={{ display: "none" }}

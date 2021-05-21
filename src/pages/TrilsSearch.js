@@ -81,6 +81,10 @@ const Trils = (props) => {
     }
   };
 
+  const searchClick = (e) => {
+    history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+  };
+
   const top = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -116,7 +120,7 @@ const Trils = (props) => {
             ref={keyword}
             onKeyPress={searching}
           />
-          <SearchIcon onClick={searching} />
+          <SearchIcon onClick={searchClick} />
         </SearchWrapper>
       </SearchContainer>
       <FilterContainer>
