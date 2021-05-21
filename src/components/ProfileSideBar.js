@@ -59,9 +59,12 @@ const ProfileSideBar = () => {
 const Profile = styled.div`
   display: flex;
   justify-content: center;
-  margin: 0px auto;
+  margin: 0px;
   margin-bottom: 5rem;
-  width: 27rem;
+  width: 100vw;
+  @media (max-width: 375px) {
+    margin-bottom: 2rem;
+  }
 `;
 
 const Sidebar = styled.div`
@@ -73,6 +76,13 @@ const Sidebar = styled.div`
   box-shadow: 0px 3px 6px #00000029;
   border-radius: 5px;
   opacity: 1;
+
+  @media (max-width: 490px) {
+    width: 22rem;
+  }
+  @media (max-width: 375px) {
+    width: 19rem;
+  }
 `;
 
 const SideCover = styled.div`
@@ -95,11 +105,24 @@ const ProfileSetting = styled.div`
   opacity: 1;
   justify-content: center;
   align-items: center;
+  @media (max-width: 490px) {
+    width: 7rem;
+  }
+  @media (max-width: 375px) {
+    width: 5.5rem;
+    margin-right: 1rem;
+  }
 `;
 
 const Setting = styled.div`
   font-family: "paybooc-Bold";
   display: flex;
+  @media (max-width: 490px) {
+    font-size: 0.8rem;
+  }
+  @media (max-width: 375px) {
+    font-size: 0.7rem;
+  }
 `;
 
 const ProfileMyPost = styled.div`
@@ -113,6 +136,13 @@ const ProfileMyPost = styled.div`
   opacity: 1;
   justify-content: center;
   align-items: center;
+  @media (max-width: 490px) {
+    width: 7rem;
+  }
+  @media (max-width: 375px) {
+    width: 5.5rem;
+    margin-right: 1rem;
+  }
 `;
 
 const ProfileLike = styled.div`
@@ -126,6 +156,12 @@ const ProfileLike = styled.div`
   opacity: 1;
   justify-content: center;
   align-items: center;
+  @media (max-width: 490px) {
+    width: 7rem;
+  }
+  @media (max-width: 375px) {
+    width: 5.5rem;
+  }
 `;
 
 const ProfileIcon = styled.div`
@@ -133,6 +169,11 @@ const ProfileIcon = styled.div`
   height: 1rem;
   background-size: 1.2rem 1rem;
   margin-right: 1rem;
+
+  @media (max-width: 375px) {
+    margin-right: 0.5rem;
+  }
+
   ${(props) =>
     props.toggle
       ? `background-image:url('${Wmypage}')`
@@ -145,6 +186,9 @@ const MyPostIcon = styled.div`
   background-size: 1.5rem 1.3rem;
   margin-left: -0.7rem;
   margin-right: 2.2rem;
+  @media (max-width: 375px) {
+    margin-right: 1.5rem;
+  }
 
   ${(props) =>
     props.toggle
@@ -158,6 +202,10 @@ const MyLikeIcon = styled.div`
   background-size: 1.2rem 1rem;
   margin-right: 1rem;
   margin-left: -2rem;
+  @media (max-width: 375px) {
+    margin-left: -1rem;
+    margin-right: 0.5rem;
+  }
 
   ${(props) =>
     props.toggle

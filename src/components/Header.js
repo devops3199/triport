@@ -29,8 +29,8 @@ const Header = (props) => {
 
   // 카카오 로그아웃
   const KAKAO_LOGOUT_URL =
-    "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=https://eungenie.me/auth/logout";
-  // "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://localhost:3000/auth/logout";
+    // "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=https://triport.kr/auth/logout";
+    "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://localhost:3000/auth/logout";
 
   if (user.is_login === true) {
     return (
@@ -61,7 +61,7 @@ const Header = (props) => {
             </LeftWrap>
             <RightWrap>
               <Image url={user.profileImgUrl} />
-              <Grade url={gradeImg} />
+              {/* <Grade url={gradeImg} /> */}
               <Nickname>{user.nickname}</Nickname>
 
               <MyOrLogin
@@ -308,6 +308,7 @@ const LogoutOrSignUp = styled.a`
   @media (max-width: 600px) {
     font-size: 0.5rem;
     width: 3rem;
+    margin-right: 0.5rem;
   }
   @media (max-width: 540px) {
     font-size: 0.5rem;
@@ -348,14 +349,13 @@ const Image = styled.div`
   background-position: center;
   background-image: url(${(props) => props.url});
   background-size: cover;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 
   @media (max-width: 1270px) {
     width: 2rem;
     height: 2rem;
   }
   @media (max-width: 768px) {
-    margin-right: 0.5rem;
     width: 2rem;
     height: 2rem;
   }

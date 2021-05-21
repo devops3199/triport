@@ -44,8 +44,8 @@ const Cover = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 70rem;
-  margin: 0px auto;
+  width: 100vw;
+  margin: 0px;
 `;
 
 export default Profile;
