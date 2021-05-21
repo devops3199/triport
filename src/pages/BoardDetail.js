@@ -5,6 +5,7 @@ import { LikeFill, LikeEmpty } from "media/svg/Svg";
 import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
 import { history } from "redux/configureStore";
+import Swal from "sweetalert2";
 
 const BoardDetail = (props) => {
     const id = props.match.params.id; // 상세 게시글 ID
@@ -24,8 +25,21 @@ const BoardDetail = (props) => {
 
     const postParentComment = () => {
         if(!is_login) {
-            alert("로그인을 먼저 하세요!");
-            return;
+          Swal.fire({
+            title: "로그인",
+            text: "로그인을 먼저 해주세요.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "로그인하기",
+            cancelButtonText: "닫기",
+          }).then((result) => {
+            if (result.isConfirmed) {
+                history.push("/login");
+            }
+          });
+          return;
         }
         dispatch(TrilogActions.addParentComment(id, commentRef.current.value));
         document.getElementById('commentInput').value = ''; // 초기화
@@ -33,8 +47,21 @@ const BoardDetail = (props) => {
 
     const hitLike = () => {
         if(!is_login) {
-            alert("로그인을 먼저 하세요!");
-            return;
+          Swal.fire({
+            title: "로그인",
+            text: "로그인을 먼저 해주세요.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "로그인하기",
+            cancelButtonText: "닫기",
+          }).then((result) => {
+            if (result.isConfirmed) {
+                history.push("/login");
+            }
+          });
+          return;
         }
         dispatch(TrilogActions.setLikeTrilogDetail(id));
     };
@@ -48,9 +75,17 @@ const BoardDetail = (props) => {
     };
 
     const deleteTrilog = () => {
-        if(window.confirm('해당 게시글을 삭제하시겠습니까?')){
-            dispatch(TrilogActions.removeTrilog(id));
+      Swal.fire({
+        title: '해당 게시물을 삭제하시겠습니까?',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: `삭제`,
+        denyButtonText: `취소`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(TrilogActions.removeTrilog(id));
         }
+      });
     };
 
     return (
@@ -65,7 +100,7 @@ const BoardDetail = (props) => {
                 <span>{detail.author.nickname}</span>
               </div>
               <div>
-                <LastUpdate>마지막 수정시간 : {detail.information.modifiedAt}</LastUpdate>
+                <LastUpdate>최초 등록일 : {detail.information.createdAt}</LastUpdate>
                 {detail.member.isMembers ? (
                   <>
                     <EditButton type="button" value="수정" onClick={editTrilog} />

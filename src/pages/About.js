@@ -5,7 +5,6 @@ import { Logo, Play, LikeFill } from "media/svg/Svg";
 import Tripper from "media/image/about-tripper.jpg";
 import TrilsImage1 from "media/image/about-trils.jpg";
 import TrilsImage2 from "media/image/about-trils2.jpg";
-import Profile2 from "media/image/about_profile2.jpg"
 import Blog from "media/image/about_blog.jpg";
 import Park from "media/image/park2.png";
 import Hoon from "media/image/hoon.png";
@@ -16,6 +15,8 @@ import Jisoo from "media/image/jisoo.png";
 import Yoon from "media/image/yoon.png";
 import Sally from "media/image/Sally.png";
 import Fred from "media/image/Fred.png";
+import Trilog1 from "media/image/Trilog_create.png";
+import Trilog2 from "media/image/Trilog_detail.png";
 
 const About = () => {
     const lazyLoad = (target) => {
@@ -70,7 +71,8 @@ const About = () => {
                     <span>란?</span>   
                 </LogoWrapper>
                 <Description>
-                    <div>무작정 어디론가 떠나 힐링을 하고싶은데, 어디로 가야할지 모를 때,</div>
+                    <div>무작정 어디론가 떠나 힐링을 하고싶은데,</div>
+                    <div>어디로 가야할지 모를 때,</div>
                     <div>또는 여행을 좋아하는, 여행을 가고싶은, Traveler!</div>
                     <div>바로 여러분들을 위한 공간, <span>Triport</span>입니다.</div>
                 </Description>
@@ -138,10 +140,13 @@ const About = () => {
                         <div>짧은 영상으로 아쉬움이 남는다면?</div>
                         <div>Trilog를 통해 보다 자세한 정보들을 확인할 수 있어요!</div>
                         <div>Trilog에선 이미지와 긴 글을 이용해</div>
-                        <div><span>'내가 다녀온 곳'</span> 에 대한 정보를 자세하게 업로드할 수 있습니다! 👏</div>
+                        <div><span>'내가 다녀온 곳'</span> 에 대한 정보를 <Next/> 자세하게 업로드할 수 있습니다! 👏</div>
                     </Info>
+                    <ImgWrapper className="animate left">
+                        <img data-lazy={Trilog1} />
+                    </ImgWrapper>
                     <ImgWrapper className="animate up">
-                        <img data-lazy={Blog} />
+                        <img data-lazy={Trilog2} />
                     </ImgWrapper>
                 </CenterWrapper>
             </TrilogWrapper>
@@ -162,7 +167,7 @@ const About = () => {
                                 </NameTag>
                                 <div>차근차근 생각을 실천하는 백엔드 개발자 박은진 입니다!😊 <br/>TRIPORT 프로젝트를 통해 서비스의 기획, 코드 구성에 대한 고민을 하나씩 이루는 재미를 알아가고 있습니다.🥰<br/>성장의 계기가된 팀에서, 좋은 팀원들과 특별한 이야기를 담은 TRIPORT✈️  많이 이용해주세요!<br/> Bug, VoC 등 피드백은 언제나 감사드립니다. 🙏🏻</div>
                                 <div><BlueTag>github:</BlueTag> <a href="https://github.com/eungenie" target="_blank">https://github.com/eungenie</a></div>
-                                <div><BlueTag>blog:</BlueTag> <a href="https://zins.tistory.com/" target="_blank">https://zins.tistory.com/</a></div>
+                                <div><BlueTag>blog:</BlueTag> <a href="https://iamzin.github.io/" target="_blank">https://iamzin.github.io/</a></div>
                                 <div><BlueTag>email:</BlueTag> eunzin.park@gmail.com</div>
                             </MemberText>
                         </MemberCard>
@@ -281,10 +286,30 @@ const LogoWrapper = styled.div`
 
     & svg {
         width: 268px;
+
+        @media (max-width: 768px) {
+            width: 200px;
+        }
+    
+        @media (max-width: 600px) {
+            width: 150px;
+        }
     }
 
     & span {
         margin-left: 12px;
+    }
+
+    @media (max-width: 980px) {
+        font-size: 25px;
+    }
+    
+    @media (max-width: 768px) {
+        font-size: 20px;
+    }
+
+    @media (max-width: 600px) {
+        font-size: 18px;
     }
 `;
 
@@ -305,6 +330,18 @@ const Description = styled.div`
         font-family: paybooc-bold;
         color: #2B61E1;
     }
+
+    @media (max-width: 980px) {
+        font-size: 19px;
+    }
+    
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
+
+    @media (max-width: 600px) {
+        font-size: 15px;
+    }
 `;
 
 const TripperWrapper = styled.div`
@@ -315,6 +352,18 @@ const TripperWrapper = styled.div`
 
     & img {
         width: 500px;
+
+        @media (max-width: 980px) {
+            width: 400px;
+        }
+        
+        @media (max-width: 768px) {
+            width: 300px;
+        }
+    
+        @media (max-width: 600px) {
+            width: 200px;
+        }
     }
 `;
 
@@ -326,8 +375,12 @@ const TrilsWrapper = styled.div`
 
 const CenterWrapper = styled.div`
     width: 900px;
-    height: 1200px;
     margin: 0 auto;
+
+    @media (max-width: 980px) {
+        width: 100%;
+        height: 100vh;
+    }
 `;
 
 const TitleWrapper = styled.div`
@@ -338,6 +391,21 @@ const TitleWrapper = styled.div`
         font-family: paybooc-bold;
         font-size: 30px; 
         color: #2B61E1;
+        
+        @media (max-width: 980px) {
+            font-size: 28px;
+            margin-left: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            font-size: 25px;
+            margin-left: 50px;
+        }
+
+        @media (max-width: 600px) {
+            font-size: 22px;
+            margin-left: 20px;
+        }
     }
 `;
 
@@ -350,6 +418,10 @@ const DivideWrapper = styled.div`
 const LeftWrapper = styled.div`
     width: 50%;
     height: 100%;
+
+    @media (max-width: 980px) {
+        width: 100%;
+    }
 `;
 
 const Info = styled.div`
@@ -365,10 +437,37 @@ const Info = styled.div`
         font-family: paybooc-bold;
         color: #2B61E1;
     }
+    
+    @media (max-width: 980px) {
+        font-size: 19px;
+        margin-left: 20px;
+    }
+    
+    @media (max-width: 768px) {
+        font-size: 16px;
+        margin-left: 50px;
+    }
+
+    @media (max-width: 600px) {
+        font-size: 15px;
+        margin-left: 20px;
+    }
 `;
 
 const CardWrapper = styled.div`
     position: relative;
+
+    @media (max-width: 980px) {
+        margin-left: 20px;
+    }
+
+    @media (max-width: 768px) {
+        margin-left: 50px;
+    }
+
+    @media (max-width: 600px) {
+        margin-left: 20px;
+    }
 `;
 
 const User = styled.div`
@@ -400,6 +499,11 @@ const TrilsCard = styled.div`
     & svg {
         width: 120px;
     }
+
+    @media (max-width: 980px) {
+        width: 300px;
+        height: 500px;
+    }
 `;
 
 const LikeWrapper = styled.div`
@@ -408,10 +512,18 @@ const LikeWrapper = styled.div`
 
     & svg {
         width: 50px;
+
+        @media (max-width: 980px) {
+            width: 40px;
+        }
     }
 
     & span {
         margin: 0 .5rem;
+
+        @media (max-width: 980px) {
+            font-size: 14px;
+        }
     }
 `;
 
@@ -424,11 +536,15 @@ const RightWrapper = styled.div`
     width: 50%;
     height: 100%;
     margin-top: 30px;
+
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
 
 const TrilogWrapper = styled.div`
     width: 100%;
-    height: 1200px;
+    height: 100%;
 `;
 
 const ImgWrapper = styled.div`
@@ -436,6 +552,21 @@ const ImgWrapper = styled.div`
 
     & img {
         width: 900px;
+
+        @media (max-width: 980px) {
+            width: 600px;
+            margin-left: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            width: 400px;
+            margin-left: 50px;
+        }
+    
+        @media (max-width: 600px) {
+            width: 300px;
+            margin-left: 20px;
+        }
     }
 `;
 
@@ -452,6 +583,18 @@ const SectionWrapper = styled.div`
         font-family: paybooc-bold;
         font-size: 18px; 
         color: #2B61E1;
+
+        @media (max-width: 980px) {
+            margin-left: 20px;
+        }
+    
+        @media (max-width: 768px) {
+            margin-left: 50px;
+        }
+    
+        @media (max-width: 600px) {
+            margin-left: 20px;
+        }
     }
 `;
 
@@ -463,6 +606,14 @@ const MemberCard = styled.div`
     margin: 30px 0;
     display: flex;
     align-items: center;
+
+    @media (max-width: 768px) {
+        width: 90%;
+        height: 100%;
+        margin: 30px auto;
+        flex-direction: column;
+        font-size: 12px;
+    }
 `;
 
 const MemberImg = styled.img`
@@ -476,18 +627,39 @@ const MemberText = styled.div`
 
     & div {
         margin: .5rem 0;
+
+        @media (max-width: 768px) {
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 768px) {
+        width: 100%;
+        font-size: 12px;
+        box-sizing: border-box;
+        padding: 0 20px;
     }
 `;
 
 const NameTag = styled.div`
     display: flex;
     align-items: center;
+
+    @media (max-width: 768px) {
+        justify-content: center;
+    }
+    
 `;
 
 const Name = styled.span`
     font-family: paybooc-bold;
     font-size: 20px;
     color: #5a5a5a;
+
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
 `;
 
 const FeatureTag = styled.span`
@@ -499,10 +671,21 @@ const FeatureTag = styled.span`
     border-radius: 10px;
     background-color: #2B61E1;
     color: #fff;
+
+    @media (max-width: 768px) {
+        padding: .1rem .5rem;
+    }
 `;
 
 const BlueTag = styled.span`
     color: #2B61E1;
+`;
+
+const Next = styled.br`
+    display: none;
+    @media (max-width: 768px) {
+        display: block;
+    }
 `;
 
 export default About;

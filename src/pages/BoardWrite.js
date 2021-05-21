@@ -63,8 +63,6 @@ const BoardWrite = (props) => {
       } 
     }
 
-    console.log(filter_imageUrls, '최종 모든 이미지들');
-
     const post = {
       title: title,
       address: address,

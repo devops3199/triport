@@ -8,51 +8,44 @@ import { LikeFill, LikeEmpty } from "media/svg/Svg";
 import { history } from "redux/configureStore";
 
 const BoardCard = (props) => {
-  const dispatch = useDispatch();
-  const { margin, data } = props; // data = 게시글 객체
-  const information = data.information; // 게시글 정보
-  const author = data.author; // 글쓴이 정보
-  const member = data.member; // 로그인한 유저
-  const id = information.id; // 게시글 ID
+    const dispatch = useDispatch();
+    const { margin, data } = props; // data = 게시글 객체
+    const information = data.information; // 게시글 정보
+    const author = data.author; // 글쓴이 정보
+    const member = data.member; // 로그인한 유저
+    const id = information.id; // 게시글 ID
 
-  const hitLike = (e) => {
-    e.stopPropagation(); // 이벤트 버블링
-    dispatch(TrilogActions.setLikeTrilog(id));
-  };
+    const hitLike = (e) => {
+        e.stopPropagation(); // 이벤트 버블링
+        dispatch(TrilogActions.setLikeTrilog(id));
+    };
 
-  return (
-    <BoardCardContainer margin={margin}>
-      <ImageContainer
-        onClick={() => {
-          history.push(`/trilog/${id}`);
-        }}
-        img={information.thumbNailUrl}
-      ></ImageContainer>
-      <ContentContainer>
-        <Title
-          onClick={() => {
-            history.push(`/trilog/${id}`);
-          }}
-        >
-          <span>{information.title}</span>
-        </Title>
-        <UserContainer>
-          <Profile img={author.profileImgUrl}>
-            <div></div>
-            <span>{author.nickname}</span>
-          </Profile>
-          <Likes onClick={hitLike}>
-            {member.isLike ? <LikeFill /> : <LikeEmpty />}
-            <span>+{information.likeNum}</span>
-          </Likes>
-        </UserContainer>
-        <Detail>
-          <span>{information.modifiedAt.split(" ")[0]}</span>
-          <span>{information.modifiedAt.split(" ")[1]}</span>
-        </Detail>
-      </ContentContainer>
-    </BoardCardContainer>
-  );
+    return(
+        <BoardCardContainer margin={ margin } >
+            <ImageContainer onClick={() => {history.push(`/trilog/${id}`)}} img={information.thumbNailUrl}>
+
+            </ImageContainer>
+            <ContentContainer>
+                <Title onClick={() => {history.push(`/trilog/${id}`)}}>
+                    <span>{information.title}</span>
+                </Title>
+                <UserContainer>
+                    <Profile img={author.profileImgUrl}>
+                        <div></div>
+                        <span>{author.nickname}</span>
+                    </Profile>
+                    <Likes onClick={hitLike}>
+                        { member.isLike ? <LikeFill /> : <LikeEmpty /> }
+                        <span>+{information.likeNum}</span>
+                    </Likes>
+                </UserContainer>
+                <Detail>
+                    <span>{information.createdAt.split(' ')[0]}</span>
+                    <span>{information.createdAt.split(' ')[1]}</span>
+                </Detail>
+            </ContentContainer>
+        </BoardCardContainer>
+    );
 };
 
 BoardCard.defaultProps = {
