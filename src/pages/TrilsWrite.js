@@ -32,7 +32,7 @@ const TrilsWrite = (props) => {
     const val = e.target.value;
     if (
       (e.key === "Enter" && val) ||
-      (e.key === "," && val) ||
+      1(e.key === "," && val) ||
       (e.key === " " && val)
     ) {
       if (tags.length === 3) {
@@ -161,8 +161,10 @@ const Uploading = styled.div`
   width: 100%;
   margin: 0 auto;
   background-image: url("${(props) => props.src}");
+  background-color: #ededed;
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const IconCover = styled.div`
