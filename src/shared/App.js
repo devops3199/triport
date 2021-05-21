@@ -30,6 +30,7 @@ import { actionCreators as userActions } from "redux/modules/user";
 import { actionCreators as profileActions } from "redux/modules/profile";
 import OAuth2RedirectHandler from "./OAuth2RedirectHandler";
 import OAuth2LogoutHandler from "./OAuth2LogoutHandler";
+import TrilsDetailTutorialM from "components/trils/TrilsDetailTutorialM";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ const App = () => {
             <Route path="/profile" exact component={Profile} />
             <Route path="/about" exact component={About} />
             <Route path="/trils/detail/:id" exact component={TrillsDetail} />
+            <Route path="/trils/tutorial" exact component={TrilsDetailTutorialM} />
             <Route
               path="/auth/kakao/callback"
               exact

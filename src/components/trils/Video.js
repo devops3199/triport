@@ -86,7 +86,7 @@ const Video = (props) => {
   };
 
   const openModal = () => {
-    if (window.innerWidth >= 1025) {
+    if (window.innerWidth > 1024) {
       dispatch(TrilsActions.getPostDetail(props.information.id));
     } else {
       dispatch(TrilsActions.getPostDetail(props.information.id, false));
@@ -129,35 +129,75 @@ const Video = (props) => {
         <>
           {props.information.videoType === "mp4" ? (
             <>
-              <VideoPlay
-                onMouseOver={mp4play}
-                onMouseLeave={mp4pause}
-                ref={players}
-                src={params.src}
-                muted
-                loop
-                onTimeUpdate={() => {
-                  setCompleted(
-                    (players.current.currentTime / players.current.duration) *
-                      100
-                  );
-                }}
-              />
+              {window.innerWidth > 1024 ? (
+                <>
+                  <VideoPlay
+                    onMouseOver={mp4play}
+                    onMouseLeave={mp4pause}
+                    ref={players}
+                    src={params.src}
+                    muted
+                    loop
+                    onTimeUpdate={() => {
+                      setCompleted(
+                        (players.current.currentTime /
+                          players.current.duration) *
+                          100
+                      );
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <VideoPlay
+                    ref={players}
+                    src={params.src}
+                    muted
+                    loop
+                    onTimeUpdate={() => {
+                      setCompleted(
+                        (players.current.currentTime /
+                          players.current.duration) *
+                          100
+                      );
+                    }}
+                  />
+                </>
+              )}
             </>
           ) : (
             <>
-              <VideoPlay
-                onMouseOver={hlsplay}
-                onMouseLeave={hlspause}
-                ref={player}
-                muted
-                loop
-                onTimeUpdate={() => {
-                  setCompleted(
-                    (player.current.currentTime / player.current.duration) * 100
-                  );
-                }}
-              />
+              {window.innerWidth > 1024 ? (
+                <>
+                  <VideoPlay
+                    onMouseOver={hlsplay}
+                    onMouseLeave={hlspause}
+                    ref={player}
+                    muted
+                    loop
+                    onTimeUpdate={() => {
+                      setCompleted(
+                        (player.current.currentTime / player.current.duration) *
+                          100
+                      );
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <VideoPlay
+                    ref={player}
+                    muted
+                    loop
+                    onTimeUpdate={() => {
+                      setCompleted(
+                        (player.current.currentTime / player.current.duration) *
+                          100
+                      );
+                    }}
+                  />
+                </>
+              )}
             </>
           )}
         </>
@@ -233,8 +273,10 @@ const VideoCards = styled.div`
   ${(props) => (props.margin ? "margin-right:2.5rem" : "")};
   margin-top: 1rem;
   transition: 0.5s ease-in-out;
-  :hover {
-    transform: scale(1.03);
+  @media only screen and (min-width: 1024px) {
+    :hover {
+      transform: scale(1.03);
+    }
   }
   box-shadow: 0px 3px 6px #00000029;
 `;

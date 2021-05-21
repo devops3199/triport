@@ -7,7 +7,7 @@ import Uploadex from "../../media/image/upload_ex.png";
 import Swal from "sweetalert2";
 
 const TrilsTutorial = (props) => {
-  const { open } = props;
+  const { open, history } = props;
   const player = useRef(null);
   const players = useRef(null);
   const [completed, setCompleted] = useState(0);
@@ -90,6 +90,10 @@ const TrilsTutorial = (props) => {
     });
   };
 
+  const mobile_chk = () => {
+    history.push('/trils/tutorial');
+  };
+
   return (
     <VideoCards>
       <Profile>
@@ -155,20 +159,49 @@ const TrilsTutorial = (props) => {
           })}
         </PostUserComment>
       </PostBottom>
-      <TutorialBg onMouseOver={hlsplay} onMouseLeave={hlspause} onClick={open}>
-        <TutorialTextCover>
-          <TutirialText>커서를 올리면</TutirialText>
-          <TutirialText>영상이 재생됩니다.</TutirialText>
-        </TutorialTextCover>
-        <TutorialTextCover>
-          <TutirialText2>화면을 클릭하면</TutirialText2>
-          <TutirialText2>화면을 크게</TutirialText2>
-          <TutirialText2>볼 수 있습니다.</TutirialText2>
-        </TutorialTextCover>
-      </TutorialBg>
+      {window.innerWidth > 1024 ? (
+        <TutorialBg
+          onMouseOver={hlsplay}
+          onMouseLeave={hlspause}
+          onClick={open}
+        >
+          <TutorialTextCover>
+            <TutirialText>커서를 올리면</TutirialText>
+            <TutirialText>영상이 재생됩니다.</TutirialText>
+          </TutorialTextCover>
+          <TutorialTextCover>
+            <TutirialText2>화면을 클릭하면</TutirialText2>
+            <TutirialText2>화면을 크게</TutirialText2>
+            <TutirialText2>볼 수 있습니다.</TutirialText2>
+          </TutorialTextCover>
+        </TutorialBg>
+      ) : (
+        <>
+          <TutorialBgM onClick={mobile_chk}>
+            <TutorialTextCover>
+              <TutirialText>화면을 클릭하면</TutirialText>
+              <TutirialText>화면을 크게</TutirialText>
+              <TutirialText>볼 수 있습니다.</TutirialText>
+            </TutorialTextCover>
+          </TutorialBgM>
+        </>
+      )}
     </VideoCards>
   );
 };
+
+const TutorialBgM = styled.div`
+  display: flex;
+  position: relative;
+  height: 45rem;
+  width: 25rem;
+  margin-top: -47.6rem;
+  z-index: 11;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
 
 const TutorialTextCover = styled.div`
   position: absolute;

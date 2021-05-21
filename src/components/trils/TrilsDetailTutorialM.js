@@ -11,7 +11,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { config } from "../../redux/modules/config";
 import uploading from "../../media/image/uploading.png";
 
-const TrilsDetail = (props) => {
+const TrilsDetailTutorialM = (props) => {
   const { history } = props;
   const player = useRef(null);
   const players = useRef(null);
@@ -30,6 +30,10 @@ const TrilsDetail = (props) => {
     newTags.splice(i, 1);
     setTags([...newTags]);
   };
+  
+  useEffect(()=>{
+    dispatch(TrilsActions.getPostDetail(props.match.params.id, false));
+  },[])
 
   const InputKeyDown = (e) => {
     const val = e.target.value;
@@ -53,7 +57,7 @@ const TrilsDetail = (props) => {
   };
 
   const closeModal = () => {
-    dispatch(MODAL_STATUS(false));
+    history.goBack();
   };
 
   const params = {
@@ -98,6 +102,34 @@ const TrilsDetail = (props) => {
       });
     }
   }, [params.src]);
+
+  // useEffect(() => {
+  //   if (info.information.videoType !== "m3u8" || !info.information.posPlay) {
+  //     return;
+  //   }
+  //   if (!player.current) {
+  //     return;
+  //   }
+  //   if (player.current.readyState === 4) {
+  //     console.log("player")
+  //     dispatch(MODAL_STATUS(true));
+  //     player.current.play();
+  //   }
+  // }, [dispatch, player, info.information]);
+
+  // useEffect(() => {
+  //   if (info.information.videoType !== "mp4" || !info.information.posPlay) {
+  //     return;
+  //   }
+  //   if (!players.current) {
+  //     return;
+  //   }
+  //   if (players.current.readyState === 4) {
+  //     console.log("players")
+  //     dispatch(MODAL_STATUS(true));
+  //     players.current.play();
+  //   }
+  // }, [dispatch, players, info.information]);
 
   const m3u8volume = () => {
     if (player.current.readyState !== 4) {
@@ -274,17 +306,11 @@ const TrilsDetail = (props) => {
 
   return (
     <React.Fragment>
-      <Component
-        width={window.innerWidth}
-        height={window.innerHeight}
-        onClick={closeModal}
-      />
-      <Wrap width={window.innerWidth} height={window.innerHeight}>
+      <Wrap>
         <Profile>
           <ProfileImg src={info.author.profileImgUrl} />
           <ProfileId>{info.author.nickname}</ProfileId>
         </Profile>
-
         {info.information.posPlay ? (
           <>
             {info.information.videoType === "mp4" ? (
@@ -414,30 +440,62 @@ const TrilsDetail = (props) => {
               )}
             </>
           )}
-          <Close onClick={closeModal}>닫기</Close>
+          <Close onClick={closeModal}>뒤로가기</Close>
         </Bottom>
       </Wrap>
     </React.Fragment>
   );
 };
 
-const LikeText = styled.div`
-  color: #8b8888;
+const Close = styled.button`
+  cursor: pointer;
+  font-family: "paybooc-Bold";
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #2b61e1;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #2b61e1;
+  border-radius: 5px;
   width: 5rem;
-  user-select: none;
-  display: flex;
-  align-items: center;
+  height: 2rem;
+  margin-left: 1rem;
 `;
 
-const Uploading = styled.div`
+const Delete = styled.button`
+  cursor: pointer;
+  font-family: "paybooc-Bold";
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #2b61e1;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #2b61e1;
+  border-radius: 5px;
+  width: 5rem;
+  height: 2rem;
+  margin-left: 1rem;
+`;
+
+const Edit = styled.button`
+  cursor: pointer;
+  font-family: "paybooc-Bold";
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #2b61e1;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #2b61e1;
+  border-radius: 5px;
+  width: 5rem;
+  height: 2rem;
+`;
+
+const Bottom = styled.div`
   display: flex;
-  height: 20rem;
-  width: 40rem;
-  margin: 0 auto;
-  background-image: url("${(props) => props.src}");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right:1rem;
+  @media only screen and (max-width: 425px) {
+    justify-content: center;
+  }
 `;
 
 const Input = styled.input`
@@ -466,6 +524,18 @@ const InputTag = styled.div`
   margin: 0px auto;
   padding: 5px;
   margin-bottom: 1rem;
+`;
+
+const Hash = styled.div`
+  user-select: none;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-family: "AppleSDGothicNeoR";
+  color: blue;
+  transition: 0.5s ease-in-out;
+  :hover {
+    transform: scale(1.2);
+  }
 `;
 
 const IconCover = styled.div`
@@ -506,138 +576,30 @@ const Li = styled.div`
   align-items: center;
 `;
 
-const Bottom = styled.div`
+const Tag = styled.div`
+  font-weight: 700;
+  margin-left: 1rem;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  flex-wrap: wrap;
 `;
 
-const Edit = styled.button`
-  cursor: pointer;
-  font-family: "paybooc-Bold";
-  font-size: 1rem;
-  color: #ffffff;
-  background-color: #2b61e1;
-  box-shadow: 0px 3px 6px #00000029;
-  border: 1px solid #2b61e1;
-  border-radius: 5px;
-  width: 8rem;
-  height: 3rem;
-`;
-
-const Delete = styled.button`
-  cursor: pointer;
-  font-family: "paybooc-Bold";
-  font-size: 1rem;
-  color: #ffffff;
-  background-color: #2b61e1;
-  box-shadow: 0px 3px 6px #00000029;
-  border: 1px solid #2b61e1;
-  border-radius: 5px;
-  width: 8rem;
-  height: 3rem;
-  margin-left: 1rem;
-`;
-
-const Close = styled.button`
-  cursor: pointer;
-  font-family: "paybooc-Bold";
-  font-size: 1rem;
-  color: #ffffff;
-  background-color: #2b61e1;
-  box-shadow: 0px 3px 6px #00000029;
-  border: 1px solid #2b61e1;
-  border-radius: 5px;
-  width: 8rem;
-  height: 3rem;
-  margin-left: 1rem;
-`;
-
-const Progress = styled.div`
-  margin: 0 auto;
-  width: ${(props) => props.width}px;
-`;
-
-const VideoPlay = styled.video`
-  display: flex;
-  margin: 0 auto;
-  max-width: 50rem;
-  max-height: 30rem;
-  object-fit: contain;
-
-  @media (max-width: 768px) {
-    max-width: 35rem;
-    max-height: 30rem;
-  }
-
-  @media (max-width: 600px) {
-  }
-  @media (max-width: 540px) {
-    width: 30rem;
-    max-height: 50rem;
-  }
-  @media (max-width: 415px) {
-  }
-`;
-
-const Hash = styled.div`
+const LikeText = styled.div`
+  color: #8b8888;
+  width: 5rem;
   user-select: none;
-  cursor: pointer;
-  margin-left: 0.5rem;
-  font-family: "AppleSDGothicNeoR";
-  color: blue;
-  transition: 0.5s ease-in-out;
-  :hover {
-    transform: scale(1.2);
-  }
-`;
-
-const Component = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: ${(props) => props.height}px;
-  width: ${(props) => props.width}px;
-  background-color: black;
-  z-index: 60;
-  opacity: 0.4;
-`;
-const Wrap = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 70;
-  background-color: white;
-  max-width: 57rem;
-  max-height: 45rem;
   display: flex;
-  flex-direction: column;
-  margin: 0px auto;
-  box-shadow: 0px 3px 6px #00000029;
-  border: 1px solid #2b61e1;
-  border-radius: 5px;
-  padding: 3rem;
-  z-index: 98;
+  align-items: center;
+`;
 
-  @media (max-width: 768px) {
-    max-width: 35rem;
-    max-height: 30rem;
-  }
-
-  @media (max-width: 600px) {
-    max-width: 32rem;
-    max-height: 30rem;
-  }
-  @media (max-width: 540px) {
-    height: ${(props) => props.height}px;
-    width: ${(props) => props.width}px;
-    max-height: ${(props) => props.height}px;
-    max-width: ${(props) => props.width}px;
-  }
-  @media (max-width: 415px) {
-    height: ${(props) => props.height}px;
-    width: ${(props) => props.width}px;
+const LikeCov = styled.div`
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  & svg {
+    width: 1.5rem;
   }
 `;
 
@@ -646,6 +608,55 @@ const LowWrap = styled.div`
   flex-direction: row;
   margin-left: 1rem;
   margin-top: 1rem;
+  margin-bottom: 2rem;
+`;
+
+const Progress = styled.div`
+  margin: 0 auto;
+  width: ${(props) => props.width}px;
+`;
+
+const Uploading = styled.div`
+  display: flex;
+  height: 20rem;
+  width: 40rem;
+  margin: 0 auto;
+  background-image: url("${(props) => props.src}");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
+const VideoPlay = styled.video`
+  display: flex;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  max-width: 40rem;
+  max-height: 30rem;
+  object-fit: contain;
+`;
+
+const View = styled.div`
+  max-width: 50rem;
+  max-height: 30rem;
+  width: calc(100% - 30px);
+  height: auto;
+  min-width: 10rem;
+  min-height: 20rem;
+  background-color: #ededed;
+  /* background-color: #ededed; */
+  display: flex;
+  justify-content: center;
+  margin: 0px auto;
+  align-items: center;
+`;
+
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
   margin-bottom: 2rem;
 `;
 
@@ -677,56 +688,4 @@ const ProfileId = styled.div`
   align-items: center;
 `;
 
-const View = styled.div`
-  max-width: 50rem;
-  max-height: 30rem;
-  width: auto;
-  height: auto;
-  min-width: 40rem;
-  min-height: 20rem;
-  background-color: #ededed;
-  /* background-color: #ededed; */
-  display: flex;
-  justify-content: center;
-  margin: 0px auto;
-
-  @media (max-width: 768px) {
-    max-width: 30rem;
-    max-height: 30rem;
-    min-width: 30rem;
-  }
-
-  @media (max-width: 600px) {
-    max-width: 28rem;
-    max-height: 30rem;
-    min-width: 28rem;
-  }
-  @media (max-width: 540px) {
-    max-width: 18rem;
-    max-height: 30rem;
-    min-width: 18rem;
-  }
-  @media (max-width: 415px) {
-  }
-`;
-
-const LikeCov = styled.div`
-  margin-right: 1rem;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  z-index: 10;
-  & svg {
-    width: 1.5rem;
-  }
-`;
-
-const Tag = styled.div`
-  font-weight: 700;
-  margin-left: 1rem;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-
-export default TrilsDetail;
+export default TrilsDetailTutorialM;

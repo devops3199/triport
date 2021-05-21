@@ -169,13 +169,12 @@ const Trils = (props) => {
           <img src={Tripper} alt="놀자" />
         </MoveTripper>
       </FilterContainer>
-      <PostLine>
+      <PostLine tutorial={tutorial}>
         {tutorial ? (
           <>
             <Fade right>
               <TrilsTutorial
                 open={() => {
-                  console.log("123");
                   setTDM(true);
                 }}
               />
@@ -190,9 +189,9 @@ const Trils = (props) => {
                 {post_list.map((p, idx) => {
                   return (
                     <Fragment key={idx}>
-                      <Fade bottom>
+                      {/* <Fade bottom> */}
                         <Video {...p} history={history} />
-                      </Fade>
+                      {/* </Fade> */}
                     </Fragment>
                   );
                 })}
@@ -240,7 +239,7 @@ const MoveTripper = styled.div`
   & img {
     width: 4rem;
   }
-  @media only screen and (max-width: 425px) {
+  @media only screen and (max-width: 870px) {
     display: none;
   }
 `;
@@ -343,7 +342,7 @@ const FilterContainer = styled.div`
   flex-direction: row-reverse;
   align-items: center;
   margin-bottom: 4rem;
-  @media only screen and (max-width: 425px) {
+  @media only screen and (max-width: 870px) {
     margin-bottom: 1rem;
     justify-content: center;
   }
@@ -387,7 +386,7 @@ const CenterDiv = styled.div`
 const PostLine = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: ${(props) => (props.tutorial ? `1fr` : `1fr 1fr 1fr`)};
   /* grid-template-rows: repeat(auto-fit, 45rem); */
   /* row-gap: 2rem; */
   justify-items: center;
@@ -405,12 +404,15 @@ const PostLine = styled.div`
 
 const FloatingBox = styled.div`
   position: fixed;
-  bottom: 5%;
+  bottom: 6%;
   right: 3%;
   z-index: 50;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  @media only screen and (max-width: 425px) {
+    bottom: 8%;
+  }
 `;
 
 const FloatingTutorial = styled.div`
