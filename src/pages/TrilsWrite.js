@@ -218,6 +218,9 @@ const InputTag = styled.div`
   justify-content: flex-start;
   margin: 0px auto;
   padding: 5px;
+  @media (max-width: 600px) {
+    width: calc(100% - 20px);
+  }
 `;
 
 const Wrap = styled.div`
@@ -241,7 +244,11 @@ const VideoView = styled.div`
   justify-content: center;
   align-items: center;
   color: #2b61e1;
-  margin-top: 5rem;
+  margin-top: 1rem;
+  @media only screen and (max-width: 630px) {
+    width: calc(100% - 20px);
+    height: 20rem;
+  }
 `;
 
 const Text = styled.div`
@@ -253,6 +260,9 @@ const Text = styled.div`
   margin: 0px auto;
   margin-top: 1rem;
   margin-bottom: 2rem;
+  @media (max-width: 600px) {
+    width: calc(100% - 20px);
+  }
 `;
 
 const Tag = styled.div`
@@ -262,6 +272,9 @@ const Tag = styled.div`
   justify-content: flex-start;
   margin: 0px auto;
   margin-bottom: 1rem;
+  @media (max-width: 600px) {
+    width: calc(100% - 20px);
+  }
 `;
 
 const Input = styled.input`
@@ -276,15 +289,24 @@ const Input = styled.input`
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   font-size: 1rem;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const ButtonWrap = styled.div`
-  width: 50rem;
+  width: 40rem;
   margin: 0px auto;
-  margin-top: 5rem;
-  margin-bottom: 5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  @media only screen and (max-width: 860px) {
+    flex-direction: column;
+    margin-top: 1rem;
+    width: 100%;
+  }
 `;
 
 const Button = styled.button`
@@ -292,13 +314,16 @@ const Button = styled.button`
   font-family: "paybooc-Bold";
   color: #ffffff;
   font-size: 1rem;
-  width: 20rem;
+  width: 15rem;
   height: 3rem;
   background-color: ${(props) => (props.ok ? "#2b61e1" : "#707070")};
   box-shadow: 0px 3px 6px #00000029;
   border: 1px solid;
   border-color: ${(props) => (props.ok ? "#2b61e1" : "#707070")};
   border-radius: 5px;
+  @media only screen and (max-width: 860px) {
+    margin: 5px auto;
+  }
 `;
 
 export default TrilsWrite;
