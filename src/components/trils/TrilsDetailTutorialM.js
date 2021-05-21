@@ -15,7 +15,7 @@ const TrilsDetailTutorialM = (props) => {
   const { history } = props;
   const player = useRef(null);
   const players = useRef(null);
-  const info = useSelector((state) => state.trils.detail);
+  const info = props.info;
   const dispatch = useDispatch();
   const [completed, setCompleted] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -24,16 +24,13 @@ const TrilsDetailTutorialM = (props) => {
   const tagInput = useRef(null);
   const [mute, setMute] = useState(true);
   const [tagType, setTagType] = useState("");
+  const [like_chk, setLike] = useState(false);
 
   const removeTag = (i) => {
     const newTags = [...tags];
     newTags.splice(i, 1);
     setTags([...newTags]);
   };
-  
-  useEffect(()=>{
-    dispatch(TrilsActions.getPostDetail(props.match.params.id, false));
-  },[])
 
   const InputKeyDown = (e) => {
     const val = e.target.value;
@@ -103,34 +100,6 @@ const TrilsDetailTutorialM = (props) => {
     }
   }, [params.src]);
 
-  // useEffect(() => {
-  //   if (info.information.videoType !== "m3u8" || !info.information.posPlay) {
-  //     return;
-  //   }
-  //   if (!player.current) {
-  //     return;
-  //   }
-  //   if (player.current.readyState === 4) {
-  //     console.log("player")
-  //     dispatch(MODAL_STATUS(true));
-  //     player.current.play();
-  //   }
-  // }, [dispatch, player, info.information]);
-
-  // useEffect(() => {
-  //   if (info.information.videoType !== "mp4" || !info.information.posPlay) {
-  //     return;
-  //   }
-  //   if (!players.current) {
-  //     return;
-  //   }
-  //   if (players.current.readyState === 4) {
-  //     console.log("players")
-  //     dispatch(MODAL_STATUS(true));
-  //     players.current.play();
-  //   }
-  // }, [dispatch, players, info.information]);
-
   const m3u8volume = () => {
     if (player.current.readyState !== 4) {
       return;
@@ -160,71 +129,27 @@ const TrilsDetailTutorialM = (props) => {
   };
 
   const like = () => {
-    const access_token = localStorage.getItem("access_token");
-    if (!access_token) {
-      Swal.fire({
-        title: "로그인을 해주세요.",
-        text: "로그인 후 좋아요를 누를 수 있습니다.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "로그인하기",
-        cancelButtonText: "닫기",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          history.push("/login");
-        }
-      });
+    if (like_chk) {
+      setLike(false);
     } else {
-      dispatch(TrilsActions.send_like(info.information.id, info.member.isLike));
+      setLike(true);
     }
   };
 
   const del = () => {
     Swal.fire({
-      title: "게시글을 삭제하시겠습니까?",
-      text: "게시글 삭제 시 다시 복구할 수 없습니다.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "삭제",
-      cancelButtonText: "취소",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const access_token = localStorage.getItem("access_token");
-        const url = `${config}/api/posts/${info.information.id}`;
-        const data = {
-          method: "DELETE",
-          headers: {
-            Authorization: `${access_token}`,
-          },
-        };
-        fetch(url, data)
-          .then((result) => {
-            return result.json();
-          })
-          .then((result) => {
-            if (result.ok) {
-              dispatch(DELETE_POST(info.information.id));
-              Swal.fire(
-                "삭제 완료!",
-                "게시글이 삭제되었습니다.",
-                "success"
-              ).then(() => {
-                closeModal();
-              });
-            }
-          })
-          .catch((err) => console.log(err));
-      }
+      title: "사용자 가이드",
+      text: "사용자 가이드에서는 삭제 기능이 없습니다.",
+      confirmButtonText: "확인",
     });
   };
 
   const hash = (e) => {
-    history.push(`/search?q=${e.target.id}&filter=likeNum`, 1);
-    closeModal();
+    Swal.fire({
+      title: "사용자 가이드",
+      text: "해시태그를 클릭하면 해시태그를 검색 할 수 있습니다.",
+      confirmButtonText: "확인",
+    });
   };
 
   const edit = () => {
@@ -232,37 +157,12 @@ const TrilsDetailTutorialM = (props) => {
   };
 
   const cancelEdit = () => {
+    setTags(info.information.hashtag);
     setEditOn(false);
   };
 
   const doEdit = () => {
-    const access_token = localStorage.getItem("access_token");
-    const url = `${config}/api/posts/${info.information.id}`;
-    const data = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${access_token}`,
-      },
-      body: JSON.stringify({
-        hashtag: tags,
-      }),
-    };
-    fetch(url, data)
-      .then((result) => {
-        return result.json();
-      })
-      .then((result) => {
-        if (result.ok) {
-          const data = {
-            id: info.information.id,
-            hashtag: tags,
-          };
-          dispatch(EDIT_POST(data));
-          setEditOn(false);
-        }
-      })
-      .catch((err) => console.log(err));
+    setEditOn(false);
   };
 
   const change = (e) => {
@@ -370,7 +270,7 @@ const TrilsDetailTutorialM = (props) => {
         </Progress>
         <LowWrap>
           <LikeCov onClick={like}>
-            {info.member.isLike ? <HeartFill /> : <HeartEmpty />}
+            {like_chk ? <HeartFill /> : <HeartEmpty />}
           </LikeCov>
           <LikeText>좋아요 +{info.information.likeNum}</LikeText>
           <Tag>
@@ -447,6 +347,27 @@ const TrilsDetailTutorialM = (props) => {
   );
 };
 
+TrilsDetailTutorialM.defaultProps = {
+  info: {
+    information: {
+      id: 0,
+      likeNum: 0,
+      modifiedAt: "2021-05-20 00:00",
+      videoType: "m3u8",
+      videoUrl:
+        "https://d1nogx3a73keco.cloudfront.net/video/tutorials/tutorials.m3u8",
+      posPlay: true,
+      hashtag: ["화면을 클릭하면 영상재생됩니다."],
+    },
+    author: {
+      nickname: "트리포트",
+      profileImgUrl:
+        "https://d1nogx3a73keco.cloudfront.net/profileImage/20210518170253-tripper_with_logo_kakao.png",
+    },
+    member: { isMembers: true, isLike: false },
+  },
+};
+
 const Close = styled.button`
   cursor: pointer;
   font-family: "paybooc-Bold";
@@ -492,9 +413,10 @@ const Bottom = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin-right:1rem;
+  margin-right: 1rem;
   @media only screen and (max-width: 425px) {
     justify-content: center;
+    margin-right: 0rem;
   }
 `;
 
@@ -513,8 +435,7 @@ const Input = styled.input`
 `;
 
 const InputTag = styled.div`
-  min-width: 30rem;
-  width: 100%;
+  width: calc(100% - 30px);
   height: 100%;
   border: 1px solid #2b61e1;
   border-radius: 5px;

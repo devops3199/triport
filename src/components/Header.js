@@ -47,10 +47,10 @@ const Header = (props) => {
             <LogoWrapper
               onClick={() => {
                 const pathname = history.location.pathname;
-                if (pathname === "/") {
-                  window.location.reload();
+                if (pathname === `/`) {
+                  history.replace(`/`);
                 } else {
-                  history.push("/");
+                  history.push(`/`);
                 }
               }}
             >

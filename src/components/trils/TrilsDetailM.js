@@ -24,16 +24,17 @@ const TrilsDetailM = (props) => {
   const tagInput = useRef(null);
   const [mute, setMute] = useState(true);
   const [tagType, setTagType] = useState("");
+  const [nowPlaying, setNowPlaying] = useState(false);
 
   const removeTag = (i) => {
     const newTags = [...tags];
     newTags.splice(i, 1);
     setTags([...newTags]);
   };
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     dispatch(TrilsActions.getPostDetail(props.match.params.id, false));
-  },[])
+  }, []);
 
   const InputKeyDown = (e) => {
     const val = e.target.value;
@@ -131,31 +132,35 @@ const TrilsDetailM = (props) => {
   //   }
   // }, [dispatch, players, info.information]);
 
-  const m3u8volume = () => {
+  const m3u8 = () => {
     if (player.current.readyState !== 4) {
       return;
     }
     if (!info.information.posPlay) {
       return;
     }
-    if (mute) {
-      setMute(false);
+    if (nowPlaying) {
+      setNowPlaying(false);
+      player.current.pause();
     } else {
-      setMute(true);
+      setNowPlaying(true);
+      player.current.play();
     }
   };
 
-  const mp4volume = () => {
+  const mp4 = () => {
     if (players.current.readyState !== 4) {
       return;
     }
     if (!info.information.posPlay) {
       return;
     }
-    if (mute) {
-      setMute(false);
+    if (nowPlaying) {
+      setNowPlaying(false);
+      players.current.pause();
     } else {
-      setMute(true);
+      setNowPlaying(true);
+      players.current.play();
     }
   };
 
@@ -315,16 +320,12 @@ const TrilsDetailM = (props) => {
           <>
             {info.information.videoType === "mp4" ? (
               <View
-                onMouseOver={mp4play}
-                onMouseLeave={mp4pause}
-                onClick={mp4volume}
+                onClick={mp4}
               >
                 <VideoPlay
                   ref={players}
                   src={params.src}
-                  muted={mute}
                   loop
-                  autoPlay
                   onTimeUpdate={() => {
                     setCompleted(
                       (players.current.currentTime / players.current.duration) *
@@ -337,15 +338,11 @@ const TrilsDetailM = (props) => {
             ) : (
               <>
                 <View
-                  onMouseOver={hlsplay}
-                  onMouseLeave={hlspause}
-                  onClick={m3u8volume}
+                  onClick={m3u8}
                 >
                   <VideoPlay
                     ref={player}
-                    muted={mute}
                     loop
-                    autoPlay
                     onTimeUpdate={() => {
                       setCompleted(
                         (player.current.currentTime / player.current.duration) *
@@ -492,9 +489,10 @@ const Bottom = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin-right:1rem;
+  margin-right: 1rem;
   @media only screen and (max-width: 425px) {
     justify-content: center;
+    margin-right: 1rem;
   }
 `;
 
@@ -513,8 +511,7 @@ const Input = styled.input`
 `;
 
 const InputTag = styled.div`
-  min-width: 30rem;
-  width: 100%;
+  width: calc(100% - 30px);
   height: 100%;
   border: 1px solid #2b61e1;
   border-radius: 5px;
@@ -630,7 +627,6 @@ const Uploading = styled.div`
 const VideoPlay = styled.video`
   display: flex;
   margin: 0 auto;
-  width: 100%;
   height: 100%;
   max-width: 40rem;
   max-height: 30rem;

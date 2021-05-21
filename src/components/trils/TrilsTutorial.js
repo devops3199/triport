@@ -219,7 +219,7 @@ TrilsTutorial.defaultProps = {
     videoUrl:
       "https://d1nogx3a73keco.cloudfront.net/video/tutorials/tutorials.m3u8",
     posPlay: true,
-    hashtag: ["트리포트", "튜토리얼"],
+    hashtag: ["트리포트", "사용자가이드"],
   },
   author: {
     nickname: "Triport.kr",
@@ -315,8 +315,10 @@ const VideoCards = styled.div`
   ${(props) => (props.margin ? "margin-right:2.5rem" : "")};
   margin-top: 1rem;
   transition: 0.5s ease-in-out;
-  :hover {
-    transform: scale(1.03);
+  @media only screen and (min-width: 1024px) {
+    :hover {
+      transform: scale(1.03);
+    }
   }
   box-shadow: 0px 3px 6px #00000029;
 `;

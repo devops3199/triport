@@ -174,6 +174,7 @@ const Trils = (props) => {
           <>
             <Fade right>
               <TrilsTutorial
+                history={history}
                 open={() => {
                   setTDM(true);
                 }}
@@ -189,9 +190,9 @@ const Trils = (props) => {
                 {post_list.map((p, idx) => {
                   return (
                     <Fragment key={idx}>
-                      {/* <Fade bottom> */}
+                      <Fade bottom>
                         <Video {...p} history={history} />
-                      {/* </Fade> */}
+                      </Fade>
                     </Fragment>
                   );
                 })}
@@ -395,7 +396,7 @@ const PostLine = styled.div`
   margin-bottom: 4.3rem;
   flex-wrap: wrap;
   @media only screen and (max-width: 1280px) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: ${(props) => (props.tutorial ? `1fr` : `1fr 1fr`)};
   }
   @media only screen and (max-width: 870px) {
     grid-template-columns: 1fr;

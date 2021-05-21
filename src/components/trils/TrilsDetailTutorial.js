@@ -12,10 +12,7 @@ const TrilsDetailTutorial = (props) => {
   const [completed, setCompleted] = useState(0);
   const [progress, setProgress] = useState(0);
   const [editOn, setEditOn] = useState(false);
-  const [tags, setTags] = useState([
-    "영상을 클릭하면 소리도 들을 수 있습니다",
-    "해시태그를 클릭하면 관련된 해시태그를 검색할 수 있습니다.",
-  ]);
+  const [tags, setTags] = useState(props.information.hashtag);
   const tagInput = useRef(null);
   const [mute, setMute] = useState(true);
   const [tagType, setTagType] = useState("");
@@ -123,24 +120,6 @@ const TrilsDetailTutorial = (props) => {
       text: "사용자 가이드에서는 삭제 기능이 없습니다.",
       confirmButtonText: "확인",
     });
-    // Swal.fire({
-    //   title: "게시글을 삭제하시겠습니까?",
-    //   text: "게시글 삭제 시 다시 복구할 수 없습니다.",
-    //   icon: "warning",
-    //   showCancelButton: true,
-    //   confirmButtonColor: "#3085d6",
-    //   cancelButtonColor: "#d33",
-    //   confirmButtonText: "삭제",
-    //   cancelButtonText: "취소",
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     Swal.fire("삭제 완료!", "게시글이 삭제되었습니다.", "success").then(
-    //       () => {
-    //         closeModal();
-    //       }
-    //     );
-    //   }
-    // });
   };
 
   const hash = (e) => {
@@ -156,6 +135,7 @@ const TrilsDetailTutorial = (props) => {
   };
 
   const cancelEdit = () => {
+    setTags(props.information.hashtag)
     setEditOn(false);
   };
 
@@ -218,17 +198,6 @@ const TrilsDetailTutorial = (props) => {
             }}
           />
         </View>
-        {/* <TutorialBg>
-        <TutorialTextCover>
-          <TutirialText>커서를 올리면</TutirialText>
-          <TutirialText>영상이 재생됩니다.</TutirialText>
-        </TutorialTextCover>
-        <TutorialTextCover>
-          <TutirialText2>화면을 클릭하면</TutirialText2>
-          <TutirialText2>화면을 크게</TutirialText2>
-          <TutirialText2>볼 수 있습니다.</TutirialText2>
-        </TutorialTextCover>
-        </TutorialBg> */}
         <Progress width={progress}>
           <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
         </Progress>
@@ -320,7 +289,10 @@ TrilsDetailTutorial.defaultProps = {
     videoUrl:
       "https://d1nogx3a73keco.cloudfront.net/video/tutorials/tutorials.m3u8",
     posPlay: true,
-    hashtag: ["트리포트", "튜토리얼"],
+    hashtag: [
+      "영상을 클릭하면 소리도 들을 수 있습니다",
+      "해시태그를 클릭하면 관련된 해시태그를 검색할 수 있습니다.",
+    ],
   },
   author: {
     nickname: "Triport.kr",
