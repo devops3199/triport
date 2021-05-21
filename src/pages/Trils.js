@@ -175,7 +175,7 @@ const Trils = (props) => {
       <PostLine tutorial={tutorial}>
         {tutorial ? (
           <>
-            <Fade right>
+            <Fade bottom>
               <TrilsTutorial
                 history={history}
                 open={() => {
