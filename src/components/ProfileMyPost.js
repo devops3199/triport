@@ -11,16 +11,17 @@ import { history } from "redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as profileActions } from "redux/modules/profile";
 import { actionCreators as TrilogActions } from "redux/modules/trilog";
+import { TrilsActions } from "redux/modules/trils";
 
 const ProfileMyPost = () => {
   const dispatch = useDispatch();
-  const mytrils_post = useSelector((state) => state.profile.mypost_trils_data);
+  const mytrils_post = useSelector((state) => state.trils.data);
   const mytrilog_post = useSelector((state) => state.trilog.main.list);
 
   const modal = useSelector((state) => state.trils.modal);
 
   React.useEffect(() => {
-    dispatch(profileActions.myTrilsLoad());
+    dispatch(TrilsActions.getMyTrilsPost());
     dispatch(TrilogActions.getTrilogMainMyPage());
   }, []);
 

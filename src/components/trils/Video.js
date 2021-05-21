@@ -72,7 +72,6 @@ const Video = (props) => {
   };
 
   const mp4play = () => {
-    console.log("123")
     if (players.current.readyState !== 4) {
       return;
     }
