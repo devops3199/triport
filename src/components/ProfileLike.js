@@ -29,11 +29,9 @@ const ProfileLike = () => {
       {modal ? <TrilsDetail history={history} /> : null}
       <ColumnWrap>
         <Wrap>
-          <Icon></Icon>
           <ColumnWrap>
-            <Title>좋아요</Title>
             <Div>
-              <Title style={{ marginLeft: "-1.5rem" }}>Trils</Title>
+              <Title>Trils</Title>
               <Button>더보기</Button>
             </Div>
             <Postlist>
@@ -55,18 +53,13 @@ const ProfileLike = () => {
           </ColumnWrap>
         </Wrap>
 
-        <Wrap style={{ marginLeft: "7rem" }}>
-          <ColumnWrap>
-            <Div>
-              <Title style={{ marginLeft: "-1.5rem" }}>Trilog</Title>
-              <Button>더보기</Button>
-            </Div>
-            <Wrap
-              style={{
-                width: "78rem",
-                marginBottom: "5rem",
-              }}
-            >
+        <ColumnWrap>
+          <Wrap>
+            <ColumnWrap>
+              <Div>
+                <Title>Trilog</Title>
+                <Button>더보기</Button>
+              </Div>
               <Postlist>
                 {!liketrilog_post || liketrilog_post.length === 0 ? (
                   <div>내가 좋아하는 Trilog가 없습니다.</div>
@@ -78,28 +71,32 @@ const ProfileLike = () => {
 
                       if (index % 5 === 0) {
                         return (
-                          <BoardCard
-                            data={val}
-                            key={index}
-                            margin="50px 20px 0 0"
-                          />
+                          <BoardCardDiv>
+                            <BoardCard
+                              data={val}
+                              key={index}
+                              margin="50px 20px 0 0"
+                            />
+                          </BoardCardDiv>
                         );
                       } else {
                         return (
-                          <BoardCard
-                            data={val}
-                            key={index}
-                            margin="50px 20px 0 0"
-                          />
+                          <BoardCardDiv>
+                            <BoardCard
+                              data={val}
+                              key={index}
+                              margin="50px 20px 0 0"
+                            />
+                          </BoardCardDiv>
                         );
                       }
                     })}
                   </>
                 )}
               </Postlist>
-            </Wrap>
-          </ColumnWrap>
-        </Wrap>
+            </ColumnWrap>
+          </Wrap>
+        </ColumnWrap>
       </ColumnWrap>
     </React.Fragment>
   );
@@ -110,28 +107,27 @@ export default ProfileLike;
 const Wrap = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
   font-family: "paybooc-Bold";
-  width: auto;
+  width: 100vw;
 `;
 
 const ColumnWrap = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 const Div = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 78rem;
-`;
-
-const Icon = styled.div`
-  width: 2rem;
-  height: 1.3rem;
-  background-image: url("${DmyLike}");
-  background-size: 2rem 1.3rem;
+  width: 90%;
   margin-left: 5rem;
+  @media (max-width: 540px) {
+    margin-left: 1rem;
+  }
 `;
 
 const Title = styled.div`
@@ -140,6 +136,11 @@ const Title = styled.div`
   margin-left: 1rem;
   margin-bottom: 3rem;
   font-size: 1.2rem;
+
+  @media (max-width: 1270px) {
+    font-size: 1rem;
+    width: 6rem;
+  }
 `;
 
 const Button = styled.button`
@@ -149,14 +150,22 @@ const Button = styled.button`
   border-radius: 5px;
   background-color: #ffffff;
   padding: 0.2rem;
+  margin-right: 5rem;
+  @media (max-width: 540px) {
+    margin-right: 2rem;
+  }
 `;
 
 const Br = styled.div`
-  width: 79rem;
+  width: 90%;
   height: 3rem;
-  margin-left: -1rem;
   margin-bottom: 3rem;
   border-bottom: 3px solid #89acff;
+  margin-left: 5rem;
+  @media (max-width: 540px) {
+    margin-left: 2rem;
+    width: 85%;
+  }
 `;
 
 const Postlist = styled.div`
@@ -164,5 +173,36 @@ const Postlist = styled.div`
   flex-wrap: wrap;
   display: flex;
   flex-direction: row;
-  width: 1280px;
+  width: 90%;
+  margin-left: 5rem;
+
+  @media (max-width: 1270px) {
+    justify-content: center;
+  }
+  @media (max-width: 540px) {
+    width: 95%;
+    margin-left: 2rem;
+    justify-content: center;
+  }
+  @media (max-width: 375px) {
+    justify-content: center;
+  }
+`;
+
+const BoardCardDiv = styled.div`
+  @media (max-width: 540px) {
+    transform: scale(0.7);
+  }
+  @media (max-width: 375px) {
+    transform: scale(1);
+  }
+`;
+
+const VideoDiv = styled.div`
+  @media (max-width: 540px) {
+    height: 540px;
+  }
+  @media (max-width: 375px) {
+    transform: scale(1);
+  }
 `;
