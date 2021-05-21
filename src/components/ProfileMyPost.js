@@ -111,8 +111,9 @@ export default ProfileMyPost;
 const Wrap = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
   font-family: "paybooc-Bold";
-  width: auto;
+  width: 100vw;
 `;
 
 const ColumnWrap = styled.div`

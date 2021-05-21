@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
 import { SET_PREVIEW } from "../redux/modules/profile";
-import Dmypage from "media/svg/마이페이지 D.svg";
 import edit from "media/svg/프로필수정.svg";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -77,37 +76,33 @@ const ProfileSetting = () => {
   return (
     <React.Fragment>
       <Wrap>
-        <SmallWrap>
-          <ImageWrap>
-            <Image src={userprofile.user_img} />
-            <input // input을 가려놓고 EDIT 버튼을 클릭했을 때 인풋이 실행되도록 만듬.
-              type="file"
-              accept="image/*"
-              ref={fileInput}
-              onChange={upload}
-              style={{ display: "none" }}
-            />
-            <Edit onClick={triggerImg}></Edit>
-            <Lank>
-              당신은 <GradeIcon src={gradeImg} />
-              <Member>{userprofile.memberGrade}</Member>{" "}
-            </Lank>
-          </ImageWrap>
+        <Image src={userprofile.user_img} />
+        <input // input을 가려놓고 EDIT 버튼을 클릭했을 때 인풋이 실행되도록 만듬.
+          type="file"
+          accept="image/*"
+          ref={fileInput}
+          onChange={upload}
+          style={{ display: "none" }}
+        />
+        <Edit onClick={triggerImg}></Edit>
+        <Lank>
+          당신은 <GradeIcon src={gradeImg} />
+          <Member>{userprofile.memberGrade}</Member>{" "}
+        </Lank>
 
-          <Text>닉네임</Text>
-          <Input placeholder="NICKNAME" ref={nameRef} type="text" />
-          {/* <Text>현재 비밀번호</Text>
+        <Text>닉네임</Text>
+        <Input placeholder="NICKNAME" ref={nameRef} type="text" />
+        {/* <Text>현재 비밀번호</Text>
           <Input placeholder="PASSWORD" type="password" /> */}
-          <Text>새 비밀번호</Text>
-          <Input placeholder="NEW PASSWORD" type="password" ref={newpwdRef} />
-          <Text>새 비밀번호 확인</Text>
-          <Input
-            placeholder="NEW PASSWORD"
-            type="password"
-            ref={newpwdcheckRef}
-          />
-          <Button1 onClick={Update}>저장하기</Button1>
-        </SmallWrap>
+        <Text2>새 비밀번호</Text2>
+        <Input placeholder="NEW PASSWORD" type="password" ref={newpwdRef} />
+        <Text3>새 비밀번호 확인</Text3>
+        <Input
+          placeholder="NEW PASSWORD"
+          type="password"
+          ref={newpwdcheckRef}
+        />
+        <Button1 onClick={Update}>저장하기</Button1>
       </Wrap>
     </React.Fragment>
   );
@@ -117,16 +112,8 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   font-family: "paybooc-Bold";
-`;
-
-const SmallWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ImageWrap = styled.div`
-  display: flex;
-  flex-direction: column;
+  width: 100vw;
+  margin: 0px;
   align-items: center;
 `;
 
@@ -140,6 +127,10 @@ const Image = styled.div`
   background-image: url("${(props) => props.src}");
   background-size: cover;
   margin: 4px;
+  @media (max-width: 375px) {
+    width: 9rem;
+    height: 9rem;
+  }
 `;
 
 const Input = styled.input`
@@ -160,6 +151,9 @@ const Input = styled.input`
     color: #535353;
     opacity: 50%;
     font-size: 1rem;
+  }
+  @media (max-width: 375px) {
+    width: 15rem;
   }
 `;
 
@@ -183,11 +177,43 @@ const Lank = styled.div`
 const Text = styled.div`
   display: flex;
   justify-content: flex-start;
+  align-items: flex-start;
   font-family: "AppleSDGothicNeoR";
   font-size: 0.8rem;
   color: #2b61e1;
-  /* margin-left: -22rem; */
+  margin-left: -20rem;
   margin-bottom: 0.2rem;
+  @media (max-width: 375px) {
+    margin-left: -16rem;
+  }
+`;
+
+const Text2 = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-family: "AppleSDGothicNeoR";
+  font-size: 0.8rem;
+  color: #2b61e1;
+  margin-left: -18rem;
+  margin-bottom: 0.2rem;
+  @media (max-width: 375px) {
+    margin-left: -14rem;
+  }
+`;
+
+const Text3 = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-family: "AppleSDGothicNeoR";
+  font-size: 0.8rem;
+  color: #2b61e1;
+  margin-left: -16.5rem;
+  margin-bottom: 0.2rem;
+  @media (max-width: 375px) {
+    margin-left: -12.5rem;
+  }
 `;
 
 const Button1 = styled.button`
@@ -202,6 +228,9 @@ const Button1 = styled.button`
   margin-bottom: 1rem;
   background-color: #2b61e1;
   color: #ffffff;
+  @media (max-width: 375px) {
+    width: 18rem;
+  }
 `;
 
 const Member = styled.div`

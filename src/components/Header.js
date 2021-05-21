@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { Logo } from "media/svg/Svg";
 
 import grade1 from "media/svg/등급1.svg";
 import grade2 from "media/svg/등급2.svg";
 import grade3 from "media/svg/등급3.svg";
+import ximage from "media/image/X.png";
 
 import Category from "components/Category";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +13,16 @@ import { useDispatch, useSelector } from "react-redux";
 const Header = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
+
+  const testRef = useRef();
+
+  const handleMenu = () => {
+    if (testRef.current.style.display === "none") {
+      testRef.current.style.display = "block";
+    } else {
+      testRef.current.style.display = "none";
+    }
+  };
 
   const user = useSelector((state) => state.user);
 
@@ -29,12 +40,32 @@ const Header = (props) => {
 
   // 카카오 로그아웃
   const KAKAO_LOGOUT_URL =
-    "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=https://eungenie.me/auth/logout";
-  // "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://localhost:3000/auth/logout";
+    // "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=https://triport.kr/auth/logout";
+    "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://localhost:3000/auth/logout";
 
   if (user.is_login === true) {
     return (
       <React.Fragment>
+        <Test ref={testRef}>
+          <MenuWrap>
+            <RowWrap>
+              <div onClick={handleMenu}>
+                <CancleButton />
+              </div>
+
+              <LogoWrapper2>
+                <Logo />
+              </LogoWrapper2>
+            </RowWrap>
+            <MenuLine />
+            <Category1>Trils</Category1>
+            <Br />
+            <Category1>Trilog</Category1>
+            <Br />
+            <Category1>About</Category1>
+          </MenuWrap>
+        </Test>
+
         <div
           style={{
             position: "sticky",
@@ -44,6 +75,13 @@ const Header = (props) => {
           }}
         >
           <Wrap>
+            <Mobile>
+              <MenuButton onClick={handleMenu}>
+                <Bar></Bar>
+                <Bar></Bar>
+                <Bar></Bar>
+              </MenuButton>
+            </Mobile>
             <LogoWrapper
               onClick={() => {
                 const pathname = history.location.pathname;
@@ -56,12 +94,16 @@ const Header = (props) => {
             >
               <Logo />
             </LogoWrapper>
+            <Mobile>
+              <Image url={user.profileImgUrl} />
+            </Mobile>
+
             <LeftWrap>
               <Category history={history} />
             </LeftWrap>
             <RightWrap>
               <Image url={user.profileImgUrl} />
-              <Grade url={gradeImg} />
+              {/* <Grade url={gradeImg} /> */}
               <Nickname>{user.nickname}</Nickname>
 
               <MyOrLogin
@@ -90,7 +132,68 @@ const Header = (props) => {
   } else {
     return (
       <React.Fragment>
+        <Test ref={testRef}>
+          <MenuWrap>
+            <RowWrap>
+              <div onClick={handleMenu}>
+                <CancleButton />
+              </div>
+
+              <LogoWrapper2>
+                <Logo />
+              </LogoWrapper2>
+            </RowWrap>
+            <MenuLine />
+            <Category1
+              onClick={() => {
+                history.push("/");
+              }}
+            >
+              Trils
+            </Category1>
+            <Br />
+            <Category1
+              onClick={() => {
+                history.push("/trilog");
+              }}
+            >
+              Trilog
+            </Category1>
+            <Br />
+            <Category1
+              onClick={() => {
+                history.push("/about");
+              }}
+            >
+              About
+            </Category1>
+            <Br />
+            <Category1
+              onClick={() => {
+                history.push("/login");
+              }}
+            >
+              로그인 하러가기
+            </Category1>
+            <Br />
+            <Category1
+              onClick={() => {
+                history.push("/signup");
+              }}
+            >
+              회원가입 하러가기
+            </Category1>
+            <Br />
+          </MenuWrap>
+        </Test>
         <Wrap>
+          <Mobile>
+            <MenuButton onClick={handleMenu}>
+              <Bar></Bar>
+              <Bar></Bar>
+              <Bar></Bar>
+            </MenuButton>
+          </Mobile>
           <LogoWrapper
             onClick={() => {
               const pathname = history.location.pathname;
@@ -103,6 +206,7 @@ const Header = (props) => {
           >
             <Logo />
           </LogoWrapper>
+          <Mobile></Mobile>
           <LeftWrap>
             <Category history={history} />
           </LeftWrap>
@@ -156,11 +260,6 @@ const Wrap = styled.div`
   background-color: #ffffff;
   background-size: cover;
   align-items: center;
-  @media (max-width: 540px) {
-    height: 8rem;
-    flex-direction: column;
-    justify-content: center;
-  }
 `;
 
 const LeftWrap = styled.div`
@@ -182,11 +281,7 @@ const LeftWrap = styled.div`
     margin-left: 1rem;
   }
   @media (max-width: 540px) {
-    width: 100%;
-    margin: 0px auto;
-    justify-content: center;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    display: none;
   }
 `;
 
@@ -195,9 +290,9 @@ const RightWrap = styled.div`
   flex-direction: row;
   width: 30% auto;
   align-items: center;
-  /* @media (max-width: 540px) {
-    justify-content: flex-end;
-  } */
+  @media (max-width: 540px) {
+    display: none;
+  }
 `;
 
 const Line = styled.div`
@@ -235,7 +330,8 @@ const LogoWrapper = styled.div`
   @media (max-width: 540px) {
     margin-left: 0.5rem;
     & svg {
-      width: 6rem;
+      width: 8rem;
+      margin-top: 0.5rem;
     }
   }
 `;
@@ -308,6 +404,7 @@ const LogoutOrSignUp = styled.a`
   @media (max-width: 600px) {
     font-size: 0.5rem;
     width: 3rem;
+    margin-right: 0.5rem;
   }
   @media (max-width: 540px) {
     font-size: 0.5rem;
@@ -348,16 +445,19 @@ const Image = styled.div`
   background-position: center;
   background-image: url(${(props) => props.url});
   background-size: cover;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 
   @media (max-width: 1270px) {
     width: 2rem;
     height: 2rem;
   }
   @media (max-width: 768px) {
-    margin-right: 0.5rem;
     width: 2rem;
     height: 2rem;
+  }
+  @media (max-width: 540px) {
+    margin: 0px auto;
+    margin-top: 0.3rem;
   }
 `;
 
@@ -370,4 +470,101 @@ const Grade = styled.div`
   margin: 0px auto;
   margin-top: -0.3rem;
   margin-right: 0.2rem;
+`;
+
+// 모바일용 반응형
+
+const Mobile = styled.div`
+  display: none;
+  @media (max-width: 540px) {
+    width: 5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+
+const MenuButton = styled.div`
+  display: none;
+  @media (max-width: 540px) {
+    display: flex;
+    flex-direction: column;
+    width: 3rem;
+    height: auto;
+    margin: 0px auto;
+    margin-top: 0.8rem;
+  }
+`;
+
+const Bar = styled.div`
+  width: 25px;
+  height: 3px;
+  margin: 0px;
+  margin-bottom: 7px;
+  background-color: #2b61e1;
+  border-radius: 5px;
+`;
+
+const Test = styled.div`
+  position: absolute;
+  display: none;
+  height: 100%;
+  background-color: #fff;
+  z-index: 9999;
+`;
+
+// rgb속성 ?
+
+const MenuWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: 100%;
+`;
+
+const RowWrap = styled.div`
+  @media (max-width: 540px) {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    height: 5rem;
+  }
+`;
+
+const CancleButton = styled.div`
+  width: 2rem;
+  height: 2rem;
+  background-image: url(${ximage});
+  background-size: cover;
+  margin-top: 1.5rem;
+  margin-left: 1rem;
+`;
+
+const LogoWrapper2 = styled.div`
+  margin-top: 2rem;
+  margin-left: 10rem;
+  cursor: pointer;
+  & svg {
+    width: 8rem;
+  }
+`;
+
+const Category1 = styled.a`
+  cursor: pointer;
+  color: #2b61e1;
+  opacity: 1;
+  padding: 1rem;
+`;
+
+const Br = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: #89acff;
+`;
+
+const MenuLine = styled.div`
+  width: 100vw;
+  height: 5px;
+  background: #89acff;
+  opacity: 1;
 `;
