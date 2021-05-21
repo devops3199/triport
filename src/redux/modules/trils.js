@@ -7,7 +7,23 @@ const trilseSlice = createSlice({
   initialState: {
     data: [],
     modal: false,
-    detail: [],
+    detail: {
+      information: {
+        id: 0,
+        likeNum: 0,
+        modifiedAt: "2021-05-20 00:00",
+        videoType: "m3u8",
+        videoUrl: "",
+        posPlay: true,
+        hashtag: ["트리포트"],
+      },
+      author: {
+        nickname: "트리포트",
+        profileImgUrl:
+          "https://d1nogx3a73keco.cloudfront.net/profileImage/20210518170253-tripper_with_logo_kakao.png",
+      },
+      member: { isMembers: false, isLike: false },
+    },
     page: 1,
     is_last: false,
   },
@@ -23,8 +39,8 @@ const trilseSlice = createSlice({
       state.is_last = action.payload.is_last;
     },
     GET_POST_DETAIL: (state, action) => {
-      state.modal = true;
-      state.detail = action.payload;
+      state.modal = action.payload.modal;
+      state.detail = action.payload.result;
     },
     MODAL_STATUS: (state, action) => {
       state.modal = action.payload;
@@ -206,7 +222,7 @@ const filterPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
   };
 };
 
-const getPostDetail = (postId) => {
+const getPostDetail = (postId, modal = true) => {
   return function (dispatch, getState, { history }) {
     dispatch(MODAL_STATUS(false));
     const access_token = localStorage.getItem("access_token");
@@ -222,7 +238,11 @@ const getPostDetail = (postId) => {
         return result.json();
       })
       .then((result) => {
-        dispatch(GET_POST_DETAIL(result.results));
+        const results = {
+          result: result.results,
+          modal: modal,
+        };
+        dispatch(GET_POST_DETAIL(results));
       })
       .catch((err) => console.log(err));
   };

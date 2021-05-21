@@ -86,7 +86,12 @@ const Video = (props) => {
   };
 
   const openModal = () => {
-    dispatch(TrilsActions.getPostDetail(props.information.id));
+    if (window.innerWidth >= 1025) {
+      dispatch(TrilsActions.getPostDetail(props.information.id));
+    } else {
+      dispatch(TrilsActions.getPostDetail(props.information.id, false));
+      history.push(`/trils/detail/${props.information.id}`);
+    }
   };
 
   const like = (e) => {
@@ -244,7 +249,8 @@ const VideoPlay = styled.video`
 
 const Profile = styled.div`
   user-select: none;
-  margin-bottom: -3rem;
+  position: absolute;
+  padding-top: 0.7rem;
   display: flex;
   z-index: 5;
 `;

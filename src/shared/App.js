@@ -23,6 +23,7 @@ import Trils from "pages/Trils";
 import TrilsWrite from "pages/TrilsWrite";
 import FindPassword from "pages/FindPassword";
 import TrillsSearch from "pages/TrilsSearch";
+import TrillsDetail from "components/trils/TrilsDetailM"
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "redux/modules/user";
@@ -56,6 +57,7 @@ const App = () => {
             <Route path="/trilog/:id" exact component={BoardDetail} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/about" exact component={About} />
+            <Route path="/trils/detail/:id" exact component={TrillsDetail} />
             <Route
               path="/auth/kakao/callback"
               exact
