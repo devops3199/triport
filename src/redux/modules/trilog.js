@@ -200,10 +200,34 @@ const getTrilogMainFilter = (filter, keyword) => {
 };
 
 // Trilog 마이 페이지 게시물 조회 - 마이 페이지 내가 쓴 글 조회
-const getTrilogMainMyPage = (filter, keyword) => {
+const getTrilogMainMyPage = () => {
     return function (dispatch, getState, { history }) {
         const access_token = localStorage.getItem("access_token");
         const api = `${config}/api/boards/member`;
+    
+        fetch(api, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `${access_token}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            dispatch(setTrilogMain(data));
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+};
+
+// Trilog 마이 페이지 게시물 조회 - 마이 페이지 내가 좋아요한 게시물 조회
+const getTrilogMainMyPageLike = () => {
+    return function (dispatch, getState, { history }) {
+        const access_token = localStorage.getItem("access_token");
+        const api = `${config}/api/boards/member/like`;
     
         fetch(api, {
           method: "GET",
@@ -544,6 +568,7 @@ const actionCreators = {
     getTrilogMain, // Trilog 메인 게시물 조회
     getTrilogMainFilter, // Trilog 메인 게시물 조회 - 필터 및 검색 적용시
     getTrilogMainMyPage, // Trilog 마이 페이지 게시물 조회 - 마이 페이지 내가 쓴 글 조회
+    getTrilogMainMyPageLike, // Trilog 마이 페이지 게시물 조회 - 마이 페이지 내가 좋아요한 게시물 조회
     getTrilogDetail, // Trilog 게시물 상세 조회
     addTrilog, // Trilog 메인 게시물 등록
     removeTrilog, // Trilog 메인 게시물 삭제
