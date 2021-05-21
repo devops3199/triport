@@ -7,20 +7,22 @@ import TrilsImage1 from "media/image/about-trils.jpg";
 import TrilsImage2 from "media/image/about-trils2.jpg";
 import Profile2 from "media/image/about_profile2.jpg"
 import Blog from "media/image/about_blog.jpg";
-import Park from "media/image/park.png";
+import Park from "media/image/park2.png";
 import Hoon from "media/image/hoon.png";
 import Chan from "media/image/chan.jpg";
 import Jin from "media/image/jin.png";
 import Min from "media/image/min.png";
 import Jisoo from "media/image/jisoo.png";
 import Yoon from "media/image/yoon.png";
+import Sally from "media/image/Sally.png";
+import Fred from "media/image/Fred.png";
 
 const About = () => {
     const lazyLoad = (target) => {
         const io = new IntersectionObserver((e, o) => {
             e.forEach(entry => {
                 if(entry.isIntersecting) {
-                    const img = entry.target;
+                    const img = entry.target; // DOM
                     const src = img.getAttribute('data-lazy');
                     img.setAttribute('src', src);
                     o.disconnect();
@@ -34,7 +36,7 @@ const About = () => {
         const io = new IntersectionObserver((e, o) => {
             e.forEach(entry => {
                 if(entry.isIntersecting) {
-                    const div = entry.target;
+                    const div = entry.target; // DOM
                     const arr = div.classList;
 
                     if(arr.contains('up')) {
@@ -91,8 +93,8 @@ const About = () => {
                             </Info>
                             <CardWrapper className="animate left">
                                 <User>
-                                    <img data-lazy={Profile2} />
-                                    <span>Tripper</span>
+                                    <img data-lazy={Sally} />
+                                    <span>Sally</span>
                                 </User>
                                 <TrilsCard url={TrilsImage2}>
                                    <Play />
@@ -109,8 +111,8 @@ const About = () => {
                         <RightWrapper>
                             <CardWrapper className="animate right">
                                 <User>
-                                    <img data-lazy={Profile2} />
-                                    <span>Tripper</span>
+                                    <img data-lazy={Fred} />
+                                    <span>Fred</span>
                                 </User>
                                 <TrilsCard url={TrilsImage1}>
                                    <Play />
@@ -158,7 +160,7 @@ const About = () => {
                                 <NameTag>
                                     <Name>박은진</Name><FeatureTag>로그인</FeatureTag><FeatureTag>회원가입</FeatureTag><FeatureTag>마이페이지</FeatureTag><FeatureTag>AWS</FeatureTag>
                                 </NameTag>
-                                <div>차근차근 생각을 실천하는 백엔드 개발자 박은진 입니다!😊 <br/>서비스의 기획, 코드 구성에 대한 고민을 하나씩 이루는 재미에 푹 빠진 요즘입니다.🥰<br/> 무엇이든 구현해낼 수 있다는 자신감과 긍정적인 마음으로 코딩과 밀당중! <br/>성장의 계기가된 팀에서, 좋은 팀원들과 특별한 이야기를 담은 TRIPORT✈️  많이 이용해주세요!<br/> Bug, VoC 등 피드백은 언제나 감사드립니다. 🙏🏻</div>
+                                <div>차근차근 생각을 실천하는 백엔드 개발자 박은진 입니다!😊 <br/>TRIPORT 프로젝트를 통해 서비스의 기획, 코드 구성에 대한 고민을 하나씩 이루는 재미를 알아가고 있습니다.🥰<br/>성장의 계기가된 팀에서, 좋은 팀원들과 특별한 이야기를 담은 TRIPORT✈️  많이 이용해주세요!<br/> Bug, VoC 등 피드백은 언제나 감사드립니다. 🙏🏻</div>
                                 <div><BlueTag>github:</BlueTag> <a href="https://github.com/eungenie" target="_blank">https://github.com/eungenie</a></div>
                                 <div><BlueTag>blog:</BlueTag> <a href="https://zins.tistory.com/" target="_blank">https://zins.tistory.com/</a></div>
                                 <div><BlueTag>email:</BlueTag> eunzin.park@gmail.com</div>
@@ -168,7 +170,7 @@ const About = () => {
                             <MemberImg data-lazy={Hoon} />
                             <MemberText>
                                 <NameTag>
-                                    <Name>김병훈</Name><FeatureTag>Trils</FeatureTag>
+                                    <Name>김병훈</Name><FeatureTag>Trils</FeatureTag><FeatureTag>채널톡</FeatureTag>
                                 </NameTag>
                                 <div>프론트엔드 개발자 김병훈입니다. 여행을 좋아하는 사람 중 하나로써 영상과 사진을 업로드하고 다른 사람들의 글도 보면서 그 다음 여행할 때 여행지를 참고하거나 눈으로 힐링할 수 있으면 좋을 것 같다는 취지로 이 프로젝트를 진행하게 되었습니다. 감사합니다.</div>
                                 <div><BlueTag>github:</BlueTag> <a href="https://github.com/kbyunghoon" target="_blank">https://github.com/kbyunghoon</a></div>
@@ -243,7 +245,7 @@ const About = () => {
                             <MemberImg data-lazy={Jisoo} />
                             <MemberText>
                                 <NameTag>
-                                    <Name>안지수</Name><FeatureTag>갓지수님</FeatureTag>
+                                    <Name>안지수</Name><FeatureTag>갓지수님</FeatureTag><FeatureTag>Adobe XD</FeatureTag>
                                 </NameTag>
                                 <div><BlueTag>portfolio:</BlueTag> <a href="https://jisooahn3582.wixsite.com/my-site" target="_blank">https://jisooahn3582.wixsite.com/my-site</a></div>
                                 <div><BlueTag>email:</BlueTag> js3582@naver.com</div>

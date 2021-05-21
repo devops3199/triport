@@ -280,6 +280,11 @@ const FloatingButton = styled.div`
     height: 100%;
     fill: #2b61e1;
   }
+
+  @media (max-width: 600px) {
+    bottom: 10%;
+    right: 3%;
+  }
 `;
 
 const Move = keyframes`
