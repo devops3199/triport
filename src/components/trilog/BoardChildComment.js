@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { CommentLike } from "media/svg/Svg";
 import { config } from "redux/modules/config";
+import Swal from "sweetalert2";
 
 const BoardChildComment = (props) => {
   const { comment, setData } = props; // 부모 댓글 state 변경을 위해 setData 가져옴
@@ -52,7 +53,10 @@ const BoardChildComment = (props) => {
     })
     .then(res => res.json())
     .then(data => {
-      alert(data.msg);
+      Swal.fire({
+          title: data.msg,
+          icon: "success",
+      });
       setChildCommentDate(data.results.commentChild.modifiedAt);
     })
     .catch(err => console.log(err, 'edit child comment trilog'));
@@ -72,27 +76,37 @@ const BoardChildComment = (props) => {
   };
 
   const deleteComment = () => {
-    if (window.confirm("해당 대댓글을 삭제하시겠습니까?")) {
-      setData(prevState => {
-        console.log(prevState.filter((val) => val.commentChild.id !== comment.commentChild.id),'prev')
-        return prevState.filter((val) => val.commentChild.id !== comment.commentChild.id);
-      });
-
-      const access_token = localStorage.getItem("access_token");
-      fetch(`${config}/api/boards/comments/children/${comment.commentChild.id}`, {
-          method : 'DELETE',
-          headers : {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-              'Authorization': `${access_token}`,
-          }
-      })
-      .then(res => res.json())
-      .then(data => {
-          alert(data.msg);
-      })
-      .catch(err => console.log(err, 'remove child comment trilog'));
-    }
+    Swal.fire({
+      title: '해당 댓글을 삭제하시겠습니까?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: `삭제`,
+      denyButtonText: `취소`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setData(prevState => {
+          return prevState.filter((val) => val.commentChild.id !== comment.commentChild.id);
+        });
+  
+        const access_token = localStorage.getItem("access_token");
+        fetch(`${config}/api/boards/comments/children/${comment.commentChild.id}`, {
+            method : 'DELETE',
+            headers : {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `${access_token}`,
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            Swal.fire({
+              title: data.msg,
+              icon: "success",
+          });
+        })
+        .catch(err => console.log(err, 'remove child comment trilog'));
+      }
+    });
   };
 
   return (

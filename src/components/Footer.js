@@ -25,6 +25,10 @@ const Wrap = styled.footer`
   background: #89acff;
   color: white;
   z-index: 99;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const Logo = styled.div`

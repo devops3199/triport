@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { CommentLike } from "media/svg/Svg";
+import { history } from "redux/configureStore";
 import { BoardChildComment } from "components/components";
 import { actionCreators as TrilogActions } from 'redux/modules/trilog';
 import { useDispatch, useSelector } from 'react-redux';
 import { config } from "redux/modules/config";
+import Swal from "sweetalert2";
 
 const BoardComment = (props) => {
     const dispatch = useDispatch();
@@ -60,7 +62,20 @@ const BoardComment = (props) => {
     
     const postChildComment = () => {
       if(!is_login) {
-        alert("로그인을 먼저 하세요!");
+          Swal.fire({
+            title: "로그인",
+            text: "로그인을 먼저 해주세요.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "로그인하기",
+            cancelButtonText: "닫기",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                history.push("/login");
+            }
+        });
         return;
       }
 
@@ -79,13 +94,16 @@ const BoardComment = (props) => {
       })
       .then(res => res.json())
       .then(data => {
-        console.log(data.results);
         setData(prevState => [...prevState, data.results]);
         if(!showReply) {
           setShowReply(true);
         }
         document.getElementById(input_id).value = '';
-        alert('대댓글 작성 완료.');
+
+        Swal.fire({
+          title: data.msg,
+          icon: "success",
+      });
       })
       .catch(err => console.log(err, 'child comment post'));
     }
@@ -134,9 +152,17 @@ const BoardComment = (props) => {
     };
 
     const deleteComment =() => {
-      if(window.confirm('해당 댓글을 삭제하시겠습니까?')){
-        dispatch(TrilogActions.removeParentComment(comment.commentParent.id));
-      }
+      Swal.fire({
+        title: '해당 댓글을 삭제하시겠습니까?',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: `삭제`,
+        denyButtonText: `취소`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(TrilogActions.removeParentComment(comment.commentParent.id));
+        }
+      });
     };
 
     return (
@@ -164,7 +190,7 @@ const BoardComment = (props) => {
               ) : (
                 <>
                   <div>{comment.commentParent.contents}</div>
-                  <Date>{comment.commentParent.modifiedAt}</Date>
+                  <Date>{comment.commentParent.createdAt}</Date>
                 </>
               )}
             </Content>

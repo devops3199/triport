@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { produce } from 'immer'; // 불변성 유지
 import { config } from "./config";
+import Swal from "sweetalert2";
 
 /* Trilog - 트릴로그 */
 const trilogSlice = createSlice({
@@ -98,7 +99,7 @@ const trilogSlice = createSlice({
         editTrilogParentComment : (state, action) => produce(state, (draft) => {
             let idx = draft.parent_comment.list.findIndex((e) => e.commentParent.id === action.payload.results.commentParent.id);
             draft.parent_comment.list[idx].commentParent.contents = action.payload.results.commentParent.contents;
-            draft.parent_comment.list[idx].commentParent.modifiedAt = action.payload.results.commentParent.modifiedAt;
+            draft.parent_comment.list[idx].commentParent.createdAt = action.payload.results.commentParent.createdAt;
         }),
         // Trilog 상세 페이지 - 부모 댓글 삭제
         removeTrilogParentComment : (state, action) => produce(state, (draft) => {
@@ -280,7 +281,10 @@ const addTrilog = (trilog) => {
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.msg);
+                Swal.fire({
+                    title: data.msg,
+                    icon: "success",
+                });
                 history.push('/trilog');
             })
             .catch(err => console.log(err, 'Trilog Add'))
@@ -302,7 +306,10 @@ const removeTrilog = (id) => {
         })
         .then(res => res.json())
         .then(data => {
-            alert(data.msg);
+            Swal.fire({
+                title: data.msg,
+                icon: "success",
+            });
             history.replace('/trilog');
         })
         .catch(err => console.log(err, 'Trilog Delete'))
@@ -324,7 +331,20 @@ const setLikeTrilog = (id) => {
         .then(res => res.json())
         .then(data => {
             if(data.status === 401){
-                alert('로그인을 먼저 하세요!');
+                Swal.fire({
+                    title: "로그인",
+                    text: "로그인을 먼저 해주세요.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "로그인하기",
+                    cancelButtonText: "닫기",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        history.push("/login");
+                    }
+                });
             } else {
                 dispatch(setTrilogLike(id));
             }
@@ -348,7 +368,20 @@ const setLikeTrilogDetail = (id) => {
         .then(res => res.json())
         .then(data => {
             if(data.status === 401){
-                alert('로그인을 먼저 하세요!');
+                Swal.fire({
+                    title: "로그인",
+                    text: "로그인을 먼저 해주세요.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "로그인하기",
+                    cancelButtonText: "닫기",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        history.push("/login");
+                    }
+                });
             } else {
                 dispatch(setTrilogDetailLike());
             }
@@ -400,7 +433,10 @@ const addParentComment = (id, contents) => {
         .then(res => res.json())
         .then(data => {
             dispatch(addTrilogParentComment(data));
-            alert(data.msg);
+            Swal.fire({
+                title: data.msg,
+                icon: "success",
+            });
         })
         .catch(err => console.log(err, 'add comment trilog'));
     };
@@ -424,7 +460,10 @@ const editParentComment = (id, contents) => {
         .then(res => res.json())
         .then(data => {
             dispatch(editTrilogParentComment(data));
-            alert(data.msg);
+            Swal.fire({
+                title: data.msg,
+                icon: "success",
+            });
         })
         .catch(err => console.log(err, 'edit comment trilog'));
     };
@@ -445,7 +484,10 @@ const removeParentComment = (id) => {
         .then(res => res.json())
         .then(data => {
             dispatch(removeTrilogParentComment(id));
-            alert(data.msg);
+            Swal.fire({
+                title: data.msg,
+                icon: "success",
+            });
         })
         .catch(err => console.log(err, 'remove comment trilog'));
     };

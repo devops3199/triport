@@ -40,8 +40,8 @@ const BoardCard = (props) => {
                     </Likes>
                 </UserContainer>
                 <Detail>
-                    <span>{information.modifiedAt.split(' ')[0]}</span>
-                    <span>{information.modifiedAt.split(' ')[1]}</span>
+                    <span>{information.createdAt.split(' ')[0]}</span>
+                    <span>{information.createdAt.split(' ')[1]}</span>
                 </Detail>
             </ContentContainer>
         </BoardCardContainer>
