@@ -113,7 +113,7 @@ const BoardWrite = (props) => {
       .catch((error) => console.log(error, "uploadImage"));
     setImgLoading(false);
 
-    if (url.status === undefined) {
+    if (url.status === 200) {
       setImageUrls((prevState) => [
         ...prevState,
         { imageFilePath: url.results.imageFilePath },
@@ -121,9 +121,9 @@ const BoardWrite = (props) => {
       return url.results.imageFilePath;
     } else {
       if (url.status === 401) {
-        alert("로그인을 다시 해주세요!");
+        alert(url.msg);
       } else {
-        alert("서버에 문제가 있습니다.");
+        alert(url.msg);
       }
       return "failed";
     }
@@ -136,7 +136,6 @@ const BoardWrite = (props) => {
         setAddress(detail.information.address);
         setTitle(detail.information.title);
       }
-      console.log(detail.information.imageUrlList, '이미 list ');
     }
   }, []);
 
