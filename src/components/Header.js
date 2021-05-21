@@ -14,13 +14,13 @@ const Header = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
 
-  const testRef = useRef();
+  const clickRef = useRef();
 
   const handleMenu = () => {
-    if (testRef.current.style.display === "none") {
-      testRef.current.style.display = "block";
+    if (clickRef.current.style.display === "none") {
+      clickRef.current.style.display = "block";
     } else {
-      testRef.current.style.display = "none";
+      clickRef.current.style.display = "none";
     }
   };
 
@@ -40,32 +40,12 @@ const Header = (props) => {
 
   // 카카오 로그아웃
   const KAKAO_LOGOUT_URL =
-     "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=https://triport.kr/auth/logout";
-    //"https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://localhost:3000/auth/logout";
+    "https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=https://triport.kr/auth/logout";
+  //"https://kauth.kakao.com/oauth/logout?client_id=b30e166ade03d146889e1b012679fcf6&logout_redirect_uri=http://localhost:3000/auth/logout";
 
   if (user.is_login === true) {
     return (
       <React.Fragment>
-        <Test ref={testRef}>
-          <MenuWrap>
-            <RowWrap>
-              <div onClick={handleMenu}>
-                <CancleButton />
-              </div>
-
-              <LogoWrapper2>
-                <Logo />
-              </LogoWrapper2>
-            </RowWrap>
-            <MenuLine />
-            <Category1>Trils</Category1>
-            <Br />
-            <Category1>Trilog</Category1>
-            <Br />
-            <Category1>About</Category1>
-          </MenuWrap>
-        </Test>
-
         <div
           style={{
             position: "sticky",
@@ -74,6 +54,62 @@ const Header = (props) => {
             backgroundColor: "#fff",
           }}
         >
+          <MobileDiv ref={clickRef}>
+            <div style={{ backgroundColor: "#FFF", zIndex: "9999" }}>
+              <MenuWrap>
+                <RowWrap>
+                  <div onClick={handleMenu}>
+                    <CancleButton />
+                  </div>
+
+                  <LogoWrapper2>
+                    <Logo />
+                  </LogoWrapper2>
+                </RowWrap>
+                <MenuLine />
+                <MobileName>{user.nickname}</MobileName>
+                <Category1
+                  onClick={() => {
+                    history.push("/");
+                    clickRef.current.style.display = "none";
+                  }}
+                >
+                  Trils
+                </Category1>
+                <Br />
+                <Category1
+                  onClick={() => {
+                    history.push("trilog");
+                    clickRef.current.style.display = "none";
+                  }}
+                >
+                  Trilog
+                </Category1>
+                <Br />
+                <Category1
+                  onClick={() => {
+                    history.push("/about");
+                    clickRef.current.style.display = "none";
+                  }}
+                >
+                  About
+                </Category1>
+                <Br />
+                <Category1
+                  onClick={() => {
+                    history.push("/profile");
+                    clickRef.current.style.display = "none";
+                  }}
+                >
+                  마이페이지
+                </Category1>
+                <Br />
+                <Category1 href={KAKAO_LOGOUT_URL}>로그아웃</Category1>
+                <Br />
+              </MenuWrap>
+            </div>
+          </MobileDiv>
+
           <Wrap>
             <Mobile>
               <MenuButton onClick={handleMenu}>
@@ -132,112 +168,130 @@ const Header = (props) => {
   } else {
     return (
       <React.Fragment>
-        <Test ref={testRef}>
-          <MenuWrap>
-            <RowWrap>
-              <div onClick={handleMenu}>
-                <CancleButton />
-              </div>
+        <div
+          style={{
+            position: "sticky",
+            top: "0",
+            zIndex: "50",
+            backgroundColor: "#fff",
+          }}
+        >
+          <MobileDiv ref={clickRef}>
+            <div style={{ backgroundColor: "#FFF", zIndex: "9999" }}>
+              <MenuWrap>
+                <RowWrap>
+                  <div onClick={handleMenu}>
+                    <CancleButton />
+                  </div>
 
-              <LogoWrapper2>
-                <Logo />
-              </LogoWrapper2>
-            </RowWrap>
-            <MenuLine />
-            <Category1
-              onClick={() => {
-                history.push("/");
-              }}
-            >
-              Trils
-            </Category1>
-            <Br />
-            <Category1
-              onClick={() => {
-                history.push("/trilog");
-              }}
-            >
-              Trilog
-            </Category1>
-            <Br />
-            <Category1
-              onClick={() => {
-                history.push("/about");
-              }}
-            >
-              About
-            </Category1>
-            <Br />
-            <Category1
-              onClick={() => {
-                history.push("/login");
-              }}
-            >
-              로그인 하러가기
-            </Category1>
-            <Br />
-            <Category1
-              onClick={() => {
-                history.push("/signup");
-              }}
-            >
-              회원가입 하러가기
-            </Category1>
-            <Br />
-          </MenuWrap>
-        </Test>
-        <Wrap>
-          <Mobile>
-            <MenuButton onClick={handleMenu}>
-              <Bar></Bar>
-              <Bar></Bar>
-              <Bar></Bar>
-            </MenuButton>
-          </Mobile>
-          <LogoWrapper
-            onClick={() => {
-              const pathname = history.location.pathname;
-              if (pathname === "/") {
-                window.location.reload();
-              } else {
-                history.push("/");
-              }
-            }}
-          >
-            <Logo />
-          </LogoWrapper>
-          <Mobile></Mobile>
-          <LeftWrap>
-            <Category history={history} />
-          </LeftWrap>
-          <RightWrap>
-            <MyOrLogin
+                  <LogoWrapper2>
+                    <Logo />
+                  </LogoWrapper2>
+                </RowWrap>
+                <MenuLine />
+
+                <Category1
+                  onClick={() => {
+                    history.push("/");
+                    clickRef.current.style.display = "none";
+                  }}
+                >
+                  Trils
+                </Category1>
+                <Br />
+                <Category1
+                  onClick={() => {
+                    history.push("/trilog");
+                    clickRef.current.style.display = "none";
+                  }}
+                >
+                  Trilog
+                </Category1>
+                <Br />
+                <Category1
+                  onClick={() => {
+                    history.push("/about");
+                    clickRef.current.style.display = "none";
+                  }}
+                >
+                  About
+                </Category1>
+                <Br />
+                <Category1
+                  onClick={() => {
+                    history.push("/login");
+                    clickRef.current.style.display = "none";
+                  }}
+                >
+                  로그인
+                </Category1>
+                <Br />
+                <Category1
+                  onClick={() => {
+                    history.push("/signup");
+                    clickRef.current.style.display = "none";
+                  }}
+                >
+                  회원가입
+                </Category1>
+                <Br />
+              </MenuWrap>
+            </div>
+          </MobileDiv>
+
+          <Wrap>
+            <Mobile>
+              <MenuButton onClick={handleMenu}>
+                <Bar></Bar>
+                <Bar></Bar>
+                <Bar></Bar>
+              </MenuButton>
+            </Mobile>
+            <LogoWrapper
               onClick={() => {
                 const pathname = history.location.pathname;
-                if (pathname === "/login") {
+                if (pathname === "/") {
                   window.location.reload();
                 } else {
-                  history.push("/login");
+                  history.push("/");
                 }
               }}
             >
-              로그인
-            </MyOrLogin>
-            <LogoutOrSignUp
-              onClick={() => {
-                const pathname = history.location.pathname;
-                if (pathname === "/signup") {
-                  window.location.reload();
-                } else {
-                  history.push("/signup");
-                }
-              }}
-            >
-              회원가입
-            </LogoutOrSignUp>
-          </RightWrap>
-        </Wrap>
-        <Line />
+              <Logo />
+            </LogoWrapper>
+            <Mobile></Mobile>
+            <LeftWrap>
+              <Category history={history} />
+            </LeftWrap>
+            <RightWrap>
+              <MyOrLogin
+                onClick={() => {
+                  const pathname = history.location.pathname;
+                  if (pathname === "/login") {
+                    window.location.reload();
+                  } else {
+                    history.push("/login");
+                  }
+                }}
+              >
+                로그인
+              </MyOrLogin>
+              <LogoutOrSignUp
+                onClick={() => {
+                  const pathname = history.location.pathname;
+                  if (pathname === "/signup") {
+                    window.location.reload();
+                  } else {
+                    history.push("/signup");
+                  }
+                }}
+              >
+                회원가입
+              </LogoutOrSignUp>
+            </RightWrap>
+          </Wrap>
+          <Line />
+        </div>
       </React.Fragment>
     );
   }
@@ -505,21 +559,20 @@ const Bar = styled.div`
   border-radius: 5px;
 `;
 
-const Test = styled.div`
+const MobileDiv = styled.div`
   position: absolute;
   display: none;
   height: 100%;
   background-color: #fff;
-  z-index: 9999;
+  z-index: 50;
 `;
-
-// rgb속성 ?
 
 const MenuWrap = styled.div`
   display: flex;
   flex-direction: column;
   width: auto;
   height: 100%;
+  z-index: 999;
 `;
 
 const RowWrap = styled.div`
@@ -549,11 +602,17 @@ const LogoWrapper2 = styled.div`
   }
 `;
 
+const MobileName = styled.div`
+  font-family: "paybooc-Bold";
+
+  padding: 1rem;
+`;
+
 const Category1 = styled.a`
   cursor: pointer;
   color: #2b61e1;
-  opacity: 1;
   padding: 1rem;
+  text-decoration: none;
 `;
 
 const Br = styled.div`
