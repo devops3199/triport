@@ -235,6 +235,9 @@ const Uploading = styled.div`
   margin: 0 auto;
   background-image: url("${(props) => props.src}");
   background-size: contain;
+  @media only screen and (max-width: 420px) {
+    width: 100%;
+  }
 `;
 
 const Hash = styled.div`
@@ -287,6 +290,9 @@ const VideoPlay = styled.video`
   width: 25rem;
   margin: 0 auto;
   object-fit: cover;
+  @media only screen and (max-width: 420px) {
+    width: 100%;
+  }
 `;
 
 const Profile = styled.div`
