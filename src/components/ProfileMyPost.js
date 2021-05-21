@@ -10,19 +10,18 @@ import { BoardCard } from "components/components";
 import { history } from "redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as profileActions } from "redux/modules/profile";
+import { actionCreators as TrilogActions } from "redux/modules/trilog";
 
 const ProfileMyPost = () => {
   const dispatch = useDispatch();
   const mytrils_post = useSelector((state) => state.profile.mypost_trils_data);
-  const mytrilog_post = useSelector(
-    (state) => state.profile.mypost_trilog_data
-  );
+  const mytrilog_post = useSelector((state) => state.trilog.main.list);
 
   const modal = useSelector((state) => state.trils.modal);
 
   React.useEffect(() => {
     dispatch(profileActions.myTrilsLoad());
-    dispatch(profileActions.myTrilogLoad());
+    dispatch(TrilogActions.getTrilogMainMyPage());
   }, []);
 
   return (
