@@ -75,6 +75,9 @@ const Trils = (props) => {
 
   const scroll = () => {
     const filter_scroll = filterRef.current;
+    if (keyword.current.value === null) {
+      return;
+    }
     if (filter_scroll) {
       // 좋아요순
       dispatch(TrilsActions.getPost(keyword.current.value, "likeNum"));
