@@ -371,7 +371,7 @@ const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
-  @media only screen and (max-width: 425px) {
+  @media only screen and (max-width: 540px) {
     margin-bottom: 1rem;
   }
 `;
