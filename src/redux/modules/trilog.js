@@ -292,6 +292,7 @@ const getTrilogDetail = (id) => {
 // Trilog 메인 게시물 등록
 const addTrilog = (trilog) => {
     return function (dispatch, getState, { history }) {
+        const filter = getState().trilog.main.filter;
         const access_token = localStorage.getItem("access_token");
         if(trilog.is_edit) {
             fetch(`${config}/api/boards/${trilog.id}`, {
@@ -310,12 +311,35 @@ const addTrilog = (trilog) => {
             })
             .then(res => res.json())
             .then(data => {
-                Swal.fire({
-                    title: data.msg,
-                    icon: "success",
-                });
-                dispatch(setTrilogMainEdit(trilog));
-                history.replace('/trilog');
+                if(data.status === 401) {
+                    Swal.fire({
+                        title: "로그인",
+                        text: "로그인을 먼저 해주세요.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "로그인하기",
+                        cancelButtonText: "닫기",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            history.push("/login");
+                        }
+                    });
+                } else if(data.status === 200) {
+                    Swal.fire({
+                        title: data.msg,
+                        icon: "success",
+                    });
+                    window.scrollTo(0, 0);
+                    dispatch(setTrilogMainEdit(trilog));
+                    history.push('/trilog');
+                } else {
+                    Swal.fire({
+                        title: data.msg,
+                        icon: "warning",
+                    });
+                }
             })
             .catch(err => console.log(err, 'Trilog Edit'))
         } else {
@@ -335,11 +359,37 @@ const addTrilog = (trilog) => {
             })
             .then(res => res.json())
             .then(data => {
-                Swal.fire({
-                    title: data.msg,
-                    icon: "success",
-                });
-                history.replace('/trilog');
+                if(data.status === 401) {
+                    Swal.fire({
+                        title: "로그인",
+                        text: "로그인을 먼저 해주세요.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "로그인하기",
+                        cancelButtonText: "닫기",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            history.push("/login");
+                        }
+                    });
+                } else if(data.status === 200) {
+                    Swal.fire({
+                        title: data.msg,
+                        icon: "success",
+                    });
+                    window.scrollTo(0, 0);
+                    dispatch(setTrilogMainPage(1));
+                    dispatch(setTrilogMainFilter("likeNum"));
+                    dispatch(getTrilogMain("likeNum", ""));
+                    history.push('/trilog');
+                } else {
+                    Swal.fire({
+                        title: data.msg,
+                        icon: "warning",
+                    });
+                }
             })
             .catch(err => console.log(err, 'Trilog Add'))
         }
