@@ -22,12 +22,12 @@ const Trils = (props) => {
   const is_last = useSelector((state) => state.trils.is_last);
   const [filter, _setFilter] = useState(true);
   const filterRef = useRef(filter);
-  const keyword = useRef("");
   const [tutorial, setTutorial] = useState(false);
   const [TDetailModal, setTDM] = useState(false);
+  const [keyword, setKeyword] = useState("");
 
   /* 필터 기능 - 좋아요순 최신순 */
-  const tabToggle = () => {
+  const tabToggle = (e) => {
     const tab = document.getElementById("FilterTab");
     const like = document.getElementById("LikeText");
     const newest = document.getElementById("NewestText");
@@ -49,10 +49,10 @@ const Trils = (props) => {
 
     if (filter) {
       // 최신순
-      dispatch(TrilsActions.filterPost(keyword.current.value, "createdAt"));
+      dispatch(TrilsActions.filterPost(e.target.value, "createdAt"));
     } else {
       // 좋아요순
-      dispatch(TrilsActions.filterPost(keyword.current.value, "likeNum"));
+      dispatch(TrilsActions.filterPost(e.target.value, "likeNum"));
     }
     setFilter(!filter);
   };
@@ -69,24 +69,21 @@ const Trils = (props) => {
   const searching = (e) => {
     if (window.event.keyCode === 13) {
       // 좋아요순
-      history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+      history.push(`/search?q=${keyword}&filter=likeNum`);
     }
   };
   const searchClick = (e) => {
-    history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+    history.push(`/search?q=${keyword}&filter=likeNum`);
   };
 
   const scroll = () => {
     const filter_scroll = filterRef.current;
-    if (keyword.current.value === null) {
-      return;
-    }
     if (filter_scroll) {
       // 좋아요순
-      dispatch(TrilsActions.getPost(keyword.current.value, "likeNum"));
+      dispatch(TrilsActions.getPost("", "likeNum"));
     } else {
       // 최신순
-      dispatch(TrilsActions.getPost(keyword.current.value, "createdAt"));
+      dispatch(TrilsActions.getPost("", "createdAt"));
     }
   };
 
@@ -155,8 +152,10 @@ const Trils = (props) => {
           <Search
             type="text"
             placeholder="검색어를 입력하세요."
-            ref={keyword}
             onKeyPress={searching}
+            onChange={(e) => {
+              setKeyword(e.target.value);
+            }}
           />
           <SearchIcon onClick={searchClick} />
         </SearchWrapper>

@@ -20,7 +20,7 @@ const Trils = (props) => {
   const is_last = useSelector((state) => state.trils.is_last);
   const [filter, _setFilter] = useState(true);
   const filterRef = useRef(filter);
-  const keyword = useRef("");
+  const [keyword, setKeyword] = useState("");
 
   const { search } = props.location;
   const queryObj = queryString.parse(search);
@@ -78,12 +78,12 @@ const Trils = (props) => {
   const searching = (e) => {
     if (window.event.keyCode === 13) {
       // 좋아요순
-      history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+      history.push(`/search?q=${keyword}&filter=likeNum`);
     }
   };
 
   const searchClick = (e) => {
-    history.push(`/search?q=${keyword.current.value}&filter=likeNum`);
+    history.push(`/search?q=${keyword}&filter=likeNum`);
   };
 
   const top = () => {
@@ -114,20 +114,22 @@ const Trils = (props) => {
   return (
     <Container>
       <SearchContainer>
-      <FloatingBox>
-        <FloatingGoTop onClick={top}>
-          <Arrow />
-        </FloatingGoTop>
-        <FloatingWrite onClick={write}>
-          <Plus />
-        </FloatingWrite>
-      </FloatingBox>
+        <FloatingBox>
+          <FloatingGoTop onClick={top}>
+            <Arrow />
+          </FloatingGoTop>
+          <FloatingWrite onClick={write}>
+            <Plus />
+          </FloatingWrite>
+        </FloatingBox>
         <SearchWrapper>
           <Search
             type="text"
             placeholder="검색어를 입력하세요."
-            ref={keyword}
             onKeyPress={searching}
+            onChange={(e) => {
+              setKeyword(e.target.value);
+            }}
           />
           <SearchIcon onClick={searchClick} />
         </SearchWrapper>
@@ -143,24 +145,24 @@ const Trils = (props) => {
           </NewestFilter>
         </Filter>
       </FilterContainer>
-        {modal ? <TrilsDetail history={history} /> : null}
-        <PostLine>
-          {!post_list || post_list.length === 0 ? (
-            <></>
-          ) : (
-            <InfinityScroll callNext={scroll} is_next={is_last}>
-              {post_list.map((p, idx) => {
-                return (
-                  <Fragment key={idx}>
-                    <Fade bottom>
-                      <Video {...p} history={history} />
-                    </Fade>
-                  </Fragment>
-                );
-              })}
-            </InfinityScroll>
-          )}
-        </PostLine>
+      {modal ? <TrilsDetail history={history} /> : null}
+      <PostLine>
+        {!post_list || post_list.length === 0 ? (
+          <></>
+        ) : (
+          <InfinityScroll callNext={scroll} is_next={is_last}>
+            {post_list.map((p, idx) => {
+              return (
+                <Fragment key={idx}>
+                  <Fade bottom>
+                    <Video {...p} history={history} />
+                  </Fade>
+                </Fragment>
+              );
+            })}
+          </InfinityScroll>
+        )}
+      </PostLine>
     </Container>
   );
 };
