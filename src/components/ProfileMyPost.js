@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as profileActions } from "redux/modules/profile";
 import { actionCreators as TrilogActions } from "redux/modules/trilog";
 import { TrilsActions } from "redux/modules/trils";
+import { Fragment } from "react";
 
 const ProfileMyPost = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,10 @@ const ProfileMyPost = () => {
                 onClick={(e) => {
                   e.target.style.display = "none";
                   setTrilsIndex(mytrils_post.length);
-                }}>더보기</Button>
+                }}
+              >
+                더보기
+              </Button>
             </Div>
             <Postlist>
               {!mytrils_post || mytrils_post.length === 0 ? (
@@ -48,10 +52,12 @@ const ProfileMyPost = () => {
                 <>
                   {mytrils_post.map((p, idx) => {
                     if (idx <= trilsindex) {
-                      if ((idx + 1) % 3 !== 0) {
-                        return <Video {...p} history={history} mr />;
-                      } else {
-                        return <Video {...p} history={history} />;
+                      if ((idx + 1) % 4 !== 0) {
+                        return (
+                          <Fragment key={idx}>
+                            <Video {...p} history={history} />
+                          </Fragment>
+                        );
                       }
                     }
                   })}
@@ -68,10 +74,13 @@ const ProfileMyPost = () => {
               <Div>
                 <Title>Trilog</Title>
                 <Button
-                onClick={(e) => {
-                  e.target.style.display = "none";
-                  setTrilogIndex(mytrilog_post.length);
-                }}>더보기</Button>
+                  onClick={(e) => {
+                    e.target.style.display = "none";
+                    setTrilogIndex(mytrilog_post.length);
+                  }}
+                >
+                  더보기
+                </Button>
               </Div>
               <Postlist>
                 {!mytrilog_post || mytrilog_post.length === 0 ? (
@@ -81,27 +90,28 @@ const ProfileMyPost = () => {
                     {mytrilog_post.map((val, idx) => {
                       const index = idx + 1;
                       if (idx <= trilogindex) {
-                      if (index % 5 === 0) {
-                        return (
-                          <BoardCardDiv>
-                            <BoardCard
-                              data={val}
-                              key={index}
-                              margin="50px 20px 0 0"
-                            />
-                          </BoardCardDiv>
-                        );
-                      } else {
-                        return (
-                          <BoardCardDiv>
-                            <BoardCard
-                              data={val}
-                              key={index}
-                              margin="50px 20px 0 0"
-                            />
-                          </BoardCardDiv>
-                        );
-                      }}
+                        if (index % 5 === 0) {
+                          return (
+                            <BoardCardDiv>
+                              <BoardCard
+                                data={val}
+                                key={index}
+                                margin="50px 20px 0 0"
+                              />
+                            </BoardCardDiv>
+                          );
+                        } else {
+                          return (
+                            <BoardCardDiv>
+                              <BoardCard
+                                data={val}
+                                key={index}
+                                margin="50px 20px 0 0"
+                              />
+                            </BoardCardDiv>
+                          );
+                        }
+                      }
                     })}
                   </>
                 )}
@@ -190,7 +200,9 @@ const Br = styled.div`
 `;
 
 const Postlist = styled.div`
-  display: flex;
+  display: grid;
+  column-gap: 2rem;
+  grid-template-columns: 1fr 1fr 1fr;
   flex-wrap: wrap;
   display: flex;
   flex-direction: row;

@@ -86,7 +86,7 @@ const ProfileSetting = () => {
         />
         <Edit onClick={triggerImg}></Edit>
         <Lank>
-          당신은 <GradeIcon src={gradeImg} />
+          당신은 <GradeIcon grade={gradeImg} />
           <Member>{userprofile.memberGrade}</Member>{" "}
         </Lank>
 
@@ -244,7 +244,7 @@ const GradeIcon = styled.div`
   width: 1.5rem;
   height: 1.5rem;
   background-position: center;
-  background-image: url("${(props) => props.src}");
+  background-image: url("${(props) => props.grade}");
   background-size: cover;
   margin: 0px auto;
   margin-top: -0.3rem;
