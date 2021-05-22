@@ -190,7 +190,6 @@ const Br = styled.div`
     width: 85%;
   }
 `;
-
 const Postlist = styled.div`
   display: grid;
   column-gap: 2rem;
@@ -207,10 +206,11 @@ const Postlist = styled.div`
     justify-content: center;
   }
   @media (max-width: 375px) {
+    margin-left: 1rem;
+    width: 90%;
     justify-content: center;
   }
 `;
-
 const Text = styled.div`
   margin-left: 6rem;
 `;

@@ -215,6 +215,8 @@ const Postlist = styled.div`
     justify-content: center;
   }
   @media (max-width: 375px) {
+    margin-left: 1rem;
+    width: 90%;
     justify-content: center;
   }
 `;
@@ -226,15 +228,6 @@ const Text = styled.div`
 const BoardCardDiv = styled.div`
   @media (max-width: 540px) {
     transform: scale(0.7);
-  }
-  @media (max-width: 375px) {
-    transform: scale(1);
-  }
-`;
-
-const VideoDiv = styled.div`
-  @media (max-width: 540px) {
-    height: 540px;
   }
   @media (max-width: 375px) {
     transform: scale(1);
