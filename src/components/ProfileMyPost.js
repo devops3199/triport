@@ -11,16 +11,19 @@ import { history } from "redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as profileActions } from "redux/modules/profile";
 import { actionCreators as TrilogActions } from "redux/modules/trilog";
+import { TrilsActions } from "redux/modules/trils";
 
 const ProfileMyPost = () => {
   const dispatch = useDispatch();
-  const mytrils_post = useSelector((state) => state.profile.mypost_trils_data);
+  const mytrils_post = useSelector((state) => state.trils.data);
   const mytrilog_post = useSelector((state) => state.trilog.main.list);
+  const [trilsindex, setTrilsIndex] = useState(2);
+  const [trilogindex, setTrilogIndex] = useState(2);
 
   const modal = useSelector((state) => state.trils.modal);
 
   React.useEffect(() => {
-    dispatch(profileActions.myTrilsLoad());
+    dispatch(TrilsActions.getMyTrilsPost());
     dispatch(TrilogActions.getTrilogMainMyPage());
   }, []);
 
@@ -32,7 +35,11 @@ const ProfileMyPost = () => {
           <ColumnWrap>
             <Div>
               <Title>Trils</Title>
-              <Button>더보기</Button>
+              <Button
+                onClick={(e) => {
+                  e.target.style.display = "none";
+                  setTrilsIndex(mytrils_post.length);
+                }}>더보기</Button>
             </Div>
             <Postlist>
               {!mytrils_post || mytrils_post.length === 0 ? (
@@ -40,10 +47,12 @@ const ProfileMyPost = () => {
               ) : (
                 <>
                   {mytrils_post.map((p, idx) => {
-                    if ((idx + 1) % 3 !== 0) {
-                      return <Video {...p} history={history} mr />;
-                    } else {
-                      return <Video {...p} history={history} />;
+                    if (idx <= trilsindex) {
+                      if ((idx + 1) % 3 !== 0) {
+                        return <Video {...p} history={history} mr />;
+                      } else {
+                        return <Video {...p} history={history} />;
+                      }
                     }
                   })}
                 </>
@@ -58,17 +67,20 @@ const ProfileMyPost = () => {
             <ColumnWrap>
               <Div>
                 <Title>Trilog</Title>
-                <Button>더보기</Button>
+                <Button
+                onClick={(e) => {
+                  e.target.style.display = "none";
+                  setTrilogIndex(mytrilog_post.length);
+                }}>더보기</Button>
               </Div>
               <Postlist>
                 {!mytrilog_post || mytrilog_post.length === 0 ? (
                   <Text>내 Trilog가 없습니다.</Text>
                 ) : (
                   <>
-                    {" "}
                     {mytrilog_post.map((val, idx) => {
                       const index = idx + 1;
-
+                      if (idx <= trilogindex) {
                       if (index % 5 === 0) {
                         return (
                           <BoardCardDiv>
@@ -89,7 +101,7 @@ const ProfileMyPost = () => {
                             />
                           </BoardCardDiv>
                         );
-                      }
+                      }}
                     })}
                   </>
                 )}
@@ -159,6 +171,7 @@ const Button = styled.button`
   background-color: #ffffff;
   padding: 0.2rem;
   margin-right: 5rem;
+  cursor: pointer;
   @media (max-width: 540px) {
     margin-right: 2rem;
   }

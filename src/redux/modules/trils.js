@@ -72,8 +72,35 @@ const trilseSlice = createSlice({
       state.data[idx].information.hashtag = action.payload.hashtag;
       state.detail.information.hashtag = action.payload.hashtag;
     },
+    SET_TRILS_MYPOST: (state, action) => {
+      state.data = action.payload;
+    },
   },
 });
+
+// Trilog 마이 페이지 게시물 조회 - 마이 페이지 내가 쓴 글 조회
+const getMyTrilsPost = () => {
+  return function (dispatch, getState, { history }) {
+    const access_token = localStorage.getItem("access_token");
+    const api = `${config}/api/posts/member`;
+
+    fetch(api, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${access_token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(SET_TRILS_MYPOST(data.results));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
 
 const writepost = (video, tags) => {
   return function (dispatch, getState, { history }) {
@@ -260,6 +287,7 @@ const send_like = (postId, like) => {
     };
     fetch(api, data)
       .then((result) => {
+        console.log(result)
         if (result.status === 401) {
           localStorage.removeItem("access_token");
           localStorage.removeItem("refresh_token");
@@ -271,6 +299,7 @@ const send_like = (postId, like) => {
         return result.json();
       })
       .then((result) => {
+        console.log(result)
         if (result.ok) {
           dispatch(LIKE_OK(result.results));
         } else {
@@ -290,6 +319,7 @@ export const {
   DELETE_POST,
   SEARCH_POST,
   EDIT_POST,
+  SET_TRILS_MYPOST
 } = trilseSlice.actions;
 
 export const TrilsActions = {
@@ -300,6 +330,7 @@ export const TrilsActions = {
   searchPost,
   setPost,
   filterPost,
+  getMyTrilsPost,
 };
 
 export default trilseSlice.reducer;
