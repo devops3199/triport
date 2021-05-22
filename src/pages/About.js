@@ -161,7 +161,7 @@ const About = () => {
             <span>리더</span>
           </SectionWrapper>
           <div>
-            <MemberCard className="animate right" style={{ height: "320px" }}>
+            <MemberCard className="animate right">
               <MemberImg data-lazy={Park} />
               <MemberText>
                 <NameTag>
