@@ -9,18 +9,19 @@ import TrilsDetail from "../components/trils/TrilsDetail";
 
 import { history } from "redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
+import { TrilsActions } from "redux/modules/trils";
 import { actionCreators as profileActions } from "redux/modules/profile";
 import { actionCreators as TrilogActions } from "redux/modules/trilog";
 
 const ProfileLike = () => {
   const dispatch = useDispatch();
-  const liketrils_post = useSelector((state) => state.profile.like_trils_data);
+  const liketrils_post = useSelector((state) => state.trils.data);
   const liketrilog_post = useSelector((state) => state.trilog.main.list);
 
   const modal = useSelector((state) => state.trils.modal);
 
   React.useEffect(() => {
-    dispatch(profileActions.likeTrilsLoad());
+    dispatch(TrilsActions.getMyTrilsLikePost());
     dispatch(TrilogActions.getTrilogMainMyPageLike());
   }, []);
 

@@ -79,6 +79,30 @@ const trilseSlice = createSlice({
 });
 
 // Trilog 마이 페이지 게시물 조회 - 마이 페이지 내가 쓴 글 조회
+const getMyTrilsLikePost = () => {
+  return function (dispatch, getState, { history }) {
+    const access_token = localStorage.getItem("access_token");
+    const api = `${config}/api/posts/member/like`;
+
+    fetch(api, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${access_token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(SET_TRILS_MYPOST(data.results));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+// Trilog 마이 페이지 게시물 조회 - 마이 페이지 내가 쓴 글 조회
 const getMyTrilsPost = () => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
@@ -317,7 +341,7 @@ export const {
   DELETE_POST,
   SEARCH_POST,
   EDIT_POST,
-  SET_TRILS_MYPOST
+  SET_TRILS_MYPOST,
 } = trilseSlice.actions;
 
 export const TrilsActions = {
@@ -329,6 +353,7 @@ export const TrilsActions = {
   setPost,
   filterPost,
   getMyTrilsPost,
+  getMyTrilsLikePost,
 };
 
 export default trilseSlice.reducer;
