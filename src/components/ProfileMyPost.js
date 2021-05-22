@@ -18,8 +18,8 @@ const ProfileMyPost = () => {
   const dispatch = useDispatch();
   const mytrils_post = useSelector((state) => state.trils.data);
   const mytrilog_post = useSelector((state) => state.trilog.main.list);
-  const [trilsindex, setTrilsIndex] = useState(2);
-  const [trilogindex, setTrilogIndex] = useState(2);
+  const [trilsindex, setTrilsIndex] = useState(4);
+  const [trilogindex, setTrilogIndex] = useState(5);
 
   const modal = useSelector((state) => state.trils.modal);
 
@@ -69,7 +69,7 @@ const ProfileMyPost = () => {
         </Wrap>
 
         <ColumnWrap>
-          <Wrap>
+          <Wrap style={{ marginBottom: "5rem" }}>
             <ColumnWrap>
               <Div>
                 <Title>Trilog</Title>
@@ -209,9 +209,6 @@ const Postlist = styled.div`
   width: 90%;
   margin-left: 5rem;
 
-  @media (max-width: 1270px) {
-    justify-content: center;
-  }
   @media (max-width: 540px) {
     width: 95%;
     margin-left: 2rem;
