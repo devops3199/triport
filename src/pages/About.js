@@ -5,7 +5,6 @@ import { Logo, Play, LikeFill } from "media/svg/Svg";
 import Tripper from "media/image/about-tripper.jpg";
 import TrilsImage1 from "media/image/about-trils.jpg";
 import TrilsImage2 from "media/image/about-trils2.jpg";
-import Blog from "media/image/about_blog.jpg";
 import Park from "media/image/park2.png";
 import Hoon from "media/image/hoon.png";
 import Chan from "media/image/chan.jpg";
@@ -15,7 +14,6 @@ import Jisoo from "media/image/jisoo.png";
 import Yoon from "media/image/yoon.png";
 import Sally from "media/image/Sally.png";
 import Fred from "media/image/Fred.png";
-import Trilog1 from "media/image/Trilog_create.png";
 import Trilog2 from "media/image/Trilog_detail.png";
 
 const About = () => {
@@ -68,13 +66,12 @@ const About = () => {
             <IntroWrapper>
                 <LogoWrapper>
                     <Logo />
-                    <span>란?</span>   
                 </LogoWrapper>
                 <Description>
-                    <div>무작정 어디론가 떠나 힐링을 하고싶은데,</div>
-                    <div>어디로 가야할지 모를 때,</div>
-                    <div>또는 여행을 좋아하는, 여행을 가고싶은, Traveler!</div>
-                    <div>바로 여러분들을 위한 공간, <span>Triport</span>입니다.</div>
+                    <div>무작정 어디론가 떠나 힐링 하고 싶은데,</div>
+                    <div>어디로 가야 할지 고민 중이신가요?</div>
+                    <div>여행을 좋아하는, 여행을 가고 싶은, TRAVELER!</div>
+                    <div>바로 여러분을 위한 공간, <span>TRIPORT✈️</span>입니다.</div>
                 </Description>
                 <TripperWrapper className="animate up">
                     <img data-lazy={Tripper} />
@@ -137,14 +134,11 @@ const About = () => {
                         <span>Trilog</span>
                     </TitleWrapper>
                     <Info>
-                        <div>짧은 영상으로 아쉬움이 남는다면?</div>
-                        <div>Trilog를 통해 보다 자세한 정보들을 확인할 수 있어요!</div>
-                        <div>Trilog에선 이미지와 긴 글을 이용해</div>
-                        <div><span>'내가 다녀온 곳'</span> 에 대한 정보를 <Next/> 자세하게 업로드할 수 있습니다! 👏</div>
+                        <div>특별했던 여행!</div>
+                        <div>그 이야기를 글과 사진, 지도로 담을 수 있어요.</div>
+                        <div><span>'나만의 여행'</span>과 정보를 자세히 공유할 수 있답니다!</div>
+                        <div>멋진 기억을 TRAVELER들과 추억해보시기 바랍니다.🥰</div>
                     </Info>
-                    <ImgWrapper className="animate left">
-                        <img data-lazy={Trilog1} />
-                    </ImgWrapper>
                     <ImgWrapper className="animate up">
                         <img data-lazy={Trilog2} />
                     </ImgWrapper>
@@ -165,8 +159,9 @@ const About = () => {
                                 <NameTag>
                                     <Name>박은진</Name><FeatureTag>로그인</FeatureTag><FeatureTag>회원가입</FeatureTag><FeatureTag>마이페이지</FeatureTag><FeatureTag>AWS</FeatureTag>
                                 </NameTag>
-                                <div>차근차근 생각을 실천하는 백엔드 개발자 박은진 입니다!😊 <br/>TRIPORT 프로젝트를 통해 서비스의 기획, 코드 구성에 대한 고민을 하나씩 이루는 재미를 알아가고 있습니다.🥰<br/>성장의 계기가된 팀에서, 좋은 팀원들과 특별한 이야기를 담은 TRIPORT✈️  많이 이용해주세요!<br/> Bug, VoC 등 피드백은 언제나 감사드립니다. 🙏🏻</div>
-                                <div><BlueTag>github:</BlueTag> <a href="https://github.com/eungenie" target="_blank">https://github.com/eungenie</a></div>
+                                <div>차근차근 생각을 실천하는 백엔드 개발자 박은진입니다!😊 <br/>TRIPORT 프로젝트를 통해 서비스의 기획, 코드 구성과 인프라에 대한 고민을 하나씩 이루는 재미를 알아가고 있습니다. 성장의 계기가된 팀에서, 좋은 팀원들과 특별한 이야기를 담은 TRIPORT✈️  많이 이용해 주세요!<br/>
+                                    BUG, VOC 등 피드백은 언제나 감사드립니다.🙏🏻<br/>Have a good TRIPORT!💙</div>
+                                <div><BlueTag>github:</BlueTag> <a href="https://github.com/iamzin" target="_blank">https://github.com/iamzin</a></div>
                                 <div><BlueTag>blog:</BlueTag> <a href="https://iamzin.github.io/" target="_blank">https://iamzin.github.io/</a></div>
                                 <div><BlueTag>email:</BlueTag> eunzin.park@gmail.com</div>
                             </MemberText>
@@ -345,7 +340,6 @@ const Description = styled.div`
 `;
 
 const TripperWrapper = styled.div`
-    width: 100%;
     display: flex;
     justify-content: center;
     margin: 50px 0 100px 0;
