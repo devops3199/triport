@@ -378,6 +378,7 @@ const FloatingBox = styled.div`
   align-items: flex-end;
   @media only screen and (max-width: 425px) {
     bottom: 8%;
+    right: 6%;
   }
 `;
 

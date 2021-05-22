@@ -26,9 +26,9 @@ const Wrap = styled.footer`
   color: white;
   z-index: 99;
 
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     display: none;
-  }
+  } */
 `;
 
 const Logo = styled.div`
