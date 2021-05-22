@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import DmyLike from "media/svg/좋아요D.svg";
@@ -13,10 +13,14 @@ import { TrilsActions } from "redux/modules/trils";
 import { actionCreators as profileActions } from "redux/modules/profile";
 import { actionCreators as TrilogActions } from "redux/modules/trilog";
 
+import { Fragment } from "react";
+
 const ProfileLike = () => {
   const dispatch = useDispatch();
   const liketrils_post = useSelector((state) => state.trils.data);
   const liketrilog_post = useSelector((state) => state.trilog.main.list);
+  const [trilsindex, setTrilsIndex] = useState(4);
+  const [trilogindex, setTrilogIndex] = useState(5);
 
   const modal = useSelector((state) => state.trils.modal);
 
@@ -33,18 +37,29 @@ const ProfileLike = () => {
           <ColumnWrap>
             <Div>
               <Title>Trils</Title>
-              <Button>더보기</Button>
+              <Button
+                onClick={(e) => {
+                  e.target.style.display = "none";
+                  setTrilsIndex(liketrils_post.length);
+                }}
+              >
+                더보기
+              </Button>
             </Div>
             <Postlist>
               {!liketrils_post || liketrils_post.length === 0 ? (
-                <div>내가 좋아하는 Trils가 없습니다.</div>
+                <Text>내가 좋아하는 Trils가 없습니다.</Text>
               ) : (
                 <>
                   {liketrils_post.map((p, idx) => {
-                    if ((idx + 1) % 3 !== 0) {
-                      return <Video {...p} history={history} mr />;
-                    } else {
-                      return <Video {...p} history={history} />;
+                    if (idx <= trilsindex) {
+                      if ((idx + 1) % 4 !== 0) {
+                        return (
+                          <Fragment key={idx}>
+                            <Video {...p} history={history} />
+                          </Fragment>
+                        );
+                      }
                     }
                   })}
                 </>
@@ -55,41 +70,48 @@ const ProfileLike = () => {
         </Wrap>
 
         <ColumnWrap>
-          <Wrap>
+          <Wrap style={{ marginBottom: "5rem" }}>
             <ColumnWrap>
               <Div>
                 <Title>Trilog</Title>
-                <Button>더보기</Button>
+                <Button
+                  onClick={(e) => {
+                    e.target.style.display = "none";
+                    setTrilogIndex(liketrilog_post.length);
+                  }}
+                >
+                  더보기
+                </Button>
               </Div>
               <Postlist>
                 {!liketrilog_post || liketrilog_post.length === 0 ? (
-                  <div>내가 좋아하는 Trilog가 없습니다.</div>
+                  <Text>내가 좋아하는 Trilog가 없습니다.</Text>
                 ) : (
                   <>
-                    {" "}
                     {liketrilog_post.map((val, idx) => {
                       const index = idx + 1;
-
-                      if (index % 5 === 0) {
-                        return (
-                          <BoardCardDiv>
-                            <BoardCard
-                              data={val}
-                              key={index}
-                              margin="50px 20px 0 0"
-                            />
-                          </BoardCardDiv>
-                        );
-                      } else {
-                        return (
-                          <BoardCardDiv>
-                            <BoardCard
-                              data={val}
-                              key={index}
-                              margin="50px 20px 0 0"
-                            />
-                          </BoardCardDiv>
-                        );
+                      if (idx <= trilogindex) {
+                        if (index % 5 === 0) {
+                          return (
+                            <BoardCardDiv>
+                              <BoardCard
+                                data={val}
+                                key={index}
+                                margin="50px 20px 0 0"
+                              />
+                            </BoardCardDiv>
+                          );
+                        } else {
+                          return (
+                            <BoardCardDiv>
+                              <BoardCard
+                                data={val}
+                                key={index}
+                                margin="50px 20px 0 0"
+                              />
+                            </BoardCardDiv>
+                          );
+                        }
                       }
                     })}
                   </>
@@ -170,16 +192,15 @@ const Br = styled.div`
 `;
 
 const Postlist = styled.div`
-  display: flex;
+  display: grid;
+  column-gap: 2rem;
+  grid-template-columns: 1fr 1fr 1fr;
   flex-wrap: wrap;
   display: flex;
   flex-direction: row;
   width: 90%;
   margin-left: 5rem;
 
-  @media (max-width: 1270px) {
-    justify-content: center;
-  }
   @media (max-width: 540px) {
     width: 95%;
     margin-left: 2rem;
@@ -190,18 +211,13 @@ const Postlist = styled.div`
   }
 `;
 
+const Text = styled.div`
+  margin-left: 6rem;
+`;
+
 const BoardCardDiv = styled.div`
   @media (max-width: 540px) {
     transform: scale(0.7);
-  }
-  @media (max-width: 375px) {
-    transform: scale(1);
-  }
-`;
-
-const VideoDiv = styled.div`
-  @media (max-width: 540px) {
-    height: 540px;
   }
   @media (max-width: 375px) {
     transform: scale(1);
