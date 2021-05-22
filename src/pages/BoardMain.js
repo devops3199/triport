@@ -25,7 +25,7 @@ const BoardMain = (props) => {
     const like = document.getElementById("LikeText");
     const newest = document.getElementById("NewestText");
 
-    if (filter_type === "modifiedAt") {
+    if (filter_type === "createdAt") {
       // 좋아요순
       tab.style.left = "0%";
       like.style.color = "#fff";
@@ -39,7 +39,7 @@ const BoardMain = (props) => {
       like.style.color = "#89ACFF";
       newest.style.color = "#fff";
       dispatch(
-        TrilogActions.getTrilogMainFilter("modifiedAt", keyword.current.value)
+        TrilogActions.getTrilogMainFilter("createdAt", keyword.current.value)
       );
     }
 
@@ -58,7 +58,7 @@ const BoardMain = (props) => {
       dispatch(TrilogActions.getTrilogMain("likeNum", ""));
     } else {
       // 최신순
-      dispatch(TrilogActions.getTrilogMain("modifiedAt", ""));
+      dispatch(TrilogActions.getTrilogMain("createdAt", ""));
     }
   };
 
