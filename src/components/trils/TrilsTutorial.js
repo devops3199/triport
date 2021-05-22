@@ -215,6 +215,9 @@ const TutorialBgM = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  @media only screen and (max-width: 420px) {
+    width: 100%;
+  }
 `;
 
 const TutorialTextCover = styled.div`
@@ -246,7 +249,7 @@ const TutorialBg = styled.div`
   display: flex;
   position: relative;
   height: 45rem;
-  width: 25rem;
+  width: 100%;
   margin-top: -47.6rem;
   z-index: 11;
   background-color: rgba(0, 0, 0, 0.5);
@@ -255,6 +258,9 @@ const TutorialBg = styled.div`
   flex-direction: column;
   opacity: 1;
   transition: all 0.3s ease-in-out;
+  @media only screen and (max-width: 420px) {
+    width: 100%;
+  }
   :hover {
     & > :first-child > div {
       opacity: 0;
@@ -290,6 +296,9 @@ const Uploading = styled.div`
   margin: 0 auto;
   background-image: url("${(props) => props.src}");
   background-size: contain;
+  @media only screen and (max-width: 420px) {
+    width: 100%;
+  }
 `;
 
 const Hash = styled.div`
@@ -343,6 +352,9 @@ const VideoPlay = styled.video`
   width: 25rem;
   margin: 0 auto;
   object-fit: cover;
+  @media only screen and (max-width: 420px) {
+    width: 100%;
+  }
 `;
 
 const Profile = styled.div`
