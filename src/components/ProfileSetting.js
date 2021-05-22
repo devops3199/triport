@@ -14,8 +14,11 @@ import { actionCreators as profileActions } from "redux/modules/profile";
 const ProfileSetting = () => {
   const dispatch = useDispatch();
 
+  const user_ninkname = useSelector((state) => state.profile.nickname);
+
   React.useEffect(() => {
     dispatch(profileActions.getProfile()); // 프로필 조회
+    setName(user_ninkname);
   }, []);
 
   const nameRef = useRef();
@@ -23,7 +26,8 @@ const ProfileSetting = () => {
   const newpwdcheckRef = useRef();
   const fileInput = useRef(); // DOM 객체 가져오기 (인풋)
 
-  const [img, setImg] = useState();
+  const [img, setImg] = useState(null);
+  const [name, setName] = useState();
 
   const Update = () => {
     const nickname = nameRef.current.value;
@@ -34,7 +38,8 @@ const ProfileSetting = () => {
     //   alert("모든 내용을 입력해주세요!");
     //   return;
     // }
-    dispatch(profileActions.updateProfile(nickname, newpwd, newpwdcheck, img));
+
+    dispatch(profileActions.updateProfile(name, newpwd, newpwdcheck, img));
   };
 
   const userprofile = useSelector((state) => state.profile);
@@ -91,7 +96,15 @@ const ProfileSetting = () => {
         </Lank>
 
         <Text>닉네임</Text>
-        <Input placeholder="NICKNAME" ref={nameRef} type="text" />
+        <Input
+          placeholder="NICKNAME"
+          // ref={nameRef}
+          type="text"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+        />
         {/* <Text>현재 비밀번호</Text>
           <Input placeholder="PASSWORD" type="password" /> */}
         <Text2>새 비밀번호</Text2>

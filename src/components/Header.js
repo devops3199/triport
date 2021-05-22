@@ -25,6 +25,7 @@ const Header = (props) => {
   };
 
   const user = useSelector((state) => state.user);
+  const profile = useSelector((state) => state.profile);
 
   const gradeImg = () => {
     if (user.memberGrade === "TRAVELER") {
@@ -67,7 +68,7 @@ const Header = (props) => {
                   </LogoWrapper2>
                 </RowWrap>
                 <MenuLine />
-                <MobileName>{user.nickname}</MobileName>
+                <MobileName>{profile.nickname}</MobileName>
                 <Category1
                   onClick={() => {
                     history.push("/");
@@ -131,16 +132,16 @@ const Header = (props) => {
               <Logo />
             </LogoWrapper>
             <Mobile>
-              <Image url={user.profileImgUrl} />
+              <Image url={profile.user_img} />
             </Mobile>
 
             <LeftWrap>
               <Category history={history} />
             </LeftWrap>
             <RightWrap>
-              <Image url={user.profileImgUrl} />
+              <Image url={profile.user_img} />
               {/* <Grade url={gradeImg} /> */}
-              <Nickname>{user.nickname}</Nickname>
+              <Nickname>{profile.nickname}</Nickname>
 
               <MyOrLogin
                 onClick={() => {

@@ -23,7 +23,7 @@ import Trils from "pages/Trils";
 import TrilsWrite from "pages/TrilsWrite";
 import FindPassword from "pages/FindPassword";
 import TrillsSearch from "pages/TrilsSearch";
-import TrillsDetail from "components/trils/TrilsDetailM"
+import TrillsDetail from "components/trils/TrilsDetailM";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "redux/modules/user";
@@ -37,6 +37,7 @@ const App = () => {
 
   React.useEffect(() => {
     dispatch(userActions.loginCheckDB()); // 로그인 여부 체크
+    dispatch(profileActions.getProfile());
   }, []);
 
   return (
@@ -59,7 +60,11 @@ const App = () => {
             <Route path="/profile" exact component={Profile} />
             <Route path="/about" exact component={About} />
             <Route path="/trils/detail/:id" exact component={TrillsDetail} />
-            <Route path="/trils/tutorial" exact component={TrilsDetailTutorialM} />
+            <Route
+              path="/trils/tutorial"
+              exact
+              component={TrilsDetailTutorialM}
+            />
             <Route
               path="/auth/kakao/callback"
               exact
