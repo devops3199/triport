@@ -287,7 +287,6 @@ const send_like = (postId, like) => {
     };
     fetch(api, data)
       .then((result) => {
-        console.log(result)
         if (result.status === 401) {
           localStorage.removeItem("access_token");
           localStorage.removeItem("refresh_token");
@@ -299,7 +298,6 @@ const send_like = (postId, like) => {
         return result.json();
       })
       .then((result) => {
-        console.log(result)
         if (result.ok) {
           dispatch(LIKE_OK(result.results));
         } else {
