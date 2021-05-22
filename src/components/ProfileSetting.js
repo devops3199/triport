@@ -23,7 +23,7 @@ const ProfileSetting = () => {
   const newpwdcheckRef = useRef();
   const fileInput = useRef(); // DOM 객체 가져오기 (인풋)
 
-  const [img, setImg] = useState(null);
+  const [img, setImg] = useState("");
 
   const Update = () => {
     const nickname = nameRef.current.value;
@@ -42,7 +42,7 @@ const ProfileSetting = () => {
   const upload = (e) => {
     const reader = new FileReader();
     const file = fileInput.current.files[0];
-    console.log(file);
+    // console.log(file);
     if (!file) {
       // 파일 선택 안했을 때
       return;
