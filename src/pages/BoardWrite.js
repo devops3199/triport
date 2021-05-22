@@ -14,12 +14,11 @@ import { config } from "redux/modules/config";
 import _ from "lodash";
 import { BoardWriteMap } from "components/components";
 import LoopIcon from "@material-ui/icons/Loop";
+import Swal from "sweetalert2";
 
 const BoardWrite = (props) => {
   const dispatch = useDispatch();
-  const is_loading = useSelector(
-    (state) => state.trilog.loading.detail_loading
-  ); // 모든 contents가 로드가 됬나 여부
+  const is_loading = useSelector((state) => state.trilog.loading.detail_loading); // 모든 contents가 로드가 됬나 여부
   const detail = useSelector((state) => state.trilog.detail); // 상세 게시글 정보 from Redux
   const id = props.match.params.id; // 상세 게시글 ID
   const is_edit = id ? true : false; // 수정페이지인지 작성페이지인지
@@ -27,9 +26,7 @@ const BoardWrite = (props) => {
   const data = React.useRef();
 
   const [title, setTitle] = React.useState(""); // 제목
-  const [address, setAddress] = React.useState(
-    "지도 마커를 클릭하시면 주소가 여기 표시됩니다."
-  ); // 주소
+  const [address, setAddress] = React.useState("지도 마커를 클릭하시면 주소가 여기 표시됩니다."); // 주소
   const [keyword, setKeyword] = React.useState("관악구청"); // 지도 검색 키워드
   const [imageUrls, setImageUrls] = React.useState([]); // 사용자가 작성 및 수정시 사용했던 모든 이미지들, 이후 서버에서 사용안한 이미지들 삭제
   const [imgLoading, setImgLoading] = React.useState(false); // 이미지 로딩 시
@@ -41,20 +38,24 @@ const BoardWrite = (props) => {
   // 게시글 작성 및 수정
   const sendData = async () => {
     if (title === "") {
-      alert("제목을 입력하세요.");
+      Swal.fire({
+          title: "제목을 입력하세요.",
+          icon: "warning",
+      });
       return;
     }
 
     const content = data.current.getInstance().getMarkdown();
 
     if (content === "") {
-      alert("내용을 입력하세요.");
+      Swal.fire({
+          title: "내용을 입력하세요.",
+          icon: "warning",
+      });
       return;
     }
 
-    let filter_imageUrls = imageUrls.filter((val) =>
-      content.includes(val.imageFilePath)
-    ); // 사용안한 이미지 링크들 제거
+    let filter_imageUrls = imageUrls.filter((val) => content.includes(val.imageFilePath)); // 사용안한 이미지 링크들 제거
 
     if(is_edit) {
       if(detail.information.imageUrlList.length > 0) {
@@ -82,7 +83,10 @@ const BoardWrite = (props) => {
 
     if (file_size > 10) {
       // 이미지가 10MB보다 크다면
-      alert("각 이미지 용량은 최대 10MB 입니다.");
+      Swal.fire({
+          title: "각 이미지 용량은 최대 10MB 입니다.",
+          icon: "warning",
+      });
       return "failed";
     }
 
@@ -119,9 +123,15 @@ const BoardWrite = (props) => {
       return url.results.imageFilePath;
     } else {
       if (url.status === 401) {
-        alert(url.msg);
+        Swal.fire({
+            title: url.msg,
+            icon: "warning",
+        });
       } else {
-        alert(url.msg);
+        Swal.fire({
+            title: url.msg,
+            icon: "warning",
+        });
       }
       return "failed";
     }
