@@ -2,7 +2,7 @@ import Video from "components/trils/Video";
 import React, { useEffect, useRef, useState, Fragment } from "react";
 import { history } from "redux/configureStore";
 import { Plus, Arrow } from "media/svg/Svg";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import TrilsDetail from "../components/trils/TrilsDetail";
 import { TrilsActions } from "redux/modules/trils";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,16 +13,17 @@ import queryString from "query-string";
 import Fade from "react-reveal/Fade";
 
 const Trils = (props) => {
-  const { search } = props.location;
-  const queryObj = queryString.parse(search);
+  const is_login = useSelector((state) => state.user.is_login);
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.trils.data);
-  const is_login = useSelector((state) => state.user.is_login);
   const modal = useSelector((state) => state.trils.modal);
   const is_last = useSelector((state) => state.trils.is_last);
   const [filter, _setFilter] = useState(true);
   const filterRef = useRef(filter);
   const keyword = useRef("");
+
+  const { search } = props.location;
+  const queryObj = queryString.parse(search);
 
   /* 필터 기능 - 좋아요순 최신순 */
   const tabToggle = () => {
@@ -113,6 +114,14 @@ const Trils = (props) => {
   return (
     <Container>
       <SearchContainer>
+      <FloatingBox>
+        <FloatingGoTop onClick={top}>
+          <Arrow />
+        </FloatingGoTop>
+        <FloatingWrite onClick={write}>
+          <Plus />
+        </FloatingWrite>
+      </FloatingBox>
         <SearchWrapper>
           <Search
             type="text"
@@ -134,66 +143,65 @@ const Trils = (props) => {
           </NewestFilter>
         </Filter>
       </FilterContainer>
-      <CenterDiv>
         {modal ? <TrilsDetail history={history} /> : null}
-        <TopButton onClick={top}>
-          <Arrow />
-        </TopButton>
-        <FloatingButton onClick={write}>
-          <Plus />
-        </FloatingButton>
         <PostLine>
           {!post_list || post_list.length === 0 ? (
             <></>
           ) : (
             <InfinityScroll callNext={scroll} is_next={is_last}>
               {post_list.map((p, idx) => {
-                if ((idx + 1) % 3 !== 0) {
-                  return (
-                    <Fragment key={idx}>
-                      <Fade bottom>
-                        <Video {...p} history={history} mr />
-                      </Fade>
-                    </Fragment>
-                  );
-                } else {
-                  return (
-                    <Fragment key={idx}>
-                      <Fade bottom>
-                        <Video {...p} history={history} />
-                      </Fade>
-                    </Fragment>
-                  );
-                }
+                return (
+                  <Fragment key={idx}>
+                    <Fade bottom>
+                      <Video {...p} history={history} />
+                    </Fade>
+                  </Fragment>
+                );
               })}
             </InfinityScroll>
           )}
         </PostLine>
-      </CenterDiv>
     </Container>
   );
 };
 
-const TopButton = styled.div`
-  position: fixed;
-  bottom: 11%;
-  right: 3%;
-  width: 3.125rem;
-  height: 3.125rem;
-  cursor: pointer;
-  z-index: 9999;
-  background-color: #2b61e1;
-  border-radius: 25px;
-  transform: rotate(-90deg);
-  transform-origin: center center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const Opacity = keyframes`
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
 
-  & svg {
-    width: 60%;
-    height: 60%;
-    fill: #ffffff;
+const CloseTutorial = styled.div`
+  animation: ${Opacity} 1s;
+  font-family: "paybooc-Bold";
+  color: white;
+  right: 50%;
+  user-select: none;
+`;
+
+const Move = keyframes`
+  0% {
+    transform : translateX(-1500%);
+  }
+  100% {
+    transform : translateX(0%);
+  }
+`;
+
+const MoveTripper = styled.div`
+  animation: ${Move} 5s;
+  margin: 0 1rem 0 0;
+  & img {
+    width: 4rem;
+  }
+  @media only screen and (max-width: 870px) {
+    display: none;
   }
 `;
 
@@ -206,6 +214,10 @@ const SearchWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0px 3px 6px #00000029;
+  @media only screen and (max-width: 720px) {
+    width: 80%;
+  }
 
   & svg {
     fill: rgb(43, 97, 225);
@@ -218,6 +230,15 @@ const Container = styled.div`
   flex-direction: column;
   margin: 0 auto;
   width: 80rem;
+  @media only screen and (max-width: 1280px) {
+    width: 850px;
+  }
+  @media only screen and (max-width: 870px) {
+    width: 410px;
+  }
+  @media only screen and (max-width: 420px) {
+    width: calc(100% - 20px);
+  }
 `;
 
 const NewestFilter = styled.div`
@@ -229,7 +250,7 @@ const NewestFilter = styled.div`
   cursor: pointer;
 
   & span {
-    font-family: "TTTogether";
+    font-family: "paybooc-Bold";
     font-size: 14px;
     letter-spacing: 0px;
     color: #89acff;
@@ -274,6 +295,9 @@ const Filter = styled.div`
   box-shadow: 0px 3px 6px #00000029;
   border-radius: 5px;
   display: flex;
+  @media only screen and (min-width: 425px) and (max-width: 1280px) {
+    margin-right: 1rem;
+  }
 `;
 
 const FilterContainer = styled.div`
@@ -282,12 +306,27 @@ const FilterContainer = styled.div`
   flex-direction: row-reverse;
   align-items: center;
   margin-bottom: 4rem;
+  @media only screen and (max-width: 870px) {
+    margin-bottom: 1rem;
+    justify-content: center;
+  }
 `;
+
+// const Search = styled.input`
+//   width: 40.625rem;
+//   border: 1px solid rgb(43, 97, 225, 0.6);
+//   border-radius: 5px;
+//   outline: none;
+//   padding: 0.75rem 1.25rem;
+// `;
 
 const Search = styled.input`
   border: none;
   outline: none;
   width: 38rem;
+  @media only screen and (max-width: 870px) {
+    width: 100%;
+  }
 `;
 
 const SearchContainer = styled.div`
@@ -295,6 +334,9 @@ const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
+  @media only screen and (max-width: 540px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const CenterDiv = styled.div`
@@ -305,28 +347,90 @@ const CenterDiv = styled.div`
   width: 80rem;
 `;
 
-const FloatingButton = styled.div`
+const PostLine = styled.div`
+  display: grid;
+  width: 100%;
+  grid-template-columns: ${(props) => (props.tutorial ? `1fr` : `1fr 1fr 1fr`)};
+  /* grid-template-rows: repeat(auto-fit, 45rem); */
+  /* row-gap: 2rem; */
+  justify-items: center;
+  max-width: 80rem;
+  margin: 0px auto;
+  margin-bottom: 4.3rem;
+  flex-wrap: wrap;
+  @media only screen and (max-width: 1280px) {
+    grid-template-columns: ${(props) => (props.tutorial ? `1fr` : `1fr 1fr`)};
+  }
+  @media only screen and (max-width: 870px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const FloatingBox = styled.div`
   position: fixed;
-  bottom: 5%;
+  bottom: 6%;
   right: 3%;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  @media only screen and (max-width: 425px) {
+    bottom: 8%;
+  }
+`;
+
+const FloatingTutorial = styled.div`
+  width: ${(props) => (props.tutorial ? "10rem" : "3.125rem")};
+  height: 3.125rem;
+  cursor: pointer;
+  z-index: 50;
+  background: linear-gradient(to bottom right, #52a0fd, #00e2fa);
+  /* background-color: #2b61e1; */
+  border-radius: 25px;
+  transform-origin: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s ease-in-out;
+  & svg {
+    width: 60%;
+    height: 60%;
+    fill: #ffffff;
+    animation: ${Opacity} 1s;
+  }
+  margin-bottom: 0.5rem;
+`;
+
+const FloatingGoTop = styled.div`
   width: 3.125rem;
   height: 3.125rem;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 50;
+  background-color: #2b61e1;
+  border-radius: 25px;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & svg {
+    width: 60%;
+    height: 60%;
+    fill: #ffffff;
+  }
+  margin-bottom: 0.5rem;
+`;
 
+const FloatingWrite = styled.div`
+  width: 3.125rem;
+  height: 3.125rem;
+  cursor: pointer;
+  z-index: 50;
   & svg {
     width: 100%;
     height: 100%;
     fill: #2b61e1;
   }
-`;
-
-const PostLine = styled.div`
-  display: flex;
-  width: 1280px;
-  margin: 0px auto;
-  margin-bottom: 4.3rem;
-  flex-wrap: wrap;
 `;
 
 export default Trils;

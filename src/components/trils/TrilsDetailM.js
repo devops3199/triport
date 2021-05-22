@@ -229,7 +229,6 @@ const TrilsDetailM = (props) => {
 
   const hash = (e) => {
     history.push(`/search?q=${e.target.id}&filter=likeNum`, 1);
-    closeModal();
   };
 
   const edit = () => {
