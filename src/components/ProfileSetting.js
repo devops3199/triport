@@ -30,10 +30,10 @@ const ProfileSetting = () => {
     const newpwd = newpwdRef.current.value;
     const newpwdcheck = newpwdcheckRef.current.value;
 
-    if (!nickname || !newpwd || !newpwdcheck) {
-      alert("모든 내용을 입력해주세요!");
-      return;
-    }
+    // if (!nickname || !newpwd || !newpwdcheck) {
+    //   alert("모든 내용을 입력해주세요!");
+    //   return;
+    // }
     dispatch(profileActions.updateProfile(nickname, newpwd, newpwdcheck, img));
   };
 
