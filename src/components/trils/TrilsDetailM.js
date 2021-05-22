@@ -567,6 +567,9 @@ const LikeText = styled.div`
   user-select: none;
   display: flex;
   align-items: center;
+  @media only screen and (max-width: 388px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const LikeCov = styled.div`

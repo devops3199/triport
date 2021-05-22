@@ -362,7 +362,7 @@ TrilsDetailTutorialM.defaultProps = {
       videoUrl:
         "https://d1nogx3a73keco.cloudfront.net/video/tutorials/tutorials.m3u8",
       posPlay: true,
-      hashtag: ["화면을 클릭하면 영상 재생/일시정지가 가능합니다."],
+      hashtag: ["화면을 클릭하면", "재생/일시정지가 가능합니다."],
     },
     author: {
       nickname: "트리포트",
@@ -516,6 +516,9 @@ const LikeText = styled.div`
   user-select: none;
   display: flex;
   align-items: center;
+  @media only screen and (max-width: 388px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const LikeCov = styled.div`
