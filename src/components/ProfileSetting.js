@@ -23,7 +23,7 @@ const ProfileSetting = () => {
   const newpwdcheckRef = useRef();
   const fileInput = useRef(); // DOM 객체 가져오기 (인풋)
 
-  const [img, setImg] = useState("");
+  const [img, setImg] = useState();
 
   const Update = () => {
     const nickname = nameRef.current.value;
