@@ -33,7 +33,7 @@ const trilogSlice = createSlice({
         setDetailLoading : (state, action) => produce(state, (draft) => {
             draft.loading.detail_loading = action.payload;
         }),
-        // Trilog 작성 페이지 - 게시글 작성
+        // Trilog 메인 페이지 - 무한 스크롤 더 가져오기
         setTrilogMainAdd : (state, action) => produce(state, (draft) => {
             draft.main.list = [...draft.main.list, ...action.payload.results];
             draft.main.is_last = action.payload.last;
@@ -75,7 +75,10 @@ const trilogSlice = createSlice({
             } else {
                 draft.main.list[idx].information.likeNum -= 1;
             }
-            
+        }),
+        // Trilog 상세 페이지 - 게시물 삭제
+        removeTrilogDetail : (state, action) => produce(state, (draft) => {
+            draft.main.list = draft.main.list.filter((e) => e.information.id !== parseInt(action.payload));
         }),
         // Trilog 상세 페이지 - 부모 댓글 페이징 설정(다음 부모 댓글 있나 없나)
         setTrilogParentCommentPage : (state, action) => produce(state, (draft) => {
@@ -289,6 +292,7 @@ const getTrilogDetail = (id) => {
 // Trilog 메인 게시물 등록
 const addTrilog = (trilog) => {
     return function (dispatch, getState, { history }) {
+        const filter = getState().trilog.main.filter;
         const access_token = localStorage.getItem("access_token");
         if(trilog.is_edit) {
             fetch(`${config}/api/boards/${trilog.id}`, {
@@ -307,9 +311,35 @@ const addTrilog = (trilog) => {
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.msg);
-                dispatch(setTrilogMainEdit(trilog));
-                history.push('/trilog');
+                if(data.status === 401) {
+                    Swal.fire({
+                        title: "로그인",
+                        text: "로그인을 먼저 해주세요.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "로그인하기",
+                        cancelButtonText: "닫기",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            history.push("/login");
+                        }
+                    });
+                } else if(data.status === 200) {
+                    Swal.fire({
+                        title: data.msg,
+                        icon: "success",
+                    });
+                    window.scrollTo(0, 0);
+                    dispatch(setTrilogMainEdit(trilog));
+                    history.push('/trilog');
+                } else {
+                    Swal.fire({
+                        title: data.msg,
+                        icon: "warning",
+                    });
+                }
             })
             .catch(err => console.log(err, 'Trilog Edit'))
         } else {
@@ -329,11 +359,37 @@ const addTrilog = (trilog) => {
             })
             .then(res => res.json())
             .then(data => {
-                Swal.fire({
-                    title: data.msg,
-                    icon: "success",
-                });
-                history.push('/trilog');
+                if(data.status === 401) {
+                    Swal.fire({
+                        title: "로그인",
+                        text: "로그인을 먼저 해주세요.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "로그인하기",
+                        cancelButtonText: "닫기",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            history.push("/login");
+                        }
+                    });
+                } else if(data.status === 200) {
+                    Swal.fire({
+                        title: data.msg,
+                        icon: "success",
+                    });
+                    window.scrollTo(0, 0);
+                    dispatch(setTrilogMainPage(1));
+                    dispatch(setTrilogMainFilter("likeNum"));
+                    dispatch(getTrilogMain("likeNum", ""));
+                    history.push('/trilog');
+                } else {
+                    Swal.fire({
+                        title: data.msg,
+                        icon: "warning",
+                    });
+                }
             })
             .catch(err => console.log(err, 'Trilog Add'))
         }
@@ -354,11 +410,34 @@ const removeTrilog = (id) => {
         })
         .then(res => res.json())
         .then(data => {
-            Swal.fire({
-                title: data.msg,
-                icon: "success",
-            });
-            history.replace('/trilog');
+            if(data.status === 401) {
+                Swal.fire({
+                    title: "로그인",
+                    text: "로그인을 먼저 해주세요.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "로그인하기",
+                    cancelButtonText: "닫기",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        history.push("/login");
+                    }
+                });
+            } else if(data.status === 200) {
+                dispatch(removeTrilogDetail(id));
+                Swal.fire({
+                    title: data.msg,
+                    icon: "success",
+                });
+                history.replace('/trilog');
+            } else {
+                Swal.fire({
+                    title: data.msg,
+                    icon: "warning",
+                });
+            }
         })
         .catch(err => console.log(err, 'Trilog Delete'))
     };
@@ -450,14 +529,36 @@ const getParentCommentScroll = (id) => {
             }
         })
         .then(res => res.json())
-        .then(data => {     
-            if(!data.last) {
-                dispatch(setTrilogParentCommentPage(page + 1));
+        .then(data => {
+            if(data.status === 401) {
+                Swal.fire({
+                    title: "로그인",
+                    text: "로그인을 먼저 해주세요.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "로그인하기",
+                    cancelButtonText: "닫기",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        history.push("/login");
+                    }
+                });
+            } else if(data.status === 200) {
+                if(!data.last) {
+                    dispatch(setTrilogParentCommentPage(page + 1));
+                } else {
+                    dispatch(setTrilogParentCommentPage(1));
+                }
+    
+                dispatch(addTrilogParentCommentScroll(data));
             } else {
-                dispatch(setTrilogParentCommentPage(1));
+                Swal.fire({
+                    title: data.msg,
+                    icon: "warning",
+                });
             }
-
-            dispatch(addTrilogParentCommentScroll(data));
         })
         .catch(err => console.log(err, "parent comment scroll error"));
     }
@@ -480,11 +581,34 @@ const addParentComment = (id, contents) => {
         })
         .then(res => res.json())
         .then(data => {
-            dispatch(addTrilogParentComment(data));
-            Swal.fire({
-                title: data.msg,
-                icon: "success",
-            });
+            if(data.status === 401) {
+                Swal.fire({
+                    title: "로그인",
+                    text: "로그인을 먼저 해주세요.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "로그인하기",
+                    cancelButtonText: "닫기",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        history.push("/login");
+                    }
+                });
+            } else if(data.status === 200) {
+                dispatch(addTrilogParentComment(data));
+                Swal.fire({
+                    title: data.msg,
+                    icon: "success",
+                });
+            } else {
+                Swal.fire({
+                    title: data.msg,
+                    icon: "warning",
+                });
+            }
+            
         })
         .catch(err => console.log(err, 'add comment trilog'));
     };
@@ -507,11 +631,33 @@ const editParentComment = (id, contents) => {
         })
         .then(res => res.json())
         .then(data => {
-            dispatch(editTrilogParentComment(data));
-            Swal.fire({
-                title: data.msg,
-                icon: "success",
-            });
+            if(data.status === 401) {
+                Swal.fire({
+                    title: "로그인",
+                    text: "로그인을 먼저 해주세요.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "로그인하기",
+                    cancelButtonText: "닫기",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        history.push("/login");
+                    }
+                });
+            } else if(data.status === 200) {
+                dispatch(editTrilogParentComment(data));
+                Swal.fire({
+                    title: data.msg,
+                    icon: "success",
+                });
+            } else {
+                Swal.fire({
+                    title: data.msg,
+                    icon: "warning",
+                });
+            }
         })
         .catch(err => console.log(err, 'edit comment trilog'));
     };
@@ -531,11 +677,33 @@ const removeParentComment = (id) => {
         })
         .then(res => res.json())
         .then(data => {
-            dispatch(removeTrilogParentComment(id));
-            Swal.fire({
-                title: data.msg,
-                icon: "success",
-            });
+            if(data.status === 401) {
+                Swal.fire({
+                    title: "로그인",
+                    text: "로그인을 먼저 해주세요.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "로그인하기",
+                    cancelButtonText: "닫기",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        history.push("/login");
+                    }
+                });
+            } else if(data.status === 200) {
+                dispatch(removeTrilogParentComment(id));
+                Swal.fire({
+                    title: data.msg,
+                    icon: "success",
+                });
+            } else {
+                Swal.fire({
+                    title: data.msg,
+                    icon: "warning",
+                });
+            }
         })
         .catch(err => console.log(err, 'remove comment trilog'));
     };
@@ -557,7 +725,29 @@ const setParentCommentLike = (id) => {
         })
         .then(res => res.json())
         .then(data => {
-            dispatch(setTrilogParentCommentLike(id));
+            if(data.status === 401) {
+                Swal.fire({
+                    title: "로그인",
+                    text: "로그인을 먼저 해주세요.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "로그인하기",
+                    cancelButtonText: "닫기",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        history.push("/login");
+                    }
+                });
+            } else if(data.status === 200) {
+                dispatch(setTrilogParentCommentLike(id));
+            } else {
+                Swal.fire({
+                    title: data.msg,
+                    icon: "warning",
+                });
+            }
         })
         .catch(err => console.log(err, 'comment like'));
     };
@@ -584,12 +774,13 @@ const actionCreators = {
 export const { 
     setMainLoading, // Trilog 메인 페이지 - 내용 로딩 여부
     setDetailLoading, // Trilog 상세 페이지 - 내용 로딩 여부
-    setTrilogMainAdd, // Trilog 작성 페이지 - 게시글 작성
+    setTrilogMainAdd, // Trilog 메인 페이지 - 무한 스크롤 더 가져오기
     setTrilogMainEdit, // Trilog 수정 페이지 - 게시글 수정
     setTrilogMain, // Trilog 메인 페이지 - 게시글 조회
     setTrilogMainFilter, // Trilog 메인 페이지 - 필터 설정
     setTrilogMainPage, // Trilog 메인 페이지 - 무한 스크롤 페이지 설정(다음 게시물이 있나 없나)
     setTrilogLike, // Trilog 메인 페이지 - 게시글 좋아요
+    removeTrilogDetail, // Trilog 상세 페이지 - 게시물 삭제
     setTrilogParentCommentPage, // Trilog 상세 페이지 - 부모 댓글 페이징 설정(다음 부모 댓글 있나 없나)
     setTrilogDetail, // Trilog 상세 페이지 - 해당 게시글 조회
     setTrilogParentComment, // Trilog 상세 페이지 - 부모 댓글 조회
