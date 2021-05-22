@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from "./config";
+import { actionCreators as profileActions } from "redux/modules/profile";
+import { useDispatch } from "react-redux";
 
 const userSlice = createSlice({
   name: "user",
@@ -59,7 +61,6 @@ const tokenExtension = () => {
     })
     .catch((err) => {
       console.log(err);
-      console.log("토큰 재생성 실패");
     });
 };
 // 회원가입
@@ -126,12 +127,20 @@ const loginDB = (email, pwd) => {
         if (result.ok) {
           localStorage.setItem("userInfo", JSON.stringify(result)); // JSON.stringfy 가 body에 담아오는 값
           setInterval(tokenExtension, 1740000); // 29분 후 실행
+          //setInterval(tokenExtension, 5000); // 5초
           dispatch(
             setUser({
               id: result.results.id,
               nickname: result.results.nickname,
               memberGrade: result.results.memberGrade,
               profileImgUrl: result.results.profileImgUrl,
+            })
+          );
+          dispatch(
+            profileActions.GET_PROFILE({
+              user_img: result.results.profileImgUrl,
+              memberGrade: result.results.memberGrade,
+              nickname: result.results.nickname,
             })
           );
           alert("로그인 되었습니다.");
@@ -230,6 +239,7 @@ const loginCheckDB = () => {
       })
     );
     setInterval(tokenExtension, 1740000);
+    //setInterval(tokenExtension, 5000); // 5초
   };
 };
 // 로그아웃

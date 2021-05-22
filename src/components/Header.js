@@ -148,10 +148,10 @@ const Header = (props) => {
                   const pathname = history.location.pathname;
 
                   if (pathname === "/profile") {
-                    window.location.reload();
+                    //window.location.reload();
                   } else {
                     history.push("/profile");
-                    window.location.reload();
+                    //window.location.reload();
                   }
                 }}
               >

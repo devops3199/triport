@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 import { SET_PREVIEW } from "../redux/modules/profile";
+import { nameCheck, pwdCheck } from "shared/common";
 import edit from "media/svg/프로필수정.svg";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,30 +18,47 @@ const ProfileSetting = () => {
 
   const user_ninkname = useSelector((state) => state.profile.nickname);
 
+  const [img, setImg] = useState(null);
+  const [name, setName] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [pwdConfirm, setPwdConfirm] = useState("");
+
   React.useEffect(() => {
     dispatch(profileActions.getProfile()); // 프로필 조회
-    setName(user_ninkname);
   }, []);
 
-  const nameRef = useRef();
-  const newpwdRef = useRef();
-  const newpwdcheckRef = useRef();
+  React.useEffect(() => {
+    setName(user_ninkname);
+  }, [user_ninkname]);
+
   const fileInput = useRef(); // DOM 객체 가져오기 (인풋)
 
-  const [img, setImg] = useState(null);
-  const [name, setName] = useState();
-
   const Update = () => {
-    const nickname = nameRef.current.value;
-    const newpwd = newpwdRef.current.value;
-    const newpwdcheck = newpwdcheckRef.current.value;
+    if(!nameCheck(name)) {
+      Swal.fire({
+          title: "3~12 글자, 숫자, 특수문자(._ )만 허용합니다.",
+          icon: "warning",
+      });
+      return;
+    }
 
-    // if (!nickname || !newpwd || !newpwdcheck) {
-    //   alert("모든 내용을 입력해주세요!");
-    //   return;
-    // }
+    if(pwd !== pwdConfirm) {
+      Swal.fire({
+          title: "비밀번호가 다릅니다.",
+          icon: "warning",
+      });
+      return;
+    }
 
-    dispatch(profileActions.updateProfile(name, newpwd, newpwdcheck, img));
+    if(!pwdCheck(pwd) && pwd !== "") {
+      Swal.fire({
+          title: "8 ~ 12 글자, 숫자, 특수문자(!@#*)만 허용합니다.",
+          icon: "warning",
+      });
+      return;
+    }
+
+    dispatch(profileActions.updateProfile(name, pwd, pwdConfirm, img));
   };
 
   const userprofile = useSelector((state) => state.profile);
@@ -96,25 +115,11 @@ const ProfileSetting = () => {
         </Lank>
 
         <Text>닉네임</Text>
-        <Input
-          placeholder="NICKNAME"
-          // ref={nameRef}
-          type="text"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        />
-        {/* <Text>현재 비밀번호</Text>
-          <Input placeholder="PASSWORD" type="password" /> */}
+        <Input placeholder="NICKNAME" type="text" value={name || ''} onChange={(e) => setName(e.target.value)} />
         <Text2>새 비밀번호</Text2>
-        <Input placeholder="NEW PASSWORD" type="password" ref={newpwdRef} />
+        <Input placeholder="NEW PASSWORD" type="password" onChange={(e) => setPwd(e.target.value)} />
         <Text3>새 비밀번호 확인</Text3>
-        <Input
-          placeholder="NEW PASSWORD"
-          type="password"
-          ref={newpwdcheckRef}
-        />
+        <Input placeholder="PASSWORD CONFIRM" type="password" onChange={(e) => setPwdConfirm(e.target.value)} />
         <Button1 onClick={Update}>저장하기</Button1>
       </Wrap>
     </React.Fragment>

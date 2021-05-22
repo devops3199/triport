@@ -8,7 +8,6 @@ import { emailCheck, pwdCheck } from "../shared/common";
 import { useDispatch } from "react-redux";
 
 import { actionCreators as userAcitons } from "redux/modules/user";
-import { actionCreators as profileActions } from "redux/modules/profile";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -27,7 +26,7 @@ const Login = () => {
       return;
     }
     dispatch(userAcitons.loginDB(email, pwd));
-    dispatch(profileActions.getProfile());
+    //dispatch(profileActions.getProfile());
   };
   useEffect(() => {
     if (!email) {

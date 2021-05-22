@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from "./config";
+import Swal from "sweetalert2";
 
 const profileimgSlice = createSlice({
   name: "profile",
@@ -20,6 +21,11 @@ const profileimgSlice = createSlice({
       state.user_img = action.payload.user_img;
       state.memberGrade = action.payload.memberGrade;
       state.nickname = action.payload.nickname;
+    },
+    EDIT_PROFILE: (state, action) => {
+      state.nickname = action.payload.nickname;
+      state.user_img = action.payload.img;
+      state.memberGrade = state.memberGrade;
     },
     UPDATE_PROFILE: (state, action) => {
       state.uploading = action.payload;
@@ -70,39 +76,54 @@ const getProfile = () => {
       });
   };
 };
+// 프로필 수정 - 이미지 수정
+const updateProfileImage = () => {
 
-// 프로필 수정
+};
+
+// 프로필 수정 - 닉네임, 비밀번호 변경
 const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
 
     // formdata에 담기
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append("nickname", nickname);
     formData.append("newPassword", newpwd);
     formData.append("newPasswordCheck", newpwdcheck);
     formData.append("profileImgFile", img);
-    console.log(formData);
 
-    const API = `${config}/member/profile`;
+    const api = `${config}/member/profile`;
 
-    fetch(API, {
+    fetch(api, {
       method: "POST",
-      // 헤더에 토큰 담아 보내기
       headers: {
         Authorization: `${access_token}`,
       },
       body: formData,
     })
-      .then((res) => res.json())
-      .then((data) => {
-        alert("수정되었습니다!");
-        history.replace("/");
-        history.go(0); // 메인 페이지로 돌아간 후 새로고침
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.status === 200) {
+        const obj = {
+          nickname : nickname,
+          img : img
+        };
+        dispatch(EDIT_PROFILE(obj));
+        Swal.fire({
+          title: data.msg,
+          icon: "success",
+        });
+      } else {
+        Swal.fire({
+          title: data.msg,
+          icon: "warning",
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
 };
 
@@ -157,7 +178,6 @@ const myTrilogLoad = () => {
 };
 
 // 좋아요 Trils 조회
-
 const likeTrilsLoad = () => {
   return function (dispatch, getState, { history }) {
     let access_token = localStorage.getItem("access_token");
@@ -210,6 +230,7 @@ const likeTrilogLoad = () => {
 export const {
   SET_PREVIEW,
   GET_PROFILE,
+  EDIT_PROFILE,
   UPDATE_PROFILE,
   POST_TRILS_LOAD,
   POST_TRILOG_LOAD,
@@ -224,6 +245,7 @@ export const actionCreators = {
   myTrilogLoad,
   likeTrilsLoad,
   likeTrilogLoad,
+  GET_PROFILE,
 };
 
 export default profileimgSlice.reducer;

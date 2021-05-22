@@ -92,20 +92,18 @@ const ProfileMyPost = () => {
                       if (idx <= trilogindex) {
                         if (index % 5 === 0) {
                           return (
-                            <BoardCardDiv>
+                            <BoardCardDiv key={index}>
                               <BoardCard
                                 data={val}
-                                key={index}
                                 margin="50px 20px 0 0"
                               />
                             </BoardCardDiv>
                           );
                         } else {
                           return (
-                            <BoardCardDiv>
+                            <BoardCardDiv key={index}>
                               <BoardCard
                                 data={val}
-                                key={index}
                                 margin="50px 20px 0 0"
                               />
                             </BoardCardDiv>
