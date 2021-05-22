@@ -21,9 +21,13 @@ const TrilsDetailTutorialM = (props) => {
   const [editOn, setEditOn] = useState(false);
   const [tags, setTags] = useState(info.information.hashtag);
   const tagInput = useRef(null);
+  const [mute, setMute] = useState(false);
   const [tagType, setTagType] = useState("");
   const [like_chk, setLike] = useState(false);
   const [nowPlaying, setNowPlaying] = useState(false);
+  const [iphonePlaying, setIphonePlaying] = useState(true);
+  const check = navigator.userAgent.toLowerCase();
+  const is_iphone = check.indexOf("iphone") !== -1;
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -61,6 +65,9 @@ const TrilsDetailTutorialM = (props) => {
   };
 
   useEffect(() => {
+    if (is_iphone) {
+      return;
+    }
     const hls = new Hls();
     if (hls === undefined) {
       return;
@@ -179,32 +186,22 @@ const TrilsDetailTutorialM = (props) => {
     setTagType(newValue);
   };
 
-  const hlsplay = () => {
-    if (player.current.readyState !== 4) {
+  const iphone = (e) => {
+    if (e.target.readyState !== 4) {
       return;
     }
-    player.current.play();
-  };
-
-  const hlspause = () => {
-    if (player.current.readyState !== 4) {
+    if (!info.information.posPlay) {
       return;
     }
-    player.current.pause();
-  };
-
-  const mp4play = () => {
-    if (players.current.readyState !== 4) {
-      return;
+    if (iphonePlaying) {
+      setIphonePlaying(false);
+      setMute(false);
+      e.target.pause();
+    } else {
+      setIphonePlaying(true);
+      setMute(true);
+      e.target.play();
     }
-    players.current.play();
-  };
-
-  const mp4pause = () => {
-    if (players.current.readyState !== 4) {
-      return;
-    }
-    players.current.pause();
   };
 
   return (
@@ -214,47 +211,63 @@ const TrilsDetailTutorialM = (props) => {
           <ProfileImg src={info.author.profileImgUrl} />
           <ProfileId>{info.author.nickname}</ProfileId>
         </Profile>
-        {info.information.posPlay ? (
+        {is_iphone ? (
+          <View onClick={iphone}>
+            <VideoPlay
+              src={params.src}
+              loop
+              autoPlay
+              muted={mute}
+              playsInline
+            />
+          </View>
+        ) : (
           <>
-            {info.information.videoType === "mp4" ||
-            info.information.videoType === "mov" ? (
-              <View onClick={mp4}>
-                <VideoPlay
-                  ref={players}
-                  src={params.src}
-                  loop
-                  onTimeUpdate={() => {
-                    setCompleted(
-                      (players.current.currentTime / players.current.duration) *
-                        100
-                    );
-                    setProgress(players.current.clientWidth);
-                  }}
-                />
-              </View>
+            {info.information.posPlay ? (
+              <>
+                {info.information.videoType === "mp4" ||
+                info.information.videoType === "mov" ? (
+                  <View onClick={mp4}>
+                    <VideoPlay
+                      ref={players}
+                      src={params.src}
+                      loop
+                      onTimeUpdate={() => {
+                        setCompleted(
+                          (players.current.currentTime /
+                            players.current.duration) *
+                            100
+                        );
+                        setProgress(players.current.clientWidth);
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <>
+                    <View onClick={m3u8}>
+                      <VideoPlay
+                        ref={player}
+                        loop
+                        onTimeUpdate={() => {
+                          setCompleted(
+                            (player.current.currentTime /
+                              player.current.duration) *
+                              100
+                          );
+                          setProgress(player.current.clientWidth);
+                        }}
+                      />
+                    </View>
+                  </>
+                )}
+              </>
             ) : (
               <>
-                <View onClick={m3u8}>
-                  <VideoPlay
-                    ref={player}
-                    loop
-                    onTimeUpdate={() => {
-                      setCompleted(
-                        (player.current.currentTime / player.current.duration) *
-                          100
-                      );
-                      setProgress(player.current.clientWidth);
-                    }}
-                  />
+                <View>
+                  <Uploading src={uploading} />
                 </View>
               </>
             )}
-          </>
-        ) : (
-          <>
-            <View>
-              <Uploading src={uploading} />
-            </View>
           </>
         )}
         <Progress width={progress}>
@@ -349,7 +362,7 @@ TrilsDetailTutorialM.defaultProps = {
       videoUrl:
         "https://d1nogx3a73keco.cloudfront.net/video/tutorials/tutorials.m3u8",
       posPlay: true,
-      hashtag: ["화면을 클릭하면 영상재생됩니다."],
+      hashtag: ["화면을 클릭하면 영상 재생/일시정지가 가능합니다."],
     },
     author: {
       nickname: "트리포트",

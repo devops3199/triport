@@ -11,12 +11,17 @@ const TrilsTutorial = (props) => {
   const player = useRef(null);
   const players = useRef(null);
   const [completed, setCompleted] = useState(0);
+  const check = navigator.userAgent.toLowerCase();
+  const is_iphone = check.indexOf("iphone") !== -1;
 
   const params = {
     src: props.information.videoUrl,
   };
 
   useEffect(() => {
+    if (is_iphone) {
+      return;
+    }
     const hls = new Hls();
     if (hls === undefined) {
       return;
@@ -100,46 +105,54 @@ const TrilsTutorial = (props) => {
         <ProfileImg src={props.author.profileImgUrl} />
         <ProfileId>{props.author.nickname}</ProfileId>
       </Profile>
-      {props.information.posPlay ? (
+      {is_iphone ? (
+        <VideoPlay src={params.src} loop autoPlay muted playsInline />
+      ) : (
         <>
-          {props.information.videoType === "mp4" ||
-          props.information.videoType === "mov" ? (
+          {props.information.posPlay ? (
             <>
-              <VideoPlay
-                onMouseOver={mp4play}
-                onMouseLeave={mp4pause}
-                ref={players}
-                src={params.src}
-                muted
-                loop
-                onTimeUpdate={() => {
-                  setCompleted(
-                    (players.current.currentTime / players.current.duration) *
-                      100
-                  );
-                }}
-              />
+              {props.information.videoType === "mp4" ||
+              props.information.videoType === "mov" ? (
+                <>
+                  <VideoPlay
+                    onMouseOver={mp4play}
+                    onMouseLeave={mp4pause}
+                    ref={players}
+                    src={params.src}
+                    muted
+                    loop
+                    onTimeUpdate={() => {
+                      setCompleted(
+                        (players.current.currentTime /
+                          players.current.duration) *
+                          100
+                      );
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <VideoPlay
+                    onMouseOver={hlsplay}
+                    onMouseLeave={hlspause}
+                    ref={player}
+                    muted
+                    loop
+                    onTimeUpdate={() => {
+                      setCompleted(
+                        (player.current.currentTime / player.current.duration) *
+                          100
+                      );
+                    }}
+                  />
+                </>
+              )}
             </>
           ) : (
             <>
-              <VideoPlay
-                onMouseOver={hlsplay}
-                onMouseLeave={hlspause}
-                ref={player}
-                muted
-                loop
-                onTimeUpdate={() => {
-                  setCompleted(
-                    (player.current.currentTime / player.current.duration) * 100
-                  );
-                }}
-              />
+              <Uploading src={Uploadex} />
             </>
           )}
-        </>
-      ) : (
-        <>
-          <Uploading src={Uploadex} />
         </>
       )}
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />

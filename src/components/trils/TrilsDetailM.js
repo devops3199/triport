@@ -22,9 +22,12 @@ const TrilsDetailM = (props) => {
   const [editOn, setEditOn] = useState(false);
   const [tags, setTags] = useState(info.information.hashtag);
   const tagInput = useRef(null);
-  const [mute, setMute] = useState(true);
+  const [mute, setMute] = useState(false);
   const [tagType, setTagType] = useState("");
   const [nowPlaying, setNowPlaying] = useState(false);
+  const [iphonePlaying, setIphonePlaying] = useState(true);
+  const check = navigator.userAgent.toLowerCase();
+  const is_iphone = check.indexOf("iphone") !== -1;
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -66,6 +69,9 @@ const TrilsDetailM = (props) => {
   };
 
   useEffect(() => {
+    if (is_iphone) {
+      return;
+    }
     const hls = new Hls();
     if (hls === undefined) {
       return;
@@ -104,34 +110,6 @@ const TrilsDetailM = (props) => {
     }
   }, [params.src]);
 
-  // useEffect(() => {
-  //   if (info.information.videoType !== "m3u8" || !info.information.posPlay) {
-  //     return;
-  //   }
-  //   if (!player.current) {
-  //     return;
-  //   }
-  //   if (player.current.readyState === 4) {
-  //     console.log("player")
-  //     dispatch(MODAL_STATUS(true));
-  //     player.current.play();
-  //   }
-  // }, [dispatch, player, info.information]);
-
-  // useEffect(() => {
-  //   if (info.information.videoType !== "mp4" || !info.information.posPlay) {
-  //     return;
-  //   }
-  //   if (!players.current) {
-  //     return;
-  //   }
-  //   if (players.current.readyState === 4) {
-  //     console.log("players")
-  //     dispatch(MODAL_STATUS(true));
-  //     players.current.play();
-  //   }
-  // }, [dispatch, players, info.information]);
-
   const m3u8 = () => {
     if (player.current.readyState !== 4) {
       return;
@@ -145,6 +123,24 @@ const TrilsDetailM = (props) => {
     } else {
       setNowPlaying(true);
       player.current.play();
+    }
+  };
+
+  const iphone = (e) => {
+    if (e.target.readyState !== 4) {
+      return;
+    }
+    if (!info.information.posPlay) {
+      return;
+    }
+    if (iphonePlaying) {
+      setIphonePlaying(false);
+      setMute(false);
+      e.target.pause();
+    } else {
+      setIphonePlaying(true);
+      setMute(true);
+      e.target.play();
     }
   };
 
@@ -280,34 +276,6 @@ const TrilsDetailM = (props) => {
     setTagType(newValue);
   };
 
-  const hlsplay = () => {
-    if (player.current.readyState !== 4) {
-      return;
-    }
-    player.current.play();
-  };
-
-  const hlspause = () => {
-    if (player.current.readyState !== 4) {
-      return;
-    }
-    player.current.pause();
-  };
-
-  const mp4play = () => {
-    if (players.current.readyState !== 4) {
-      return;
-    }
-    players.current.play();
-  };
-
-  const mp4pause = () => {
-    if (players.current.readyState !== 4) {
-      return;
-    }
-    players.current.pause();
-  };
-
   return (
     <React.Fragment>
       <Wrap>
@@ -315,47 +283,63 @@ const TrilsDetailM = (props) => {
           <ProfileImg src={info.author.profileImgUrl} />
           <ProfileId>{info.author.nickname}</ProfileId>
         </Profile>
-        {info.information.posPlay ? (
+        {is_iphone ? (
+          <View onClick={iphone}>
+            <VideoPlay
+              src={params.src}
+              loop
+              autoPlay
+              muted={mute}
+              playsInline
+            />
+          </View>
+        ) : (
           <>
-            {info.information.videoType === "mp4" ||
-            info.information.videoType === "mov" ? (
-              <View onClick={mp4}>
-                <VideoPlay
-                  ref={players}
-                  src={params.src}
-                  loop
-                  onTimeUpdate={() => {
-                    setCompleted(
-                      (players.current.currentTime / players.current.duration) *
-                        100
-                    );
-                    setProgress(players.current.clientWidth);
-                  }}
-                />
-              </View>
+            {info.information.posPlay ? (
+              <>
+                {info.information.videoType === "mp4" ||
+                info.information.videoType === "mov" ? (
+                  <View onClick={mp4}>
+                    <VideoPlay
+                      ref={players}
+                      src={params.src}
+                      loop
+                      onTimeUpdate={() => {
+                        setCompleted(
+                          (players.current.currentTime /
+                            players.current.duration) *
+                            100
+                        );
+                        setProgress(players.current.clientWidth);
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <>
+                    <View onClick={m3u8}>
+                      <VideoPlay
+                        ref={player}
+                        loop
+                        onTimeUpdate={() => {
+                          setCompleted(
+                            (player.current.currentTime /
+                              player.current.duration) *
+                              100
+                          );
+                          setProgress(player.current.clientWidth);
+                        }}
+                      />
+                    </View>
+                  </>
+                )}
+              </>
             ) : (
               <>
-                <View onClick={m3u8}>
-                  <VideoPlay
-                    ref={player}
-                    loop
-                    onTimeUpdate={() => {
-                      setCompleted(
-                        (player.current.currentTime / player.current.duration) *
-                          100
-                      );
-                      setProgress(player.current.clientWidth);
-                    }}
-                  />
+                <View>
+                  <Uploading src={uploading} />
                 </View>
               </>
             )}
-          </>
-        ) : (
-          <>
-            <View>
-              <Uploading src={uploading} />
-            </View>
           </>
         )}
         <Progress width={progress}>
