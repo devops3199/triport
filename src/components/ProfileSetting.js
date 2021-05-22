@@ -16,7 +16,9 @@ import { actionCreators as profileActions } from "redux/modules/profile";
 const ProfileSetting = () => {
   const dispatch = useDispatch();
 
+  const userprofile = useSelector((state) => state.profile);
   const user_ninkname = useSelector((state) => state.profile.nickname);
+  const user_profile = useSelector((state) => state.profile.user_img);
 
   const [img, setImg] = useState(null);
   const [name, setName] = useState("");
@@ -27,6 +29,10 @@ const ProfileSetting = () => {
     dispatch(profileActions.getProfile()); // 프로필 조회
   }, []);
 
+  // React.useEffect(() => {
+  //   dispatch(profileActions.getProfile());
+  // }, [userprofile]);
+
   React.useEffect(() => {
     setName(user_ninkname);
   }, [user_ninkname]);
@@ -34,34 +40,38 @@ const ProfileSetting = () => {
   const fileInput = useRef(); // DOM 객체 가져오기 (인풋)
 
   const Update = () => {
-    if(!nameCheck(name)) {
+    if (!nameCheck(name)) {
       Swal.fire({
-          title: "3~12 글자, 숫자, 특수문자(._ )만 허용합니다.",
-          icon: "warning",
+        title:
+          "닉네임은 한글, 영문, 숫자, 특수문자(._)만 3-12자리 이내로 입력할 수 있습니다.",
+        icon: "warning",
       });
       return;
     }
 
-    if(pwd !== pwdConfirm) {
+    if (pwd !== pwdConfirm) {
       Swal.fire({
-          title: "비밀번호가 다릅니다.",
-          icon: "warning",
+        title: "비밀번호가 다릅니다.",
+        icon: "warning",
       });
       return;
     }
 
-    if(!pwdCheck(pwd) && pwd !== "") {
+    if (!pwdCheck(pwd) && pwd !== "") {
       Swal.fire({
-          title: "8 ~ 12 글자, 숫자, 특수문자(!@#*)만 허용합니다.",
-          icon: "warning",
+        title:
+          "비밀번호는 영문자와 숫자, 특수문자(!@#*)가 적어도 1개 이상 포함되도록 8-20자리 이내로 입력해 주세요.",
+        icon: "warning",
       });
       return;
     }
 
-    dispatch(profileActions.updateProfile(name, pwd, pwdConfirm, img));
+    dispatch(profileActions.updateProfile(name, pwd, pwdConfirm));
   };
 
-  const userprofile = useSelector((state) => state.profile);
+  const imageSave = () => {
+    dispatch(profileActions.updateProfileImage(img));
+  };
 
   const upload = (e) => {
     const reader = new FileReader();
@@ -109,17 +119,31 @@ const ProfileSetting = () => {
           style={{ display: "none" }}
         />
         <Edit onClick={triggerImg}></Edit>
+        <Edit2 onClick={imageSave}>SAVE</Edit2>
         <Lank>
           당신은 <GradeIcon grade={gradeImg} />
           <Member>{userprofile.memberGrade}</Member>{" "}
         </Lank>
 
         <Text>닉네임</Text>
-        <Input placeholder="NICKNAME" type="text" value={name || ''} onChange={(e) => setName(e.target.value)} />
+        <Input
+          placeholder="NICKNAME"
+          type="text"
+          value={name || ""}
+          onChange={(e) => setName(e.target.value)}
+        />
         <Text2>새 비밀번호</Text2>
-        <Input placeholder="NEW PASSWORD" type="password" onChange={(e) => setPwd(e.target.value)} />
+        <Input
+          placeholder="NEW PASSWORD"
+          type="password"
+          onChange={(e) => setPwd(e.target.value)}
+        />
         <Text3>새 비밀번호 확인</Text3>
-        <Input placeholder="PASSWORD CONFIRM" type="password" onChange={(e) => setPwdConfirm(e.target.value)} />
+        <Input
+          placeholder="PASSWORD CONFIRM"
+          type="password"
+          onChange={(e) => setPwdConfirm(e.target.value)}
+        />
         <Button1 onClick={Update}>저장하기</Button1>
       </Wrap>
     </React.Fragment>
@@ -183,6 +207,20 @@ const Edit = styled.div`
   background-size: 6rem 3rem;
   margin-left: 10rem;
   margin-top: -2rem;
+`;
+
+const Edit2 = styled.button`
+  cursor: pointer;
+  width: 2.5rem;
+  height: 1.13rem;
+  margin-left: 16rem;
+  margin-top: -2.05rem;
+  margin-bottom: 1rem;
+  border: 1px solid #89acff;
+  border-radius: 5px;
+  background-color: #89acff;
+  color: #464646;
+  font-size: 0.7rem;
 `;
 
 const Lank = styled.div`

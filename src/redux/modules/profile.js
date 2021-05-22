@@ -26,6 +26,8 @@ const profileimgSlice = createSlice({
       state.nickname = action.payload.nickname;
       state.user_img = action.payload.img;
       state.memberGrade = state.memberGrade;
+      state.newpwd = action.payload.newpwd;
+      state.newpwdcheck = action.payload.newpwdcheck;
     },
     UPDATE_PROFILE: (state, action) => {
       state.uploading = action.payload;
@@ -77,23 +79,15 @@ const getProfile = () => {
   };
 };
 // 프로필 수정 - 이미지 수정
-const updateProfileImage = () => {
-
-};
-
-// 프로필 수정 - 닉네임, 비밀번호 변경
-const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
+const updateProfileImage = (img) => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
 
     // formdata에 담기
     const formData = new FormData();
-    formData.append("nickname", nickname);
-    formData.append("newPassword", newpwd);
-    formData.append("newPasswordCheck", newpwdcheck);
     formData.append("profileImgFile", img);
 
-    const api = `${config}/member/profile`;
+    const api = `${config}/member/profile/img`;
 
     fetch(api, {
       method: "POST",
@@ -102,28 +96,77 @@ const updateProfile = (nickname, newpwd, newpwdcheck, img) => {
       },
       body: formData,
     })
-    .then((res) => res.json())
-    .then((data) => {
-      if(data.status === 200) {
-        const obj = {
-          nickname : nickname,
-          img : img
-        };
-        dispatch(EDIT_PROFILE(obj));
-        Swal.fire({
-          title: data.msg,
-          icon: "success",
-        });
-      } else {
-        Swal.fire({
-          title: data.msg,
-          icon: "warning",
-        });
-      }
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        if (data.status === 200) {
+          const obj = {
+            img: img,
+          };
+          dispatch(EDIT_PROFILE(obj));
+          Swal.fire({
+            title: data.msg,
+            icon: "success",
+          });
+          window.location.reload();
+        } else {
+          Swal.fire({
+            title: data.msg,
+            icon: "warning",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+// 프로필 수정 - 닉네임, 비밀번호 변경
+const updateProfile = (nickname, newpwd, newpwdcheck) => {
+  return function (dispatch, getState, { history }) {
+    const access_token = localStorage.getItem("access_token");
+
+    const api = `${config}/member/profile/info`;
+
+    fetch(api, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${access_token}`,
+      },
+      body: JSON.stringify({
+        nickname: nickname,
+        newPassword: newpwd,
+        newPasswordCheck: newpwdcheck,
+      }),
     })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.status === 200) {
+          const obj = {
+            nickname: nickname,
+            newpwd: newpwd,
+            newpwdcheck: newpwdcheck,
+          };
+          dispatch(EDIT_PROFILE(obj));
+          Swal.fire({
+            title: data.msg,
+            icon: "success",
+          });
+          // window.location.reload();
+        } else {
+          Swal.fire({
+            title: data.msg,
+            icon: "warning",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 
@@ -245,6 +288,7 @@ export const actionCreators = {
   myTrilogLoad,
   likeTrilsLoad,
   likeTrilogLoad,
+  updateProfileImage,
   GET_PROFILE,
 };
 

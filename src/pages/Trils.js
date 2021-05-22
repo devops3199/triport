@@ -413,15 +413,14 @@ const PostLine = styled.div`
 
 const FloatingBox = styled.div`
   position: fixed;
-  bottom: 6%;
+  bottom: 56px;
   right: 3%;
   z-index: 50;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   @media only screen and (max-width: 425px) {
-    bottom: 8%;
-  right: 6%;
+    right: 6%;
   }
 `;
 
