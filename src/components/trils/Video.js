@@ -242,13 +242,13 @@ const Video = (props) => {
   );
 };
 
-const Uploading = styled.div`
+const Uploading = styled.img`
   display: flex;
   height: 45rem;
   width: 25rem;
   margin: 0 auto;
-  background-image: url("${(props) => props.src}");
-  background-size: contain;
+    object-fit: contain;
+  background-color: #ededed;
   @media only screen and (max-width: 420px) {
     width: 100%;
   }
