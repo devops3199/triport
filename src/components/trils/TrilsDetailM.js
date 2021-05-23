@@ -472,7 +472,6 @@ const Bottom = styled.div`
   margin-right: 1rem;
   @media only screen and (max-width: 425px) {
     justify-content: center;
-    margin-right: 1rem;
   }
 `;
 

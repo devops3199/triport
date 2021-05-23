@@ -6,7 +6,7 @@ import { TrilsActions } from "redux/modules/trils";
 import afterImg from "../media/image/afterupload.png";
 
 const TrilsWrite = (props) => {
-  // const { history } = props;
+  const { history } = props;
   const tagInput = useRef(null);
   const fileInput = useRef();
   const [tags, setTags] = useState([]);
@@ -95,6 +95,10 @@ const TrilsWrite = (props) => {
     setTagType(newValue);
   };
 
+  const cancel = () => {
+    history.goBack(0)
+  }
+
   return (
     <React.Fragment>
       <Wrap>
@@ -148,8 +152,8 @@ const TrilsWrite = (props) => {
         </InputTag>
       </Wrap>
       <ButtonWrap>
-        <Button onClick={post}>작성완료</Button>
-        <Button>취소</Button>
+        <Button id="write" onClick={post}>작성완료</Button>
+        <Button id="cancel" onClick={cancel}>취소</Button>
       </ButtonWrap>
     </React.Fragment>
   );

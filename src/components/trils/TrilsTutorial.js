@@ -108,52 +108,18 @@ const TrilsTutorial = (props) => {
       {is_iphone ? (
         <VideoPlay src={params.src} loop autoPlay muted playsInline />
       ) : (
-        <>
-          {props.information.posPlay ? (
-            <>
-              {props.information.videoType === "mp4" ||
-              props.information.videoType === "mov" ? (
-                <>
-                  <VideoPlay
-                    onMouseOver={mp4play}
-                    onMouseLeave={mp4pause}
-                    ref={players}
-                    src={params.src}
-                    muted
-                    loop
-                    onTimeUpdate={() => {
-                      setCompleted(
-                        (players.current.currentTime /
-                          players.current.duration) *
-                          100
-                      );
-                    }}
-                  />
-                </>
-              ) : (
-                <>
-                  <VideoPlay
-                    onMouseOver={hlsplay}
-                    onMouseLeave={hlspause}
-                    ref={player}
-                    muted
-                    loop
-                    onTimeUpdate={() => {
-                      setCompleted(
-                        (player.current.currentTime / player.current.duration) *
-                          100
-                      );
-                    }}
-                  />
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              <Uploading src={Uploadex} />
-            </>
-          )}
-        </>
+        <VideoPlay
+          onMouseOver={hlsplay}
+          onMouseLeave={hlspause}
+          ref={player}
+          muted
+          loop
+          onTimeUpdate={() => {
+            setCompleted(
+              (player.current.currentTime / player.current.duration) * 100
+            );
+          }}
+        />
       )}
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
       <PostBottom>
@@ -250,7 +216,7 @@ const TutorialBg = styled.div`
   position: relative;
   height: 45rem;
   width: 100%;
-  margin-top: -47.6rem;
+  margin-top: -47.8rem;
   z-index: 11;
   background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
