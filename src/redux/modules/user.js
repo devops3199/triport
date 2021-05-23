@@ -80,10 +80,16 @@ const signupDB = (email, pwd, pwdcheck, nickname) => {
         nickname: nickname,
       }),
     })
-      .then((res) => {
-        console.log("회원가입 성공");
-        window.alert("회원가입에 성공하였습니다!");
-        history.push("/login");
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        // console.log("회원가입 성공");
+        if (data.status === 200) {
+          window.alert(data.msg);
+          // history.push("/login");
+        } else if (data.status === 400) {
+          window.alert(data.msg);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -127,7 +133,7 @@ const loginDB = (email, pwd) => {
         if (result.ok) {
           localStorage.setItem("userInfo", JSON.stringify(result)); // JSON.stringfy 가 body에 담아오는 값
           setInterval(tokenExtension, 1740000); // 29분 후 실행
-          //setInterval(tokenExtension, 5000); // 5초
+          // setInterval(tokenExtension, 5000); // 5초
           dispatch(
             setUser({
               id: result.results.id,
@@ -166,6 +172,7 @@ const kakaoLogin = (code) => {
       .then((result) => {
         if (result.status !== 200) {
           alert("로그인에 실패했습니다. 아이디 혹은 비밀번호를 확인해주세요.");
+          history.replace("/");
           return { ok: false };
         }
 
@@ -191,6 +198,7 @@ const kakaoLogin = (code) => {
           );
           alert("로그인 되었습니다.");
           history.replace("/");
+          dispatch(profileActions.getProfile());
         }
       })
       .catch((error) => {
@@ -213,8 +221,8 @@ const kakaoLogout = () => {
       },
     })
       .then((res) => {
-        console.log(res);
-        console.log("카카오 로그아웃 성공!");
+        // console.log(res);
+        // console.log("카카오 로그아웃 성공!");
       })
       .catch((err) => {
         console.log(err);
@@ -238,8 +246,10 @@ const loginCheckDB = () => {
         profileImgUrl: userInfo.results.profileImgUrl,
       })
     );
+
     setInterval(tokenExtension, 1740000);
-    //setInterval(tokenExtension, 5000); // 5초
+    // setInterval(tokenExtension, 5000); // 5초
+    dispatch(profileActions.getProfile()); // 프로필 조회
   };
 };
 // 로그아웃

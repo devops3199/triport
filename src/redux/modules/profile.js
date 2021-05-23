@@ -65,6 +65,7 @@ const getProfile = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         dispatch(
           GET_PROFILE({
             user_img: data.results.profileImgUrl,
@@ -98,7 +99,7 @@ const updateProfileImage = (img) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         if (data.status === 200) {
           const obj = {
             img: img,
@@ -108,10 +109,10 @@ const updateProfileImage = (img) => {
             title: data.msg,
             icon: "success",
           });
-          window.location.reload();
-        } else {
+          dispatch(getProfile());
+        } else if (data.status === 400) {
           Swal.fire({
-            title: data.msg,
+            title: "이미지를 선택해주세요.",
             icon: "warning",
           });
         }
@@ -144,7 +145,6 @@ const updateProfile = (nickname, newpwd, newpwdcheck) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.status === 200) {
           const obj = {
             nickname: nickname,
@@ -156,7 +156,7 @@ const updateProfile = (nickname, newpwd, newpwdcheck) => {
             title: data.msg,
             icon: "success",
           });
-          // window.location.reload();
+          dispatch(getProfile());
         } else {
           Swal.fire({
             title: data.msg,

@@ -29,10 +29,6 @@ const ProfileSetting = () => {
     dispatch(profileActions.getProfile()); // 프로필 조회
   }, []);
 
-  // React.useEffect(() => {
-  //   dispatch(profileActions.getProfile());
-  // }, [userprofile]);
-
   React.useEffect(() => {
     setName(user_ninkname);
   }, [user_ninkname]);
