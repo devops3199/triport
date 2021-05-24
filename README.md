@@ -33,14 +33,16 @@ Triport 서비스는 여행이라는 테마 아래 영상 <b>릴스 서비스 (=
   - 안지수
 
 ### 📌 주요 기능
-#### 로그인/회원가입
+#### 로그인/회원가입 - <a href="https://github.com/rayrayj92/triport/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C#-%EB%A1%9C%EA%B7%B8%EC%9D%B8--%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85" >상세보기 - WIKI 이동</a>
 - JWT 기반 일반 로그인
 - 카카오 소셜 로그인
+- 이메일기반 비밀번호 찾기
 
-#### Trils (영상 릴스)
+#### Trils (영상 릴스) - <a href="https://github.com/rayrayj92/triport/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C#-trils-%EC%98%81%EC%83%81-%EB%A6%B4%EC%8A%A4" >상세보기 - WIKI 이동</a>
 - 스트리밍 서비스
 - 릴스 좋아요
 - 릴스 메인 페이지 무한 스크롤
+- 사용자 가이드
 
 #### Trilog (블로그) - <a href="https://github.com/rayrayj92/triport/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C#-trilog-%EB%B8%94%EB%A1%9C%EA%B7%B8" >상세보기 - WIKI 이동</a>
 - 게시물, 좋아요, 댓글, 대댓글

@@ -300,7 +300,7 @@ const Date = styled.div`
   position: absolute;
   right: 0;
   
-  @media (max-width: 600px) {
+  @media (max-width: 980px) {
     display: none;
   }
 `;

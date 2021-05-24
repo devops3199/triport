@@ -499,10 +499,31 @@ const TripperWrapper = styled.div`
   }
 `;
 
-const TrilsWrapper = styled.div`
-  width: 100%;
-  height: 1200px;
-  background-color: #f2f6ff;
+const TripperWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 50px 0 100px 0;
+  max-width: 100%;
+
+  & img {
+    width: 31.25rem;
+    height: 28.875rem;
+
+    @media (max-width: 980px) {
+      width: 25rem;
+      height: 23.125rem;
+    }
+
+    @media (max-width: 768px) {
+      width: 18.75rem;
+      height: 17.375rem;
+    }
+
+    @media (max-width: 600px) {
+      width: 12.5rem;
+      height: 11.563rem;
+    }
+  }
 `;
 
 const CenterWrapper = styled.div`
@@ -528,15 +549,32 @@ const TitleWrapper = styled.div`
       font-size: 28px;
       margin-left: 20px;
     }
+  }
+`;
 
-    @media (max-width: 768px) {
-      font-size: 25px;
-      margin-left: 50px;
-    }
+const TitleWrapper = styled.div`
+    width: 100%;
+    margin-top: 70px;
+    
+    & span {
+        font-family: paybooc-bold;
+        font-size: 1.875rem; 
+        color: #2B61E1;
+        
+        @media (max-width: 980px) {
+            font-size: 1.75rem;
+            margin-left: 1.25rem;
+        }
+        
+        @media (max-width: 768px) {
+            font-size: 1.563rem;
+            margin-left: 3.125rem;
+        }
 
-    @media (max-width: 600px) {
-      font-size: 22px;
-      margin-left: 20px;
+        @media (max-width: 600px) {
+            font-size: 1.375rem;
+            margin-left: 1.25rem;
+        }
     }
   }
 `;
@@ -558,8 +596,8 @@ const LeftWrapper = styled.div`
 
 const Info = styled.div`
   font-family: paybooc-Light;
-  font-size: 20px;
-  margin: 30px 0 55px 0;
+  font-size: 1.25rem;
+  margin: 1.875rem 0 3.438rem 0;
 
   & div {
     margin: 1.2rem 0;
@@ -571,18 +609,18 @@ const Info = styled.div`
   }
 
   @media (max-width: 980px) {
-    font-size: 19px;
-    margin-left: 20px;
+    font-size: 1.188rem;
+    margin-left: 1.25rem;
   }
 
   @media (max-width: 768px) {
-    font-size: 16px;
-    margin-left: 50px;
+    font-size: 1rem;
+    margin-left: 3.125rem;
   }
 
   @media (max-width: 600px) {
-    font-size: 15px;
-    margin-left: 20px;
+    font-size: 0.938rem;
+    margin-left: 1.25rem;
   }
 `;
 
@@ -590,15 +628,15 @@ const CardWrapper = styled.div`
   position: relative;
 
   @media (max-width: 980px) {
-    margin-left: 20px;
+    margin-left: 1.25rem;
   }
 
   @media (max-width: 768px) {
-    margin-left: 50px;
+    margin-left: 3.125rem;
   }
 
   @media (max-width: 600px) {
-    margin-left: 20px;
+    margin-left: 1.25rem;
   }
 `;
 
@@ -613,14 +651,14 @@ const User = styled.div`
 
   & img {
     border-radius: 50%;
-    width: 35px;
+    width: 2.188rem;
     margin-right: 0.5rem;
   }
 `;
 
 const TrilsCard = styled.div`
-  width: 400px;
-  height: 700px;
+  width: 25rem;
+  height: 43.75rem;
   background: url(${(props) => props.url}) no-repeat;
   background-size: cover;
   display: flex;
@@ -629,12 +667,12 @@ const TrilsCard = styled.div`
   border-radius: 5px;
 
   & svg {
-    width: 120px;
+    width: 7.5rem;
   }
 
   @media (max-width: 980px) {
-    width: 300px;
-    height: 500px;
+    width: 18.75rem;
+    height: 31.25rem;
   }
 `;
 
@@ -643,10 +681,10 @@ const LikeWrapper = styled.div`
   align-items: center;
 
   & svg {
-    width: 50px;
+    width: 3.125rem;
 
     @media (max-width: 980px) {
-      width: 40px;
+      width: 2.5rem;
     }
   }
 
@@ -654,7 +692,7 @@ const LikeWrapper = styled.div`
     margin: 0 0.5rem;
 
     @media (max-width: 980px) {
-      font-size: 14px;
+      font-size: 0.875rem;
     }
   }
 `;
@@ -667,9 +705,17 @@ const Tag = styled.span`
 const RightWrapper = styled.div`
   width: 50%;
   height: 100%;
-  margin-top: 30px;
+  margin-top: 1.875rem;
+
+  @media (max-width: 980px) {
+    margin-right: 1.25rem;
+  }
 
   @media (max-width: 768px) {
+    margin-right: 3.125rem;
+  }
+
+  @media (max-width: 690px) {
     display: none;
   }
 `;
@@ -680,14 +726,25 @@ const TrilogWrapper = styled.div`
 `;
 
 const ImgWrapper = styled.div`
-  margin-top: 50px;
+    margin-top: 3.125rem;
 
-  & img {
-    width: 900px;
+    & img {
+        width: 56.25rem;
 
-    @media (max-width: 980px) {
-      width: 600px;
-      margin-left: 20px;
+        @media (max-width: 980px) {
+            width: 37.5rem;
+            margin-left: 1.25rem;
+        }
+        
+        @media (max-width: 768px) {
+            width: 25rem;
+            margin-left: 3.125rem;
+        }
+    
+        @media (max-width: 600px) {
+            width: 18.75rem;
+            margin-left: 1.25rem;
+        }
     }
 
     @media (max-width: 768px) {
@@ -709,7 +766,7 @@ const MemberWrapper = styled.div`
 
 const SectionWrapper = styled.div`
   width: 100%;
-  margin: 50px 0;
+  margin: 3.125rem 0;
 
   & span {
     font-family: paybooc-bold;
@@ -717,15 +774,34 @@ const SectionWrapper = styled.div`
     color: #2b61e1;
 
     @media (max-width: 980px) {
-      margin-left: 20px;
+      margin-left: 1.25rem;
     }
 
     @media (max-width: 768px) {
-      margin-left: 50px;
+      margin-left: 3.125rem;
     }
 
     @media (max-width: 600px) {
-      margin-left: 20px;
+      margin-left: 1.25rem;
+    }
+  }
+`;
+
+const MemberCard = styled.div`
+    width: 56.25rem;
+    height: 17.5rem;
+    box-shadow: 0px 3px 6px #2B61E143;
+    border-radius: 10px;
+    margin: 1.875rem 0;
+    display: flex;
+    align-items: center;
+
+    @media (max-width: 768px) {
+        width: 90%;
+        height: 100%;
+        margin: 1.875rem auto;
+        flex-direction: column;
+        font-size: 12px;
     }
   }
 `;
@@ -755,7 +831,7 @@ const MemberImg = styled.img`
 `;
 
 const MemberText = styled.div`
-  width: 600px;
+  width: 37.5rem;
 
   & div {
     margin: 0.5rem 0;
@@ -805,6 +881,7 @@ const FeatureTag = styled.span`
 
   @media (max-width: 768px) {
     padding: 0.1rem 0.5rem;
+    font-size: 0.55rem;
   }
 `;
 
