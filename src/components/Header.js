@@ -132,14 +132,24 @@ const Header = (props) => {
               <Logo />
             </LogoWrapper>
             <Mobile>
-              <Image url={profile.user_img} />
+              <Image
+                onClick={() => {
+                  history.push("/profile");
+                }}
+                url={profile.user_img}
+              />
             </Mobile>
 
             <LeftWrap>
               <Category history={history} />
             </LeftWrap>
             <RightWrap>
-              <Image url={profile.user_img} />
+              <Image
+                onClick={() => {
+                  history.push("/profile");
+                }}
+                url={profile.user_img}
+              />
               {/* <Grade url={gradeImg} /> */}
               <Nickname>{profile.nickname}</Nickname>
 

@@ -65,7 +65,7 @@ const getProfile = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         dispatch(
           GET_PROFILE({
             user_img: data.results.profileImgUrl,
