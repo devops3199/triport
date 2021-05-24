@@ -5,7 +5,7 @@ import ProgressBar from "./ProgressBar";
 import { HeartEmpty, HeartFill } from "media/svg/Svg";
 import { useDispatch } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
-import Uploadex from "../../media/image/upload_ex.png";
+import TrilsUploadMain from "../../media/image/trils_upload_main.png";
 import Swal from "sweetalert2";
 
 const Video = (props) => {
@@ -238,7 +238,7 @@ const Video = (props) => {
             </>
           ) : (
             <>
-              <Uploading src={Uploadex} />
+              <Uploading src={TrilsUploadMain} />
             </>
           )}
         </>

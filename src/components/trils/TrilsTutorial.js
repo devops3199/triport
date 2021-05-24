@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
 import { HeartEmpty, HeartFill } from "media/svg/Svg";
-import Uploadex from "../../media/image/upload_ex.png";
 import Swal from "sweetalert2";
 
 const TrilsTutorial = (props) => {
