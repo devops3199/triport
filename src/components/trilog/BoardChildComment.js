@@ -191,6 +191,10 @@ const Content = styled.div`
 const Date = styled.div`
   position: absolute;
   right: 0;
+  
+  @media (max-width: 980px) {
+    display: none;
+  }
 `;
 
 const Likes = styled.div`
