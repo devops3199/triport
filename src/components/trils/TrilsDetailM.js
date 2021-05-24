@@ -236,6 +236,10 @@ const TrilsDetailM = (props) => {
   };
 
   const doEdit = () => {
+    if (tags.length === 0) {
+      alert("태그를 1개 이상 작성해주세요");
+      return;
+    }
     const access_token = localStorage.getItem("access_token");
     const url = `${config}/api/posts/${info.information.id}`;
     const data = {
@@ -297,8 +301,8 @@ const TrilsDetailM = (props) => {
           <>
             {info.information.posPlay ? (
               <>
-                {info.information.videoType === "mp4" ||
-                info.information.videoType === "mov" ? (
+                {info.information.videoType.toLowerCase() === "mp4" ||
+                info.information.videoType.toLowerCase() === "mov" ? (
                   <View onClick={mp4}>
                     <VideoPlay
                       ref={players}
@@ -472,7 +476,6 @@ const Bottom = styled.div`
   margin-right: 1rem;
   @media only screen and (max-width: 425px) {
     justify-content: center;
-    margin-right: 1rem;
   }
 `;
 

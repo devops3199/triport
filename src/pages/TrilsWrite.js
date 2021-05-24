@@ -4,23 +4,18 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { useDispatch } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
 import afterImg from "../media/image/afterupload.png";
+import { config } from "redux/modules/config";
+import { logOut } from "redux/modules/user";
 
 const TrilsWrite = (props) => {
-  // const { history } = props;
+  const { history } = props;
   const tagInput = useRef(null);
   const fileInput = useRef();
   const [tags, setTags] = useState([]);
   const dispatch = useDispatch();
   const [vid, setVid] = useState(null);
   const [tagType, setTagType] = useState("");
-  // const is_login = useSelector((state) => state.user.is_login);
-
-  // useEffect(() => {
-  //   if (!is_login) {
-  //     alert("로그인을 해주세요");
-  //     history.replace("/");
-  //   }
-  // }, [is_login, history]);
+  const [lock, setLock] = useState(false);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -50,15 +45,55 @@ const TrilsWrite = (props) => {
   };
 
   const post = () => {
+    setLock(true);
     if (vid === undefined || vid == null) {
       alert("영상을 업로드해주세요");
+      setLock(false);
       return;
     }
     if (tags.length === 0) {
       alert("태그를 1개 이상 작성해주세요");
+      setLock(false);
       return;
     }
-    dispatch(TrilsActions.writepost(vid, tags));
+    const access_token = localStorage.getItem("access_token");
+    let formData = new FormData();
+    formData.append("file", vid);
+    tags.map((p, idx) => formData.append("hashtag", p));
+    const api = `${config}/api/posts`;
+    const data = {
+      method: "POST",
+      headers: {
+        Authorization: `${access_token}`,
+      },
+      body: formData,
+    };
+    fetch(api, data)
+      .then((result) => {
+        if (result.status === 401) {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          localStorage.removeItem("userInfo");
+          dispatch(logOut());
+          alert("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
+          history.push("/login");
+        }
+        return result.json();
+      })
+      .then((result) => {
+        if (result.ok) {
+          alert("정상적으로 작성되었습니다.");
+          history.replace("/");
+          setLock(false);
+        } else {
+          alert(result.msg);
+          setLock(false);
+        }
+      })
+      .catch((err) => {
+        setLock(false);
+        alert("업로드 중 에러가 발생했습니다.", err);
+      });
   };
 
   const upload = (e) => {
@@ -95,6 +130,10 @@ const TrilsWrite = (props) => {
     setTagType(newValue);
   };
 
+  const cancel = () => {
+    history.goBack(0);
+  };
+
   return (
     <React.Fragment>
       <Wrap>
@@ -103,10 +142,12 @@ const TrilsWrite = (props) => {
             <Uploading src={afterImg} />
           ) : (
             <>
-              <p style={{ fontSize: "25px" }}>영상을 업로드해주세요.(클릭)</p>
-              <p style={{ fontSize: "15px" }}>
+              <div style={{ fontSize: "25px", userSelect: "none" }}>
+                영상을 업로드해주세요.(클릭)
+              </div>
+              <div style={{ fontSize: "15px", userSelect: "none" }}>
                 영상 길이 10초 이하, 크기 50MB 이하
-              </p>
+              </div>
             </>
           )}
           <input
@@ -148,8 +189,12 @@ const TrilsWrite = (props) => {
         </InputTag>
       </Wrap>
       <ButtonWrap>
-        <Button onClick={post}>작성완료</Button>
-        <Button>취소</Button>
+        <Button id="write" onClick={post} disabled={lock}>
+          작성완료
+        </Button>
+        <Button id="cancel" onClick={cancel} disabled={lock}>
+          취소
+        </Button>
       </ButtonWrap>
     </React.Fragment>
   );
@@ -211,6 +256,7 @@ const Li = styled.li`
 `;
 
 const InputTag = styled.div`
+  user-select: none;
   width: 37rem;
   height: auto;
   border: 1px solid #2b61e1;
@@ -268,6 +314,7 @@ const Text = styled.div`
 `;
 
 const Tag = styled.div`
+  user-select: none;
   width: 37rem;
   color: #2b61e1;
   display: flex;
@@ -312,6 +359,7 @@ const ButtonWrap = styled.div`
 `;
 
 const Button = styled.button`
+  user-select: none;
   cursor: pointer;
   font-family: "paybooc-Bold";
   color: #ffffff;

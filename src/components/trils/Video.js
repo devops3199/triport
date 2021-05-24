@@ -62,6 +62,29 @@ const Video = (props) => {
     }
   }, [params.src]);
 
+  const autoplay = (target) => {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            target.play();
+          } else {
+            target.pause();
+          }
+        });
+      },
+      { threshold: 1 }
+    );
+    io.observe(target);
+  };
+
+  useEffect(() => {
+    if (window.innerWidth <= 870) {
+      const videos = document.querySelectorAll('video');
+      videos.forEach(autoplay);
+    }
+  },[]);
+
   const hlsplay = () => {
     if (player.current.readyState !== 4) {
       return;
@@ -136,8 +159,8 @@ const Video = (props) => {
         <>
           {props.information.posPlay ? (
             <>
-              {props.information.videoType === "mp4" ||
-              props.information.videoType === "mov" ? (
+              {props.information.videoType.toLowerCase() === "mp4" ||
+              props.information.videoType.toLowerCase() === "mov" ? (
                 <>
                   {window.innerWidth > 1024 ? (
                     <>
@@ -242,13 +265,13 @@ const Video = (props) => {
   );
 };
 
-const Uploading = styled.div`
+const Uploading = styled.img`
   display: flex;
   height: 45rem;
   width: 25rem;
   margin: 0 auto;
-  background-image: url("${(props) => props.src}");
-  background-size: contain;
+  object-fit: contain;
+  background-color: #ededed;
   @media only screen and (max-width: 420px) {
     width: 100%;
   }
@@ -280,6 +303,7 @@ const PostUserComment = styled.div`
   display: flex;
   margin-left: 18px;
   cursor: pointer;
+  flex-wrap: wrap;
 `;
 
 const VideoCards = styled.div`

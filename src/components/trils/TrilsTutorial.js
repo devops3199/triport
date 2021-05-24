@@ -108,52 +108,18 @@ const TrilsTutorial = (props) => {
       {is_iphone ? (
         <VideoPlay src={params.src} loop autoPlay muted playsInline />
       ) : (
-        <>
-          {props.information.posPlay ? (
-            <>
-              {props.information.videoType === "mp4" ||
-              props.information.videoType === "mov" ? (
-                <>
-                  <VideoPlay
-                    onMouseOver={mp4play}
-                    onMouseLeave={mp4pause}
-                    ref={players}
-                    src={params.src}
-                    muted
-                    loop
-                    onTimeUpdate={() => {
-                      setCompleted(
-                        (players.current.currentTime /
-                          players.current.duration) *
-                          100
-                      );
-                    }}
-                  />
-                </>
-              ) : (
-                <>
-                  <VideoPlay
-                    onMouseOver={hlsplay}
-                    onMouseLeave={hlspause}
-                    ref={player}
-                    muted
-                    loop
-                    onTimeUpdate={() => {
-                      setCompleted(
-                        (player.current.currentTime / player.current.duration) *
-                          100
-                      );
-                    }}
-                  />
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              <Uploading src={Uploadex} />
-            </>
-          )}
-        </>
+        <VideoPlay
+          onMouseOver={hlsplay}
+          onMouseLeave={hlspause}
+          ref={player}
+          muted
+          loop
+          onTimeUpdate={() => {
+            setCompleted(
+              (player.current.currentTime / player.current.duration) * 100
+            );
+          }}
+        />
       )}
       <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
       <PostBottom>
@@ -215,6 +181,9 @@ const TutorialBgM = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  @media only screen and (max-width: 420px) {
+    width: 100%;
+  }
 `;
 
 const TutorialTextCover = styled.div`
@@ -246,8 +215,8 @@ const TutorialBg = styled.div`
   display: flex;
   position: relative;
   height: 45rem;
-  width: 25rem;
-  margin-top: -47.6rem;
+  width: 100%;
+  margin-top: -47.8rem;
   z-index: 11;
   background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
@@ -255,6 +224,9 @@ const TutorialBg = styled.div`
   flex-direction: column;
   opacity: 1;
   transition: all 0.3s ease-in-out;
+  @media only screen and (max-width: 420px) {
+    width: 100%;
+  }
   :hover {
     & > :first-child > div {
       opacity: 0;
@@ -290,6 +262,9 @@ const Uploading = styled.div`
   margin: 0 auto;
   background-image: url("${(props) => props.src}");
   background-size: contain;
+  @media only screen and (max-width: 420px) {
+    width: 100%;
+  }
 `;
 
 const Hash = styled.div`
@@ -343,6 +318,9 @@ const VideoPlay = styled.video`
   width: 25rem;
   margin: 0 auto;
   object-fit: cover;
+  @media only screen and (max-width: 420px) {
+    width: 100%;
+  }
 `;
 
 const Profile = styled.div`

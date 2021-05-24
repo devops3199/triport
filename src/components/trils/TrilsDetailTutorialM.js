@@ -172,6 +172,10 @@ const TrilsDetailTutorialM = (props) => {
   };
 
   const doEdit = () => {
+    if (tags.length === 0) {
+      alert("태그를 1개 이상 작성해주세요");
+      return;
+    }
     setEditOn(false);
   };
 
@@ -225,8 +229,8 @@ const TrilsDetailTutorialM = (props) => {
           <>
             {info.information.posPlay ? (
               <>
-                {info.information.videoType === "mp4" ||
-                info.information.videoType === "mov" ? (
+                {info.information.videoType.toLowerCase() === "mp4" ||
+                info.information.videoType.toLowerCase() === "mov" ? (
                   <View onClick={mp4}>
                     <VideoPlay
                       ref={players}

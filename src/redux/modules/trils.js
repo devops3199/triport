@@ -126,44 +126,6 @@ const getMyTrilsPost = () => {
   };
 };
 
-const writepost = (video, tags) => {
-  return function (dispatch, getState, { history }) {
-    const access_token = localStorage.getItem("access_token");
-    let formData = new FormData();
-    formData.append("file", video);
-    tags.map((p, idx) => formData.append("hashtag", p));
-    const api = `${config}/api/posts`;
-    const data = {
-      method: "POST",
-      headers: {
-        Authorization: `${access_token}`,
-      },
-      body: formData,
-    };
-    fetch(api, data)
-      .then((result) => {
-        if (result.status === 401) {
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("refresh_token");
-          localStorage.removeItem("userInfo");
-          dispatch(logOut());
-          alert("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
-          history.push("/login");
-        }
-        return result.json();
-      })
-      .then((result) => {
-        if (result.ok) {
-          alert("정상적으로 작성되었습니다.");
-          history.replace("/");
-        } else {
-          alert(result.msg);
-        }
-      })
-      .catch((err) => alert("업로드 중 에러가 발생했습니다.", err));
-  };
-};
-
 const searchPost = (keyword = "", LikeOrDate = "createdAt", page = 1) => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
@@ -345,7 +307,6 @@ export const {
 } = trilseSlice.actions;
 
 export const TrilsActions = {
-  writepost,
   getPost,
   getPostDetail,
   send_like,

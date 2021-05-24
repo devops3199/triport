@@ -204,6 +204,10 @@ const TrilsDetail = (props) => {
   };
 
   const doEdit = () => {
+    if (tags.length === 0) {
+      alert("태그를 1개 이상 작성해주세요");
+      return;
+    }
     const access_token = localStorage.getItem("access_token");
     const url = `${config}/api/posts/${info.information.id}`;
     const data = {
@@ -287,8 +291,8 @@ const TrilsDetail = (props) => {
 
         {info.information.posPlay ? (
           <>
-            {info.information.videoType === "mp4" ||
-            info.information.videoType === "mov" ? (
+            {info.information.videoType.toLowerCase() === "mp4" ||
+            info.information.videoType.toLowerCase() === "mov" ? (
               <View
                 onMouseOver={mp4play}
                 onMouseLeave={mp4pause}
