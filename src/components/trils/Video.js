@@ -73,7 +73,7 @@ const Video = (props) => {
           }
         });
       },
-      { threshold: 1 }
+      { threshold: 0.5 }
     );
     io.observe(target);
   };
@@ -352,6 +352,7 @@ const ProfileImg = styled.div`
   background-size: cover;
   margin-left: 16px;
   display: flex;
+  border: 1px solid #ededed;
 `;
 
 const ProfileId = styled.div`
