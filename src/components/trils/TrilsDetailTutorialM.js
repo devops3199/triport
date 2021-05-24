@@ -172,6 +172,10 @@ const TrilsDetailTutorialM = (props) => {
   };
 
   const doEdit = () => {
+    if (tags.length === 0) {
+      alert("태그를 1개 이상 작성해주세요");
+      return;
+    }
     setEditOn(false);
   };
 

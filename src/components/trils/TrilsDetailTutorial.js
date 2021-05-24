@@ -135,11 +135,15 @@ const TrilsDetailTutorial = (props) => {
   };
 
   const cancelEdit = () => {
-    setTags(props.information.hashtag)
+    setTags(props.information.hashtag);
     setEditOn(false);
   };
 
   const doEdit = () => {
+    if (tags.length === 0) {
+      alert("태그를 1개 이상 작성해주세요");
+      return;
+    }
     setEditOn(false);
   };
 

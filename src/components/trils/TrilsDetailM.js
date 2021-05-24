@@ -236,6 +236,10 @@ const TrilsDetailM = (props) => {
   };
 
   const doEdit = () => {
+    if (tags.length === 0) {
+      alert("태그를 1개 이상 작성해주세요");
+      return;
+    }
     const access_token = localStorage.getItem("access_token");
     const url = `${config}/api/posts/${info.information.id}`;
     const data = {
