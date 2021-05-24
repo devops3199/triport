@@ -80,10 +80,10 @@ const Video = (props) => {
 
   useEffect(() => {
     if (window.innerWidth <= 870) {
-      const videos = document.querySelectorAll('video');
+      const videos = document.querySelectorAll("video");
       videos.forEach(autoplay);
     }
-  },[]);
+  }, []);
 
   const hlsplay = () => {
     if (player.current.readyState !== 4) {
@@ -120,6 +120,11 @@ const Video = (props) => {
       dispatch(TrilsActions.getPostDetail(props.information.id, false));
       history.push(`/trils/detail/${props.information.id}`);
     }
+  };
+
+  const hash = (e) => {
+    e.stopPropagation();
+    history.push(`/search?q=${e.target.id}&filter=likeNum`, 1);
   };
 
   const like = (e) => {
@@ -255,7 +260,7 @@ const Video = (props) => {
           {props.information.hashtag.map((p, idx) => {
             return (
               <Fragment key={idx}>
-                <Hash>#{p}</Hash>
+                <Hash onClick={hash}>#{p}</Hash>
               </Fragment>
             );
           })}
@@ -278,9 +283,15 @@ const Uploading = styled.img`
 `;
 
 const Hash = styled.div`
+  user-select: none;
+  cursor: pointer;
   margin-left: 0.5rem;
   font-family: "AppleSDGothicNeoR";
   color: blue;
+  transition: 0.5s ease-in-out;
+  :hover {
+    transform: scale(1.2);
+  }
 `;
 
 const PostBottom = styled.div`
