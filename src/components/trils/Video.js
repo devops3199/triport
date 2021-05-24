@@ -136,8 +136,8 @@ const Video = (props) => {
         <>
           {props.information.posPlay ? (
             <>
-              {props.information.videoType === "mp4" ||
-              props.information.videoType === "mov" ? (
+              {props.information.videoType.toLowerCase() === "mp4" ||
+              props.information.videoType.toLowerCase() === "mov" ? (
                 <>
                   {window.innerWidth > 1024 ? (
                     <>

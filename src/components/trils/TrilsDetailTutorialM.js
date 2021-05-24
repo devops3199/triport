@@ -225,8 +225,8 @@ const TrilsDetailTutorialM = (props) => {
           <>
             {info.information.posPlay ? (
               <>
-                {info.information.videoType === "mp4" ||
-                info.information.videoType === "mov" ? (
+                {info.information.videoType.toLowerCase() === "mp4" ||
+                info.information.videoType.toLowerCase() === "mov" ? (
                   <View onClick={mp4}>
                     <VideoPlay
                       ref={players}
