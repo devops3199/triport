@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Hls from "hls.js";
 import ProgressBar from "./ProgressBar";
 import { HeartEmpty, HeartFill } from "media/svg/Svg";
-import Uploadex from "../../media/image/upload_ex.png";
 import Swal from "sweetalert2";
 
 const TrilsTutorial = (props) => {
@@ -206,7 +205,8 @@ TrilsTutorial.defaultProps = {
   },
   author: {
     nickname: "Triport.kr",
-    profileImgUrl: "https://i.ibb.co/MDKhN7F/kakao-11.jpg",
+    profileImgUrl:
+      "https://d1nogx3a73keco.cloudfront.net/video/about/tripper.jpg",
   },
   member: { isMembers: false, isLike: true },
 };
@@ -341,6 +341,7 @@ const ProfileImg = styled.div`
   background-size: cover;
   margin-left: 16px;
   display: flex;
+  border: 1px solid #ededed;
 `;
 
 const ProfileId = styled.div`

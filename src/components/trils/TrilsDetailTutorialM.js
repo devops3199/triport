@@ -9,7 +9,7 @@ import { TrilsActions, DELETE_POST, EDIT_POST } from "redux/modules/trils";
 import Swal from "sweetalert2";
 import ClearIcon from "@material-ui/icons/Clear";
 import { config } from "../../redux/modules/config";
-import uploading from "../../media/image/uploading.png";
+import TrilsUploadingDetail from "../../media/image/trils_upload_detail.png";
 
 const TrilsDetailTutorialM = (props) => {
   const { history } = props;
@@ -268,7 +268,7 @@ const TrilsDetailTutorialM = (props) => {
             ) : (
               <>
                 <View>
-                  <Uploading src={uploading} />
+                  <Uploading src={TrilsUploadingDetail} />
                 </View>
               </>
             )}
@@ -371,7 +371,7 @@ TrilsDetailTutorialM.defaultProps = {
     author: {
       nickname: "트리포트",
       profileImgUrl:
-        "https://d1nogx3a73keco.cloudfront.net/profileImage/20210518170253-tripper_with_logo_kakao.png",
+        "https://d1nogx3a73keco.cloudfront.net/video/about/tripper.jpg",
     },
     member: { isMembers: true, isLike: false },
   },
@@ -573,11 +573,11 @@ const VideoPlay = styled.video`
 const View = styled.div`
   max-width: 50rem;
   max-height: 30rem;
-  width: calc(100% - 30px);
-  height: auto;
+  width: 100%;
+  height: 100%;
   min-width: 10rem;
-  min-height: 20rem;
-  background-color: #ededed;
+  /* min-height: 20rem;
+  background-color: #ededed; */
   /* background-color: #ededed; */
   display: flex;
   justify-content: center;
@@ -611,6 +611,7 @@ const ProfileImg = styled.div`
   background-size: cover;
   margin-left: 16px;
   display: flex;
+  border: 1px solid #ededed;
 `;
 
 const ProfileId = styled.div`

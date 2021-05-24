@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ClearIcon from "@material-ui/icons/Clear";
 import { useDispatch } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
-import afterImg from "../media/image/afterupload.png";
+import TrilsUploadPost from "../media/image/trils_upload_post.png";
 import { config } from "redux/modules/config";
 import { logOut } from "redux/modules/user";
 
@@ -139,7 +139,7 @@ const TrilsWrite = (props) => {
       <Wrap>
         <VideoView onClick={triggerVideo}>
           {!(vid === null) ? (
-            <Uploading src={afterImg} />
+            <Uploading src={TrilsUploadPost} />
           ) : (
             <>
               <div style={{ fontSize: "25px", userSelect: "none" }}>

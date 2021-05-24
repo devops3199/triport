@@ -25,7 +25,7 @@ const ContainerStyles = styled.div`
 
 const FillerStyles = styled.div`
   height: 100%;
-  width: ${(props) => props.completed}%;
+  width: ${(props) => (isNaN(props.completed) ? "0" : props.completed)}%;
   background-color: #89acff;
   border-radius: inherit;
   text-align: right;

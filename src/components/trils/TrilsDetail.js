@@ -9,7 +9,7 @@ import { TrilsActions, DELETE_POST, EDIT_POST } from "redux/modules/trils";
 import Swal from "sweetalert2";
 import ClearIcon from "@material-ui/icons/Clear";
 import { config } from "../../redux/modules/config";
-import uploading from "../../media/image/uploading.png";
+import TrilsUploadingDetail from "../../media/image/trils_upload_detail.png";
 
 const TrilsDetail = (props) => {
   const { history } = props;
@@ -340,7 +340,7 @@ const TrilsDetail = (props) => {
         ) : (
           <>
             <View>
-              <Uploading src={uploading} />
+              <Uploading src={TrilsUploadingDetail} />
             </View>
           </>
         )}
@@ -672,6 +672,7 @@ const ProfileImg = styled.div`
   background-size: cover;
   margin-left: 16px;
   display: flex;
+  border: 1px solid #ededed;
 `;
 
 const ProfileId = styled.div`
