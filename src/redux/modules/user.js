@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from "./config";
 import { actionCreators as profileActions } from "redux/modules/profile";
-import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 
 const userSlice = createSlice({
   name: "user",
@@ -51,13 +51,14 @@ const tokenExtension = () => {
   })
     .then((result) => {
       // 헤더에 담긴 토큰과 만료시간 가져오기
+
       let access_token = result.headers.get("Access-Token");
       let refresh_token = result.headers.get("Refresh-Token");
 
       // 로컬에 새로 받은 토큰 저장
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("refresh_token", refresh_token);
-      console.log("토큰 재생성 성공");
+      console.log("토큰재발급성공");
     })
     .catch((err) => {
       console.log(err);
@@ -82,20 +83,21 @@ const signupDB = (email, pwd, pwdcheck, nickname) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        // console.log("회원가입 성공");
         if (data.status === 200) {
-          window.alert(data.msg);
-          // history.push("/login");
+          Swal.fire({
+            title: data.msg,
+            icon: "success",
+          });
+          history.push("/login");
         } else if (data.status === 400) {
-          window.alert(data.msg);
+          Swal.fire({
+            title: data.msg,
+            icon: "warning",
+          });
         }
       })
       .catch((err) => {
         console.log(err);
-        window.alert(
-          "회원가입에 실패하셨습니다. 이미 가입된 이메일인지 확인해주세요."
-        );
       });
   };
 };
@@ -117,7 +119,11 @@ const loginDB = (email, pwd) => {
     })
       .then((result) => {
         if (result.status !== 200) {
-          alert("로그인에 실패했습니다. 아이디 혹은 비밀번호를 확인해주세요.");
+          Swal.fire({
+            title:
+              "로그인에 실패했습니다. 아이디 혹은 비밀번호를 확인해주세요.",
+            icon: "warning",
+          });
           return { ok: false };
         }
         //성공시 토큰, 유저 정보 저장
@@ -149,7 +155,10 @@ const loginDB = (email, pwd) => {
               nickname: result.results.nickname,
             })
           );
-          alert("로그인 되었습니다.");
+          Swal.fire({
+            title: "로그인 되었습니다.",
+            icon: "success",
+          });
           history.replace("/");
         }
       })
@@ -171,7 +180,11 @@ const kakaoLogin = (code) => {
     })
       .then((result) => {
         if (result.status !== 200) {
-          alert("로그인에 실패했습니다. 아이디 혹은 비밀번호를 확인해주세요.");
+          Swal.fire({
+            title:
+              "로그인에 실패했습니다. 아이디 혹은 비밀번호를 확인해주세요.",
+            icon: "warning",
+          });
           history.replace("/");
           return { ok: false };
         }
@@ -188,6 +201,8 @@ const kakaoLogin = (code) => {
         if (result.ok) {
           localStorage.setItem("userInfo", JSON.stringify(result)); // JSON.stringfy 가 body에 담아오는 값
           setInterval(tokenExtension, 1740000); // 29분 후 실행
+          // setInterval(tokenExtension, 5000); // 5초
+
           dispatch(
             setUser({
               id: result.results.id,
@@ -196,7 +211,10 @@ const kakaoLogin = (code) => {
               profileImgUrl: result.results.profileImgUrl,
             })
           );
-          alert("로그인 되었습니다.");
+          Swal.fire({
+            title: "로그인 되었습니다.",
+            icon: "success",
+          });
           history.replace("/");
           dispatch(profileActions.getProfile());
         }
@@ -247,6 +265,7 @@ const loginCheckDB = () => {
       })
     );
 
+    tokenExtension();
     setInterval(tokenExtension, 1740000);
     // setInterval(tokenExtension, 5000); // 5초
     dispatch(profileActions.getProfile()); // 프로필 조회
@@ -259,8 +278,10 @@ const logout = () => {
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("userInfo");
     dispatch(logOut());
-    console.log("일반 로그아웃 성공!");
-    alert("로그아웃 되었습니다.");
+    Swal.fire({
+      title: "로그아웃 되었습니다.",
+      icon: "success",
+    });
     history.replace("/");
   };
 };
@@ -282,7 +303,10 @@ const FindPwdDB = (email) => {
       .then((res) => res.json()) // json 형태로 변환해주고,
       .then((data) => {
         dispatch(LOADING(false)); // 로딩 끝남
-        alert(data.msg);
+        Swal.fire({
+          title: data.msg,
+          icon: "success",
+        });
         history.push("/login");
       })
       .catch((err) => {

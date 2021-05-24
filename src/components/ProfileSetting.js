@@ -18,7 +18,6 @@ const ProfileSetting = () => {
 
   const userprofile = useSelector((state) => state.profile);
   const user_ninkname = useSelector((state) => state.profile.nickname);
-  const user_profile = useSelector((state) => state.profile.user_img);
 
   const [img, setImg] = useState(null);
   const [name, setName] = useState("");
@@ -36,6 +35,13 @@ const ProfileSetting = () => {
   const fileInput = useRef(); // DOM 객체 가져오기 (인풋)
 
   const Update = () => {
+    if (name == user_ninkname && pwd == "" && pwdConfirm == "") {
+      Swal.fire({
+        title: "프로필 정보 변경사항이 없습니다.",
+        icon: "warning",
+      });
+      return;
+    }
     if (!nameCheck(name)) {
       Swal.fire({
         title:
@@ -136,7 +142,7 @@ const ProfileSetting = () => {
         />
         <Text3>새 비밀번호 확인</Text3>
         <Input
-          placeholder="PASSWORD CONFIRM"
+          placeholder="NEW PASSWORD CONFIRM"
           type="password"
           onChange={(e) => setPwdConfirm(e.target.value)}
         />

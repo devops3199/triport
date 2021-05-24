@@ -137,7 +137,6 @@ const SignUp = () => {
             }}
           ></PwdCheckInput>
 
-          <Text>가입 후 변경할 수 있어요!</Text>
           <Button1 onClick={signup}>SIGN UP</Button1>
           <Button2 href={KAKAO_URL}>
             <Kakao />

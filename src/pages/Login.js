@@ -4,6 +4,7 @@ import styled from "styled-components";
 import loginlogo from "media/image/login_logo.png";
 import kakaoicon from "media/svg/kakao_symbol.svg";
 import { emailCheck, pwdCheck } from "../shared/common";
+import Swal from "sweetalert2";
 
 import { useDispatch } from "react-redux";
 
@@ -22,11 +23,13 @@ const Login = () => {
 
   const login = () => {
     if (email === "" || pwd === "") {
-      window.alert("로그인 정보를 모두 입력해주세요.");
+      Swal.fire({
+        title: "로그인 정보를 모두 입력해주세요.",
+        icon: "warning",
+      });
       return;
     }
     dispatch(userAcitons.loginDB(email, pwd));
-    //dispatch(profileActions.getProfile());
   };
   useEffect(() => {
     if (!email) {

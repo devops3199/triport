@@ -99,7 +99,6 @@ const updateProfileImage = (img) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.status === 200) {
           const obj = {
             img: img,
