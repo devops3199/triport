@@ -73,7 +73,7 @@ const Video = (props) => {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.7 }
     );
     io.observe(target);
   };
