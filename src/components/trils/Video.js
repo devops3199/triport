@@ -62,6 +62,29 @@ const Video = (props) => {
     }
   }, [params.src]);
 
+  const autoplay = (target) => {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            target.play();
+          } else {
+            target.pause();
+          }
+        });
+      },
+      { threshold: 1 }
+    );
+    io.observe(target);
+  };
+
+  useEffect(() => {
+    if (window.innerWidth <= 870) {
+      const videos = document.querySelectorAll('video');
+      videos.forEach(autoplay);
+    }
+  },[]);
+
   const hlsplay = () => {
     if (player.current.readyState !== 4) {
       return;
@@ -247,7 +270,7 @@ const Uploading = styled.img`
   height: 45rem;
   width: 25rem;
   margin: 0 auto;
-    object-fit: contain;
+  object-fit: contain;
   background-color: #ededed;
   @media only screen and (max-width: 420px) {
     width: 100%;
