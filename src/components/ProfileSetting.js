@@ -109,6 +109,29 @@ const ProfileSetting = () => {
     }
   };
 
+  // 등급 출력 텍스트 보완 (_제거)
+  const Member = () => {
+    if (userprofile.memberGrade === "TRAVELER") {
+      return (
+        <div style={{ color: "#2b61e1", fontSize: "1.2rem" }}>TRAVELER</div>
+      );
+    }
+    if (userprofile.memberGrade === "TRAVEL_EDITOR") {
+      return (
+        <div style={{ color: "#2b61e1", fontSize: "1.2rem" }}>
+          TRAVEL EDITOR
+        </div>
+      );
+    }
+    if (userprofile.memberGrade === "TRAVEL_MASTER") {
+      return (
+        <div style={{ color: "#2b61e1", fontSize: "1.2rem" }}>
+          TRAVEL MASTER
+        </div>
+      );
+    }
+  };
+
   return (
     <React.Fragment>
       <Wrap>
@@ -124,7 +147,7 @@ const ProfileSetting = () => {
         <Edit2 onClick={imageSave}>SAVE</Edit2>
         <Lank>
           당신은 <GradeIcon grade={gradeImg} />
-          <Member>{userprofile.memberGrade}</Member>{" "}
+          <Member />
         </Lank>
 
         <Text>닉네임</Text>
@@ -291,12 +314,12 @@ const Button1 = styled.button`
   }
 `;
 
-const Member = styled.div`
-  font-family: "paybooc-Bold";
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #2b61e1;
-`;
+// const Member = styled.div`
+//   font-family: "paybooc-Bold";
+//   font-size: 1.2rem;
+//   font-weight: 800;
+//   color: #2b61e1;
+// `;
 
 const GradeIcon = styled.div`
   width: 1.5rem;

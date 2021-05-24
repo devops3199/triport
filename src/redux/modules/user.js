@@ -58,7 +58,6 @@ const tokenExtension = () => {
       // 로컬에 새로 받은 토큰 저장
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("refresh_token", refresh_token);
-      console.log("토큰재발급성공");
     })
     .catch((err) => {
       console.log(err);
