@@ -38,8 +38,8 @@ const TrilsDetail = (props) => {
       (e.key === "," && val) ||
       (e.key === " " && val)
     ) {
-      if (tags.length === 3) {
-        alert("태그는 최대 3개까지 가능합니다.");
+      if (tags.length === 10) {
+        alert("태그는 최대 10개까지 가능합니다.");
         return;
       }
       if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
@@ -238,8 +238,8 @@ const TrilsDetail = (props) => {
   };
 
   const change = (e) => {
-    if (e.target.value.length > 10) {
-      e.target.value = e.target.value.substr(0, 10);
+    if (e.target.value.length > 8) {
+      e.target.value = e.target.value.substr(0, 8);
     }
     const curValue = e.target.value;
     const regExp = /[{}[\]/?.,;:|)*~`!^\-_+<>@#$%&\\=('"\s]/gi;
@@ -390,11 +390,11 @@ const TrilsDetail = (props) => {
           <InputTag>
             <Input
               type="text"
-              maxLength={10}
+              maxLength={8}
               value={tagType}
               onKeyDown={InputKeyDown}
               ref={tagInput}
-              placeholder="# 자유롭게 적고 엔터를 눌러주세요.(10자 제한)"
+              placeholder="# 자유롭게 적고 엔터를 눌러주세요.(8자 제한)"
               onChange={change}
             ></Input>
           </InputTag>

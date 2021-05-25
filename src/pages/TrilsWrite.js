@@ -6,6 +6,7 @@ import { TrilsActions } from "redux/modules/trils";
 import TrilsUploadPost from "../media/image/trils_upload_post.png";
 import { config } from "redux/modules/config";
 import { logOut } from "redux/modules/user";
+import Spinner from "shared/Spinner";
 
 const TrilsWrite = (props) => {
   const { history } = props;
@@ -16,6 +17,7 @@ const TrilsWrite = (props) => {
   const [vid, setVid] = useState(null);
   const [tagType, setTagType] = useState("");
   const [lock, setLock] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -30,8 +32,8 @@ const TrilsWrite = (props) => {
       (e.key === "," && val) ||
       (e.key === " " && val)
     ) {
-      if (tags.length === 3) {
-        alert("태그는 최대 3개까지 가능합니다.");
+      if (tags.length === 10) {
+        alert("태그는 최대 10개까지 가능합니다.");
         return;
       }
       if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
@@ -56,6 +58,7 @@ const TrilsWrite = (props) => {
       setLock(false);
       return;
     }
+    setLoading(true);
     const access_token = localStorage.getItem("access_token");
     let formData = new FormData();
     formData.append("file", vid);
@@ -75,6 +78,7 @@ const TrilsWrite = (props) => {
           localStorage.removeItem("refresh_token");
           localStorage.removeItem("userInfo");
           dispatch(logOut());
+          setLoading(false);
           alert("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
           history.push("/login");
         }
@@ -82,15 +86,18 @@ const TrilsWrite = (props) => {
       })
       .then((result) => {
         if (result.ok) {
+          setLoading(false);
           alert("정상적으로 작성되었습니다.");
           history.replace("/");
           setLock(false);
         } else {
+          setLoading(false);
           alert(result.msg);
           setLock(false);
         }
       })
       .catch((err) => {
+        setLoading(false);
         setLock(false);
         alert("업로드 중 에러가 발생했습니다.", err);
       });
@@ -120,8 +127,8 @@ const TrilsWrite = (props) => {
   };
 
   const change = (e) => {
-    if (e.target.value.length > 10) {
-      e.target.value = e.target.value.substr(0, 10);
+    if (e.target.value.length > 8) {
+      e.target.value = e.target.value.substr(0, 8);
     }
     const curValue = e.target.value;
     // const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"\s]/gi;
@@ -136,6 +143,7 @@ const TrilsWrite = (props) => {
 
   return (
     <React.Fragment>
+      {loading ? <Spinner /> : <></>}
       <Wrap>
         <VideoView onClick={triggerVideo}>
           {!(vid === null) ? (
@@ -175,15 +183,15 @@ const TrilsWrite = (props) => {
             </Li>
           ))}
         </Text>
-        <Tag>태그 (최대 3개)</Tag>
+        <Tag>태그 (최대 10개)</Tag>
         <InputTag>
           <Input
             type="text"
-            maxLength={10}
+            maxLength={8}
             value={tagType}
             onKeyDown={InputKeyDown}
             ref={tagInput}
-            placeholder="# 자유롭게 적고 엔터를 눌러주세요.(10자 제한)"
+            placeholder="# 자유롭게 적고 엔터를 눌러주세요.(8자 제한)"
             onChange={change}
           ></Input>
         </InputTag>
@@ -199,6 +207,17 @@ const TrilsWrite = (props) => {
     </React.Fragment>
   );
 };
+
+const Component = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
+  background-color: black;
+  z-index: 60;
+  opacity: 0.4;
+`;
 
 const Uploading = styled.div`
   display: flex;

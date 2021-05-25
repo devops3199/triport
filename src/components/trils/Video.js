@@ -258,11 +258,13 @@ const Video = (props) => {
         <PostLikeCnt>좋아요 +{props.information.likeNum}</PostLikeCnt>
         <PostUserComment>
           {props.information.hashtag.map((p, idx) => {
-            return (
-              <Fragment key={idx}>
-                <Hash onClick={hash}>#{p}</Hash>
-              </Fragment>
-            );
+            if (idx < 2) {
+              return (
+                <Fragment key={idx}>
+                  <Hash onClick={hash}>#{p}</Hash>
+                </Fragment>
+              );
+            }
           })}
         </PostUserComment>
       </PostBottom>
