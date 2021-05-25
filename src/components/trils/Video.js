@@ -261,7 +261,7 @@ const Video = (props) => {
             if (idx < 2) {
               return (
                 <Fragment key={idx}>
-                  <Hash onClick={hash}>#{p}</Hash>
+                  <Hash id={p} onClick={hash}>#{p}</Hash>
                 </Fragment>
               );
             }
