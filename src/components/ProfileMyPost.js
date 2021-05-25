@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import Video from "components/trils/Video";
+import Video from "components/PostVideo";
 import TrilsDetail from "../components/trils/TrilsDetail";
 import { BoardCard } from "components/components";
 
@@ -33,30 +33,18 @@ const ProfileMyPost = () => {
           <ColumnWrap>
             <Div>
               <Title>Trils</Title>
-              <Button
-                onClick={(e) => {
-                  e.target.style.display = "none";
-                  setTrilsIndex(mytrils_post.length);
-                }}
-              >
-                더보기
-              </Button>
             </Div>
-            <Postlist>
+            <Postlist type="trils">
               {!mytrils_post || mytrils_post.length === 0 ? (
                 <Text>내 Trils가 없습니다.</Text>
               ) : (
                 <>
                   {mytrils_post.map((p, idx) => {
-                    if (idx <= trilsindex) {
-                      if ((idx + 1) % 4 !== 0) {
-                        return (
-                          <Fragment key={idx}>
-                            <Video {...p} history={history} />
-                          </Fragment>
-                        );
-                      }
-                    }
+                    return (
+                      <Fragment key={idx}>
+                        <Video {...p}  history={history} />
+                      </Fragment>
+                    );
                   })}
                 </>
               )}
@@ -70,16 +58,8 @@ const ProfileMyPost = () => {
             <ColumnWrap>
               <Div>
                 <Title>Trilog</Title>
-                <Button
-                  onClick={(e) => {
-                    e.target.style.display = "none";
-                    setTrilogIndex(mytrilog_post.length);
-                  }}
-                >
-                  더보기
-                </Button>
               </Div>
-              <Postlist>
+              <Postlist type="trilog">
                 {!mytrilog_post || mytrilog_post.length === 0 ? (
                   <Text>내 Trilog가 없습니다.</Text>
                 ) : (
@@ -89,11 +69,11 @@ const ProfileMyPost = () => {
                       if (idx <= trilogindex) {
                         if (index % 5 === 0) {
                           return (
-                            <BoardCard data={val} margin="50px 20px 0 0" />
+                            <BoardCard data={val} margin="50px 20px 50px 0" />
                           );
                         } else {
                           return (
-                            <BoardCard data={val} margin="50px 20px 0 0" />
+                            <BoardCard data={val} margin="50px 20px 50px 0" />
                           );
                         }
                       }
@@ -134,7 +114,7 @@ const Div = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 85%;
-  margin-left: 5rem;
+  margin: 0 auto;
   @media (max-width: 540px) {
     margin-left: 3rem;
   }
@@ -170,9 +150,9 @@ const Button = styled.button`
 const Br = styled.div`
   width: 80%;
   height: 3rem;
+  margin: 0 auto;
   margin-bottom: 3rem;
   border-bottom: 3px solid #89acff;
-  margin-left: 5rem;
   @media (max-width: 540px) {
     margin-left: 2.5rem;
     width: 85%;
@@ -185,29 +165,29 @@ const Br = styled.div`
 
 const Postlist = styled.div`
   display: grid;
-  column-gap: 2rem;
-  grid-template-columns: 1fr 1fr 1fr;
-  flex-wrap: wrap;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  width: 85%;
-  margin-left: 2rem;
+  grid-gap: 32px;
+  padding: 16px;
+  grid-auto-flow: column;
+  grid-auto-columns: ${(props) =>
+    props.type === "trils" ? "minmax(400px, 400px)" : "minmax(224px, 224px)"};
+  overflow-x: auto;
+  width: 80%;
+  margin: 0 auto;
   @media (max-width: 540px) {
     width: 95%;
     /* margin-left: 2rem; */
-    justify-content: center;
+    /* justify-content: center; */
   }
 
   @media (max-width: 540px) {
     width: 85%;
-    margin-left: 2rem;
-    justify-content: center;
+    /* margin-left: 2rem; */
+    /* justify-content: center; */
   }
   @media (max-width: 375px) {
-    margin-left: 2rem;
+    /* margin-left: 2rem; */
     width: 85%;
-    justify-content: center;
+    /* justify-content: center; */
   }
 `;
 
