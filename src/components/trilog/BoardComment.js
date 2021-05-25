@@ -285,6 +285,10 @@ const ParentComment = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+  }
 `;
 
 const CommentContainer = styled.div`
@@ -393,7 +397,7 @@ const EditInput = styled.input`
   border: 0;
   box-sizing: border-box;
   width: 100%;
-  height: 30px;
+  height: 40px;
   border: 1px solid rgb(43,97,225,0.6);
   border-radius: 5px;
   padding: 0 1rem;
