@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import Dmypost from "media/svg/내가 쓴 글 D.svg";
-
 import Video from "components/trils/Video";
 import TrilsDetail from "../components/trils/TrilsDetail";
 import { BoardCard } from "components/components";
 
 import { history } from "redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as profileActions } from "redux/modules/profile";
 import { actionCreators as TrilogActions } from "redux/modules/trilog";
 import { TrilsActions } from "redux/modules/trils";
 import { Fragment } from "react";

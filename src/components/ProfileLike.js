@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import DmyLike from "media/svg/좋아요D.svg";
-
 import Video from "components/trils/Video";
 import { BoardCard } from "components/components";
 import TrilsDetail from "../components/trils/TrilsDetail";
@@ -10,7 +8,6 @@ import TrilsDetail from "../components/trils/TrilsDetail";
 import { history } from "redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { TrilsActions } from "redux/modules/trils";
-import { actionCreators as profileActions } from "redux/modules/profile";
 import { actionCreators as TrilogActions } from "redux/modules/trilog";
 
 import { Fragment } from "react";
