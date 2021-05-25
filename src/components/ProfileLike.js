@@ -93,21 +93,11 @@ const ProfileLike = () => {
                       if (idx <= trilogindex) {
                         if (index % 5 === 0) {
                           return (
-                            <BoardCardDiv key={index}>
-                              <BoardCard
-                                data={val}
-                                margin="50px 20px 0 0"
-                              />
-                            </BoardCardDiv>
+                            <BoardCard data={val} margin="50px 20px 0 0" />
                           );
                         } else {
                           return (
-                            <BoardCardDiv key={index}>
-                              <BoardCard
-                                data={val}
-                                margin="50px 20px 0 0"
-                              />
-                            </BoardCardDiv>
+                            <BoardCard data={val} margin="50px 20px 0 0" />
                           );
                         }
                       }
@@ -138,16 +128,19 @@ const ColumnWrap = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  @media (max-width: 540px) {
+    justify-content: center;
+  }
 `;
 
 const Div = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 90%;
+  width: 85%;
   margin-left: 5rem;
   @media (max-width: 540px) {
-    margin-left: 1rem;
+    margin-left: 3rem;
   }
 `;
 
@@ -172,52 +165,56 @@ const Button = styled.button`
   background-color: #ffffff;
   padding: 0.2rem;
   margin-right: 5rem;
+  cursor: pointer;
   @media (max-width: 540px) {
     margin-right: 2rem;
   }
 `;
 
 const Br = styled.div`
-  width: 90%;
+  width: 80%;
   height: 3rem;
   margin-bottom: 3rem;
   border-bottom: 3px solid #89acff;
   margin-left: 5rem;
   @media (max-width: 540px) {
+    margin-left: 2.5rem;
+    width: 85%;
+  }
+  @media (max-width: 375px) {
     margin-left: 2rem;
     width: 85%;
   }
 `;
+
 const Postlist = styled.div`
   display: grid;
   column-gap: 2rem;
   grid-template-columns: 1fr 1fr 1fr;
   flex-wrap: wrap;
   display: flex;
+  justify-content: center;
   flex-direction: row;
-  width: 90%;
-  margin-left: 5rem;
-
+  width: 85%;
+  margin-left: 2rem;
   @media (max-width: 540px) {
     width: 95%;
+    /* margin-left: 2rem; */
+    justify-content: center;
+  }
+
+  @media (max-width: 540px) {
+    width: 85%;
     margin-left: 2rem;
     justify-content: center;
   }
   @media (max-width: 375px) {
-    margin-left: 1rem;
-    width: 90%;
+    margin-left: 2rem;
+    width: 85%;
     justify-content: center;
   }
 `;
+
 const Text = styled.div`
   margin-left: 6rem;
-`;
-
-const BoardCardDiv = styled.div`
-  @media (max-width: 540px) {
-    transform: scale(0.7);
-  }
-  @media (max-width: 375px) {
-    transform: scale(1);
-  }
 `;
