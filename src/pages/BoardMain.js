@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SearchIcon from "@material-ui/icons/Search";
 import Tripper from "media/image/triport_airplane.png";
 import Fade from "react-reveal/Fade";
+import Swal from "sweetalert2";
 
 const BoardMain = (props) => {
   const dispatch = useDispatch();
