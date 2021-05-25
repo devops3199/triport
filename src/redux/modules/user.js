@@ -249,14 +249,19 @@ const kakaoLogout = () => {
 // 로그인 여부 체크
 const loginCheckDB = () => {
   return function (dispatch, getState, { history }) {
+    const is_login = getState().user.is_login;
     const access_token = localStorage.getItem("access_token");
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-    if (!access_token || !userInfo || access_token == "null") {
+    if(!access_token || !userInfo || access_token === "null") {
       // 로컬스토리지에 토큰 또는 유저정보가 없으면 로그아웃
-      dispatch(logout());
+      if(is_login) {
+        dispatch(logout());
+      }
+      
       return;
     }
+    
     dispatch(
       setUser({
         id: userInfo.results.id,
