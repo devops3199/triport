@@ -441,8 +441,13 @@ const Text2 = styled.div`
   margin-left: -0.4rem;
   margin-top: 0.3rem;
   margin-bottom: 2rem;
+  @media (max-width: 540px) {
+    width: 20rem;
+    margin-left: 0.5rem;
+  }
   @media (max-width: 375px) {
-    margin-left: -16rem;
+    width: 20rem;
+    margin-left: 0.5rem;
   }
 `;
 
@@ -454,8 +459,11 @@ const Text3 = styled.div`
   margin-left: -16.5rem;
   margin-top: 0.3rem;
   margin-bottom: 2rem;
+  @media (max-width: 540px) {
+    margin-left: -12rem;
+  }
   @media (max-width: 375px) {
-    margin-left: -16rem;
+    margin-left: -12rem;
   }
 `;
 
@@ -467,8 +475,13 @@ const Text4 = styled.div`
   margin-left: -3rem;
   margin-top: 0.3rem;
   margin-bottom: 2rem;
+  @media (max-width: 540px) {
+    width: 20rem;
+    margin-left: 0.5rem;
+  }
   @media (max-width: 375px) {
-    margin-left: -16rem;
+    width: 20rem;
+    margin-left: 0.5rem;
   }
 `;
 
@@ -480,7 +493,12 @@ const Text5 = styled.div`
   margin-left: -12.5rem;
   margin-top: 0.3rem;
   margin-bottom: 2rem;
+  @media (max-width: 540px) {
+    width: 20rem;
+    margin-left: 0.5rem;
+  }
   @media (max-width: 375px) {
-    margin-left: -16rem;
+    width: 20rem;
+    margin-left: 0.5rem;
   }
 `;
