@@ -122,12 +122,12 @@ const updateProfileImage = (img) => {
   };
 };
 
-// 프로필 수정 - 닉네임, 비밀번호 변경
-const updateProfile = (nickname, newpwd, newpwdcheck) => {
+// 프로필 수정 - 닉네임
+const nameUpdateProfile = (nickname) => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
 
-    const api = `${config}/member/profile/info`;
+    const api = `${config}/member/profile/nickname`;
 
     fetch(api, {
       method: "POST",
@@ -138,6 +138,49 @@ const updateProfile = (nickname, newpwd, newpwdcheck) => {
       },
       body: JSON.stringify({
         nickname: nickname,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.status === 200) {
+          const obj = {
+            nickname: nickname,
+          };
+          dispatch(EDIT_PROFILE(obj));
+          Swal.fire({
+            title: data.msg,
+            icon: "success",
+          });
+          dispatch(getProfile());
+        } else {
+          Swal.fire({
+            title: data.msg,
+            icon: "warning",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+// 프로필 수정 - 비밀번호
+const pwdUpdateProfile = (newpwd, newpwdcheck) => {
+  return function (dispatch, getState, { history }) {
+    const access_token = localStorage.getItem("access_token");
+
+    const api = `${config}/member/profile/pwd`;
+
+    fetch(api, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${access_token}`,
+      },
+      body: JSON.stringify({
         newPassword: newpwd,
         newPasswordCheck: newpwdcheck,
       }),
@@ -146,7 +189,6 @@ const updateProfile = (nickname, newpwd, newpwdcheck) => {
       .then((data) => {
         if (data.status === 200) {
           const obj = {
-            nickname: nickname,
             newpwd: newpwd,
             newpwdcheck: newpwdcheck,
           };
@@ -269,6 +311,37 @@ const likeTrilogLoad = () => {
   };
 };
 
+// 회원탈퇴
+const deleteAccountAPI = () => {
+  return function (dispatch, getState, { history }) {
+    let access_token = localStorage.getItem("access_token");
+    const API = `${config}/member/profile`;
+
+    fetch(API, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${access_token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 200) {
+          Swal.fire({
+            title: data.msg,
+            icon: "success",
+          });
+        } else {
+          Swal.fire({
+            title: data.msg,
+            icon: "warning",
+          });
+        }
+      });
+  };
+};
+
 export const {
   SET_PREVIEW,
   GET_PROFILE,
@@ -282,12 +355,14 @@ export const {
 
 export const actionCreators = {
   getProfile,
-  updateProfile,
   myTrilsLoad,
   myTrilogLoad,
   likeTrilsLoad,
   likeTrilogLoad,
   updateProfileImage,
+  nameUpdateProfile,
+  pwdUpdateProfile,
+  deleteAccountAPI,
   GET_PROFILE,
 };
 

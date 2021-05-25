@@ -110,15 +110,17 @@ const SignUp = () => {
               setEmail(e.target.value);
             }}
           ></EmailInput>
+          <Text3>이메일을 입력해주세요. </Text3>
 
           <Input
-            // minLength="3"
-            // maxLength="5"
             placeholder="NICKNAME"
             onChange={(e) => {
               setNickname(e.target.value);
             }}
           ></Input>
+          <Text4>
+            3~12자 이내의 한글, 영문, 숫자, 특수문자(._)만 사용할 수 있습니다.
+          </Text4>
 
           <PwdInput
             line={line2}
@@ -128,14 +130,19 @@ const SignUp = () => {
               setPwd(e.target.value);
             }}
           ></PwdInput>
+          <Text2>
+            8~12자 이내로 영문자, 숫자, 특수문자(!@#*)가 적어도 1개 이상
+            포함되어야 합니다.
+          </Text2>
           <PwdCheckInput
             line={line3}
-            placeholder="PASSWORD"
+            placeholder="CONFIRM PASSWORD"
             type="password"
             onChange={(e) => {
               setPwdcheck(e.target.value);
             }}
           ></PwdCheckInput>
+          <Text5>비밀번호를 다시 한번 입력해주세요.</Text5>
 
           <Button1 onClick={signup}>SIGN UP</Button1>
           <Button2 href={KAKAO_URL}>
@@ -249,7 +256,6 @@ const EmailInput = styled.input`
   outline: none;
   width: 21.4rem;
   height: 3rem;
-  margin-bottom: 2rem;
   border: ${(props) => props.line};
   border-radius: 5px;
   box-shadow: 0px 3px 6px #00000029;
@@ -278,7 +284,6 @@ const PwdInput = styled.input`
   outline: none;
   width: 21.4rem;
   height: 3rem;
-  margin-bottom: 2rem;
   border: ${(props) => props.line};
   border-radius: 5px;
   box-shadow: 0px 3px 6px #00000029;
@@ -307,7 +312,6 @@ const PwdCheckInput = styled.input`
   outline: none;
   width: 21.4rem;
   height: 3rem;
-  margin-bottom: 2rem;
   border: ${(props) => props.line};
   border-radius: 5px;
   box-shadow: 0px 3px 6px #00000029;
@@ -336,8 +340,6 @@ const Input = styled.input`
   outline: none;
   width: 21.4rem;
   height: 3rem;
-  margin-bottom: 2rem;
-
   border: 1px solid #707070;
   border-radius: 5px;
   box-shadow: 0px 3px 6px #00000029;
@@ -429,4 +431,56 @@ const Text = styled.a`
   justify-content: center;
   margin-bottom: 1.5rem;
   width: 24.5rem;
+`;
+
+const Text2 = styled.div`
+  display: flex;
+  font-family: "AppleSDGothicNeoR";
+  font-size: 0.8rem;
+  color: #5a5a5a;
+  margin-left: -0.4rem;
+  margin-top: 0.3rem;
+  margin-bottom: 2rem;
+  @media (max-width: 375px) {
+    margin-left: -16rem;
+  }
+`;
+
+const Text3 = styled.div`
+  display: flex;
+  font-family: "AppleSDGothicNeoR";
+  font-size: 0.8rem;
+  color: #5a5a5a;
+  margin-left: -16.5rem;
+  margin-top: 0.3rem;
+  margin-bottom: 2rem;
+  @media (max-width: 375px) {
+    margin-left: -16rem;
+  }
+`;
+
+const Text4 = styled.div`
+  display: flex;
+  font-family: "AppleSDGothicNeoR";
+  font-size: 0.8rem;
+  color: #5a5a5a;
+  margin-left: -3rem;
+  margin-top: 0.3rem;
+  margin-bottom: 2rem;
+  @media (max-width: 375px) {
+    margin-left: -16rem;
+  }
+`;
+
+const Text5 = styled.div`
+  display: flex;
+  font-family: "AppleSDGothicNeoR";
+  font-size: 0.8rem;
+  color: #5a5a5a;
+  margin-left: -12.5rem;
+  margin-top: 0.3rem;
+  margin-bottom: 2rem;
+  @media (max-width: 375px) {
+    margin-left: -16rem;
+  }
 `;

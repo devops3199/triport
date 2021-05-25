@@ -55,6 +55,7 @@ const Header = (props) => {
             backgroundColor: "#fff",
           }}
         >
+          {/* 모바일 버전 햄버거메뉴 상세페이지 */}
           <MobileDiv ref={clickRef}>
             <div style={{ backgroundColor: "#FFF", zIndex: "9999" }}>
               <MenuWrap>
@@ -111,6 +112,7 @@ const Header = (props) => {
             </div>
           </MobileDiv>
 
+          {/* 모바일 버전 */}
           <Wrap>
             <Mobile>
               <MenuButton onClick={handleMenu}>
@@ -140,6 +142,7 @@ const Header = (props) => {
               />
             </Mobile>
 
+            {/* 데스크탑 버전 */}
             <LeftWrap>
               <Category history={history} />
             </LeftWrap>
@@ -158,10 +161,8 @@ const Header = (props) => {
                   const pathname = history.location.pathname;
 
                   if (pathname === "/profile") {
-                    //window.location.reload();
                   } else {
                     history.push("/profile");
-                    //window.location.reload();
                   }
                 }}
               >
@@ -187,6 +188,7 @@ const Header = (props) => {
             backgroundColor: "#fff",
           }}
         >
+          {/* 모바일 버전 햄버거메뉴 상세페이지 */}
           <MobileDiv ref={clickRef}>
             <div style={{ backgroundColor: "#FFF", zIndex: "9999" }}>
               <MenuWrap>
@@ -250,6 +252,7 @@ const Header = (props) => {
             </div>
           </MobileDiv>
 
+          {/* 모바일 버전 */}
           <Wrap>
             <Mobile>
               <MenuButton onClick={handleMenu}>
@@ -270,7 +273,24 @@ const Header = (props) => {
             >
               <Logo />
             </LogoWrapper>
-            <Mobile></Mobile>
+            <Mobile>
+              <MyOrLogin
+                style={{ marginTop: "0.5rem" }}
+                onClick={() => {
+                  const pathname = history.location.pathname;
+                  if (pathname === "/login") {
+                    window.location.reload();
+                  } else {
+                    history.push("/login");
+                  }
+                }}
+              >
+                로그인
+              </MyOrLogin>
+            </Mobile>
+
+            {/* 데스크탑 버전 */}
+
             <LeftWrap>
               <Category history={history} />
             </LeftWrap>
