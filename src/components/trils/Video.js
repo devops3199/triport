@@ -348,6 +348,9 @@ const VideoPlay = styled.video`
   @media only screen and (max-width: 1024px) {
     height: 35rem;
   }
+  @media only screen and (max-width: 370px) {
+    height: 25rem;
+  }
 `;
 
 const Profile = styled.div`
