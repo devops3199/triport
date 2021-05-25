@@ -26,9 +26,9 @@ const Wrap = styled.footer`
   color: white;
   z-index: 99;
 
-  /* @media (max-width: 768px) {
-    display: none;
-  } */
+  @media (max-width: 540px) {
+    height: 25px;
+  }
 `;
 
 const Logo = styled.div`
@@ -36,6 +36,11 @@ const Logo = styled.div`
   height: 2.5rem;
   background-image: url("${logo}");
   background-size: 7.5rem 2.5rem;
+  @media (max-width: 540px) {
+    width: 4.5rem;
+    height: 1rem;
+    background-size: 4.5rem 1rem;
+  }
 `;
 
 const LogoContainer = styled.div`

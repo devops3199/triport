@@ -40,7 +40,7 @@ const ProfileSideBar = () => {
         <SideCover>
           <ProfileSetting onClick={clicksetting} toggle={setting}>
             <ProfileIcon toggle={setting}></ProfileIcon>
-            <Setting>프로필 설정</Setting>
+            <Setting>내 정보</Setting>
           </ProfileSetting>
           <ProfileMyPost onClick={clickwrite} toggle={write}>
             <MyPostIcon toggle={write} />
@@ -168,7 +168,7 @@ const ProfileIcon = styled.div`
   width: 1.2rem;
   height: 1rem;
   background-size: 1.2rem 1rem;
-  margin-right: 1rem;
+  margin-right: 0.7rem;
 
   @media (max-width: 375px) {
     margin-right: 0.5rem;
@@ -200,7 +200,7 @@ const MyLikeIcon = styled.div`
   width: 1.2rem;
   height: 1rem;
   background-size: 1.2rem 1rem;
-  margin-right: 1rem;
+  margin-right: 0.7rem;
   margin-left: -2rem;
   @media (max-width: 375px) {
     margin-left: -1rem;

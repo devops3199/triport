@@ -34,45 +34,60 @@ const ProfileSetting = () => {
 
   const fileInput = useRef(); // DOM 객체 가져오기 (인풋)
 
-  const Update = () => {
-    if (name == user_ninkname && pwd == "" && pwdConfirm == "") {
-      Swal.fire({
-        title: "프로필 정보 변경사항이 없습니다.",
-        icon: "warning",
-      });
-      return;
-    }
-    if (!nameCheck(name)) {
-      Swal.fire({
-        title:
-          "닉네임은 한글, 영문, 숫자, 특수문자(._)만 3-12자리 이내로 입력할 수 있습니다.",
-        icon: "warning",
-      });
-      return;
-    }
+  // const Update = () => {
+  //   if (name == user_ninkname && pwd == "" && pwdConfirm == "") {
+  //     Swal.fire({
+  //       title: "프로필 정보 변경사항이 없습니다.",
+  //       icon: "warning",
+  //     });
+  //     return;
+  //   }
+  //   if (!nameCheck(name)) {
+  //     Swal.fire({
+  //       title:
+  //         "닉네임은 한글, 영문, 숫자, 특수문자(._)만 3-12자리 이내로 입력할 수 있습니다.",
+  //       icon: "warning",
+  //     });
+  //     return;
+  //   }
 
-    if (pwd !== pwdConfirm) {
-      Swal.fire({
-        title: "비밀번호가 다릅니다.",
-        icon: "warning",
-      });
-      return;
-    }
+  //   if (pwd !== pwdConfirm) {
+  //     Swal.fire({
+  //       title: "비밀번호가 다릅니다.",
+  //       icon: "warning",
+  //     });
+  //     return;
+  //   }
 
-    if (!pwdCheck(pwd) && pwd !== "") {
-      Swal.fire({
-        title:
-          "비밀번호는 영문자와 숫자, 특수문자(!@#*)가 적어도 1개 이상 포함되도록 8-20자리 이내로 입력해 주세요.",
-        icon: "warning",
-      });
-      return;
-    }
+  //   if (!pwdCheck(pwd) && pwd !== "") {
+  //     Swal.fire({
+  //       title:
+  //         "비밀번호는 영문자와 숫자, 특수문자(!@#*)가 적어도 1개 이상 포함되도록 8-20자리 이내로 입력해 주세요.",
+  //       icon: "warning",
+  //     });
+  //     return;
+  //   }
 
-    dispatch(profileActions.updateProfile(name, pwd, pwdConfirm));
-  };
+  //   dispatch(profileActions.updateProfile(name, pwd, pwdConfirm));
+  // };
 
+  // 이미지 변경
   const imageSave = () => {
     dispatch(profileActions.updateProfileImage(img));
+  };
+
+  // 닉네임 변경
+  const nicknameSave = () => {
+    dispatch(profileActions.nameUpdateProfile(name));
+  };
+
+  // 새 비밀번호 변경
+  const newpwdSave = () => {
+    dispatch(profileActions.pwdUpdateProfile(pwd, pwdConfirm));
+  };
+
+  const deleteaccount = () => {
+    dispatch(profileActions.deleteAccountAPI());
   };
 
   const upload = (e) => {
@@ -135,7 +150,10 @@ const ProfileSetting = () => {
   return (
     <React.Fragment>
       <Wrap>
-        <Image src={userprofile.user_img} />
+        <Title>프로필 설정</Title>
+        <Text5>프로필 이미지</Text5>
+
+        <Image src={userprofile.user_img} onClick={triggerImg} />
         <input // input을 가려놓고 EDIT 버튼을 클릭했을 때 인풋이 실행되도록 만듬.
           type="file"
           accept="image/*"
@@ -143,12 +161,11 @@ const ProfileSetting = () => {
           onChange={upload}
           style={{ display: "none" }}
         />
-        <Edit onClick={triggerImg}></Edit>
-        <Edit2 onClick={imageSave}>SAVE</Edit2>
         <Lank>
-          당신은 <GradeIcon grade={gradeImg} />
+          <GradeIcon grade={gradeImg} />
           <Member />
         </Lank>
+        <Button3 onClick={imageSave}>SAVE</Button3>
 
         <Text>닉네임</Text>
         <Input
@@ -157,19 +174,36 @@ const ProfileSetting = () => {
           value={name || ""}
           onChange={(e) => setName(e.target.value)}
         />
+        <Text4>
+          3~12자 이내의 한글, 영문, 숫자, 특수문자(._)만 사용할 수 있습니다.
+        </Text4>
+
+        <Button1 onClick={nicknameSave}>SAVE</Button1>
+
+        <Br />
+        <Title2>개인 정보 설정</Title2>
         <Text2>새 비밀번호</Text2>
         <Input
           placeholder="NEW PASSWORD"
           type="password"
           onChange={(e) => setPwd(e.target.value)}
         />
+        <Text6>
+          8~12자 이내로 영문자, 숫자, 특수문자(!@#*)가 적어도 1개 이상 포함
+          되어야 합니다.
+        </Text6>
         <Text3>새 비밀번호 확인</Text3>
+
         <Input
           placeholder="NEW PASSWORD CONFIRM"
           type="password"
           onChange={(e) => setPwdConfirm(e.target.value)}
         />
-        <Button1 onClick={Update}>저장하기</Button1>
+        <Button1 onClick={newpwdSave}>SAVE</Button1>
+        <Br />
+        <Title3>회원 탈퇴</Title3>
+
+        <Button2 onClick={deleteaccount}>DELETE ACCOUNT</Button2>
       </Wrap>
     </React.Fragment>
   );
@@ -206,7 +240,7 @@ const Input = styled.input`
   outline: none;
   width: 19rem;
   height: 3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0.3rem;
   border: 1px solid #707070;
   border-radius: 5px;
   box-shadow: 0px 3px 6px #00000029;
@@ -224,35 +258,12 @@ const Input = styled.input`
   }
 `;
 
-const Edit = styled.div`
-  cursor: pointer;
-  width: 6rem;
-  height: 3rem;
-  background-image: url("${edit}");
-  background-size: 6rem 3rem;
-  margin-left: 10rem;
-  margin-top: -2rem;
-`;
-
-const Edit2 = styled.button`
-  cursor: pointer;
-  width: 2.5rem;
-  height: 1.13rem;
-  margin-left: 16rem;
-  margin-top: -2.05rem;
-  margin-bottom: 1rem;
-  border: 1px solid #89acff;
-  border-radius: 5px;
-  background-color: #89acff;
-  color: #464646;
-  font-size: 0.7rem;
-`;
-
 const Lank = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 `;
 
 const Text = styled.div`
@@ -266,6 +277,19 @@ const Text = styled.div`
   margin-bottom: 0.2rem;
   @media (max-width: 375px) {
     margin-left: -16rem;
+  }
+`;
+const Text5 = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-family: "AppleSDGothicNeoR";
+  font-size: 0.8rem;
+  color: #2b61e1;
+  margin-left: -18rem;
+  margin-bottom: 0.2rem;
+  @media (max-width: 375px) {
+    margin-left: -13.5rem;
   }
 `;
 
@@ -297,6 +321,37 @@ const Text3 = styled.div`
   }
 `;
 
+const Text4 = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-family: "AppleSDGothicNeoR";
+  font-size: 0.8rem;
+  color: #5a5a5a;
+  margin-left: -1rem;
+  margin-bottom: 0.2rem;
+  @media (max-width: 375px) {
+    width: 18rem;
+    margin-left: 0.5rem;
+  }
+`;
+
+const Text6 = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-family: "AppleSDGothicNeoR";
+  font-size: 0.8rem;
+  color: #5a5a5a;
+  width: 22rem;
+  margin-left: 0.5rem;
+  margin-bottom: 2rem;
+  @media (max-width: 375px) {
+    width: 18rem;
+    margin-left: 0.5rem;
+  }
+`;
+
 const Button1 = styled.button`
   font-size: 1rem;
   font-family: "paybooc-Bold";
@@ -306,7 +361,7 @@ const Button1 = styled.button`
   border: 1px solid #2b61e1;
   border-radius: 5px;
   margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
   background-color: #2b61e1;
   color: #ffffff;
   @media (max-width: 375px) {
@@ -314,23 +369,91 @@ const Button1 = styled.button`
   }
 `;
 
-// const Member = styled.div`
-//   font-family: "paybooc-Bold";
-//   font-size: 1.2rem;
-//   font-weight: 800;
-//   color: #2b61e1;
-// `;
+const Button2 = styled.button`
+  font-size: 1rem;
+  font-family: "paybooc-Bold";
+  width: 22.2rem;
+  height: 3rem;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  background-color: #dcdcdc;
+  color: #ffffff;
+  @media (max-width: 375px) {
+    width: 18rem;
+  }
+`;
+
+const Button3 = styled.button`
+  font-size: 1rem;
+  font-family: "paybooc-Bold";
+  width: 22.2rem;
+  height: 3rem;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #2b61e1;
+  border-radius: 5px;
+  margin-bottom: 5rem;
+  background-color: #2b61e1;
+  color: #ffffff;
+  @media (max-width: 375px) {
+    width: 18rem;
+  }
+`;
 
 const GradeIcon = styled.div`
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2rem;
+  height: 2rem;
   background-position: center;
   background-image: url("${(props) => props.grade}");
   background-size: cover;
   margin: 0px auto;
-  margin-top: -0.3rem;
+  margin-top: -0.6rem;
   margin-right: 0.2rem;
-  margin-left: 1rem;
+`;
+
+const Br = styled.div`
+  width: 80%;
+  height: 3rem;
+  margin-top: 2rem;
+  border-bottom: 3px solid #89acff;
+  margin: 0px auto;
+  margin-bottom: 5rem;
+  @media (max-width: 540px) {
+    width: 85%;
+  }
+  @media (max-width: 375px) {
+    margin-left: 2rem;
+    width: 85%;
+  }
+`;
+
+const Title = styled.div`
+  margin-left: -22rem;
+  margin-bottom: 3rem;
+  @media (max-width: 470px) {
+    margin-left: 0rem;
+    width: 85%;
+  }
+`;
+
+const Title2 = styled.div`
+  margin-left: -21rem;
+  margin-bottom: 3rem;
+  @media (max-width: 470px) {
+    margin-left: 0rem;
+    width: 85%;
+  }
+`;
+
+const Title3 = styled.div`
+  margin-left: -23rem;
+  margin-bottom: 3rem;
+  @media (max-width: 470px) {
+    margin-left: 0rem;
+    width: 85%;
+  }
 `;
 
 export default ProfileSetting;

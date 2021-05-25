@@ -251,8 +251,10 @@ const loginCheckDB = () => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if (!access_token || !userInfo) {
-      // 로컬스토리지에 토큰 또는 유저정보가 없으면
+
+    if (!access_token || !userInfo || access_token == "null") {
+      // 로컬스토리지에 토큰 또는 유저정보가 없으면 로그아웃
+      dispatch(logout());
       return;
     }
     dispatch(
@@ -270,6 +272,7 @@ const loginCheckDB = () => {
     dispatch(profileActions.getProfile()); // 프로필 조회
   };
 };
+
 // 로그아웃
 const logout = () => {
   return function (dispatch, getState, { history }) {
@@ -284,6 +287,7 @@ const logout = () => {
     history.replace("/");
   };
 };
+
 // 비밀번호 찾기
 const FindPwdDB = (email) => {
   return function (dispatch, getState, { history }) {
@@ -314,6 +318,7 @@ const FindPwdDB = (email) => {
       });
   };
 };
+
 export const actionCreators = {
   loginCheckDB,
   signupDB,
