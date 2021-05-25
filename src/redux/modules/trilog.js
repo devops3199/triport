@@ -378,6 +378,17 @@ const addTrilog = (trilog) => {
                     Swal.fire({
                         title: data.msg,
                         icon: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "확인"
+                    }).then((result) => {
+                        if(result.isConfirmed && data.subMsg !== "no change") {
+                            Swal.fire({
+                                title: "🎉축하드려요🎉",
+                                html: `🥳 당신의 등급은 ${data.subMsg}! <br/> 등급이 궁금하다면 마이페이지에 가보세요!`,
+                                icon: "success"
+                            })
+                        }
                     });
                     window.scrollTo(0, 0);
                     dispatch(setTrilogMainPage(1));

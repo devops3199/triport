@@ -225,6 +225,7 @@ const BoardWrite = (props) => {
           </InputContainer>
           <ButtonContainer>
             <ButtonComplete
+              id="trilogwrite"
               type="button"
               value={is_edit ? "수정완료" : "작성완료"}
               onClick={sendData}
