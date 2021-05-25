@@ -631,6 +631,9 @@ const LogoWrapper2 = styled.div`
   & svg {
     width: 8rem;
   }
+  @media (max-width: 540px) {
+    margin-left: 5rem;
+  }
 `;
 
 const MobileName = styled.div`
