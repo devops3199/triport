@@ -283,6 +283,7 @@ const Uploading = styled.img`
 `;
 
 const Hash = styled.div`
+  display: flex;
   user-select: none;
   cursor: pointer;
   margin-left: 0.5rem;
@@ -341,6 +342,9 @@ const VideoPlay = styled.video`
   object-fit: cover;
   @media only screen and (max-width: 420px) {
     width: 100%;
+  }
+  @media only screen and (max-width: 1024px) {
+    height: 35rem;
   }
 `;
 
