@@ -6,6 +6,7 @@ import { TrilsActions } from "redux/modules/trils";
 import TrilsUploadPost from "../media/image/trils_upload_post.png";
 import { config } from "redux/modules/config";
 import { logOut } from "redux/modules/user";
+import Spinner from "shared/Spinner";
 
 const TrilsWrite = (props) => {
   const { history } = props;
@@ -16,6 +17,7 @@ const TrilsWrite = (props) => {
   const [vid, setVid] = useState(null);
   const [tagType, setTagType] = useState("");
   const [lock, setLock] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const removeTag = (i) => {
     const newTags = [...tags];
@@ -56,6 +58,7 @@ const TrilsWrite = (props) => {
       setLock(false);
       return;
     }
+    setLoading(true);
     const access_token = localStorage.getItem("access_token");
     let formData = new FormData();
     formData.append("file", vid);
@@ -75,6 +78,7 @@ const TrilsWrite = (props) => {
           localStorage.removeItem("refresh_token");
           localStorage.removeItem("userInfo");
           dispatch(logOut());
+          setLoading(false);
           alert("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
           history.push("/login");
         }
@@ -82,15 +86,18 @@ const TrilsWrite = (props) => {
       })
       .then((result) => {
         if (result.ok) {
+          setLoading(false);
           alert("정상적으로 작성되었습니다.");
           history.replace("/");
           setLock(false);
         } else {
+          setLoading(false);
           alert(result.msg);
           setLock(false);
         }
       })
       .catch((err) => {
+        setLoading(false);
         setLock(false);
         alert("업로드 중 에러가 발생했습니다.", err);
       });
@@ -136,6 +143,7 @@ const TrilsWrite = (props) => {
 
   return (
     <React.Fragment>
+      {loading ? <Spinner /> : <></>}
       <Wrap>
         <VideoView onClick={triggerVideo}>
           {!(vid === null) ? (
@@ -199,6 +207,17 @@ const TrilsWrite = (props) => {
     </React.Fragment>
   );
 };
+
+const Component = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
+  background-color: black;
+  z-index: 60;
+  opacity: 0.4;
+`;
 
 const Uploading = styled.div`
   display: flex;

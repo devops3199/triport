@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 function Spinner() {
   return (
-    <Wrap>
+    <Wrap width={window.innerWidth} height={window.innerHeight}>
       <SpinnerImg />
     </Wrap>
   );
@@ -11,20 +11,21 @@ function Spinner() {
 
 const Wrap = styled.div`
   display: flex;
+  position: fixed;
   justify-content: center;
   align-items: center;
   margin: 0px auto;
-  width: 100%;
-  height: 100%;
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
+  background-color: black;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0);
 `;
 
 const SpinnerImg = styled.div`
   display: inline-block;
-  width: 80px;
-  height: 80px;
   position: fixed;
   top: 50%;
-  left: 46%;
   &::after {
     content: "";
     display: block;
