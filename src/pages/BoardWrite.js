@@ -226,17 +226,18 @@ const BoardWrite = (props) => {
           <ButtonContainer>
             <ButtonComplete
               id="trilogwrite"
-              type="button"
-              value={is_edit ? "수정완료" : "작성완료"}
               onClick={sendData}
-            />
+            >
+              {is_edit ? "수정완료" : "작성완료"}
+            </ButtonComplete>
             <ButtonCancel
               type="button"
-              value="취소"
               onClick={() => {
                 history.goBack();
               }}
-            />
+            >
+              취소
+            </ButtonCancel>
           </ButtonContainer>
         </>
       )}
@@ -352,7 +353,7 @@ const ButtonContainer = styled.div`
   margin: 3.563rem 0 4.2rem 0;
 `;
 
-const ButtonComplete = styled.input`
+const ButtonComplete = styled.button`
   cursor: pointer;
   background: #2b61e1 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
@@ -367,7 +368,7 @@ const ButtonComplete = styled.input`
   font-size: 15px;
 `;
 
-const ButtonCancel = styled.input`
+const ButtonCancel = styled.button`
   cursor: pointer;
   background: #707070 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
