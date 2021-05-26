@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from "./config";
+import { actionCreators as userActions } from "redux/modules/user";
 import Swal from "sweetalert2";
 
 const profileimgSlice = createSlice({
@@ -327,7 +328,10 @@ const deleteAccountAPI = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         if (data.status === 200) {
+          dispatch(userActions.logout());
+          history.replace("/");
           Swal.fire({
             title: data.msg,
             icon: "success",
