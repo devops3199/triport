@@ -124,29 +124,6 @@ const ProfileSetting = () => {
     }
   };
 
-  // 등급 출력 텍스트 보완 (_제거)
-  const Member = () => {
-    if (userprofile.memberGrade === "TRAVELER") {
-      return (
-        <div style={{ color: "#2b61e1", fontSize: "1.2rem" }}>TRAVELER</div>
-      );
-    }
-    if (userprofile.memberGrade === "TRAVEL_EDITOR") {
-      return (
-        <div style={{ color: "#2b61e1", fontSize: "1.2rem" }}>
-          TRAVEL EDITOR
-        </div>
-      );
-    }
-    if (userprofile.memberGrade === "TRAVEL_MASTER") {
-      return (
-        <div style={{ color: "#2b61e1", fontSize: "1.2rem" }}>
-          TRAVEL MASTER
-        </div>
-      );
-    }
-  };
-
   return (
     <React.Fragment>
       <Wrap>
@@ -163,7 +140,9 @@ const ProfileSetting = () => {
         />
         <Lank>
           <GradeIcon grade={gradeImg} />
-          <Member />
+          <Member>
+            {userprofile.memberGrade === null ? "" : userprofile.memberGrade.replace('_', ' ')}
+          </Member>
         </Lank>
         <Button3 onClick={imageSave}>SAVE</Button3>
 
@@ -454,6 +433,11 @@ const Title3 = styled.div`
     margin-left: 0rem;
     width: 85%;
   }
+`;
+
+const Member = styled.div`
+  color: #2b61e1; 
+  font-size: 1.2rem;
 `;
 
 export default ProfileSetting;
