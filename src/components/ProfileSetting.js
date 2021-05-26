@@ -4,13 +4,13 @@ import Swal from "sweetalert2";
 
 import { SET_PREVIEW } from "../redux/modules/profile";
 import { nameCheck, pwdCheck } from "shared/common";
-import edit from "media/svg/프로필수정.svg";
-import { useDispatch, useSelector } from "react-redux";
 
 import grade1 from "media/svg/등급1.svg";
 import grade2 from "media/svg/등급2.svg";
 import grade3 from "media/svg/등급3.svg";
+import question from "media/image/question_mark.png";
 
+import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as profileActions } from "redux/modules/profile";
 
 const ProfileSetting = () => {
@@ -104,8 +104,19 @@ const ProfileSetting = () => {
         <Lank>
           <GradeIcon grade={gradeImg} />
           <Member>
-            {userprofile.memberGrade === null ? "" : userprofile.memberGrade.replace('_', ' ')}
+            {/* 멤버 등급 텍스트 출력 보완 (_제거) */}
+            {userprofile.memberGrade === null
+              ? ""
+              : userprofile.memberGrade.replace("_", " ")}
           </Member>
+          <Question
+            onClick={() => {
+              Swal.fire({
+                title: "등급설명",
+                icon: "warning",
+              });
+            }}
+          />
         </Lank>
         <Button3 onClick={imageSave}>SAVE</Button3>
 
@@ -400,8 +411,19 @@ const Title3 = styled.div`
 `;
 
 const Member = styled.div`
-  color: #2b61e1; 
+  color: #2b61e1;
   font-size: 1.2rem;
+`;
+
+const Question = styled.div`
+  cursor: pointer;
+  width: 1.1rem;
+  height: 1.1rem;
+  background-image: url(${question});
+  background-size: cover;
+  margin: 0px auto;
+  margin-top: 3.5px;
+  margin-left: 1rem;
 `;
 
 export default ProfileSetting;
