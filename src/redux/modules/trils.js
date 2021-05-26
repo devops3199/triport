@@ -20,7 +20,7 @@ const trilseSlice = createSlice({
       author: {
         nickname: "트리포트",
         profileImgUrl:
-          "https://d1nogx3a73keco.cloudfront.net/profileImage/20210518170253-tripper_with_logo_kakao.png",
+          "https://d1nogx3a73keco.cloudfront.net/video/about/tripper.jpg",
       },
       member: { isMembers: false, isLike: false },
     },
