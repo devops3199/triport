@@ -34,43 +34,6 @@ const ProfileSetting = () => {
 
   const fileInput = useRef(); // DOM 객체 가져오기 (인풋)
 
-  // const Update = () => {
-  //   if (name == user_ninkname && pwd == "" && pwdConfirm == "") {
-  //     Swal.fire({
-  //       title: "프로필 정보 변경사항이 없습니다.",
-  //       icon: "warning",
-  //     });
-  //     return;
-  //   }
-  //   if (!nameCheck(name)) {
-  //     Swal.fire({
-  //       title:
-  //         "닉네임은 한글, 영문, 숫자, 특수문자(._)만 3-12자리 이내로 입력할 수 있습니다.",
-  //       icon: "warning",
-  //     });
-  //     return;
-  //   }
-
-  //   if (pwd !== pwdConfirm) {
-  //     Swal.fire({
-  //       title: "비밀번호가 다릅니다.",
-  //       icon: "warning",
-  //     });
-  //     return;
-  //   }
-
-  //   if (!pwdCheck(pwd) && pwd !== "") {
-  //     Swal.fire({
-  //       title:
-  //         "비밀번호는 영문자와 숫자, 특수문자(!@#*)가 적어도 1개 이상 포함되도록 8-20자리 이내로 입력해 주세요.",
-  //       icon: "warning",
-  //     });
-  //     return;
-  //   }
-
-  //   dispatch(profileActions.updateProfile(name, pwd, pwdConfirm));
-  // };
-
   // 이미지 변경
   const imageSave = () => {
     dispatch(profileActions.updateProfileImage(img));
@@ -198,6 +161,7 @@ const Wrap = styled.div`
 `;
 
 const Image = styled.div`
+  cursor: pointer;
   width: 12rem;
   height: 12rem;
   border-radius: 6rem;

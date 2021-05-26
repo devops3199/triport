@@ -4,6 +4,7 @@ import styled from "styled-components";
 import logo from "media/svg/triport_logo.svg";
 import signuplogo from "media/image/triport_airplane.png";
 import kakaoicon from "media/svg/kakao_symbol.svg";
+import Swal from "sweetalert2";
 
 import { useDispatch } from "react-redux";
 
@@ -66,27 +67,41 @@ const SignUp = () => {
   const signup = () => {
     // 값이 하나라도 없다면 alert 띄워주기
     if (!email || !nickname || !pwd || !pwdcheck) {
-      window.alert("모든 내용을 입력해주세요!");
+      Swal.fire({
+        title: "모든 내용을 입력해주세요.",
+        icon: "warning",
+      });
       return;
     }
     // 이메일 정규표현식에 맞지 않을 때
     if (!emailCheck(email)) {
-      window.alert("이메일 형식으로 입력해주세요!");
+      Swal.fire({
+        title: "이메일 형식으로 입력해주세요.",
+        icon: "warning",
+      });
       return;
     }
     if (2 > nickname.length > 6) {
-      window.alert("닉네임의 길이는 3~5글자입니다.");
-      console.log(nickname.length);
+      Swal.fire({
+        title: "닉네임의 길이는 3~5글자입니다.",
+        icon: "warning",
+      });
       return;
     }
     // 비밀번호 정규표현식에 맞지 않을 때
     if (!pwdCheck(pwd)) {
-      window.alert("8~20자리의 영문과 숫자, 특수문자(!@#*)를 조합해주세요!");
+      Swal.fire({
+        title: "8~20자리의 영문과 숫자, 특수문자(!@#*)를 조합해주세요.",
+        icon: "warning",
+      });
       return;
     }
     // 비밀번호와 비밀번호확인이 일치하지 않을 때
     if (pwd !== pwdcheck) {
-      window.alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+      Swal.fire({
+        title: "비밀번호가 일치하지 않습니다. 다시 입력해주세요.",
+        icon: "warning",
+      });
       return;
     }
 
@@ -140,6 +155,11 @@ const SignUp = () => {
             type="password"
             onChange={(e) => {
               setPwdcheck(e.target.value);
+            }}
+            onKeyPress={() => {
+              if (window.event.keyCode === 13) {
+                signup();
+              }
             }}
           ></PwdCheckInput>
           <Text5>비밀번호를 다시 한번 입력해주세요.</Text5>

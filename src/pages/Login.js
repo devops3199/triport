@@ -72,6 +72,11 @@ const Login = () => {
           onChange={(e) => {
             setPwd(e.target.value);
           }}
+          onKeyPress={() => {
+            if (window.event.keyCode === 13) {
+              login();
+            }
+          }}
         ></PwdInput>
         <Button1 onClick={login}>LOGIN</Button1>
         {/* 카카오 로그인 URL 이동 -> OAuth2RedirectHandler 컴포넌트 로드 */}
