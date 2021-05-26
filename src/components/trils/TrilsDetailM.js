@@ -60,6 +60,11 @@ const TrilsDetailM = (props) => {
     }
   };
 
+  const searchMember = (e) => {
+    e.stopPropagation();
+    history.push(`/trils/member/${info.author.authorId}`);
+  };
+
   const closeModal = () => {
     history.goBack();
   };
@@ -283,7 +288,7 @@ const TrilsDetailM = (props) => {
   return (
     <React.Fragment>
       <Wrap>
-        <Profile>
+        <Profile onClick={searchMember}>
           <ProfileImg src={info.author.profileImgUrl} />
           <ProfileId>{info.author.nickname}</ProfileId>
         </Profile>

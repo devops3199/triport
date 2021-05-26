@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 import queryString from "query-string";
 import Fade from "react-reveal/Fade";
 
-const TrilsSearch = (props) => {
+const TrilsMemberPost = (props) => {
   const is_login = useSelector((state) => state.user.is_login);
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.trils.data);
@@ -48,30 +48,30 @@ const TrilsSearch = (props) => {
 
     if (filter) {
       // 최신순
-      dispatch(TrilsActions.filterPost(queryObj.q, "createdAt"));
+      dispatch(TrilsActions.memberpost(props.match.params.id, "createdAt", 1));
     } else {
       // 좋아요순
-      dispatch(TrilsActions.filterPost(queryObj.q, "likeNum"));
+      dispatch(TrilsActions.memberpost(props.match.params.id, "likeNum", 1));
     }
     setFilter(!filter);
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!(queryObj.filter === "createdAt" || queryObj.filter === "likeNum")) {
+    if (!props.match.params.id) {
       history.push("/notFound");
     }
-    dispatch(TrilsActions.searchPost(queryObj.q, queryObj.filter, 1));
-  }, [dispatch, queryObj.q, queryObj.filter]);
+    dispatch(TrilsActions.memberpost(props.match.params.id, "likeNum", 1));
+  }, [dispatch]);
 
   const scroll = () => {
     const filter_scroll = filterRef.current;
     if (filter_scroll) {
       // 좋아요순
-      dispatch(TrilsActions.getPost(queryObj.q, "likeNum"));
+      dispatch(TrilsActions.memberpostOver(props.match.params.id, "likeNum"));
     } else {
       // 최신순
-      dispatch(TrilsActions.getPost(queryObj.q, "createdAt"));
+      dispatch(TrilsActions.memberpostOver(props.match.params.id, "createdAt"));
     }
   };
 
@@ -435,4 +435,4 @@ const FloatingWrite = styled.div`
   }
 `;
 
-export default TrilsSearch;
+export default TrilsMemberPost;
