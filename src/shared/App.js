@@ -24,6 +24,7 @@ import TrilsWrite from "pages/TrilsWrite";
 import FindPassword from "pages/FindPassword";
 import TrillsSearch from "pages/TrilsSearch";
 import TrillsDetail from "components/trils/TrilsDetailM";
+import TrilsMemberPost from "pages/TrilsMemberPost";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "redux/modules/user";
@@ -47,7 +48,6 @@ const App = () => {
           <Switch>
             <Route path="/" exact component={Trils} />
             <Route path="/search" exact component={TrillsSearch} />
-            {/* <Route path="/post" exact component={Snsmain} /> */}
             <Route path="/trils/write" exact component={TrilsWrite} />
             <Route path="/find" exact component={FindPassword} />
             <Route path="/login" exact component={Login} />
@@ -59,6 +59,7 @@ const App = () => {
             <Route path="/profile" exact component={Profile} />
             <Route path="/about" exact component={About} />
             <Route path="/trils/detail/:id" exact component={TrillsDetail} />
+            <Route path="/trils/member/:id" exact component={TrilsMemberPost} />
             <Route
               path="/trils/tutorial"
               exact

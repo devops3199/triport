@@ -113,6 +113,12 @@ const TrilsDetail = (props) => {
     }
   };
 
+  const searchMember = (e) => {
+    e.stopPropagation();
+    closeModal();
+    history.push(`/trils/member/${info.author.authorId}`);
+  };
+
   const mp4volume = () => {
     if (players.current.readyState !== 4) {
       return;
@@ -191,8 +197,8 @@ const TrilsDetail = (props) => {
   };
 
   const hash = (e) => {
-    history.push(`/search?q=${e.target.id}&filter=likeNum`, 1);
     closeModal();
+    history.push(`/search?q=${e.target.id}&filter=likeNum`, 1);
   };
 
   const edit = () => {
@@ -284,7 +290,7 @@ const TrilsDetail = (props) => {
         onClick={closeModal}
       />
       <Wrap width={window.innerWidth} height={window.innerHeight}>
-        <Profile>
+        <Profile onClick={searchMember}>
           <ProfileImg src={info.author.profileImgUrl} />
           <ProfileId>{info.author.nickname}</ProfileId>
         </Profile>
@@ -655,6 +661,7 @@ const LowWrap = styled.div`
 `;
 
 const Profile = styled.div`
+  cursor: pointer;
   display: flex;
   height: 3rem;
   align-items: center;

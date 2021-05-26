@@ -20,7 +20,7 @@ const trilseSlice = createSlice({
       author: {
         nickname: "트리포트",
         profileImgUrl:
-          "https://d1nogx3a73keco.cloudfront.net/profileImage/20210518170253-tripper_with_logo_kakao.png",
+          "https://d1nogx3a73keco.cloudfront.net/video/about/tripper.jpg",
       },
       member: { isMembers: false, isLike: false },
     },
@@ -65,6 +65,11 @@ const trilseSlice = createSlice({
       state.page = action.payload.page;
       state.is_last = action.payload.is_last;
     },
+    MEMBER_POST: (state, action) => {
+      state.data = action.payload.result;
+      state.page = action.payload.page;
+      state.is_last = action.payload.is_last;
+    },
     EDIT_POST: (state, action) => {
       const idx = state.data.findIndex(
         (p) => p.information.id === action.payload.id
@@ -78,7 +83,7 @@ const trilseSlice = createSlice({
   },
 });
 
-// Trilog 마이 페이지 게시물 조회 - 마이 페이지 내가 쓴 글 조회
+// Trils 마이 페이지 게시물 조회 - 마이 페이지 좋아요 조회
 const getMyTrilsLikePost = () => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
@@ -102,7 +107,7 @@ const getMyTrilsLikePost = () => {
   };
 };
 
-// Trilog 마이 페이지 게시물 조회 - 마이 페이지 내가 쓴 글 조회
+// Trils 마이 페이지 게시물 조회 - 마이 페이지 내가 쓴 글 조회
 const getMyTrilsPost = () => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
@@ -126,7 +131,8 @@ const getMyTrilsPost = () => {
   };
 };
 
-const searchPost = (keyword = "", LikeOrDate = "createdAt", page = 1) => {
+// Trils 해시태그 검색
+const searchPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
     const api = `${config}/api/all/posts?page=${page}&filter=${LikeOrDate}&keyword=${keyword}`;
@@ -152,6 +158,54 @@ const searchPost = (keyword = "", LikeOrDate = "createdAt", page = 1) => {
   };
 };
 
+// Trils 멤버 포스트 검색
+const memberpost = (memberId, LikeOrDate = "likeNum", page = 1) => {
+  return function (dispatch, getState, { history }) {
+    const api = `${config}/api/all/posts/member/${memberId}?page=${page}&filter=${LikeOrDate}`;
+    const data = {
+      method: "GET",
+    };
+    fetch(api, data)
+      .then((result) => {
+        return result.json();
+      })
+      .then((result) => {
+        const results = {
+          result: result.results,
+          page: page + 1,
+          is_last: result.last,
+        };
+        dispatch(MEMBER_POST(results));
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+// 멤버 포스트 검색 무한스크롤
+const memberpostOver = (memberId, LikeOrDate = "likeNum") => {
+  return function (dispatch, getState, { history }) {
+    const page = getState().trils.page;
+    const api = `${config}/api/all/posts/member/${memberId}?page=${page}&filter=${LikeOrDate}`;
+    const data = {
+      method: "GET",
+    };
+    fetch(api, data)
+      .then((result) => {
+        return result.json();
+      })
+      .then((result) => {
+        const results = {
+          result: result.results,
+          page: page + 1,
+          is_last: result.last,
+        };
+        dispatch(SHIFT_POST(results));
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+// Trils 포스트 불러오기
 const setPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
@@ -178,6 +232,7 @@ const setPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
   };
 };
 
+// 무한스크롤
 const getPost = (keyword = "", LikeOrDate = "likeNum") => {
   return function (dispatch, getState, { history }) {
     const page = getState().trils.page;
@@ -194,6 +249,7 @@ const getPost = (keyword = "", LikeOrDate = "likeNum") => {
         return result.json();
       })
       .then((result) => {
+        console.log(result.results)
         const results = {
           result: result.results,
           page: page + 1,
@@ -209,6 +265,7 @@ const getPost = (keyword = "", LikeOrDate = "likeNum") => {
   };
 };
 
+// Trils 필터별 불러오기
 const filterPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
@@ -235,6 +292,7 @@ const filterPost = (keyword = "", LikeOrDate = "likeNum", page = 1) => {
   };
 };
 
+// Trils 상세페이지 정보 가져오기
 const getPostDetail = (postId, modal = true) => {
   return function (dispatch, getState, { history }) {
     dispatch(MODAL_STATUS(false));
@@ -261,6 +319,7 @@ const getPostDetail = (postId, modal = true) => {
   };
 };
 
+// Trils 좋아요 누르기
 const send_like = (postId, like) => {
   return function (dispatch, getState, { history }) {
     const access_token = localStorage.getItem("access_token");
@@ -304,6 +363,7 @@ export const {
   SEARCH_POST,
   EDIT_POST,
   SET_TRILS_MYPOST,
+  MEMBER_POST,
 } = trilseSlice.actions;
 
 export const TrilsActions = {
@@ -315,6 +375,8 @@ export const TrilsActions = {
   filterPost,
   getMyTrilsPost,
   getMyTrilsLikePost,
+  memberpost,
+  memberpostOver,
 };
 
 export default trilseSlice.reducer;

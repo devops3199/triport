@@ -122,6 +122,11 @@ const Video = (props) => {
     }
   };
 
+  const searchMember=(e)=>{
+    e.stopPropagation();
+    history.push(`/trils/member/${props.author.authorId}`)
+  }
+
   const hash = (e) => {
     e.stopPropagation();
     history.push(`/search?q=${e.target.id}&filter=likeNum`, 1);
@@ -154,7 +159,7 @@ const Video = (props) => {
 
   return (
     <VideoCards margin={mr} onClick={openModal}>
-      <Profile>
+      <Profile onClick={searchMember}>
         <ProfileImg src={props.author.profileImgUrl} />
         <ProfileId>{props.author.nickname}</ProfileId>
       </Profile>
@@ -359,6 +364,7 @@ const Profile = styled.div`
   padding-top: 0.7rem;
   display: flex;
   z-index: 5;
+  cursor: pointer;
 `;
 
 const ProfileImg = styled.div`
