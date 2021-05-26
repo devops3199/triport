@@ -15,7 +15,7 @@ const FindPassword = () => {
   const findRef = React.useRef();
 
   const Find = () => {
-    console.log(findRef.current.value);
+    // console.log(findRef.current.value);
     dispatch(userAcitons.FindPwdDB(findRef.current.value));
   };
   return (
