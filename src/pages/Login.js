@@ -82,7 +82,7 @@ const Login = () => {
         {/* 카카오 로그인 URL 이동 -> OAuth2RedirectHandler 컴포넌트 로드 */}
         <Button2 href={KAKAO_URL}>
           <Kakao />
-          카카오톡으로 로그인
+          카카오톡 LOGIN
         </Button2>
         <Text href="/signup">회원가입</Text>
         <Text href="/find">비밀번호 찾기</Text>
@@ -167,6 +167,7 @@ const PwdInput = styled.input`
   }
 `;
 const Button1 = styled.button`
+  font-size: 1rem;
   cursor: pointer;
   font-family: "paybooc-Bold";
   width: 24.5rem;

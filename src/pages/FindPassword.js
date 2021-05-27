@@ -36,7 +36,6 @@ const FindPassword = () => {
           >
             로그인하러 가기
           </Text>
-          <Tripper />
         </Wrap>
       )}
     </React.Fragment>
@@ -49,7 +48,7 @@ const Wrap = styled.div`
   align-items: center;
   flex-direction: column;
   margin: 0px auto;
-  margin-top: 20rem;
+  margin-top: 10rem;
   width: 23rem;
 `;
 
@@ -73,6 +72,10 @@ const Text2 = styled.div`
   font-size: 0.8rem;
   color: #2b61e1;
   margin-bottom: 0.5rem;
+
+  @media (max-width: 375px) {
+    width: 19rem;
+  }
 `;
 
 const EmailInput = styled.input`
@@ -93,6 +96,10 @@ const EmailInput = styled.input`
     color: #535353;
     opacity: 50%;
   }
+
+  @media (max-width: 375px) {
+    width: 16rem;
+  }
 `;
 
 const Button = styled.button`
@@ -107,15 +114,8 @@ const Button = styled.button`
   margin-bottom: 2rem;
   background-color: #2b61e1;
   color: #ffffff;
-`;
 
-const Tripper = styled.div`
-  width: 23rem;
-  height: 18rem;
-  background-image: url("${tripper}");
-  background-size: 23rem 20rem;
-  position: absolute;
-  clip: rect(0, 370px, 240px, 0);
-  margin: 0px auto;
-  margin-top: 33rem;
+  @media (max-width: 375px) {
+    width: 19.5rem;
+  }
 `;

@@ -253,15 +253,15 @@ const loginCheckDB = () => {
     const access_token = localStorage.getItem("access_token");
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-    if(!access_token || !userInfo || access_token === "null") {
+    if (!access_token || !userInfo || access_token === "null") {
       // 로컬스토리지에 토큰 또는 유저정보가 없으면 로그아웃
-      if(is_login) {
+      if (is_login) {
         dispatch(logout());
       }
-      
+
       return;
     }
-    
+
     dispatch(
       setUser({
         id: userInfo.results.id,
@@ -310,12 +310,21 @@ const FindPwdDB = (email) => {
     })
       .then((res) => res.json()) // json 형태로 변환해주고,
       .then((data) => {
+        console.log(data);
         dispatch(LOADING(false)); // 로딩 끝남
-        Swal.fire({
-          title: data.msg,
-          icon: "success",
-        });
-        history.push("/login");
+        if (data.status === 200) {
+          Swal.fire({
+            title: data.msg,
+            icon: "success",
+          });
+          history.push("/login");
+        }
+        if (data.status === 400) {
+          Swal.fire({
+            title: data.msg,
+            icon: "warning",
+          });
+        }
       })
       .catch((err) => {
         dispatch(LOADING(false));

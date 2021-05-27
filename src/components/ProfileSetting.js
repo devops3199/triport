@@ -92,7 +92,6 @@ const ProfileSetting = () => {
       <Wrap>
         <Title>프로필 설정</Title>
         <Text5>프로필 이미지</Text5>
-
         <Image src={userprofile.user_img} onClick={triggerImg} />
         <input // input을 가려놓고 EDIT 버튼을 클릭했을 때 인풋이 실행되도록 만듬.
           type="file"
@@ -112,51 +111,57 @@ const ProfileSetting = () => {
           <Question
             onClick={() => {
               Swal.fire({
-                title: "등급설명",
-                icon: "warning",
+                imageUrl:
+                  "http://d1nogx3a73keco.cloudfront.net/common/memberGrade_info_vertical.png",
+                imageHeight: 500,
+                imageAlt: "A tall image",
               });
             }}
           />
         </Lank>
         <Button3 onClick={imageSave}>SAVE</Button3>
-
         <Text>닉네임</Text>
-        <Input
+        <Input2
           placeholder="NICKNAME"
           type="text"
           value={name || ""}
           onChange={(e) => setName(e.target.value)}
         />
         <Text4>
-          3~12자 이내의 한글, 영문, 숫자, 특수문자(._)만 사용할 수 있습니다.
+          3~12자 이내의 한글, 영어 소문자, 숫자, 특수문자(._)만 사용할 수
+          있습니다.
         </Text4>
-
         <Button1 onClick={nicknameSave}>SAVE</Button1>
 
-        <Br />
-        <Title2>개인 정보 설정</Title2>
-        <Text2>새 비밀번호</Text2>
-        <Input
-          placeholder="NEW PASSWORD"
-          type="password"
-          onChange={(e) => setPwd(e.target.value)}
-        />
-        <Text6>
-          8~12자 이내로 영문자, 숫자, 특수문자(!@#*)가 적어도 1개 이상 포함
-          되어야 합니다.
-        </Text6>
-        <Text3>새 비밀번호 확인</Text3>
+        {/* 카카오 유저일 경우 비밀번호 변경, 회원탈퇴 비활성화 */}
+        <div style={{ display: userprofile.kakaoId === null ? "" : "none" }}>
+          <Wrap>
+            <Br />
+            <Title2>개인 정보 설정</Title2>
+            <Text2>새 비밀번호</Text2>
+            <Input
+              placeholder="NEW PASSWORD"
+              type="password"
+              onChange={(e) => setPwd(e.target.value)}
+            />
+            <Text6>
+              8~12자 이내로 영문, 숫자, 특수문자(!@#*)가 적어도 1개 이상 포함
+              되어야 합니다.
+            </Text6>
+            <Text3>새 비밀번호 확인</Text3>
 
-        <Input
-          placeholder="NEW PASSWORD CONFIRM"
-          type="password"
-          onChange={(e) => setPwdConfirm(e.target.value)}
-        />
-        <Button1 onClick={newpwdSave}>SAVE</Button1>
-        <Br />
-        <Title3>회원 탈퇴</Title3>
+            <Input
+              placeholder="NEW PASSWORD CONFIRM"
+              type="password"
+              onChange={(e) => setPwdConfirm(e.target.value)}
+            />
+            <Button1 onClick={newpwdSave}>SAVE</Button1>
+            <Br />
+            <Title3>회원 탈퇴</Title3>
 
-        <Button2 onClick={deleteaccount}>DELETE ACCOUNT</Button2>
+            <Button2 onClick={deleteaccount}>DELETE ACCOUNT</Button2>
+          </Wrap>
+        </div>
       </Wrap>
     </React.Fragment>
   );
@@ -189,6 +194,32 @@ const Image = styled.div`
 `;
 
 const Input = styled.input`
+  font-size: 1rem;
+  font-family: "paybooc-Bold";
+  outline: none;
+  width: 19rem;
+  height: 3rem;
+  margin-bottom: 0.3rem;
+  border: 1px solid #707070;
+  border-radius: 5px;
+  box-shadow: 0px 3px 6px #00000029;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  /* 소문자만 입력 */
+  text-transform: lowercase;
+
+  ::placeholder {
+    font-family: "paybooc-Bold";
+    color: #535353;
+    opacity: 50%;
+    font-size: 1rem;
+  }
+  @media (max-width: 375px) {
+    width: 15rem;
+  }
+`;
+
+const Input2 = styled.input`
   font-size: 1rem;
   font-family: "paybooc-Bold";
   outline: none;
@@ -284,6 +315,7 @@ const Text4 = styled.div`
   color: #5a5a5a;
   margin-left: -1rem;
   margin-bottom: 0.2rem;
+  width: 21rem;
   @media (max-width: 375px) {
     width: 18rem;
     margin-left: 0.5rem;

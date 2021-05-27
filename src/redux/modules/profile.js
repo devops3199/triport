@@ -9,6 +9,7 @@ const profileimgSlice = createSlice({
     user_img: "",
     memberGrade: null,
     nickname: null,
+    kakaoId: null,
     mypost_trils_data: [],
     mypost_trilog_data: [],
     like_trils_data: [],
@@ -22,6 +23,7 @@ const profileimgSlice = createSlice({
       state.user_img = action.payload.user_img;
       state.memberGrade = action.payload.memberGrade;
       state.nickname = action.payload.nickname;
+      state.kakaoId = action.payload.kakaoId;
     },
     EDIT_PROFILE: (state, action) => {
       state.nickname = action.payload.nickname;
@@ -66,12 +68,13 @@ const getProfile = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         dispatch(
           GET_PROFILE({
             user_img: data.results.profileImgUrl,
             memberGrade: data.results.memberGrade,
             nickname: data.results.nickname,
+            kakaoId: data.results.kakaoId,
           })
         );
       })

@@ -167,7 +167,7 @@ const SignUp = () => {
           <Button1 onClick={signup}>SIGN UP</Button1>
           <Button2 href={KAKAO_URL}>
             <Kakao />
-            카카오톡으로 가입하기
+            카카오톡 LOGIN
           </Button2>
           <Text href="/login">로그인 하러 가기</Text>
         </SmallWrap2>
@@ -384,6 +384,7 @@ const Input = styled.input`
 `;
 
 const Button1 = styled.button`
+  font-size: 1rem;
   font-family: "paybooc-Bold";
   width: 24.5rem;
   height: 3rem;
@@ -458,9 +459,12 @@ const Text2 = styled.div`
   font-family: "AppleSDGothicNeoR";
   font-size: 0.8rem;
   color: #5a5a5a;
-  margin-left: -0.4rem;
   margin-top: 0.3rem;
   margin-bottom: 2rem;
+  width: 23rem;
+  @media (max-width: 980px) {
+    width: 21rem;
+  }
   @media (max-width: 540px) {
     width: 20rem;
     margin-left: 0.5rem;
@@ -476,14 +480,14 @@ const Text3 = styled.div`
   font-family: "AppleSDGothicNeoR";
   font-size: 0.8rem;
   color: #5a5a5a;
-  margin-left: -16.5rem;
   margin-top: 0.3rem;
   margin-bottom: 2rem;
-  @media (max-width: 540px) {
-    margin-left: -12rem;
+  width: 23rem;
+  @media (max-width: 980px) {
+    width: 21rem;
   }
-  @media (max-width: 375px) {
-    margin-left: -12rem;
+  @media (max-width: 540px) {
+    width: 19.5rem;
   }
 `;
 
@@ -492,9 +496,12 @@ const Text4 = styled.div`
   font-family: "AppleSDGothicNeoR";
   font-size: 0.8rem;
   color: #5a5a5a;
-  margin-left: -3rem;
   margin-top: 0.3rem;
   margin-bottom: 2rem;
+  width: 23rem;
+  @media (max-width: 980px) {
+    width: 21rem;
+  }
   @media (max-width: 540px) {
     width: 20rem;
     margin-left: 0.5rem;
@@ -510,9 +517,12 @@ const Text5 = styled.div`
   font-family: "AppleSDGothicNeoR";
   font-size: 0.8rem;
   color: #5a5a5a;
-  margin-left: -12.5rem;
   margin-top: 0.3rem;
   margin-bottom: 2rem;
+  width: 23rem;
+  @media (max-width: 980px) {
+    width: 21rem;
+  }
   @media (max-width: 540px) {
     width: 20rem;
     margin-left: 0.5rem;
