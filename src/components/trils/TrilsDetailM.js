@@ -47,7 +47,12 @@ const TrilsDetailM = (props) => {
       (e.key === " " && val)
     ) {
       if (tags.length === 10) {
-        alert("태그는 최대 10개까지 가능합니다.");
+        Swal.fire({
+          icon: 'warning',
+          title: '알림',
+          text: '태그는 최대 10개까지 가능합니다.',
+          confirmButtonText: '확인'
+        })
         return;
       }
       if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
@@ -214,11 +219,12 @@ const TrilsDetailM = (props) => {
           .then((result) => {
             if (result.ok) {
               dispatch(DELETE_POST(info.information.id));
-              Swal.fire(
-                "삭제 완료!",
-                "게시글이 삭제되었습니다.",
-                "success"
-              ).then(() => {
+              Swal.fire({
+                icon: "success",
+                title: "삭제 완료!",
+                text: "게시글이 삭제되었습니다.",
+                confirmButtonText: "확인",
+              }).then(() => {
                 closeModal();
               });
             }
@@ -242,7 +248,12 @@ const TrilsDetailM = (props) => {
 
   const doEdit = () => {
     if (tags.length === 0) {
-      alert("태그를 1개 이상 작성해주세요");
+      Swal.fire({
+        icon: 'warning',
+        title: '알림',
+        text: '태그를 1개 이상 작성해주세요.',
+        confirmButtonText: '확인'
+      })
       return;
     }
     const access_token = localStorage.getItem("access_token");

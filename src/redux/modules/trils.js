@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from "./config";
 import { logOut } from "./user";
+import Swal from "sweetalert2";
 
 const trilseSlice = createSlice({
   name: "trils",
@@ -336,7 +337,12 @@ const send_like = (postId, like) => {
           localStorage.removeItem("refresh_token");
           localStorage.removeItem("userInfo");
           dispatch(logOut());
-          alert("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
+          Swal.fire({
+            icon: 'warning',
+            title: '알림',
+            text: '로그인 시간이 만료되었습니다. 다시 로그인해주세요.',
+            confirmButtonText: '확인'
+          })
           history.push("/login");
         }
         return result.json();
@@ -345,10 +351,22 @@ const send_like = (postId, like) => {
         if (result.ok) {
           dispatch(LIKE_OK(result.results));
         } else {
-          alert(result.msg);
+          Swal.fire({
+            icon: "error",
+            title: "오류",
+            text: result.msg,
+            confirmButtonText: "확인",
+          });
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) =>
+        Swal.fire({
+          icon: "error",
+          title: "오류",
+          text: err,
+          confirmButtonText: "확인",
+        })
+      );
   };
 };
 

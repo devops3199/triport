@@ -43,7 +43,12 @@ const TrilsDetailTutorialM = (props) => {
       (e.key === " " && val)
     ) {
       if (tags.length === 10) {
-        alert("태그는 최대 10개까지 가능합니다.");
+        Swal.fire({
+          icon: 'error',
+          title: '알림',
+          text: '태그는 최대 10개까지 가능합니다.',
+          confirmButtonText: '확인'
+        })
         return;
       }
       if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
@@ -173,7 +178,12 @@ const TrilsDetailTutorialM = (props) => {
 
   const doEdit = () => {
     if (tags.length === 0) {
-      alert("태그를 1개 이상 작성해주세요");
+      Swal.fire({
+        icon: 'error',
+        title: '알림',
+        text: '태그를 1개 이상 작성해주세요.',
+        confirmButtonText: '확인'
+      })
       return;
     }
     setEditOn(false);
