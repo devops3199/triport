@@ -36,7 +36,7 @@ const Trils = (props) => {
       filterRef.current = data;
       _setFilter(data);
     };
-
+    
     if (tab.style.left !== "50%") {
       tab.style.left = "50%";
       like.style.color = "#89ACFF";
@@ -58,12 +58,21 @@ const Trils = (props) => {
   };
 
   useEffect(() => {
+    const tab = document.getElementById("FilterTab");
+    const like = document.getElementById("LikeText");
+    const newest = document.getElementById("NewestText");
     window.scrollTo(0, 0);
     console.log(
       "%c✈트리포트에 오신걸 환영합니다!",
       'font-family: "paybooc-Bold";color:#89acff; font-size:30px; font-weight: bold;'
     );
-    dispatch(TrilsActions.setPost());
+    _setFilter(false);
+    filterRef.current = false;
+    tab.style.left = "50%";
+    tab.style.transition = "left 0.5s";
+    like.style.color = "#89ACFF";
+    newest.style.color = "#fff";
+    dispatch(TrilsActions.setPost("", "createdAt"));
   }, [dispatch]);
 
   const searching = (e) => {
@@ -326,10 +335,10 @@ const Background = styled.div`
   position: absolute;
   width: 50%;
   height: 100%;
-  left: 0;
+  /* left: 0%; */
   background: #2b61e1 0% 0% no-repeat padding-box;
   border-radius: 5px;
-  transition: left 0.5s;
+  /* transition: left 0.5s; */
 `;
 
 const Filter = styled.div`

@@ -249,7 +249,6 @@ const getPost = (keyword = "", LikeOrDate = "likeNum") => {
         return result.json();
       })
       .then((result) => {
-        console.log(result.results)
         const results = {
           result: result.results,
           page: page + 1,
