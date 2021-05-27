@@ -7,6 +7,7 @@ import TrilsUploadPost from "../media/image/trils_upload_post.png";
 import { config } from "redux/modules/config";
 import { logOut } from "redux/modules/user";
 import Spinner from "shared/Spinner";
+import Swal from "sweetalert2";
 
 const TrilsWrite = (props) => {
   const { history } = props;
@@ -33,7 +34,12 @@ const TrilsWrite = (props) => {
       (e.key === " " && val)
     ) {
       if (tags.length === 10) {
-        alert("태그는 최대 10개까지 가능합니다.");
+        Swal.fire({
+          icon: "warning",
+          title: "알림",
+          text: "태그는 최대 10개까지 가능합니다.",
+          confirmButtonText: "확인",
+        });
         return;
       }
       if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
@@ -49,12 +55,22 @@ const TrilsWrite = (props) => {
   const post = () => {
     setLock(true);
     if (vid === undefined || vid == null) {
-      alert("영상을 업로드해주세요");
+      Swal.fire({
+        icon: "warning",
+        title: "알림",
+        text: "영상을 업로드해주세요.",
+        confirmButtonText: "확인",
+      });
       setLock(false);
       return;
     }
     if (tags.length === 0) {
-      alert("태그를 1개 이상 작성해주세요");
+      Swal.fire({
+        icon: "warning",
+        title: "알림",
+        text: "태그를 1개 이상 작성해주세요.",
+        confirmButtonText: "확인",
+      });
       setLock(false);
       return;
     }
@@ -79,7 +95,12 @@ const TrilsWrite = (props) => {
           localStorage.removeItem("userInfo");
           dispatch(logOut());
           setLoading(false);
-          alert("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
+          Swal.fire({
+            icon: "warning",
+            title: "알림",
+            text: "로그인 시간이 만료되었습니다. 다시 로그인해주세요.",
+            confirmButtonText: "확인",
+          });
           history.push("/login");
         }
         return result.json();
@@ -87,19 +108,35 @@ const TrilsWrite = (props) => {
       .then((result) => {
         if (result.ok) {
           setLoading(false);
-          alert("정상적으로 작성되었습니다.");
+          Swal.fire({
+            icon: "success",
+            title: "작성 완료!",
+            text: "정상적으로 작성되었습니다.",
+            confirmButtonText: "확인",
+          });
           history.replace("/");
           setLock(false);
         } else {
           setLoading(false);
-          alert(result.msg);
+          Swal.fire({
+            icon: "error",
+            title: "알림",
+            text: result.msg,
+            confirmButtonText: "확인",
+          });
           setLock(false);
         }
       })
       .catch((err) => {
         setLoading(false);
         setLock(false);
-        alert("업로드 중 에러가 발생했습니다.", err);
+        Swal.fire({
+          icon: "error",
+          title: "알림",
+          text: "업로드 중 에러가 발생했습니다.",
+          err,
+          confirmButtonText: "확인",
+        });
       });
   };
 
@@ -110,7 +147,12 @@ const TrilsWrite = (props) => {
       return;
     }
     if (file.size * 9.5367e-7 > 50) {
-      alert("용량이 너무 큽니다.(50mb 이하)");
+      Swal.fire({
+        icon: 'warning',
+        title: '알림',
+        text: '용량이 너무 큽니다.(50mb 이하)',
+        confirmButtonText: '확인'
+      })
       return;
     }
     reader.onloadstart = (e) => {
