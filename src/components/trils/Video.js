@@ -25,7 +25,7 @@ const Video = (props) => {
     if (is_iphone) {
       return;
     }
-    const hls = new Hls();
+    const hls = new Hls({ maxBufferLength: 3 });
     if (hls === undefined) {
       return;
     }
