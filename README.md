@@ -49,3 +49,5 @@ Triport 서비스는 여행이라는 테마 아래 영상 <b>릴스 서비스 (=
 - Toast UI Editor (WSYSWYG) 에디터 활용
 - Kakao Map 키워드 검색 및 위치 설정
 - 블로그 메인 페이지 무한 스크롤
+
+### 📌 문제를 이렇게 해결했어요! - <a href="https://github.com/rayrayj92/triport/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85" >상세보기 - WIKI 이동</a>
