@@ -9,7 +9,7 @@ const InfinityScroll = (props) => {
         const {innerHeight} = window; // 브라우저 높이
         const {scrollHeight} = document.body; // 웹사이트 body 높이
 
-        const scrollTop = document.documentElement.scrollTop; // 스크롤 top 위치
+        const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop; // Scroll Top 위치
  
         if(scrollHeight - innerHeight - scrollTop < 100) {
             callNext();

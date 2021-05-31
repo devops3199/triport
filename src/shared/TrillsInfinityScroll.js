@@ -6,10 +6,10 @@ const TrillsInfinityScroll = (props) => {
 
     const handleScroll = _.throttle(() => {
 
-        const {innerHeight} = window;
-        const {scrollHeight} = document.body;
+        const {innerHeight} = window; // 브라우저 높이
+        const {scrollHeight} = document.body; // 웹사이트 body 높이
 
-        const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+        const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop; // Scroll Top 위치
  
         if(scrollHeight - innerHeight - scrollTop < 800) {
             callNext();
