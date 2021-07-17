@@ -405,7 +405,7 @@ const AboutContainer = styled.div`
 
 const IntroWrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: fit-content;
   margin-top: 100px;
 `;
 
